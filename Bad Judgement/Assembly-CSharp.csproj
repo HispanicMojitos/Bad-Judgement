@@ -51,8 +51,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Movement.cs" />
-     <Compile Include="Assets\ShootingScript.cs" />
+     <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\ShootingScript.cs" />
+     <Compile Include="Assets\Scripts\SongsScripts\DetectionActiveSon.cs" />
+     <Compile Include="Assets\Scripts\SongsScripts\MusicBackground.cs" />
+     <Compile Include="Assets\Scripts\SongsScripts\MusicShoot.cs" />
+     <Compile Include="Assets\Scripts\SongsScripts\StepFootSoundEffect.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
