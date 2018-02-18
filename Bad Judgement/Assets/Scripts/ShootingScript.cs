@@ -6,7 +6,7 @@ public class ShootingScript : MonoBehaviour
 {
     public int gunDamage = 1;
     public float fireRate = 0.25f; // We'll use this for different fire rates
-    public float weaponRange = 25f; // Not all weapons have the same range
+    public float weaponRange = 50f; // Not all weapons have the same range
     public float hitForce = 100f; // This will help us add punch to diffrent weapons
     public Transform gunEnd; // This is the end of your gun's barrel, the shot will come out of this (this is an empty GameObject which will be postioned manually)
     private Camera fpsCam; // first person camera reference 
@@ -19,7 +19,7 @@ public class ShootingScript : MonoBehaviour
     void Start()
     {
         laserLine = GetComponent<LineRenderer>(); // This is pretty straight forward, but just in case, the laser line gets the needed component
-        gunAudio = GetComponent<AudioSource>(); // Same as in the above example
+        gunAudio = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>(); // Since the gun doesn't have a camera, we search the camera component in the parent directory (the player)
     }
     
