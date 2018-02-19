@@ -7,13 +7,13 @@ public class CamControl : MonoBehaviour
     private Camera cam; //Camera (it's a children component, this script has to be applied to the player !!!!!)
     public Transform target;
 
-    private float minVertical = -65.0F;
-    private float maxVertical = 65.0F; //Maximum head angle is around 65 degrees. Modifiable here.
+    //private float minVertical = -55.0F;
+    //private float maxVertical = 55.0F; //Maximum head angle is 55 degrees. Modifiable here.
 
     private float horizontalSensitivity = 6.0F;
     private float verticalSensitivity = 10.0F;
 
-    public bool isVerticalAxisNotInverted = true; //FOR YOU LERUTH  //WIP
+    public bool isVerticalAxisInverted = false; //FOR YOU LERUTH  //WIP
 
     // Use this for initialization
     void Start ()
@@ -34,15 +34,19 @@ public class CamControl : MonoBehaviour
         yGameAxis *= verticalSensitivity;
         xGameAxis *= horizontalSensitivity; //Appliying sensitivity to the camera axes.
 
-        Vector3 move = new Vector3(xGameAxis, yGameAxis, 0F);
+        if(isVerticalAxisInverted) this.cam.transform.Rotate(-xGameAxis, 0F, 0F); 
+        else this.cam.transform.Rotate(xGameAxis, 0F, 0F); //Vertically rotating (applied to the cam)
 
-        //If angle of head isn't too high
-        if (!(cam.transform.rotation.x >= maxVertical && cam.transform.rotation.x <= minVertical))
-        {
-            this.cam.transform.Rotate(move.x, 0F, 0F); //Vertically rotating
-        }
+        this.transform.Rotate(0F, yGameAxis, 0F); //Horizontal rotate (applied to the player)
 
-        this.transform.Rotate(0F, move.y, 0F);
+        if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Mouse0)) this.InvertAxis();
+        //If LeftAlt + LeftClick => Inverting Y axis
+    }
+
+    public void InvertAxis()
+    {
+        if(this.isVerticalAxisInverted) this.isVerticalAxisInverted = false;
+        else this.isVerticalAxisInverted = true;
     }
 
 }
