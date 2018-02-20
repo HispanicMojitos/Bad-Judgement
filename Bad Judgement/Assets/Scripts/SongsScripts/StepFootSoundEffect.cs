@@ -26,16 +26,21 @@ public class StepFootSoundEffect : MonoBehaviour
     // Use this for initialization
     void Start () {
         personnage.volume = volumeDesSonsDePas;  // Regle le volume des pas
-        personnage.spatialBlend = 1F;  // Permet d'avoir les effet de son en 3D (on entend les bruits de pas de gauche vers la gauche, de droite vers la droite, etc)
+        personnage.spatialBlend = 1f;  // Permet d'avoir les effet de son en 3D (on entend les bruits de pas de gauche vers la gauche, de droite vers la droite, etc)
         personnage.pitch = intensité; // Regle l'intensité du son
+        personnage.spatialize = true;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.D))
+        if ((Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.D)) && !Input.GetKey(KeyCode.Space))
         {
             if (!personnage.isPlaying) //Permet de jouer les bruits de pas si les touche "S","Q","Z","D"
-                personnage.Play();
+            {
+                    personnage.Play();
+            }
         }
+        else
+            personnage.Stop();
 	}
 }
