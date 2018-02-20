@@ -630,12 +630,13 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Collab: 1
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 669f81d9-f4ef-440c-986b-3b6b81198f0e
-  projectName: Bad Judgement (1)
-  organizationId: andrews-leruth
+  cloudProjectId: 50935361-0436-4618-b6b0-8fe74a96f45e
+  projectName: Bad Judgement
+  organizationId: quinzelhj
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

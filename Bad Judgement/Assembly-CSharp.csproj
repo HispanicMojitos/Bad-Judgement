@@ -51,19 +51,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CamControl.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\ShootingScript.cs" />
      <Compile Include="Assets\Scripts\SongsScripts\DetectionActiveSon.cs" />
      <Compile Include="Assets\Scripts\SongsScripts\MusicBackground.cs" />
      <Compile Include="Assets\Scripts\SongsScripts\MusicShoot.cs" />
      <Compile Include="Assets\Scripts\SongsScripts\StepFootSoundEffect.cs" />
-     <None Include="Assets\OS_Weapon\FreeMachineGun\Shader\BDCS.shader" />
-     <None Include="Assets\BodyGuards\ReadMe.txt.txt" />
-     <None Include="Assets\OS_Weapon\FreeMachineGun\documentation.txt" />
- <Reference Include="Facebook.Unity.Settings">
- <HintPath>C:/Users/Andrews/Desktop/Bad-Judgement/Bad Judgement/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
