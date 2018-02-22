@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// /!\ A REVENIR DESSUS POUR OPTIMISER MARTIN, AMELIORER LES SONS DE PAS SI POSSIBLE , AJOUTER LES SONS DATTERISAGE DE SAUTS ET TROUVER UN ASSETS DE SAUT POUR LA VOIX SI POSSIBLE
+// /!\ A REVENIR DESSUS POUR OPTIMISER MARTIN, AMELIORER LES SONS DE PAS SI POSSIBLE , AJOUTER LES SONS DATTERISAGE DE SAUTS ET TROUVER UN ASSETS* DE SAUT POUR LA VOIX SI POSSIBLE (ou le faire enrengistrer)
 public class StepFootSoundEffect : MonoBehaviour
 {
     public AudioClip sonDePasSurRue; //Initialisation des sons de pas 
@@ -17,7 +17,7 @@ public class StepFootSoundEffect : MonoBehaviour
     public float volumeDesSonsDePas = 0.2F; 
     [Range(1, 3)] // Permet de regler l'intensité via un bouton de reglage dans Unity
     public int intensité = 1;
-
+    // /!\ LE CODE CHANGERA PEUX ETRE, JE DOIS ME RENSEIGNER NIVEAU OPTIMISATION : soit j'utilise la technique du onCollisionEnter, ou j'utilise un raycast pour determiner sur quel type de sol on marche, je vais voir pour la methode la moin onéreuse en ressource
     private void OnCollisionEnter(Collision collision) // Permet d'evaluer le son a jouer en fonction du type de sol rencontré /!\ On a besoin d'un rigibody et d'une box Colider /!\
     {
         if (collision.transform.tag == "Wood")
