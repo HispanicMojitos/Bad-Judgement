@@ -8,8 +8,8 @@ public class CamControl : MonoBehaviour
 
     private Camera cam; //Camera (it's a children component, this script has to be applied to the player !!!!!)
 
-    private float minVertical = -55.0F;
-    private float maxVertical = 60.0F;//Maximum head angle is 55 degrees. Modifiable here.
+    private float minVertical = 60.0F;
+    private float maxVertical = -55.0F;//Maximum head angle is 55 degrees. Modifiable here.
 
     #endregion
 
@@ -29,11 +29,11 @@ public class CamControl : MonoBehaviour
     {
         cam = Camera.main; //Starting with the main cam which is the FPS one
                            //As project I'd like to put a second cam which could be changed to TPS if we press a button
-    
+       
         //Initializing properties :
         this.isVerticalAxisInverted = false;
         this.horizontalSensitivity = 6.0F;
-        this.verticalSensitivity = 10.0F;
+        this.verticalSensitivity = 5.0F;
     }
 
 
@@ -46,7 +46,7 @@ public class CamControl : MonoBehaviour
         if (yGameAxis != 0) MoveCamHoriz(yGameAxis);
         if (xGameAxis != 0) MoveCamVertically(xGameAxis);
         //If the player moves his mouse to rotate camera we proceed to moving camera.
-
+        
         if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Mouse0)) this.InvertAxis();
         //If LeftAlt + LeftClick => Inverting Y axis
     }
@@ -63,13 +63,25 @@ public class CamControl : MonoBehaviour
 
     private void MoveCamVertically(float xGameAxis)
     {
-        xGameAxis *= horizontalSensitivity; //Appliying sensitivity to the horizontal camera axis.
+        float actualRot = this.cam.transform.eulerAngles.x;
+        float newX;
 
+        //if (actualRot > 350) actualRot = 0;
+
+        xGameAxis *= horizontalSensitivity; //Appliying sensitivity to the horizontal camera axis.
+        newX = xGameAxis + actualRot; //Getting new camera position
+
+        //Debug.Log(actualRot);
         //WIP :
         //Clamping vertical rotation of the camera betw. limits
+        //if (newX < this.maxVertical) newX = maxVertical;
+        //if (newX > this.minVertical) newX = minVertical;
 
-        if (isVerticalAxisInverted) this.cam.transform.Rotate(-xGameAxis, 0F, 0F);
-        else this.cam.transform.Rotate(xGameAxis, 0F, 0F); //Vertically rotating (applied to the cam)
+        if (isVerticalAxisInverted) this.cam.transform.localRotation = Quaternion.Euler(-newX, 0F, 0F);
+        else this.cam.transform.localRotation = Quaternion.Euler(newX, 0F, 0F); //Vertically rotating (applied to the cam)
+
+        //if (isVerticalAxisInverted) this.cam.transform.Rotate(-xGameAxis, 0F, 0F);
+        //else this.cam.transform.Rotate(xGameAxis, 0F, 0F); 
     }
 
     private void MoveCamHoriz(float yGameAxis)
