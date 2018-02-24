@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -789,31 +789,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c18c17b319cbd144a66e2bc6e591684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  range: 100
-  impactForce: 30
-  fireRate: 15
-  fpsCam: {fileID: 962936612}
-  impactEffect: {fileID: 622212520}
---- !u!114 &676619227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 676619222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc078c91d02301c4394675c88614cdc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunDamage: 1
-  fireRate: 0.25
-  weaponRange: 50
-  hitForce: 100
-  gunEnd: {fileID: 0}
-  AK47: {fileID: 676619228}
-  AK47shootSound: {fileID: 8300000, guid: 942aa86056a8a2646862f6d4d0c52cea, type: 3}
-  AK47reload: {fileID: 8300000, guid: 45d287b3be5ce7a409b7b320cea0ed40, type: 3}
 --- !u!82 &676619228
 AudioSource:
   m_ObjectHideFlags: 0
