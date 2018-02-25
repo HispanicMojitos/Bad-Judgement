@@ -8,11 +8,14 @@ public class GunScript : MonoBehaviour
     private float damage = 10f; // First we declare our needed variables
     private float range = 100f;
     private float impactForce = 30f;
-    private float fireRate = 15f;
+    private float fireRate = 600f;
     private Camera fpsCam; // camera reference
     //public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
     private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world
     private float nextTimeToFire = 0f;
+    [SerializeField] private AudioSource AK47;
+    [SerializeField] private AudioClip AK47shoot;
+    [SerializeField] private AudioClip AK47reload;
 
     #endregion
 
@@ -22,7 +25,7 @@ public class GunScript : MonoBehaviour
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
             nextTimeToFire = Time.time + 1f / fireRate; // formula for fire rate
-
+            Sounds.AK47shoot(AK47, AK47shoot);
             Shoot();
         }
 
