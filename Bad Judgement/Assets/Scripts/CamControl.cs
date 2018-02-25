@@ -22,7 +22,7 @@ public class CamControl : MonoBehaviour
     
     #region Properties
 
-    public bool isVerticalAxisInverted { get; private set; } //For you LERUTH // MERCI!!
+    public bool isVerticalAxisInverted { get; private set; } //For you LERUTH
 
     public bool isFreeCamActive { get; private set; }
 
