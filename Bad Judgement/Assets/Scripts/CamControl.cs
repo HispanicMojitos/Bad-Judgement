@@ -17,7 +17,7 @@ public class CamControl : MonoBehaviour
     
     #region Properties
 
-    public bool isVerticalAxisInverted { get; private set; } //For you LERUTH
+    public bool isVerticalAxisInverted { get; private set; } //For you LERUTH // MERCI!!
 
     public float horizontalSensitivity { get; set; }
     public float verticalSensitivity { get; set; }
