@@ -13,16 +13,27 @@ public class GunScript : MonoBehaviour
     //public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
     private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world
     private float nextTimeToFire = 0f;
-
+    public AudioSource AK47; // AK47 qui est la source de son propre son
+    public AudioClip AK47shoot; // bruit de l'AK47 fait lors d'un seul tir
+    public AudioClip AK47reload; // bruit de rechargement d'un AK47
     #endregion
-
+    
     // Update is called once per frame
     void Update()
     {
+
+        // Sounds.AK47shoot(AK47, AK47shoot); // ANDREWS !! si tu met la methode pour jouer le son ici, tu remarquera que le son joue a l'infini et qu'il est cadencé (a la cadence que j'ai mise)
+
+        /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Pour montrer montrer un raycast dans la scene on a besoin de definir le ray ainsi que son origine qui est la camera, et le ray bougera en fonction que la souris bouge avec la camera
+        Debug.DrawLine(ray.origin, Camera.main.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
+         /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
+                                            
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
             nextTimeToFire = Time.time + 1f / fireRate; // formula for fire rate
 
+             Sounds.AK47shoot(AK47, AK47shoot);  // ICI ANDREWS, le son n'est pas bien cadencé dans méthode, ca fait byzare, j'imagine que c'est a toi de pouvoir regler ta cadence de tir en fonction du son alors amuse toi bien ;)
             Shoot();
         }
 
