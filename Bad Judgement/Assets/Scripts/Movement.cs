@@ -15,7 +15,7 @@ public class Movement : MonoBehaviour
     private CharacterController charCtrl = new CharacterController();
 
     #endregion
-
+    
     #region Properties
 
     public bool characterIsMoving { get; private set; }

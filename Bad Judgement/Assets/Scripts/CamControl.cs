@@ -11,8 +11,10 @@ public class CamControl : MonoBehaviour
     private float minVertical = 60.0F;
     private float maxVertical = -55.0F;//Maximum head angle is 55 degrees. Modifiable here.
 
-    #endregion
+    private Vector3 verticalEulerVector; //Création d'un vecteur pour la rotation verticale de la caméra
 
+    #endregion
+    
     #region Properties
 
     public bool isVerticalAxisInverted { get; private set; } //For you LERUTH
@@ -33,7 +35,9 @@ public class CamControl : MonoBehaviour
         //Initializing properties :
         this.isVerticalAxisInverted = false;
         this.horizontalSensitivity = 6.0F;
-        this.verticalSensitivity = 5.0F;
+        this.verticalSensitivity = 6.0F;
+
+        verticalEulerVector = Vector3.zero;
     }
 
 
@@ -43,9 +47,9 @@ public class CamControl : MonoBehaviour
         float yGameAxis = Input.GetAxis("Mouse X"); //The horizontal (X) mouse axis matches with the ingame y rotation axis
         float xGameAxis = Input.GetAxis("Mouse Y"); //The vertical (Y) mouse axis matches with the ingame x rotation axis
 
-        if (yGameAxis != 0) MoveCamHoriz(yGameAxis);
-        if (xGameAxis != 0) MoveCamVertically(xGameAxis);
-        //If the player moves his mouse to rotate camera we proceed to moving camera.
+        if (yGameAxis != 0) MoveCamHoriz(yGameAxis); //Rotating the player on Y axis (horizontally)
+        MoveCamVertically(xGameAxis); //Moving the camera vertically (X axis)
+        
         
         if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Mouse0)) this.InvertAxis();
         //If LeftAlt + LeftClick => Inverting Y axis
@@ -63,30 +67,18 @@ public class CamControl : MonoBehaviour
 
     private void MoveCamVertically(float xGameAxis)
     {
-        float actualRot = this.cam.transform.eulerAngles.x;
-        float newX;
+        this.cam.transform.localEulerAngles = verticalEulerVector; //Refreshing cam movement every frame
 
-        //if (actualRot > 350) actualRot = 0;
+        float verticalRotation = xGameAxis * verticalSensitivity;
+        verticalEulerVector.x += verticalRotation; //Adding the mouse axis to the actual
 
-        xGameAxis *= horizontalSensitivity; //Appliying sensitivity to the horizontal camera axis.
-        newX = xGameAxis + actualRot; //Getting new camera position
-
-        //Debug.Log(actualRot);
-        //WIP :
-        //Clamping vertical rotation of the camera betw. limits
-        //if (newX < this.maxVertical) newX = maxVertical;
-        //if (newX > this.minVertical) newX = minVertical;
-
-        if (isVerticalAxisInverted) this.cam.transform.localRotation = Quaternion.Euler(-newX, 0F, 0F);
-        else this.cam.transform.localRotation = Quaternion.Euler(newX, 0F, 0F); //Vertically rotating (applied to the cam)
-
-        //if (isVerticalAxisInverted) this.cam.transform.Rotate(-xGameAxis, 0F, 0F);
-        //else this.cam.transform.Rotate(xGameAxis, 0F, 0F); 
+        if (verticalEulerVector.x >= minVertical) verticalEulerVector.x = minVertical;
+        if (verticalEulerVector.x <= maxVertical) verticalEulerVector.x = maxVertical;
     }
 
     private void MoveCamHoriz(float yGameAxis)
     {
-        yGameAxis *= verticalSensitivity; //Applying vertical sensitivity
+        yGameAxis *= horizontalSensitivity; //Applying vertical sensitivity
 
         this.transform.Rotate(0F, yGameAxis, 0F); //Horizontal rotate (applied to the player)
     }
