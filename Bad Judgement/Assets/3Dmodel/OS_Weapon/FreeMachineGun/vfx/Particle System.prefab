@@ -2737,7 +2737,7 @@ ParticleSystem:
       type: 0
       properties: 0
   LightsModule:
-    enabled: 0
+    enabled: 1
     ratio: 0
     light: {fileID: 0}
     randomDistribution: 1
@@ -10257,7 +10257,7 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 2100000, guid: 07c7de8b5dd0e524680c70fb2a256a49, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 07c7de8b5dd0e524680c70fb2a256a49, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
