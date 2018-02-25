@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1071,31 +1071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c18c17b319cbd144a66e2bc6e591684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  range: 100
-  impactForce: 30
-  fireRate: 15
-  fpsCam: {fileID: 962936612}
-  impactEffect: {fileID: 622212520}
---- !u!114 &676619227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 676619222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc078c91d02301c4394675c88614cdc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunDamage: 1
-  fireRate: 0.25
-  weaponRange: 50
-  hitForce: 100
-  gunEnd: {fileID: 0}
-  AK47: {fileID: 676619228}
-  AK47shootSound: {fileID: 8300000, guid: 942aa86056a8a2646862f6d4d0c52cea, type: 3}
-  AK47reload: {fileID: 8300000, guid: 45d287b3be5ce7a409b7b320cea0ed40, type: 3}
 --- !u!82 &676619228
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1491,7 +1466,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
+  m_HDR: 0
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
@@ -2911,7 +2886,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400144, guid: 8cf16dfd2d18b9b47a77514d8c8ea246, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.49
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400144, guid: 8cf16dfd2d18b9b47a77514d8c8ea246, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2985,15 +2960,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.044696003
+      value: 0.03524139
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.02066938
+      value: 0.020809049
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.015595164
+      value: 0.022243882
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}

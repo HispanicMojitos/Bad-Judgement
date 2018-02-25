@@ -10,17 +10,18 @@ public class Movement : MonoBehaviour
     private float backwardSpeed;
     private float sideSpeed;
     private float verticalSpeed;
-    private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
+    //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
 
-    protected new Rigidbody rigidbody = new Rigidbody();
     private CharacterController charCtrl = new CharacterController();
 
     #endregion
-
+    
     #region Properties
 
     public bool characterIsMoving { get; private set; }
     public bool characterIsJumping { get; private set; }
+
+    public float jumpForce { get; private set; }
 
     #endregion
 
@@ -35,8 +36,9 @@ public class Movement : MonoBehaviour
         sideSpeed = 2.15F;
         verticalSpeed = 4.5F;
 
+        jumpForce = 9.81F;
+
         //Getting components :
-        rigidbody = GetComponent<Rigidbody>();
         charCtrl.GetComponent<CharacterController>(); //We search the rigidbody and the charController in the player
 
         //To be moved later :
@@ -47,8 +49,12 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Checking for Ground Moving :
+        //To be moved :
+        if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
+        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
 
+        //========================================================================================
+        //Checking for Ground Moving :
         float xAxis = Input.GetAxis("Horizontal") * sideSpeed * Time.deltaTime;
         float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
 
@@ -57,38 +63,30 @@ public class Movement : MonoBehaviour
             Move(zAxis, xAxis); //We're moving on X and Z
             characterIsMoving = true;
         }
-        else characterIsMoving = false; 
+        else characterIsMoving = false;
 
         //========================================================================================
 
         //Checking for Jump :
 
-        float yAxis = Input.GetAxis("Jump"); //Jump axis (space key)
+        bool wantsToJump = Input.GetButtonDown("Jump");
 
-        if (yAxis != 0)
+        if (wantsToJump)
         {
-            Jump(yAxis);
-            characterIsJumping = true;
+            Jump();
+            this.characterIsJumping = true;
         }
-        else characterIsJumping = false;
-
-        //========================================================================================
-
-        //To be moved :
-        if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
-        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
+        else this.characterIsJumping = false;
     }
 
     #endregion
 
     #region Moving Methods
 
-    private void Jump(float yAxis)
+    private void Jump()
     {
-        yAxis = yAxis * verticalSpeed; //Affecting vertical jump speed and consider machine responsiveness
-        Vector3 moveVertical = new Vector3(0F, yAxis, 0F); //Creating the vector that contains the vertical !=ce
+        Vector3 moveVertical = new Vector3(0F, jumpForce * verticalSpeed, 0F); //Creating the vector that contains the vertical !=ce
         moveVertical *= Time.deltaTime; //Machine responsiveness
-
         this.transform.Translate(moveVertical); //Making the jump
         //The character will be automatically brought back to the ground due to gravity.
     }
