@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
     private float sideSpeed;
     private float verticalSpeed;
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
-
+    [SerializeField]
     private CharacterController charCtrl = new CharacterController();
 
     #endregion
