@@ -5,7 +5,8 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     // Now we need a target script to recieve damage and other stuff
-    public float health = 50f;
+    [SerializeField]
+    private float health = 50f;
 
     public void TakeDamage(float amount)
     {
