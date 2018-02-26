@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\CamControl.cs" />
      <Compile Include="Assets\Scripts\GunScript.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\Open-CloseDoor.cs" />
      <Compile Include="Assets\Scripts\SongsScripts\DetectionActiveSon.cs" />
      <Compile Include="Assets\Scripts\SongsScripts\MusicBackground.cs" />
      <Compile Include="Assets\Scripts\SongsScripts\Sounds.cs" />
