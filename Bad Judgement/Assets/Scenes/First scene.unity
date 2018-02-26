@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1071,13 +1071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c18c17b319cbd144a66e2bc6e591684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 30
-  range: 100
-  impactForce: 90
-  fireRate: 600
-  gunEnd: {fileID: 1310615829}
-  impactEffect: {fileID: 622212520}
-  nextTimeToFire: 0
   AK47: {fileID: 676619228}
   AK47shoot: {fileID: 8300000, guid: 942aa86056a8a2646862f6d4d0c52cea, type: 3}
   AK47reload: {fileID: 8300000, guid: 45d287b3be5ce7a409b7b320cea0ed40, type: 3}
@@ -1428,7 +1421,7 @@ GameObject:
   - component: {fileID: 962936614}
   m_Layer: 0
   m_Name: Normal Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1611,7 +1604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731aece2dd14e624cb1585fd7cc531c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charCtrl: {fileID: 1035211784}
   sonDePasSurRue: {fileID: 8300000, guid: b080d54f07fcc4c4cb211a95ef33fa9d, type: 3}
   sonDePasSurBois: {fileID: 8300000, guid: 4b4e818a75959b24fa6593da14df62ea, type: 3}
   sonDePasSurterre: {fileID: 8300000, guid: 6ab48eb0be58e914aa59f1491e31fb9b, type: 3}
@@ -2553,8 +2545,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1310615829}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 37.1}
+  m_LocalRotation: {x: -0.00000002235174, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.35999957, y: 3.6399982, z: 30}
   m_LocalScale: {x: 1, y: 2, z: 50}
   m_Children: []
   m_Father: {fileID: 1462221021}
@@ -3168,19 +3160,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.08748126
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.007149619
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.037937798
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9954179
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_RootOrder
@@ -3197,14 +3189,6 @@ Prefab:
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.022243882
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
@@ -3780,7 +3764,7 @@ GameObject:
   - component: {fileID: 2002221955}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Target
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
