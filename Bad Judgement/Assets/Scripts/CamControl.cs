@@ -57,7 +57,7 @@ public class CamControl : MonoBehaviour
 
         if (yGameAxis != 0)
         {
-            if (isFreeCamActive) MoveCamHorizIfFreeCam(yGameAxis); //Rotating the camera because of freecam mode
+            if (isFreeCamActive) MoveCamHoriz(yGameAxis); //Rotating the camera because of freecam mode
             else MoveCamHoriz(yGameAxis); //Rotating the player on its Y-axis.
         }
         MoveCamVertically(xGameAxis); //Moving the camera vertically (X axis)
