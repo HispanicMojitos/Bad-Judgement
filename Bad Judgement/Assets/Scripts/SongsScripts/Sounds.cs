@@ -4,10 +4,12 @@ using UnityEngine;
 // /!\  ATTENTION CE SCRIPT VA BEAUCOUP CHANGER, NOTTEMMENT LORSQU'ON VA METTRE PLUSIEURS ARME,JE VERRAI AVEC VOUS CAR IL FAUT ADAPTER LE SCRIPT EN FONCTION DES ARMES
 public static class Sounds
 {
-    private static float timeSound = 0.001f; // temps du son de tir joué au fur et a mesur que l'on presse le bouton
-    private static float cadence = 0f; // permet de cadencer les tirs
-
     #region AK47
+
+    #region membres
+    private static float timeSound = 0.001f; // temps du son de tir joué au fur et a mesur que l'on presse le bouton
+    private static float cadence = 0f; // permet de cadencer les tirs de l'AK K7
+    #endregion membres
 
     #region AK47shoot
     public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, int nmbreDeMunitions = 1, float volume = 0.3f) // int nmbreDeMunitions = 1 et float volume = 0.3f son des membre només, pour les appeler il faut faire Sounds.AK47shoot(AK47, AK47shoot, munitions, volume);
@@ -49,4 +51,24 @@ public static class Sounds
     #endregion AK47reload
 
     #endregion AK47
+    
+    #region Movement
+
+    #region FootSteeps
+    public static void FootSteepsSound(AudioSource personnage)
+    {
+        if (!personnage.isPlaying) personnage.PlayOneShot(personnage.clip);
+
+    }
+    #endregion FootSteeps
+
+    #region jump
+    public static void JumpSound(AudioSource piedPersonnage)
+    {
+        if (!piedPersonnage.isPlaying) piedPersonnage.Play();
+    }
+    #endregion jump
+
+
+    #endregion Movement
 }
