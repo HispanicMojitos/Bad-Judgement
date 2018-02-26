@@ -13,7 +13,7 @@ public class CamControl : MonoBehaviour
     [SerializeField] private float minVertical = 70.0F;
     [SerializeField] private float maxVertical = -55.0F; //Maximum head angle is 55 degrees. Modifiable here.
 
-    [SerializeField] private float maxLeftRightFreeCamAngle = 70.0F;
+    [SerializeField] private float maxLeftRightFreeCamAngle = 70.0F; //Not used for now but it is going to be used 
 
     private Vector3 verticalEulerVector; //Vector to handle vertical rotation of the camera
     private Vector3 horizontalEulerVector; //Vector to handle the horizontal rotation of the camera (IF FREE CAMERA MODE ACTIVE)

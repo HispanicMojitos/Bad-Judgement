@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1611,6 +1611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731aece2dd14e624cb1585fd7cc531c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRigidbody: {fileID: 1035211786}
   sonDePasSurRue: {fileID: 8300000, guid: b080d54f07fcc4c4cb211a95ef33fa9d, type: 3}
   sonDePasSurBois: {fileID: 8300000, guid: 4b4e818a75959b24fa6593da14df62ea, type: 3}
   sonDePasSurterre: {fileID: 8300000, guid: 6ab48eb0be58e914aa59f1491e31fb9b, type: 3}
@@ -1619,23 +1620,6 @@ MonoBehaviour:
   jumpOnWood: {fileID: 8300000, guid: 0f36383f52514df499af0e0c6525d21d, type: 3}
   personnage: {fileID: 1035211787}
   piedjumpPersonnage: {fileID: 949086474}
---- !u!143 &1035211784
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1035211781}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!136 &1035211785
 CapsuleCollider:
   m_ObjectHideFlags: 0
