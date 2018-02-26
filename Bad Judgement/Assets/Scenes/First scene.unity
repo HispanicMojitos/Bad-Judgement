@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1071,6 +1071,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c18c17b319cbd144a66e2bc6e591684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  range: 100
+  impactForce: 90
+  fireRate: 600
+  gunEnd: {fileID: 1310615829}
+  impactEffect: {fileID: 622212520}
+  nextTimeToFire: 0
   AK47: {fileID: 676619228}
   AK47shoot: {fileID: 8300000, guid: 942aa86056a8a2646862f6d4d0c52cea, type: 3}
   AK47reload: {fileID: 8300000, guid: 45d287b3be5ce7a409b7b320cea0ed40, type: 3}
@@ -2546,7 +2553,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1310615829}
   m_LocalRotation: {x: -0.00000002235174, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35999957, y: 3.6399982, z: 30}
+  m_LocalPosition: {x: -0.79, y: 3, z: 37.4}
   m_LocalScale: {x: 1, y: 2, z: 50}
   m_Children: []
   m_Father: {fileID: 1462221021}
@@ -3148,31 +3155,31 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.35934788
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3053731
+      value: -0.305
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5453532
+      value: 0.825
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.08748126
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.007149619
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.037937798
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9954179
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_RootOrder
@@ -3189,6 +3196,14 @@ Prefab:
     - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.022243882
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28c6d9019ea90fc47a4d6dc8bd4fe54d, type: 3}

@@ -55,8 +55,8 @@ public class GunScript : MonoBehaviour
         RaycastHit hit; //This is a varaible that strores info of what the ray hits
         Sounds.AK47shoot(AK47, AK47shoot);  // ICI ANDREWS, le son n'est pas bien cadencé dans méthode, ca fait byzare, j'imagine que c'est a toi de pouvoir regler ta cadence de tir en fonction du son alors amuse toi bien ;)
                                             /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Pour montrer montrer un raycast dans la scene on a besoin de definir le ray ainsi que son origine qui est la camera, et le ray bougera en fonction que la souris bouge avec la camera
-        Debug.DrawLine(ray.origin, Camera.main.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Pour montrer montrer un raycast dans la scene on a besoin de definir le ray ainsi que son origine qui est la camera, et le ray bougera en fonction que la souris bouge avec la camera
+        Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
                                                                                     /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
         if (Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit))
         {

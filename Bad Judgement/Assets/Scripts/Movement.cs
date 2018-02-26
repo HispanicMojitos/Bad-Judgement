@@ -11,9 +11,7 @@ public class Movement : MonoBehaviour
     private float sideSpeed;
     private float verticalSpeed;
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
-
-    private CharacterController charCtrl = new CharacterController();
-
+    
     #endregion
 
     #region Sounds members
@@ -59,9 +57,7 @@ public class Movement : MonoBehaviour
 
         jumpForce = 9.81F;
 
-        //Getting components :
-        charCtrl.GetComponent<CharacterController>(); //We search the rigidbody and the charController in the player
-
+              
         //To be moved later :
         Cursor.lockState = CursorLockMode.Locked;
     }
