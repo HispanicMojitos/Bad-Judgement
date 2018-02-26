@@ -15,7 +15,7 @@ public class OpenDoor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown("E")) { door.Play("DoorOpen"); }
+        if (Input.GetKeyDown("E")) door.Play("DoorOpen");
 
 	}
 }
