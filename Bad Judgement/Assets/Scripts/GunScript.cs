@@ -27,8 +27,13 @@ public class GunScript : MonoBehaviour
     public AudioClip AK47shoot; // bruit de l'AK47 fait lors d'un seul tir
     [SerializeField]
     public AudioClip AK47reload; // bruit de rechargement d'un AK47
+    [SerializeField]
+    private Animation aiming;
     #endregion
-    
+    void Start()
+    {
+        aiming = GetComponent<Animation>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -42,6 +47,10 @@ public class GunScript : MonoBehaviour
             nextTimeToFire = Time.time + 1f / fireRate; // formula for fire rate
 
              Shoot();
+        }
+        if (Input.GetButton("Fire2"))
+        {
+
         }
 
     }
