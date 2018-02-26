@@ -11,8 +11,13 @@ public class Movement : MonoBehaviour
     private float sideSpeed;
     private float verticalSpeed;
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
+<<<<<<< HEAD
     [SerializeField]
     private CharacterController charCtrl = new CharacterController();
+=======
+
+    private bool canJump;
+>>>>>>> f30dbb5792567224a0be10a2616d508e2653ea03
 
     #endregion
 
@@ -59,8 +64,7 @@ public class Movement : MonoBehaviour
 
         jumpForce = 9.81F;
 
-        //Getting components :
-        charCtrl.GetComponent<CharacterController>(); //We search the rigidbody and the charController in the player
+        canJump = true;
 
         //To be moved later :
         Cursor.lockState = CursorLockMode.Locked;
@@ -92,7 +96,7 @@ public class Movement : MonoBehaviour
 
         bool wantsToJump = Input.GetButtonDown("Jump");
 
-        if (wantsToJump)
+        if (wantsToJump && canJump)
         {
             Jump();
             this.characterIsJumping = true;
@@ -114,6 +118,10 @@ public class Movement : MonoBehaviour
         moveVertical *= Time.deltaTime; //Machine responsiveness
         this.transform.Translate(moveVertical); //Making the jump
         //The character will be automatically brought back to the ground due to gravity.
+
+        canJump = false;
+
+        this.characterIsJumping = true;
     }
 
     private void Move(float zAxis, float xAxis)
@@ -129,6 +137,12 @@ public class Movement : MonoBehaviour
         //X is the strafe and Z is forward/backward
 
         this.transform.Translate(movement); //Making the move
+    }
+
+    private void OnCollisionStay(Collision collision) //If character collides the ground he can jump.
+    {
+        this.canJump = true;
+        this.characterIsJumping = false;
     }
 
     #endregion

@@ -1071,12 +1071,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c18c17b319cbd144a66e2bc6e591684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   damage: 30
   range: 100
   impactForce: 90
   fireRate: 600
   gunEnd: {fileID: 1310615829}
   impactEffect: {fileID: 622212520}
+=======
+  damage: 90
+  range: 100
+  impactForce: 30
+  fireRate: 600
+  gunEnd: {fileID: 1310615829}
+  impactEffect: {fileID: 0}
+>>>>>>> f30dbb5792567224a0be10a2616d508e2653ea03
   nextTimeToFire: 0
   AK47: {fileID: 676619228}
   AK47shoot: {fileID: 8300000, guid: 942aa86056a8a2646862f6d4d0c52cea, type: 3}
@@ -1620,23 +1629,6 @@ MonoBehaviour:
   jumpOnWood: {fileID: 8300000, guid: 0f36383f52514df499af0e0c6525d21d, type: 3}
   personnage: {fileID: 1035211787}
   piedjumpPersonnage: {fileID: 949086474}
---- !u!143 &1035211784
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1035211781}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!136 &1035211785
 CapsuleCollider:
   m_ObjectHideFlags: 0
