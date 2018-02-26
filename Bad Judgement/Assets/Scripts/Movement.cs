@@ -9,9 +9,11 @@ public class Movement : MonoBehaviour
     private float forwardSpeed;
     private float backwardSpeed;
     private float sideSpeed;
-    private float verticalSpeed;
+    private float verticalSpeed; //Speeds
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
-    
+
+    private bool characterCanJump; //Useful for the jump move
+
     #endregion
 
     #region Sounds members
@@ -33,9 +35,9 @@ public class Movement : MonoBehaviour
     #region Properties
 
     public bool characterIsMoving { get; private set; }
-    public bool characterIsJumping { get; private set; }
+    public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
 
-    public float jumpForce { get; private set; }
+    public float jumpForce { get; private set; } //Force that'll have the player when jumping
 
     #endregion
 
@@ -69,6 +71,7 @@ public class Movement : MonoBehaviour
         //To be moved :
         if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
         if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
+        //Locks the cursor on the window
 
         //========================================================================================
         //Checking for Ground Moving :
@@ -78,22 +81,21 @@ public class Movement : MonoBehaviour
         if (zAxis != 0 || xAxis != 0) //If the player is moving :
         {
             Move(zAxis, xAxis); //We're moving on X and Z
-            characterIsMoving = true;
+            characterIsMoving = true; //If the player moves, then we say to the property to be true
         }
-        else characterIsMoving = false;
+        else characterIsMoving = false; //If the player moves, then we say to the property to be true
+        //Other ppl might want to use that property in other scripts
 
         //========================================================================================
 
         //Checking for Jump :
 
-        bool wantsToJump = Input.GetButtonDown("Jump");
-
-        if (wantsToJump)
+        if (Input.GetButtonDown("Jump") && this.characterCanJump) //If player wants to jump & that character can jump
         {
-            Jump();
-            this.characterIsJumping = true;
+            Jump(); //Makes the character jump
+            this.characterIsJumping = true; //Setting the property for other scripts
         }
-        else this.characterIsJumping = false;
+        else this.characterIsJumping = false; //Setting property for other scripts
     }
 
     #endregion
@@ -110,6 +112,8 @@ public class Movement : MonoBehaviour
         moveVertical *= Time.deltaTime; //Machine responsiveness
         this.transform.Translate(moveVertical); //Making the jump
         //The character will be automatically brought back to the ground due to gravity.
+
+        this.characterCanJump = false; //Telling that the player may not jump
     }
 
     private void Move(float zAxis, float xAxis)
@@ -125,6 +129,11 @@ public class Movement : MonoBehaviour
         //X is the strafe and Z is forward/backward
 
         this.transform.Translate(movement); //Making the move
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        this.characterCanJump = true;
     }
 
     #endregion
