@@ -43,79 +43,78 @@ public class AIscripts : MonoBehaviour
             {
                 anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
                 anim.SetBool("IsWalking", true); // ANIMATION : commence a marcher
-                if ((actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5) && Pause > 0) // Permet de ne faire la pause qu'
-                {
-                    anim.SetBool("IsWalking", false); // arrete de marcher
-                    anim.SetBool("IsIdle", true); // commence a rien branler
-                    IsPausing = true; // l'IA prens sa pause
-                    Pause = Pause - Time.deltaTime; // Malheuresement le temps d'une pause ne dure jamais longtemps !! (Bref le temps de la pause diminue)
-                }
-                else IsPausing = false;
-
-                if (!(actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5)) Pause = 5f; // Permet de remettre la pause a son stade initial
-
-                if (Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille && IsPausing == false) // On verifie la distance entre le point de patrouille actuel et l'IA
-                {
-                    //actuelPointDePatrouille = Random.Range(0, pointDePatrouille.Length);
-                    if (reversePatrouille == false)
-                        actuelPointDePatrouille++; // On a atteint notre point de patrouille, on passe au suivant !
-                    else
-                        actuelPointDePatrouille--; // On a atteint notre point de patrouille, on passe au suivant ! sens inverse de la patrouille
-
-                    if (actuelPointDePatrouille >= pointDePatrouille.Length) // permet de faire la boucle de pause lorsqu'on arrive au point 5
-                    {
-                        actuelPointDePatrouille -= 2;
-                        reversePatrouille = true;
-                    }
-                    else if (actuelPointDePatrouille < 0) // Permet de faire la boucle de pause lorsqu'on arrive au point 0
-                    {
-                        reversePatrouille = false;
-                        actuelPointDePatrouille += 2;
-                    }
-
-                }
-                if (IsPausing == false)
-                {
-                    direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame
-                                                                                                                    //Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
-                    this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);
-                    // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
-                    this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Donne une certaine vitesse a l'IA lorsqu'il marche
-                }
-
             }
-
-            if ((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false)) // Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à 10, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
+            if ((actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5) && Pause > 0) // Permet de ne faire la pause qu'
             {
-                IsPatrolling = false;
-                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // La rotation de l'IA va se faire en fonction de 2 parametre : 
-                                                                                                                               //Quaternion.Slerp prend en parametre 2 rootation et retourne la rotation de l'IA : 
-                                                                                                                               //1er parametre : niveau de base de rotation de l'IA dans l'espace de jeux, 
-                                                                                                                               //2eme parametre : nouvelle rotation de l'IA mise a jour en fonction du changement de position du joueur (Vector3 direction)
+                anim.SetBool("IsWalking", false); // arrete de marcher
+                anim.SetBool("IsIdle", true); // commence a rien branler
+                IsPausing = true; // l'IA prens sa pause
+                Pause = Pause - Time.deltaTime; // Malheuresement le temps d'une pause ne dure jamais longtemps !! (Bref le temps de la pause diminue)
+            }
+            else IsPausing = false;
 
-                anim.SetBool("IsIdle", false); // ANIMATION : permet de ne pas jouer l'animation IsIdle via un Bool grace a l'éditeur d'animation : Animator
-                                               // SetBool permet ainsi de définir les animations mise dans l'Animator au moyen d'un bool : false arrete l'animation, true joue l'animation
-                if (direction.magnitude > distanceAttaque) // Direction.magnitude represente la distance mathémathique entre le joueur et l'IA
-                {
-                    this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Permet de faire avancer l'IA sur son axe des Z
-                    anim.SetBool("IsWalking", true); // ANIMATION : Va commencer a marcher
-                    anim.SetBool("IsAttacking", false); // ANIMATION : arrete d'attaquer
-                }
+            if (!(actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5)) Pause = 5f; // Permet de remettre la pause a son stade initial
+
+            if (Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille && IsPausing == false) // On verifie la distance entre le point de patrouille actuel et l'IA
+            {
+                //actuelPointDePatrouille = Random.Range(0, pointDePatrouille.Length);
+                if (reversePatrouille == false)
+                    actuelPointDePatrouille++; // On a atteint notre point de patrouille, on passe au suivant !
                 else
+                    actuelPointDePatrouille--; // On a atteint notre point de patrouille, on passe au suivant ! sens inverse de la patrouille
+
+                if (actuelPointDePatrouille >= pointDePatrouille.Length) // permet de faire la boucle de pause lorsqu'on arrive au point 5
                 {
-                    anim.SetBool("IsAttacking", true); // ANIMATION : arrete de marcher
-                    anim.SetBool("IsWalking", false); // ANIMATION : va attaquer
+                    actuelPointDePatrouille -= 2;
+                    reversePatrouille = true;
                 }
+                else if (actuelPointDePatrouille < 0) // Permet de faire la boucle de pause lorsqu'on arrive au point 0
+                {
+                    reversePatrouille = false;
+                    actuelPointDePatrouille += 2;
+                }
+
             }
-            else if (IsPatrolling == false)
+            if (IsPausing == false)
             {
-                anim.SetBool("IsIdle", true); // ANIMATION : Va "rien faire" et rester planté comme un joli petit poirreaux
-                anim.SetBool("IsWalking", false); //  ANIMATION : Ne marche pas
-                anim.SetBool("IsAttacking", false); // ANIMATION : N'attaque pas 
-                IsPatrolling = true;
+                direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame
+                                                                                                                //Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);
+                // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
+                this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Donne une certaine vitesse a l'IA lorsqu'il marche
             }
+
+        }
+
+        if ((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false)) // Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à 10, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
+        {
+            IsPatrolling = false;
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // La rotation de l'IA va se faire en fonction de 2 parametre : 
+                                                                                                                           //Quaternion.Slerp prend en parametre 2 rootation et retourne la rotation de l'IA : 
+                                                                                                                           //1er parametre : niveau de base de rotation de l'IA dans l'espace de jeux, 
+                                                                                                                           //2eme parametre : nouvelle rotation de l'IA mise a jour en fonction du changement de position du joueur (Vector3 direction)
+
+            anim.SetBool("IsIdle", false); // ANIMATION : permet de ne pas jouer l'animation IsIdle via un Bool grace a l'éditeur d'animation : Animator
+                                           // SetBool permet ainsi de définir les animations mise dans l'Animator au moyen d'un bool : false arrete l'animation, true joue l'animation
+            if (direction.magnitude > distanceAttaque) // Direction.magnitude represente la distance mathémathique entre le joueur et l'IA
+            {
+                this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Permet de faire avancer l'IA sur son axe des Z
+                anim.SetBool("IsWalking", true); // ANIMATION : Va commencer a marcher
+                anim.SetBool("IsAttacking", false); // ANIMATION : arrete d'attaquer
+            }
+            else
+            {
+                anim.SetBool("IsAttacking", true); // ANIMATION : arrete de marcher
+                anim.SetBool("IsWalking", false); // ANIMATION : va attaquer
+            }
+        }
+        else if (IsPatrolling == false)
+        {
+            anim.SetBool("IsIdle", true); // ANIMATION : Va "rien faire" et rester planté comme un joli petit poirreaux
+            anim.SetBool("IsWalking", false); //  ANIMATION : Ne marche pas
+            anim.SetBool("IsAttacking", false); // ANIMATION : N'attaque pas 
+            IsPatrolling = true;
         }
     }
         #endregion start & update
-    
 }
