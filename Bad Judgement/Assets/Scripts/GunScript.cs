@@ -19,7 +19,6 @@ public class GunScript : MonoBehaviour
     //public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
     [SerializeField]
     private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world
-    [SerializeField]
     private float nextTimeToFire = 0f;
     [SerializeField]
     public AudioSource AK47; // AK47 qui est la source de son propre son
@@ -29,18 +28,35 @@ public class GunScript : MonoBehaviour
     public AudioClip AK47reload; // bruit de rechargement d'un AK47
     [SerializeField]
     private Animation aiming;
+    [SerializeField]
+    private float amount;
+    [SerializeField]
+    private float smoothAmount;
+    [SerializeField]
+    private float maxAmount;
+    private Vector3 initialPosition;
     #endregion
     void Start()
     {
         aiming = GetComponent<Animation>();
+        initialPosition = transform.localPosition;
     }
     // Update is called once per frame
     void Update()
     {
 
         // Sounds.AK47shoot(AK47, AK47shoot); // ANDREWS !! si tu met la methode pour jouer le son ici, tu remarquera que le son joue a l'infini et qu'il est cadencé (a la cadence que j'ai mise)
-
-       
+        float movementX = -Input.GetAxis("Mouse X") * amount;
+        float movementY = -Input.GetAxis("Mouse Y") * amount;
+        // -maxAmount is the amount of movement to the left side
+        // maxAmount is the amount of movement to the right side
+        movementX = Mathf.Clamp(movementX, -maxAmount, maxAmount);
+        // original value, min value, max value
+        movementY = Mathf.Clamp(movementY, -maxAmount, maxAmount);
+        // this limits the amount of rotation
+        Vector3 finalPositon = new Vector3(movementX, movementY, 0);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, finalPositon + initialPosition, Time.deltaTime * smoothAmount);
+        // this interpolates the initial position with the final position
                                             
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
@@ -48,7 +64,7 @@ public class GunScript : MonoBehaviour
 
              Shoot();
         }
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire2")) // WIP
         {
 
         }
@@ -90,7 +106,7 @@ public class GunScript : MonoBehaviour
         }
     }
 
-    void AimDownSight()
+    void AimDownSight() //WIP
     {
 
     }
