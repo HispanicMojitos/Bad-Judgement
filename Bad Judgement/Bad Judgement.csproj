@@ -297,6 +297,7 @@
     <Compile Include="Assets\Scripts\CamControl.cs" />
     <Compile Include="Assets\Scripts\GunScript.cs" />
     <Compile Include="Assets\Scripts\IAScirpts\AIscripts.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\Open-CloseDoor.cs" />
     <Compile Include="Assets\Scripts\SongsScripts\DetectionActiveSon.cs" />
