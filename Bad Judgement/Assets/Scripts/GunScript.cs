@@ -6,6 +6,13 @@ using UnityEngine;
 public class GunScript : MonoBehaviour
 {
     #region Variables
+
+    #region Sounds members
+    [SerializeField] private AudioSource AK47; // AK47 qui est la source de son propre son
+    [SerializeField] private AudioClip AK47shoot; // bruit de l'AK47 fait lors d'un seul tir
+    [SerializeField] private AudioClip AK47reload; // bruit de rechargement d'un AK47
+    #endregion Sounds members
+
     [SerializeField]
     private float damage = 10f; // First we declare our needed variables
     [SerializeField]
@@ -20,9 +27,6 @@ public class GunScript : MonoBehaviour
     [SerializeField]
     private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world
     private float nextTimeToFire = 0f;
-    public AudioSource AK47; // AK47 qui est la source de son propre son
-    public AudioClip AK47shoot; // bruit de l'AK47 fait lors d'un seul tir
-    public AudioClip AK47reload; // bruit de rechargement d'un AK47
     [SerializeField]
     private Animation aiming;
     [SerializeField]
@@ -81,11 +85,10 @@ public class GunScript : MonoBehaviour
         {
             bulletsPerMag--;
             RaycastHit hit; //This is a varaible that strores info of what the ray hits
-            Sounds.AK47shoot(AK47, AK47shoot);  // ICI ANDREWS, le son n'est pas bien cadencé dans méthode, ca fait byzare, j'imagine que c'est a toi de pouvoir regler ta cadence de tir en fonction du son alors amuse toi bien ;)
+            Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
-            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Pour montrer montrer un raycast dans la scene on a besoin de definir le ray ainsi que son origine qui est la camera, et le ray bougera en fonction que la souris bouge avec la camera
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
-                                                                                                  /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
+                                                /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
             if (Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit))
             {
                 Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)

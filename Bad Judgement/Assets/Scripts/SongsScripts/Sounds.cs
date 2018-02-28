@@ -63,15 +63,22 @@ public static class Sounds
     #region FootSteeps
     public static void FootSteepsSound(AudioSource personnage)
     {
-        if (!personnage.isPlaying) personnage.PlayOneShot(personnage.clip);
-
+        if (!personnage.isPlaying) personnage.Play();
     }
+
     #endregion FootSteeps
 
     #region jump
     public static void JumpSound(AudioSource piedPersonnage)
     {
         if (!piedPersonnage.isPlaying) piedPersonnage.Play();
+    }
+
+    public static void DeclareSonDemarche(AudioSource personnage, AudioClip sonDePasSur,  AudioSource piedjumpPersonnage, AudioClip jumpOn, char tag, char lettre)
+    {
+        personnage.clip = sonDePasSur; // Ici le son va alors devenir celui d'un bruit de pas sur le bois, pour les autres ca va jouer les son que l'on aura alors importé aussi lorsque la surface change
+        piedjumpPersonnage.clip = jumpOn; // Pareil pour les jumps 
+        if (tag != lettre) tag = lettre;
     }
     #endregion jump
 

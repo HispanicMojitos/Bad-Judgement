@@ -17,7 +17,7 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private GameObject[] pointDePatrouille; // Recupere l'ensemble des points de patrouille que l'on veuille mettre a l'IA
     [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
     [SerializeField] private float vitesse = 1.5f; // Vitesse de marche
-    private float tailleZonePointDepatrouille = 0.1f; // Taille des points de patrouille par lesquelle l'IA va prendre la route du prochain point de patrouille
+    private float tailleZonePointDepatrouille = 1f; // Taille des points de patrouille par lesquelle l'IA va prendre la route du prochain point de patrouille
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
     private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
@@ -44,7 +44,7 @@ public class AIscripts : MonoBehaviour
                 anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
                 anim.SetBool("IsWalking", true); // ANIMATION : commence a marcher
             }
-            if ((actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5) && Pause > 0) // Permet de ne faire la pause qu'
+            if ((actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5) && Pause >= 0) // Permet de ne faire la pause qu'a un point de patrouille donné
             {
                 anim.SetBool("IsWalking", false); // arrete de marcher
                 anim.SetBool("IsIdle", true); // commence a rien branler

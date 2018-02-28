@@ -5,20 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     #region Members
-
-    private float forwardSpeed;
-    private float backwardSpeed;
-    private float sideSpeed; //Speeds
-    //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
-
-    private float jumpForce; //Force of the jump that the character will have
-
-    private bool characterCanJump; //Useful for the jump move
-
-    [SerializeField]private Rigidbody playerRigidbody;
-
-    #endregion
-
+    
     #region Sounds members
 
     [SerializeField] private AudioClip sonDePasSurRue; //Initialisation des sons de pas 
@@ -34,6 +21,20 @@ public class Movement : MonoBehaviour
     private char tag = '\0'; // donne la valeur null du char, cette variable permet de faire en sorte dans l'algorithme de continuer un son de pas même lorsqu'on entre en collision avec un autre objet non tagué (exemple : un mur)
 
     #endregion Sounds members
+
+    private float forwardSpeed;
+    private float backwardSpeed;
+    private float sideSpeed; //Speeds
+    //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
+
+    private float jumpForce; //Force of the jump that the character will have
+
+    private bool characterCanJump; //Useful for the jump move
+
+    [SerializeField]private Rigidbody playerRigidbody;
+
+    #endregion
+
 
     #region Properties
 
@@ -138,21 +139,15 @@ public class Movement : MonoBehaviour
 
         if ((collision.collider.CompareTag("Wood") || (tag == 'w' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Grass")) // OPTIMISATION : tag == "something"  allocates memory, CompareTag does not, i've changes this , sources : https://forum.unity.com/threads/making-stepssounds-by-using-oncollisionenter-or-raycasts-optimizations-question.518865/#post-3402025 ,https://answers.unity.com/questions/200820/is-comparetag-better-than-gameobjecttag-performanc.html
         {
-            personnage.clip = sonDePasSurBois; // Ici le son va alors devenir celui d'un bruit de pas sur le bois, pour les autres ca va jouer les son que l'on aura alors importé aussi lorsque la surface change
-            piedjumpPersonnage.clip = jumpOnWood; // Pareil pour les jumps 
-            if (tag != 'w') tag = 'w';
+            Sounds.DeclareSonDemarche(personnage, sonDePasSurBois, piedjumpPersonnage, jumpOnWood, tag, 'w');
         }
         else if ((collision.collider.CompareTag("Street") || (tag == 's' && !collision.collider.CompareTag("Street"))) && !collision.collider.CompareTag("Wood") && !collision.collider.CompareTag("Grass")) // Toute ces conditions permette de jouer le sons même en etant en colision avec d'autres objet non tagué (exemple : un mur, un ventilateur, ect...) 
         {
-            personnage.clip = sonDePasSurRue;
-            piedjumpPersonnage.clip = jumpOnStreet;
-            if (tag != 's') tag = 's';
+            Sounds.DeclareSonDemarche(personnage, sonDePasSurRue, piedjumpPersonnage, jumpOnStreet, tag, 's');
         }
         else if ((collision.collider.CompareTag("Grass") || (tag == 'g' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Wood"))
         {
-            personnage.clip = sonDePasSurterre;
-            piedjumpPersonnage.clip = jumpOnGrass;
-            if (tag != 'g') tag = 'g';
+            Sounds.DeclareSonDemarche(personnage, sonDePasSurterre, piedjumpPersonnage, jumpOnGrass, tag, 'g');
         }
     }
 
