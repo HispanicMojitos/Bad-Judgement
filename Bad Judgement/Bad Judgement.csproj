@@ -310,6 +310,7 @@
     <None Include="Assets\3Dmodel\OS_Weapon\FreeMachineGun\Shader\BDCS.shader" />
     <None Include="Assets\3Dmodel\OS_Weapon\FreeMachineGun\documentation.txt" />
     <None Include="Assets\Animation\Raw Mocap Data\Animations\_CompleteAnimationList.txt" />
+    <None Include="Assets\ImpactPrefabs\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
