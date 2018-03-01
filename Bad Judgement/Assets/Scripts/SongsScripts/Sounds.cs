@@ -18,30 +18,12 @@ public static class Sounds
         get { return cadence; }
         set { Cadence = value; }
     }
-    public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, /*int nmbreDeMunitions = 1,*/ float volume = 0.3f) // int nmbreDeMunitions = 1 et float volume = 0.3f son des membre només, pour les appeler il faut faire Sounds.AK47shoot(AK47, AK47shoot, munitions, volume);
-    {
-        //if (nmbreDeMunitions != 0) // Si il n'y a plus de munitions, alors le bruit de tir ne se fait plus car on ne sait plus tirer
-        //{
-            //if ((Input.GetButton("Fire1")) && (timeSound >= cadence)) // permet de s'assurer que le boutton est résté appuyé, ainsi que de cadencer les tirs
-            //{
+    public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, float volume = 0.3f)
+    { 
                 AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
                 AK47.clip = AK47shootSound; // defini le son qu'emet l'AK47
                 AK47.volume = volume; // defini le volume de l'AK47
                 AK47.spatialBlend = 0.8f;
-                AK47.Play(); // joue le son de l'AK47
-                //timeSound = timeSound + Time.deltaTime;  // permet de savoir le temps de son joué
-                //cadence = cadence + 0.100f; // Permet de initialiser la cadence a 1 tir tout les 0,1s, soit la candence réelle d'un AK47 : https://fr.wikipedia.org/wiki/AK-47
-            //}
-            /*else if (Input.GetButton("Fire1")) // Permet l'empechement d'une boucle de son infinie
-            {
-                timeSound = timeSound + Time.deltaTime;
-            }
-            else if (!Input.GetButton("Fire1")) // permet de toujours initialiser ces variable a zero pour pouvoir retirer apres
-            {
-                timeSound = 0.001f;
-                cadence = 0f;
-            }*/
-        //}
     }
     #endregion AK47shoot
 
