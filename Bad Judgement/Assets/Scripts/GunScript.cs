@@ -16,6 +16,8 @@ public class GunScript : MonoBehaviour
     [SerializeField]
     private float damage = 10f; // First we declare our needed variables
     [SerializeField]
+    private KeyCode reloadKey = KeyCode.R;
+    [SerializeField]
     private float range = 100f;
     [SerializeField]
     private float impactForce = 30f;
@@ -35,16 +37,35 @@ public class GunScript : MonoBehaviour
     private float smoothAmount;
     [SerializeField]
     private float maxAmount;
-    [SerializeField]
     private int bulletsPerMag = 30;
     [SerializeField]
-    private int bulletsLeft = 200;
+    private static int magQty = 4;// number of mags you can have
+    [SerializeField]
+    private int[,] magNum = new int[magQty,1];// array of available mags
     private Vector3 initialPosition;
+    [SerializeField]
+    private int currentMag;
+    private int magIndex = 0;
+    #endregion
+
+    #region Properties
+    public int Bullets
+    {
+        get { return currentMag; }
+        private set { Bullets = value; }
+    }
+    public int Magazines
+    {
+        get { return magQty; }
+        private set { Magazines = value; }
+    }
     #endregion
     void Start()
     {
         aiming = GetComponent<Animation>();
         initialPosition = transform.localPosition;
+        for (int i = 0; i < magNum.GetLength(0); i++) magNum[i, 0] = bulletsPerMag;//loading each mag with 30 bullets
+        currentMag = magNum[magIndex, 0];// saying which mag is the first mag
     }
     // Update is called once per frame
     void Update()
@@ -65,12 +86,16 @@ public class GunScript : MonoBehaviour
                                             
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
-            nextTimeToFire = (Time.time*Time.timeScale) + (1f / (fireRate/60)); // formula for fire rate
+            nextTimeToFire = (Time.time*Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
             Shoot();
         }
         if (Input.GetButton("Fire2")) // WIP
         {
 
+        }
+        if (Input.GetKeyDown(reloadKey))
+        {
+            Reload();
         }
 
     }
@@ -81,9 +106,9 @@ public class GunScript : MonoBehaviour
         // An invisible ray shot from the camera to the forward direction
         // If the object is hit, we do some damage, if not, then nothing happens
         // First we need to reference the camera
-        if (bulletsPerMag > 0)
+        if (currentMag > 0)
         {
-            bulletsPerMag--;
+            currentMag--;
             RaycastHit hit; //This is a varaible that strores info of what the ray hits
             Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
@@ -116,5 +141,42 @@ public class GunScript : MonoBehaviour
     void AimDownSight() //WIP
     {
 
+    }
+    void Reload() // BUG if you spam R, your gun regains one bullet
+    {
+        if(currentMag == 0)
+        {
+            if (magIndex == magQty - 1) 
+            {
+                magNum[magIndex, 0] = currentMag;
+                magIndex = 0;
+                currentMag--;
+                currentMag = magNum[magIndex, 0];
+            }
+            else
+            {
+                magNum[magIndex, 0] = currentMag;
+                currentMag--;
+                magIndex++;
+                currentMag = magNum[magIndex, 0];
+            }
+        }
+        else
+        {
+            if (magIndex == magQty - 1) 
+            {
+                magNum[magIndex, 0] = currentMag;
+                magIndex = 0;
+                currentMag--;
+                currentMag = magNum[magIndex, 0] + 1;
+            }
+            else
+            {
+                magNum[magIndex, 0] = currentMag;
+                currentMag--;
+                magIndex++;
+                currentMag = magNum[magIndex, 0] + 1;
+            }
+        } 
     }
 }
