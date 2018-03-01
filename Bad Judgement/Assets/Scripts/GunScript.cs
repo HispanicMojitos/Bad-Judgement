@@ -100,6 +100,8 @@ public class GunScript : MonoBehaviour
 
     }
 
+    #region Class Methods
+
     void Shoot() // to shoot, we will use raycasts. 
     {
         //muzzleFlash.Play();// Play the muzzle flash we create
@@ -113,7 +115,7 @@ public class GunScript : MonoBehaviour
             Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
-                                                /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
+                                                                                                  /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
             if (Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit))
             {
                 Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
@@ -142,11 +144,12 @@ public class GunScript : MonoBehaviour
     {
 
     }
+
     void Reload() // BUG if you spam R, your gun regains one bullet
     {
-        if(currentMag == 0)
+        if (currentMag == 0)
         {
-            if (magIndex == magQty - 1) 
+            if (magIndex == magQty - 1)
             {
                 magNum[magIndex, 0] = currentMag;
                 magIndex = 0;
@@ -163,7 +166,7 @@ public class GunScript : MonoBehaviour
         }
         else
         {
-            if (magIndex == magQty - 1) 
+            if (magIndex == magQty - 1)
             {
                 magNum[magIndex, 0] = currentMag;
                 magIndex = 0;
@@ -177,6 +180,9 @@ public class GunScript : MonoBehaviour
                 magIndex++;
                 currentMag = magNum[magIndex, 0] + 1;
             }
-        } 
+        }
     }
+
+    #endregion
+
 }
