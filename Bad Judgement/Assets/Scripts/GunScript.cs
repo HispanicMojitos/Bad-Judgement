@@ -96,6 +96,7 @@ public class GunScript : MonoBehaviour
         if (Input.GetKeyDown(reloadKey))
         {
             Reload();
+            Sounds.AK47reload(AK47, AK47reload, 0.3f);
         }
 
     }
