@@ -305,7 +305,6 @@
     <Compile Include="Assets\Scripts\SongsScripts\Sounds.cs" />
     <Compile Include="Assets\Scripts\SongsScripts\StepFootSoundEffect.cs" />
     <Compile Include="Assets\Scripts\Target.cs" />
-    <Compile Include="Assets\Scripts\UI\UIAmmo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3Dmodel\BodyGuards\ReadMe.txt.txt" />
@@ -313,7 +312,6 @@
     <None Include="Assets\3Dmodel\OS_Weapon\FreeMachineGun\documentation.txt" />
     <None Include="Assets\Animation\Raw Mocap Data\Animations\_CompleteAnimationList.txt" />
     <None Include="Assets\ImpactPrefabs\ReadMe.txt" />
-    <None Include="Assets\UI\Game Icons\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
