@@ -1,10 +1,10 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Linq.Expressions;
 
-<<<<<<< HEAD
 public class GunScript : MonoBehaviour
 {
     #region Variables
@@ -44,12 +44,21 @@ public class GunScript : MonoBehaviour
     private static int magQty = 4;// number of mags you can have
     private Vector3 initialPosition;
     [SerializeField]
-    private int currentMag;
+    private static int currentMag;
     private Magazines mags;
     #endregion
 
     #region Properties
-    // HAHA NOTHING HERE
+    public static int CurrentMag
+    {
+        get { return currentMag; }
+        set { currentMag = value; }
+    }
+    public static int MagQty
+    {
+        get { return magQty; }
+        set { magQty = value; }
+    }
     #endregion
 
     void Start()
@@ -57,6 +66,7 @@ public class GunScript : MonoBehaviour
         aiming = GetComponent<Animation>();
         initialPosition = transform.localPosition;
         mags = new Magazines(magQty, bulletsPerMag);
+        //magQty--;
         currentMag = mags[0].bullets;
     }
     // Update is called once per frame
@@ -75,10 +85,10 @@ public class GunScript : MonoBehaviour
         Vector3 finalPositon = new Vector3(movementX, movementY, 0);
         transform.localPosition = Vector3.Lerp(transform.localPosition, finalPositon + initialPosition, Time.deltaTime * smoothAmount);
         // this interpolates the initial position with the final position
-                                            
+
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
-            nextTimeToFire = (Time.time*Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
+            nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
             Shoot();
         }
         if (Input.GetButton("Fire2")) // WIP
@@ -88,7 +98,6 @@ public class GunScript : MonoBehaviour
         if (Input.GetKeyDown(reloadKey))
         {
             Reload();
-            Sounds.AK47reload(AK47, AK47reload, 0.3f);
         }
 
     }
@@ -141,38 +150,48 @@ public class GunScript : MonoBehaviour
     void Reload()
     {
         Action<Magazines> reload = (mags) => {
-            Magazines m = (Magazines)mags;
+            Magazines m = mags;
             int useMag = 0;
             for (int i = 0; i < m.maxIndex; i++) if (m[i].isFull) useMag++;
-            if (useMag > 0){
-                if (currentMag == 0){
-                    m[m.magIndex].isFull = false;
-                    if (m.magIndex == m.maxIndex){
+            if (useMag > 0 && useMag != 0)
+            {
+                if (currentMag == 0)
+                {
+                    magQty--;
+                    ///m[m.magIndex].isFull = false;
+                    if (m.magIndex == m.maxIndex)
+                    {
+                        m[m.magIndex].isFull = false;
                         m[m.magIndex].bullets = currentMag; m.magIndex = 0;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
                         else Reload();
                     }
-                    else{
+                    else
+                    {
                         m[m.magIndex].isFull = false;
                         m[m.magIndex].bullets = currentMag; m.magIndex++;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
                         else Reload();
                     }
                 }
-                else{
-                    if (m.magIndex == m.maxIndex){
+                else
+                {
+                    if (m.magIndex == m.maxIndex)
+                    {
                         m[m.magIndex].bullets = currentMag - 1; m.magIndex = 0;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
                         else Reload();
                     }
-                    else{
+                    else
+                    {
                         m[m.magIndex].bullets = currentMag - 1; m.magIndex++;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
                         else Reload();
                     }
                 }
+                Sounds.AK47reload(AK47, AK47reload, 0.3f);
             }
-        };reload(mags);
+        }; reload(mags);
     }
 
     #endregion
@@ -236,14 +255,14 @@ public class Magazines : IEnumerable
     }
 
     public Magazine this[int i]
-    { 
+    {
         get { return _mags[i]; }
         set { _mags[i] = value; }
     }
 
     public int maxIndex
     {
-        get { return mags.Length-1; }// In this memorable moment I discovered that this piece of artwork bugged because I didn't add that -1
+        get { return mags.Length - 1; }// In this memorable moment I discovered that this piece of artwork bugged because I didn't add that -1
         private set { maxIndex = value; }
     }
 
@@ -281,58 +300,3 @@ public class Magazines : IEnumerable
     }
 }
 #endregion
-=======
-public class GunScript : MonoBehaviour {
-
-	public float damage = 10f; // First we declare our needed variables
-	public float range = 100f;
-	public float impactForce = 30f;
-	public float fireRate = 15f;
-	public Camera fpsCam; // camera reference
-	public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
-	public GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world
-
-	private float nextTimeToFire = 0f;
-
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
-		{ // and if the time that has passed is greater than the rate of fire
-			nextTimeToFire = Time.time + 1f/fireRate; // formula for fire rate
-			Shoot();
-		}
-		
-	}
-
-	void Shoot() // to shoot, we will use raycasts. 
-	{ 
-		muzzleFlash.Play();// Play the muzzle flash we create
-	// An invisible ray shot from the camera to the forward direction
-		// If the object is hit, we do some damage, if not, then nothing happens
-		// First we need to reference the camera
-		RaycastHit hit; //This is a varaible that strores info of what the ray hits
-		if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit))
-		{
-			Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
-			// We then say that we want to log (like a Console.Write();) what our ray hit
-		// We wrapped our code in an if statement because the return type of the Physics.Raycast is a boolean
-
-			Target target = hit.transform.GetComponent<Target>(); // This uses the other script we created for the target
-			// what it does is get the object with the component called Target and stores it in a variable
-			if(target != null) // if the target recieves the variable we want (it will be null if we hit something without the target component)
-			{
-				target.TakeDamage(damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
-			}
-			if(hit.rigidbody != null) // if the object that we hit has a rigidbody
-			{
-				hit.rigidbody.AddForce(-hit.normal * impactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
-			}
-			GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-			Destroy(impactGO, 1f);
-			// We use instantiate to create the object, we enter what we want to instantiate, where and in what direction, hit.normal is a flat surface that points directly in front, that way our effect will always be toward its source
-			// We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
-
-		}
-	}
-}
->>>>>>> 487f34c8f58db79e5be5c73b58eb1e97167346fe

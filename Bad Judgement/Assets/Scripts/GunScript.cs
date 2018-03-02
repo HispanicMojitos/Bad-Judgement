@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System.Linq.Expressions;
 
 public class GunScript : MonoBehaviour
 {
@@ -37,35 +39,35 @@ public class GunScript : MonoBehaviour
     private float smoothAmount;
     [SerializeField]
     private float maxAmount;
-    private int bulletsPerMag = 30;
+    private int bulletsPerMag = 10;
     [SerializeField]
     private static int magQty = 4;// number of mags you can have
-    [SerializeField]
-    private int[,] magNum = new int[magQty,1];// array of available mags
     private Vector3 initialPosition;
     [SerializeField]
-    private int currentMag;
-    private int magIndex = 0;
+    private static int currentMag;
+    private Magazines mags;
     #endregion
 
     #region Properties
-    public int Bullets
+    public static int CurrentMag
     {
         get { return currentMag; }
-        private set { Bullets = value; }
+        set { currentMag = value; }
     }
-    public int Magazines
+    public static int MagQty
     {
         get { return magQty; }
-        private set { Magazines = value; }
+        set { magQty = value; }
     }
     #endregion
+
     void Start()
     {
         aiming = GetComponent<Animation>();
         initialPosition = transform.localPosition;
-        for (int i = 0; i < magNum.GetLength(0); i++) magNum[i, 0] = bulletsPerMag;//loading each mag with 30 bullets
-        currentMag = magNum[magIndex, 0];// saying which mag is the first mag
+        mags = new Magazines(magQty, bulletsPerMag);
+        //magQty--;
+        currentMag = mags[0].bullets;
     }
     // Update is called once per frame
     void Update()
@@ -83,10 +85,10 @@ public class GunScript : MonoBehaviour
         Vector3 finalPositon = new Vector3(movementX, movementY, 0);
         transform.localPosition = Vector3.Lerp(transform.localPosition, finalPositon + initialPosition, Time.deltaTime * smoothAmount);
         // this interpolates the initial position with the final position
-                                            
+
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
-            nextTimeToFire = (Time.time*Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
+            nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
             Shoot();
         }
         if (Input.GetButton("Fire2")) // WIP
@@ -96,12 +98,11 @@ public class GunScript : MonoBehaviour
         if (Input.GetKeyDown(reloadKey))
         {
             Reload();
-            Sounds.AK47reload(AK47, AK47reload, 0.3f);
         }
 
     }
 
-    #region Class Methods
+    #region Methods
 
     void Shoot() // to shoot, we will use raycasts. 
     {
@@ -146,44 +147,156 @@ public class GunScript : MonoBehaviour
 
     }
 
-    void Reload() // BUG if you spam R, your gun regains one bullet
+    void Reload()
     {
-        if (currentMag == 0)
-        {
-            if (magIndex == magQty - 1)
+        Action<Magazines> reload = (mags) => {
+            Magazines m = mags;
+            int useMag = 0;
+            for (int i = 0; i < m.maxIndex; i++) if (m[i].isFull) useMag++;
+            if (useMag > 0 && useMag != 0)
             {
-                magNum[magIndex, 0] = currentMag;
-                magIndex = 0;
-                currentMag--;
-                currentMag = magNum[magIndex, 0];
+                if (currentMag == 0)
+                {
+                    magQty--;
+                    ///m[m.magIndex].isFull = false;
+                    if (m.magIndex == m.maxIndex)
+                    {
+                        m[m.magIndex].isFull = false;
+                        m[m.magIndex].bullets = currentMag; m.magIndex = 0;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
+                        else Reload();
+                    }
+                    else
+                    {
+                        m[m.magIndex].isFull = false;
+                        m[m.magIndex].bullets = currentMag; m.magIndex++;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
+                        else Reload();
+                    }
+                }
+                else
+                {
+                    if (m.magIndex == m.maxIndex)
+                    {
+                        m[m.magIndex].bullets = currentMag - 1; m.magIndex = 0;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
+                        else Reload();
+                    }
+                    else
+                    {
+                        m[m.magIndex].bullets = currentMag - 1; m.magIndex++;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
+                        else Reload();
+                    }
+                }
+                Sounds.AK47reload(AK47, AK47reload, 0.3f);
             }
-            else
-            {
-                magNum[magIndex, 0] = currentMag;
-                currentMag--;
-                magIndex++;
-                currentMag = magNum[magIndex, 0];
-            }
-        }
-        else
-        {
-            if (magIndex == magQty - 1)
-            {
-                magNum[magIndex, 0] = currentMag;
-                magIndex = 0;
-                currentMag--;
-                currentMag = magNum[magIndex, 0] + 1;
-            }
-            else
-            {
-                magNum[magIndex, 0] = currentMag;
-                currentMag--;
-                magIndex++;
-                currentMag = magNum[magIndex, 0] + 1;
-            }
-        }
+        }; reload(mags);
     }
 
     #endregion
 
 }
+#region Classes
+
+public class Magazine
+{
+    #region Variables
+    private int _bullets;
+    private bool _isFull = true;
+    #endregion
+
+    #region Properties
+    public int bullets
+    {
+        get { return _bullets; }
+        set { _bullets = value; }
+    }
+    public bool isFull
+    {
+        get { return _isFull; }
+        set { _isFull = value; }
+    }
+    #endregion
+
+    public Magazine(int bullets)
+    {
+        _bullets = bullets;
+    }
+
+}
+
+public class Magazines : IEnumerable
+{
+    #region Variables
+    private Magazine[] _mags;
+    private int _magNum;
+    private int bullets;
+    private Magazine mag;
+    private int _magIndex;
+    #endregion
+
+    #region Properties
+    public int magIndex
+    {
+        get { return _magIndex; }
+        set { _magIndex = value; }
+    }
+    public int magNum
+    {
+        get { return _magNum; }
+        private set { _magNum = value; }
+    }
+
+    public Magazine[] mags
+    {
+        get { return _mags; }
+        set { _mags = value; }
+    }
+
+    public Magazine this[int i]
+    {
+        get { return _mags[i]; }
+        set { _mags[i] = value; }
+    }
+
+    public int maxIndex
+    {
+        get { return mags.Length - 1; }// In this memorable moment I discovered that this piece of artwork bugged because I didn't add that -1
+        private set { maxIndex = value; }
+    }
+
+    #region Interfaces
+
+    #endregion
+
+    #endregion
+
+    public Magazines(int magNum, int bullets)
+    {
+        _magNum = magNum;
+        this.bullets = bullets;
+        mags = fillMags(mags);
+        _magIndex = 0;
+
+    }
+
+    public Magazine[] fillMags(Magazine[] mags)
+    {
+        mags = new Magazine[_magNum];
+        for (int i = 0; i < mags.Length; i++)
+        {
+            mag = new Magazine(bullets);
+            mags[i] = mag;
+            //_magIndex = i;
+
+        }
+        return mags;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+}
+#endregion
