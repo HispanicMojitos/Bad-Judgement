@@ -31,8 +31,12 @@ public class AmmoUIScript : MonoBehaviour
     private void UpdateAmmoQty()
     {
         //Magqty nb chargeurs
-        //int bulletsInMag = GunScript.CurrentMag;
-        //int numberMags = GunScript.MagQty;
+        int bulletsInMag = GunScript.CurrentMag;
+        int numberMags = GunScript.MagQty;
+
+        string textToDisplay = bulletsInMag.ToString() + " / " + (numberMags - 1).ToString();
+
+        this.ammoText.text = textToDisplay;
     }
 
     #endregion
