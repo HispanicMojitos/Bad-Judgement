@@ -22,24 +22,33 @@ public class Movement : MonoBehaviour
 
     #endregion Sounds members
 
-    private float forwardSpeed;
+    //Speeds :
+    private float forwardSpeed = 4.2F;
     private float backwardSpeed;
-    private float sideSpeed; //Speeds
+    private float sideSpeed = 2.15F; 
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
 
-    private float jumpForce; //Force of the jump that the character will have
+    //Jump :
+    private float jumpForce = 4.5F; //Force of the jump that the character will have
+
+    //Crouch :
+    private float normalCrouchDeltaH = 0.6F;
+    private float onKneesCrouchDeltaH = 0.32F; //The height 
 
     private bool characterCanJump; //Useful for the jump move
 
+    //GameObjects :
     [SerializeField]private Rigidbody playerRigidbody;
+    [SerializeField] private CapsuleCollider playerCollider; //We set them via edior.
 
     #endregion
-
 
     #region Properties
 
     public bool characterIsMoving { get; private set; }
     public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
+
+    public bool characterIsCrouched { get; private set; }
 
     #endregion
 
@@ -48,30 +57,34 @@ public class Movement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //These speeds are based on my real tests and are in KMH :
-        forwardSpeed = 4.2F;
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
-        sideSpeed = 2.15F;
-        jumpForce = 4.5F;
+
+        this.characterIsCrouched = false;
+
+        //To be moved later :
+        Cursor.lockState = CursorLockMode.Locked;
 
         #region sounds
         personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
         piedjumpPersonnage.volume = volumeDesSonsDePas; // permet de regler les son de jumps
         #endregion sounds
-
-        //To be moved later :
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Cursor will be moved later
+        #region Cursor
+
         //To be moved :
         if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
         if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
         //Locks the cursor on the window
 
-        //========================================================================================
+        #endregion
+
+        #region Ground Moving
+
         //Checking for Ground Moving :
         float xAxis = Input.GetAxis("Horizontal") * sideSpeed * Time.deltaTime;
         float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
@@ -82,9 +95,11 @@ public class Movement : MonoBehaviour
             characterIsMoving = true; //If the player moves, then we say to the property to be true
         }
         else characterIsMoving = false; //If the player moves, then we say to the property to be true
-        //Other ppl might want to use that property in other scripts
+                                        //Other ppl might want to use that property in other scripts
 
-        //========================================================================================
+        #endregion
+
+        #region Jump
 
         //Checking for Jump :
 
@@ -94,6 +109,17 @@ public class Movement : MonoBehaviour
             this.characterIsJumping = true; //Setting the property for other scripts
         }
         else this.characterIsJumping = false; //Setting property for other scripts
+
+        #endregion
+
+        #region Crouching
+
+        if (Input.GetKeyDown(KeyCode.C)) Crouch(this.normalCrouchDeltaH);
+        if (Input.GetKeyDown(KeyCode.B)) Crouch(this.onKneesCrouchDeltaH); 
+        //Character crouches with a != height depending on the key pressed.
+        //Animation will handle the 
+
+        #endregion
     }
 
     #endregion
@@ -127,6 +153,26 @@ public class Movement : MonoBehaviour
         //X is the strafe and Z is forward/backward
 
         this.transform.Translate(movement); //Making the move
+    }
+
+    private void Crouch(float deltaHeight)
+    {
+        if (!characterIsCrouched) deltaHeight *= -1.0F;
+        //If the player is crouched, we will go higher, but if not, we'll descend by transforming
+        //The + sign in a - by just putting "* (-1)" instead of "* 1"
+
+        this.playerCollider.height += deltaHeight;
+        this.playerCollider.center += new Vector3(0F, (deltaHeight / 2), 0F);
+
+        this.characterIsCrouched = InvertBool(this.characterIsCrouched);
+    }
+
+    private bool InvertBool(bool toInvert) //Only for class members (no return)
+    {
+        if (toInvert) toInvert = false;
+        else toInvert = true;
+
+        return toInvert;
     }
 
     #endregion
