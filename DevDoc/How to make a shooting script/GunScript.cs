@@ -37,35 +37,24 @@ public class GunScript : MonoBehaviour
     private float smoothAmount;
     [SerializeField]
     private float maxAmount;
-    private int bulletsPerMag = 30;
+    private int bulletsPerMag = 10;
     [SerializeField]
     private static int magQty = 4;// number of mags you can have
-    [SerializeField]
-    private int[,] magNum = new int[magQty,1];// array of available mags
     private Vector3 initialPosition;
-    [SerializeField]
     private int currentMag;
-    private int magIndex = 0;
+    private Magazines mags;
     #endregion
 
     #region Properties
-    public int Bullets
-    {
-        get { return currentMag; }
-        private set { Bullets = value; }
-    }
-    public int Magazines
-    {
-        get { return magQty; }
-        private set { Magazines = value; }
-    }
+    // HAHA NOTHING HERE
     #endregion
+
     void Start()
     {
         aiming = GetComponent<Animation>();
         initialPosition = transform.localPosition;
-        for (int i = 0; i < magNum.GetLength(0); i++) magNum[i, 0] = bulletsPerMag;//loading each mag with 30 bullets
-        currentMag = magNum[magIndex, 0];// saying which mag is the first mag
+        mags = new Magazines(magQty, bulletsPerMag);
+        currentMag = mags[0].bullets;
     }
     // Update is called once per frame
     void Update()
@@ -101,7 +90,7 @@ public class GunScript : MonoBehaviour
 
     }
 
-    #region Class Methods
+    #region Methods
 
     void Shoot() // to shoot, we will use raycasts. 
     {
@@ -146,40 +135,37 @@ public class GunScript : MonoBehaviour
 
     }
 
-    void Reload() // BUG if you spam R, your gun regains one bullet
+    void Reload()
     {
+
         if (currentMag == 0)
         {
-            if (magIndex == magQty - 1)
+            if (mags.magIndex == mags.maxIndex)
             {
-                magNum[magIndex, 0] = currentMag;
-                magIndex = 0;
-                currentMag--;
-                currentMag = magNum[magIndex, 0];
+                mags[mags.magIndex].bullets = currentMag;
+                mags.magIndex = 0;
+                currentMag = mags[mags.magIndex].bullets;
             }
             else
             {
-                magNum[magIndex, 0] = currentMag;
-                currentMag--;
-                magIndex++;
-                currentMag = magNum[magIndex, 0];
+                mags[mags.magIndex].bullets = currentMag;
+                mags.magIndex++;
+                currentMag = mags[mags.magIndex].bullets;
             }
         }
-        else
+        else if (currentMag != 0) 
         {
-            if (magIndex == magQty - 1)
+            if (mags.magIndex == mags.maxIndex)
             {
-                magNum[magIndex, 0] = currentMag;
-                magIndex = 0;
-                currentMag--;
-                currentMag = magNum[magIndex, 0] + 1;
+                mags[mags.magIndex].bullets = currentMag--;
+                mags.magIndex = 0;
+                currentMag = mags[mags.magIndex].bullets++;
             }
             else
             {
-                magNum[magIndex, 0] = currentMag;
-                currentMag--;
-                magIndex++;
-                currentMag = magNum[magIndex, 0] + 1;
+                mags[mags.magIndex].bullets = currentMag--;
+                mags.magIndex++;
+                currentMag = mags[mags.magIndex].bullets++;
             }
         }
     }
@@ -187,3 +173,92 @@ public class GunScript : MonoBehaviour
     #endregion
 
 }
+#region Classes
+
+public class Magazine
+{
+    #region Variables
+    private int _bullets;
+    #endregion
+
+    #region Properties
+    public int bullets
+    {
+        get { return _bullets; }
+        set { _bullets = value; }
+    }
+    #endregion
+
+    public Magazine(int bullets)
+    {
+        _bullets = bullets;
+    }
+
+}
+
+public class Magazines
+{
+    #region Variables
+    private Magazine[] _mags;
+    private int _magNum;
+    private int bullets;
+    private Magazine mag;
+    private int _magIndex;
+    #endregion
+
+    #region Properties
+    public int magIndex
+    {
+        get { return _magIndex; }
+        set { _magIndex = value; }
+    }
+    public int magNum
+    {
+        get { return _magNum; }
+        private set { _magNum = value; }
+    }
+
+    public Magazine[] mags
+    {
+        get { return _mags; }
+        set { _mags = value; }
+    }
+
+    public Magazine this[int i]
+    { 
+        get { return _mags[i]; }
+        set { _mags[i] = value; }
+    }
+
+    public int maxIndex
+    {
+        get { return mags.Length-1; }// In this memorable moment I discovered that this piece of artwork bugged because I didn't add that -1
+        private set { maxIndex = value; }
+    }
+
+    #endregion
+
+    public Magazines(int magNum, int bullets)
+    {
+        _magNum = magNum;
+        this.bullets = bullets;
+        mags = fillMags(mags);
+        _magIndex = 0;
+
+    }
+
+    public Magazine[] fillMags(Magazine[] mags)
+    {
+        mags = new Magazine[_magNum];
+        for (int i = 0; i < mags.Length; i++)
+        {
+            mag = new Magazine(bullets);
+            mags[i] = mag;
+            //_magIndex = i;
+
+        }
+        return mags;
+    }
+}
+#endregion
+
