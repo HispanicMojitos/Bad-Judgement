@@ -37,9 +37,9 @@ public class AIscripts : MonoBehaviour
 
         float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
 
-        if (IsPatrolling == true && pointDePatrouille.Length > 0) // Si l'IA patrouille ET qu'il existe des point de patrouille pou lui patrouiller, alors  son algorithme se met en place (évite les erreurs)
+        if (IsPatrolling && pointDePatrouille.Length > 0) // Si l'IA patrouille ET qu'il existe des point de patrouille pou lui patrouiller, alors  son algorithme se met en place (évite les erreurs)
         {
-            if (IsPausing == false) // si il n'a pas a faire de pause, il continue son bonhome de chemin
+            if (!IsPausing) // si il n'a pas a faire de pause, il continue son bonhome de chemin
             {
                 anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
                 anim.SetBool("IsWalking", true); // ANIMATION : commence a marcher
@@ -53,9 +53,9 @@ public class AIscripts : MonoBehaviour
             }
             else IsPausing = false;
 
-            if (!(actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5)) Pause = 5f; // Permet de remettre la pause a son stade initial
+            if (!(actuelPointDePatrouille == 3 || actuelPointDePatrouille == 5)) Pause = Random.Range(5f,15f); // Permet de remettre la pause a son stade initial 
 
-            if (Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille && IsPausing == false) // On verifie la distance entre le point de patrouille actuel et l'IA
+            if (Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille && !IsPausing ) // On verifie la distance entre le point de patrouille actuel et l'IA
             {
                 //actuelPointDePatrouille = Random.Range(0, pointDePatrouille.Length);
                 if (reversePatrouille == false)
@@ -75,12 +75,12 @@ public class AIscripts : MonoBehaviour
                 }
 
             }
-            if (IsPausing == false)
+            if (!IsPausing)
             {
                 direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame
                                                                                                                 //Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
                 this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);
-                // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
+                                                                                            // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                 this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Donne une certaine vitesse a l'IA lorsqu'il marche
             }
 

@@ -18,12 +18,14 @@ public static class Sounds
         get { return cadence; }
         set { Cadence = value; }
     }
+
     public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, float volume = 0.3f)
     { 
                 AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
                 AK47.clip = AK47shootSound; // defini le son qu'emet l'AK47
                 AK47.volume = volume; // defini le volume de l'AK47
                 AK47.spatialBlend = 0.8f;
+                AK47.Play();
     }
     #endregion AK47shoot
 
