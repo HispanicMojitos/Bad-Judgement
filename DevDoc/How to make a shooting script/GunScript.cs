@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System.Linq.Expressions;
 
 public class GunScript : MonoBehaviour
 {
@@ -41,6 +43,7 @@ public class GunScript : MonoBehaviour
     [SerializeField]
     private static int magQty = 4;// number of mags you can have
     private Vector3 initialPosition;
+    [SerializeField]
     private int currentMag;
     private Magazines mags;
     #endregion
@@ -137,37 +140,39 @@ public class GunScript : MonoBehaviour
 
     void Reload()
     {
-
-        if (currentMag == 0)
-        {
-            if (mags.magIndex == mags.maxIndex)
-            {
-                mags[mags.magIndex].bullets = currentMag;
-                mags.magIndex = 0;
-                currentMag = mags[mags.magIndex].bullets;
+        Action<Magazines> reload = (mags) => {
+            Magazines m = (Magazines)mags;
+            int useMag = 0;
+            for (int i = 0; i < m.maxIndex; i++) if (m[i].isFull) useMag++;
+            if (useMag > 0){
+                if (currentMag == 0){
+                    m[m.magIndex].isFull = false;
+                    if (m.magIndex == m.maxIndex){
+                        m[m.magIndex].bullets = currentMag; m.magIndex = 0;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
+                        else Reload();
+                    }
+                    else{
+                        m[m.magIndex].isFull = false;
+                        m[m.magIndex].bullets = currentMag; m.magIndex++;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
+                        else Reload();
+                    }
+                }
+                else{
+                    if (m.magIndex == m.maxIndex){
+                        m[m.magIndex].bullets = currentMag - 1; m.magIndex = 0;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
+                        else Reload();
+                    }
+                    else{
+                        m[m.magIndex].bullets = currentMag - 1; m.magIndex++;
+                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
+                        else Reload();
+                    }
+                }
             }
-            else
-            {
-                mags[mags.magIndex].bullets = currentMag;
-                mags.magIndex++;
-                currentMag = mags[mags.magIndex].bullets;
-            }
-        }
-        else if (currentMag != 0) 
-        {
-            if (mags.magIndex == mags.maxIndex)
-            {
-                mags[mags.magIndex].bullets = currentMag--;
-                mags.magIndex = 0;
-                currentMag = mags[mags.magIndex].bullets++;
-            }
-            else
-            {
-                mags[mags.magIndex].bullets = currentMag--;
-                mags.magIndex++;
-                currentMag = mags[mags.magIndex].bullets++;
-            }
-        }
+        };reload(mags);
     }
 
     #endregion
@@ -179,6 +184,7 @@ public class Magazine
 {
     #region Variables
     private int _bullets;
+    private bool _isFull = true;
     #endregion
 
     #region Properties
@@ -186,6 +192,11 @@ public class Magazine
     {
         get { return _bullets; }
         set { _bullets = value; }
+    }
+    public bool isFull
+    {
+        get { return _isFull; }
+        set { _isFull = value; }
     }
     #endregion
 
@@ -196,7 +207,7 @@ public class Magazine
 
 }
 
-public class Magazines
+public class Magazines : IEnumerable
 {
     #region Variables
     private Magazine[] _mags;
@@ -236,6 +247,10 @@ public class Magazines
         private set { maxIndex = value; }
     }
 
+    #region Interfaces
+
+    #endregion
+
     #endregion
 
     public Magazines(int magNum, int bullets)
@@ -259,6 +274,10 @@ public class Magazines
         }
         return mags;
     }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
 }
 #endregion
-
