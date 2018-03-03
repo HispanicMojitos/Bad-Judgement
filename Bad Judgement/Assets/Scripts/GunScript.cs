@@ -152,44 +152,46 @@ public class GunScript : MonoBehaviour
         Action<Magazines> reload = (mags) => {
             Magazines m = mags;
             int useMag = 0;
-            for (int i = 0; i < m.maxIndex; i++) if (m[i].isFull) useMag++;
-            if (useMag > 0 && useMag != 0)
+            for (int i = 0; i < m.maxIndex; i++) if (!m[i].isEmpty) useMag++;
+            if (useMag != 0)
             {
+                if (m[m.magIndex].bullets == bulletsPerMag+1) return;
                 if (currentMag == 0)
                 {
-                    magQty--;
-                    ///m[m.magIndex].isFull = false;
-                    if (m.magIndex == m.maxIndex)
+                    m[m.magIndex].isEmpty = true;
+                    m.magIndex++;
+                    Reload();
+                }
+                if (m.magIndex == m.maxIndex)
+                {
+                    m[m.magIndex].bullets = currentMag;
+                    m.magIndex = 0;
+                    if (m[m.maxIndex].bullets == 0)
                     {
-                        m[m.magIndex].isFull = false;
-                        m[m.magIndex].bullets = currentMag; m.magIndex = 0;
-                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
-                        else Reload();
+                        m[m.maxIndex].isEmpty = true;
+                        currentMag = m[m.magIndex].bullets;
                     }
-                    else
+                    else if (m[m.maxIndex].bullets != ++bulletsPerMag)
                     {
-                        m[m.magIndex].isFull = false;
-                        m[m.magIndex].bullets = currentMag; m.magIndex++;
-                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
-                        else Reload();
+                        currentMag = ++m[m.magIndex].bullets;
                     }
+                    Sounds.AK47reload(AK47, AK47reload, 0.3f);
                 }
                 else
                 {
-                    if (m.magIndex == m.maxIndex)
+                    m[m.magIndex].bullets = currentMag;
+                    m.magIndex++;
+                    if (m[m.magIndex-1].bullets == 0)
                     {
-                        m[m.magIndex].bullets = currentMag - 1; m.magIndex = 0;
-                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
-                        else Reload();
+                        m[m.magIndex-1].isEmpty = true;
+                        currentMag = m[m.magIndex].bullets;
                     }
-                    else
+                    else if (--m[m.magIndex].bullets != ++bulletsPerMag)
                     {
-                        m[m.magIndex].bullets = currentMag - 1; m.magIndex++;
-                        if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
-                        else Reload();
+                        currentMag = ++m[m.magIndex].bullets;
                     }
+                    Sounds.AK47reload(AK47, AK47reload, 0.3f);
                 }
-                Sounds.AK47reload(AK47, AK47reload, 0.3f);
             }
         }; reload(mags);
     }
@@ -203,7 +205,7 @@ public class Magazine
 {
     #region Variables
     private int _bullets;
-    private bool _isFull = true;
+    private bool _isEmpty = true;
     #endregion
 
     #region Properties
@@ -212,10 +214,10 @@ public class Magazine
         get { return _bullets; }
         set { _bullets = value; }
     }
-    public bool isFull
+    public bool isEmpty
     {
-        get { return _isFull; }
-        set { _isFull = value; }
+        get { return _isEmpty; }
+        set { _isEmpty = value; }
     }
     #endregion
 
@@ -265,11 +267,13 @@ public class Magazines : IEnumerable
         get { return mags.Length - 1; }// In this memorable moment I discovered that this piece of artwork bugged because I didn't add that -1
         private set { maxIndex = value; }
     }
-
-    #region Interfaces
-
     #endregion
 
+    #region Interfaces
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 
     public Magazines(int magNum, int bullets)
@@ -288,15 +292,11 @@ public class Magazines : IEnumerable
         {
             mag = new Magazine(bullets);
             mags[i] = mag;
+            mags[i].isEmpty = false;
             //_magIndex = i;
 
         }
         return mags;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        throw new NotImplementedException();
     }
 }
 #endregion
