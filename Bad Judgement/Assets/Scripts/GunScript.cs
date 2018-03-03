@@ -153,25 +153,25 @@ public class GunScript : MonoBehaviour
             Magazines m = mags;
             int useMag = 0;
             for (int i = 0; i < m.maxIndex; i++) if (m[i].isFull) useMag++;
-            if (useMag != 0 && magQty !=0)
+            if (useMag > 0 && useMag != 0)
             {
                 if (currentMag == 0)
                 {
                     magQty--;
-                    m[m.magIndex].isFull = false;
+                    ///m[m.magIndex].isFull = false;
                     if (m.magIndex == m.maxIndex)
                     {
-                        //magQty--;
-                        //m[m.magIndex].isFull = false;
+                        m[m.magIndex].isFull = false;
                         m[m.magIndex].bullets = currentMag; m.magIndex = 0;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
+                        else Reload();
                     }
                     else
                     {
-                        //magQty--;
-                        //m[m.magIndex].isFull = false;
+                        m[m.magIndex].isFull = false;
                         m[m.magIndex].bullets = currentMag; m.magIndex++;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets;
+                        else Reload();
                     }
                 }
                 else
@@ -180,11 +180,13 @@ public class GunScript : MonoBehaviour
                     {
                         m[m.magIndex].bullets = currentMag - 1; m.magIndex = 0;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
+                        else Reload();
                     }
                     else
                     {
                         m[m.magIndex].bullets = currentMag - 1; m.magIndex++;
                         if (m[m.magIndex].isFull) currentMag = m[m.magIndex].bullets + 1;
+                        else Reload();
                     }
                 }
                 Sounds.AK47reload(AK47, AK47reload, 0.3f);
