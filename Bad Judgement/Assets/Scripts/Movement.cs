@@ -26,6 +26,7 @@ public class Movement : MonoBehaviour
     private float backwardSpeed;
     private float sideSpeed = 2.15F; //Speeds
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
+    private float runMultiplier = 1.6F; //If the player wants to run, his forward speed will be multiplicated by 2
 
     private float jumpForce = 4.5F; //Force of the jump that the character will have
 
@@ -61,7 +62,7 @@ public class Movement : MonoBehaviour
         #region sounds
         personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
         piedjumpPersonnage.volume = volumeDesSonsDePas; // permet de regler les son de jumps
-        #endregion sounds
+        #endregion 
 
         //To be moved later :
         Cursor.lockState = CursorLockMode.Locked;
@@ -84,14 +85,9 @@ public class Movement : MonoBehaviour
         //Checking for Ground Moving :
         float xAxis = Input.GetAxis("Horizontal") * sideSpeed * Time.deltaTime;
         float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
+        bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
 
-        if (zAxis != 0 || xAxis != 0) //If the player is moving :
-        {
-            Move(zAxis, xAxis); //We're moving on X and Z
-            characterIsMoving = true; //If the player moves, then we say to the property to be true
-        }
-        else characterIsMoving = false; //If the player moves, then we say to the property to be true
-                                        //Other ppl might want to use that property in other scripts
+        this.Move(zAxis, xAxis, wantsToRun);
 
         #endregion
 
@@ -135,19 +131,26 @@ public class Movement : MonoBehaviour
         //So that when the player touches the ground again, he can jump.
     }
 
-    private void Move(float zAxis, float xAxis)
+    private void Move(float zAxis, float xAxis, bool wantsToRun)
     {
-        #region sound
-        Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
-        #endregion sound
+        if (zAxis != 0 || xAxis != 0) //If player moving
+        {
+            if (zAxis < 0) zAxis *= backwardSpeed; //We know that the character is going backwards
+            else
+            {
+                zAxis *= forwardSpeed;
+                if (wantsToRun) zAxis *= runMultiplier;
+            }
 
-        if (zAxis < 0) zAxis *= backwardSpeed;
-        else zAxis *= forwardSpeed; //Forward speed != than backward speed
+            Vector3 movement = new Vector3(xAxis, 0F, zAxis);
+            //X is the strafe and Z is forward/backward
 
-        Vector3 movement = new Vector3(xAxis, 0F, zAxis);
-        //X is the strafe and Z is forward/backward
+            this.transform.Translate(movement); //Making the move
 
-        this.transform.Translate(movement); //Making the move
+            #region sound
+            Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
+            #endregion
+        }
     }
 
     private void Crouch(float deltaHeight)
@@ -171,7 +174,7 @@ public class Movement : MonoBehaviour
 
     #endregion
 
-    #region Sounds detecion area
+    #region Sounds detection area
 
     private void OnCollisionEnter(Collision collision) // Permet d'evaluer le son a jouer en fonction du type de sol rencontré /!\ On a besoin d'un rigibody et d'une box Colider /!\
     {
@@ -191,6 +194,6 @@ public class Movement : MonoBehaviour
         }
     }
 
-    #endregion Sounds detecion area
+    #endregion
 
 }

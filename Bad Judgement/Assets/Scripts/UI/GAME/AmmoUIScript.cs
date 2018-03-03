@@ -34,7 +34,7 @@ public class AmmoUIScript : MonoBehaviour
         int bulletsInMag = GunScript.CurrentMag;
         int numberMags = GunScript.MagQty;
 
-        string textToDisplay = bulletsInMag.ToString() + " / " + (numberMags - 1).ToString();
+        string textToDisplay = bulletsInMag.ToString() + " / " + (numberMags).ToString();
 
         this.ammoText.text = textToDisplay;
     }
