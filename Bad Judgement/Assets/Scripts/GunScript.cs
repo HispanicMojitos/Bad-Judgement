@@ -165,20 +165,38 @@ public class GunScript : MonoBehaviour
 
     IEnumerator Reload()
     {
-        if (maxAmmo > 0)
+        if (maxAmmo > 1)
         {
             isReloading = true;
             if (currentMag != 0)
             {
                 int tmp = bulletsPerMag - currentMag;
-                maxAmmo -= tmp + 1;
-                currentMag += tmp + 1;
+                if (maxAmmo > tmp)
+                {
+                    maxAmmo -= tmp;
+                    maxAmmo--;
+                    currentMag += tmp;
+                    currentMag++;
+                }
+                else
+                {
+                    currentMag += maxAmmo;
+                    maxAmmo = 1;
+                }
             }
             else
             {
                 int tmp = bulletsPerMag - currentMag;
-                maxAmmo -= tmp;
-                currentMag += tmp;
+                if (maxAmmo > tmp)
+                {
+                    maxAmmo -= tmp;
+                    currentMag += tmp;
+                }
+                else
+                {
+                    currentMag += maxAmmo;
+                    maxAmmo = 1;
+                }
             }
             Sounds.AK47reload(AK47, AK47reload, 0.3f);
         }
