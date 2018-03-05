@@ -42,12 +42,13 @@ public class GunScript : MonoBehaviour
     private float maxAmount;
     private int bulletsPerMag = 10;
     [SerializeField]
+    private static int maxAmmo = 50;
     private static int magQty = 4;// number of mags you can have
     private Vector3 initialPosition;
     [SerializeField]
     private static int currentMag;
     private bool _isReloading = false;
-    private int reloadTime = 1000;
+    private int reloadTime = 3000;
     private Magazines mags;
     #endregion
 
@@ -72,20 +73,19 @@ public class GunScript : MonoBehaviour
     void Start()
     {
         aiming = GetComponent<Animation>();
+        currentMag = bulletsPerMag;
         initialPosition = transform.localPosition;
         mags = new Magazines(magQty, bulletsPerMag);
         //magQty--;
-        currentMag = mags[0].bullets;
+        //currentMag = mags[0].bullets;
         Debug.Log("Line 168: " + mags.magIndex);
-        magQty--;
-
     }
     // Update is called once per frame
     void Update()
     {
         #region Reload
         //magQty = mags.mags.Count-1;
-        currentMag = mags[mags.magIndex].bullets;
+        magQty = maxAmmo;
         if (Input.GetKeyDown(reloadKey) && !isReloading)
         {
             StartCoroutine(Reload());
@@ -126,9 +126,9 @@ public class GunScript : MonoBehaviour
         // An invisible ray shot from the camera to the forward direction
         // If the object is hit, we do some damage, if not, then nothing happens
         // First we need to reference the camera
-        if (mags[mags.magIndex].bullets > 0 && !isReloading)
+        if (currentMag > 0 && !isReloading)
         {
-            mags[mags.magIndex].bullets--;
+            currentMag--;
             RaycastHit hit; //This is a varaible that strores info of what the ray hits
             Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
@@ -165,40 +165,60 @@ public class GunScript : MonoBehaviour
 
     IEnumerator Reload()
     {
-        isReloading = true;
-        Action<Magazines> reload = (mags) => {
-            Magazines m = mags;
-            if (m[m.magIndex].bullets > bulletsPerMag) return;
-            if (magQty < 1) return;
+        if (maxAmmo > 0)
+        {
+            isReloading = true;
+            if (currentMag != 0)
             {
-                if (m.mags.Count == 1) return;
-
-                if (m[m.magIndex].bullets == 0)
-                {
-                    if (m.magIndex == m.mags.Count-1) m.magIndex = 0;
-                    else if (m.magIndex > 0 && m.magIndex < m.mags.Count) m.magIndex++;
-                    magQty--;
-                    Debug.Log("Line 176: " + m.magIndex);
-                    Sounds.AK47reload(AK47, AK47reload, 0.3f);
-                }
-                else
-                {
-                    if (m[m.magIndex].bullets == 1)
-                    {
-                        m[m.magIndex].bullets = 0;
-                        magQty--;
-                    }
-                    else m[m.magIndex].bullets--;
-                    if (m.magIndex == m.mags.Count-1) m.magIndex = 0;
-                    else m.magIndex++;
-                    Debug.Log("Line 184: " + m.magIndex);
-                    if(m.magIndex==0) m[0].bullets++;
-                    else m[m.magIndex].bullets++;
-                    Sounds.AK47reload(AK47, AK47reload, 0.3f);
-                }
+                int tmp = bulletsPerMag - currentMag;
+                maxAmmo -= tmp + 1;
+                currentMag += tmp + 1;
             }
-             m.mags.Select(mag => mag.bullets > 0);
-        }; reload(mags);
+            else
+            {
+                int tmp = bulletsPerMag - currentMag;
+                maxAmmo -= tmp;
+                currentMag += tmp;
+            }
+            Sounds.AK47reload(AK47, AK47reload, 0.3f);
+        }
+        /*Action<Magazines> reload = (mags) =>
+        {
+            Magazines m = mags;
+            if (m.mags[m.magIndex].bullets > bulletsPerMag) return;
+            else if (m.mags.Count < 2) return;
+            else m.nextMag();
+            Sounds.AK47reload(AK47, AK47reload, 0.3f);
+
+            //if (magQty < 1) return;
+
+            /*if (m.mags.All(mag => mag.bullets < 1)) return;
+            else if (m[m.magIndex].bullets == 0)
+            {
+                if (m.magIndex == m.mags.Count-1) m.magIndex = 0;
+                else if (m.magIndex > 0 && m.magIndex < m.mags.Count) m.magIndex++;
+                Debug.Log("Line 176: " + m.magIndex);
+                Sounds.AK47reload(AK47, AK47reload, 0.3f);
+            }
+            else
+            {
+                if (m[m.magIndex].bullets == 1)
+                {
+                    m[m.magIndex].bullets = 0;
+                }
+                else m[m.magIndex].bullets--;
+                if (m.magIndex == m.mags.Count-1) m.magIndex = 0;
+                else m.magIndex++;
+
+                Debug.Log("Line 184: " + m.magIndex);
+
+                if(m.magIndex==0) m[0].bullets++;
+                else m[m.magIndex].bullets++;
+
+                Sounds.AK47reload(AK47, AK47reload, 0.3f);
+            }*/
+        //m.mags.Select(mag => mag.bullets > 0);
+        //}; reload(mags);
         yield return new WaitForSeconds(reloadTime);
     }
 
@@ -256,11 +276,11 @@ public class Magazines : IEnumerable
         set { _mags = value; }
     }
 
-    public Magazine this[int i]
+    /*public Magazine this[int i]
     {
         get { return _mags[i]; }
         set { _mags[i] = value; }
-    }
+    }*/
 
     /*public int maxIndex
     {
@@ -281,8 +301,7 @@ public class Magazines : IEnumerable
         _magNum = magNum;
         this.bullets = bullets;
         _mags = fillMags(_mags);
-        _magIndex = 0;
-
+        _magIndex = _mags.Count-1;
     }
 
     public List<Magazine> fillMags(List<Magazine> _mags)
@@ -300,6 +319,24 @@ public class Magazines : IEnumerable
         _mags = magA.ToList();
         
         return _mags;
+    }
+
+    public void nextMag()
+    {
+        if (_mags[_magIndex].bullets > 1)
+        {
+            _mags[_magIndex].bullets--;
+            if (_magIndex > 0) _magIndex--;
+            else _magIndex = 0;
+            _mags[_magIndex].bullets++;
+        }
+        else if (_mags[_magIndex].bullets == 1)
+        {
+            _mags.Remove(_mags[_magIndex]);
+            _magIndex = _mags.Count - 1;
+            _mags[_magIndex].bullets++;
+        }
+        _mags.RemoveAll(mag => mag.bullets == 0);
     }
 }
 #endregion
