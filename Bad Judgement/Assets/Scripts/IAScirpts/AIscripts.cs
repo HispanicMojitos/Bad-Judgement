@@ -6,7 +6,15 @@ public class AIscripts : MonoBehaviour
 {
 
     #region membres
-    [SerializeField] private Transform M4A8;
+    [SerializeField] [Range(0f, 10f)] private float cadenceDetir = 1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
+    private float tempsDeTir = 1.1f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
+    [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
+    [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
+    [SerializeField] private AudioClip M4A8shoot;// Recupere le son du M4A8
+    [SerializeField] private GameObject boucheCanon;
+    [SerializeField] [Range(0f, 10f)] private float degats = 1f; // Permet de regler les degats de l'IA
+    [SerializeField] private Transform M4A8; // prend la position du M4A8
+
     [SerializeField] private Transform Player; // Nous permet de comparer le joueur a l'intélgience artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
@@ -99,11 +107,21 @@ public class AIscripts : MonoBehaviour
             {
                 Animattack(M4A8);
                 Debug.DrawLine(this.transform.position, direction * 500, Color.red); // permet d'avoir le visuel de comment l'IA regarde le joueur
+
+                if ( tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
+                {
+                    AttackShoot( direction); // Permet de faire attaquer l'IA
+                    tempsDeTir = 0;
+                }
+                else
+                {
+                    tempsDeTir += Time.deltaTime; // le temps a attendre pour que l'IA pousse effectuer un autre tir augmonte
+                }
             }
         }
         else if (IsPatrolling == false)
         {
-            AnimIdle(M4A8);
+            AnimIdle(M4A8); // Joue l'animation Idle et stabilise la position de l'arme avec
             IsPatrolling = true;
         }
     }
@@ -112,7 +130,7 @@ public class AIscripts : MonoBehaviour
     #region method
     static private void AnimWalk(Transform M4A8) // Permet de faire tourner l'animation Walk et de regler l'arme avec l'animation
     {
-        anim.SetBool("IsAttacking", false);
+        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", true); // ANIMATION : commence a marcher
         Vector3 M4A8position = new Vector3(-0.079f, 1.079f, 0.254f);
@@ -123,22 +141,47 @@ public class AIscripts : MonoBehaviour
     static private void AnimIdle(Transform M4A8) // Permet de faire tourner l'animation idle et de regler l'arme avec l'animation
     {
         anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsAttacking", false);
+        anim.SetBool("IsAttacking", false); // ANIMATION : arrete d'attaquer
         anim.SetBool("IsIdle", true); // ANIMATION : fait sa pause
         Vector3 M4A8position = new Vector3(-0.155f, 1.081f, 0.314f);
         M4A8.transform.localPosition = M4A8position;
         M4A8.transform.localRotation = Quaternion.Euler(-26.864f, 116.425f, -11.742f);
     }
 
-    private void Animattack(Transform M4A8) // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
+    static private void Animattack(Transform M4A8) // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
     {
         anim.SetBool("IsAttacking", true);
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsAttacking", true);
-        Vector3 M4A8position = new Vector3(0.069f, 1.451f, 0.401f);
-        M4A8.transform.localPosition = M4A8position;
-        M4A8.transform.localRotation = Quaternion.Euler(0f, 177.7f, 0f);
+        anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
+        anim.SetBool("IsAttacking", true); // ANIMATION : Commence a attaquer
+        Vector3 M4A8position = new Vector3(0.069f, 1.451f, 0.401f); // On change la position de l'arme pour qu'elle colle avec l'animation
+        M4A8.transform.localPosition = M4A8position; // récupere la position locale du M4A8
+        M4A8.transform.localRotation = Quaternion.Euler(0f, 177.7f, 0f); // On change la rotation de l'arme pour qu'elle colle avec l'animation (Quaternion.uler permet de faire en sorte que l'objet reste qualibré aux degrés inscrit a chaque frame, MAIS NE FAIT ABSOLUMENT PAS TOURNER L'ARME A CHAQUE FRAME NON!
     }
+
+    private void AttackShoot(Vector3 direction)
+    {
+        RaycastHit hit; // permet de savoir si le raycaste se confronte a quelque chose
+
+        if (Physics.Raycast(boucheCanon.transform.position, direction, out hit)) // si le raycast est bien en direction du joueur et qu'il le touche bien
+        {
+            Debug.DrawLine(boucheCanon.transform.position, direction * 1000, Color.red); // permet d'afficher la direction du tir des balles
+
+            GameObject proj = Instantiate(Projectile) as GameObject; // permet de creer plusieurs balles a l'infini, autant que l'on veut : gameobject proj = balle =
+            Projectile.transform.position = boucheCanon.transform.position; // On initialise la positions des balles a la bouche du canon du M4A1
+            Rigidbody rb = proj.GetComponent<Rigidbody>(); // permet de récuperer le rigibody du Gameobject proj, qui est en fait la balle
+            rb.AddForce(transform.forward * 5000); // permet d'envoyer les balles a une certaine vitess
+
+            Target joueur = hit.transform.GetComponent<Target>(); // permet de recuperer le script de l'entité avec laquelle le 'hit' s'est rencontré
+
+            if(joueur != null) // Si la cible du raycast a bien le script Target attaché
+                   joueur.TakeDamage(degats); // On fait subir des dommages au joueurs qui a le script Target attaché
+
+            Sounds.AK47shoot(M4A8Source, M4A8shoot); // permet de jouer le son de tir 
+
+            Destroy(proj, 1f); // detruit le projectil apres 1 seconde d'existance dans le monde du jeux
+        }
+    }
+
     #endregion method
 }
