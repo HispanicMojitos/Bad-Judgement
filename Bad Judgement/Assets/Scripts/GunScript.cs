@@ -93,6 +93,7 @@ public class GunScript : MonoBehaviour
         }
         #endregion
 
+        #region Weapon Sway
         // Sounds.AK47shoot(AK47, AK47shoot); // ANDREWS !! si tu met la methode pour jouer le son ici, tu remarquera que le son joue a l'infini et qu'il est cadencé (a la cadence que j'ai mise)
         float movementX = -Input.GetAxis("Mouse X") * amount;
         float movementY = -Input.GetAxis("Mouse Y") * amount;
@@ -105,6 +106,7 @@ public class GunScript : MonoBehaviour
         Vector3 finalPositon = new Vector3(movementX, movementY, 0);
         transform.localPosition = Vector3.Lerp(transform.localPosition, finalPositon + initialPosition, Time.deltaTime * smoothAmount);
         // this interpolates the initial position with the final position
+        #endregion
 
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
