@@ -40,11 +40,13 @@ public class GunScript : MonoBehaviour
     private float smoothAmount;
     [SerializeField]
     private float maxAmount;
-    private int bulletsPerMag = 10;
     [SerializeField]
-    private static int maxAmmo = 50;
+    private int bulletsPerMag = 30;
+    [SerializeField]
+    private static int maxAmmo = 300;
     private static int magQty = 4;// number of mags you can have
     private Vector3 initialPosition;
+    [SerializeField] private static Animator anim;
     [SerializeField]
     private static int currentMag;
     private bool _isReloading = false;
@@ -72,6 +74,7 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         aiming = GetComponent<Animation>();
         currentMag = bulletsPerMag;
         initialPosition = transform.localPosition;
@@ -115,8 +118,9 @@ public class GunScript : MonoBehaviour
         }
         if (Input.GetButton("Fire2")) // WIP
         {
-
+            anim.SetBool("IsAiming",true);
         }
+        else anim.SetBool("IsAiming", false);
 
     }
 
