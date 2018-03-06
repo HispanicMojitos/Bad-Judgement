@@ -40,7 +40,6 @@ public class Movement : MonoBehaviour
 
     #endregion
 
-
     #region Properties
 
     public bool characterIsMoving { get; private set; }
@@ -139,7 +138,7 @@ public class Movement : MonoBehaviour
             else
             {
                 zAxis *= forwardSpeed;
-                if (wantsToRun) zAxis *= runMultiplier;
+                if (wantsToRun && characterCanJump) zAxis *= runMultiplier;
             }
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
