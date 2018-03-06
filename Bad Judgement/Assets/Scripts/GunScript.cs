@@ -40,11 +40,13 @@ public class GunScript : MonoBehaviour
     private float smoothAmount;
     [SerializeField]
     private float maxAmount;
-    private int bulletsPerMag = 10;
     [SerializeField]
-    private static int maxAmmo = 50;
+    private int bulletsPerMag = 30;
+    [SerializeField]
+    private static int maxAmmo = 300;
     private static int magQty = 4;// number of mags you can have
     private Vector3 initialPosition;
+    [SerializeField] private static Animator anim;
     [SerializeField]
     private static int currentMag;
     private bool _isReloading = false;
@@ -72,6 +74,7 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         aiming = GetComponent<Animation>();
         currentMag = bulletsPerMag;
         initialPosition = transform.localPosition;
@@ -93,6 +96,7 @@ public class GunScript : MonoBehaviour
         }
         #endregion
 
+        #region Weapon Sway
         // Sounds.AK47shoot(AK47, AK47shoot); // ANDREWS !! si tu met la methode pour jouer le son ici, tu remarquera que le son joue a l'infini et qu'il est cadencé (a la cadence que j'ai mise)
         float movementX = -Input.GetAxis("Mouse X") * amount;
         float movementY = -Input.GetAxis("Mouse Y") * amount;
@@ -105,6 +109,7 @@ public class GunScript : MonoBehaviour
         Vector3 finalPositon = new Vector3(movementX, movementY, 0);
         transform.localPosition = Vector3.Lerp(transform.localPosition, finalPositon + initialPosition, Time.deltaTime * smoothAmount);
         // this interpolates the initial position with the final position
+        #endregion
 
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
@@ -113,8 +118,9 @@ public class GunScript : MonoBehaviour
         }
         if (Input.GetButton("Fire2")) // WIP
         {
-
+            anim.SetBool("IsAiming",true);
         }
+        else anim.SetBool("IsAiming", false);
 
     }
 
