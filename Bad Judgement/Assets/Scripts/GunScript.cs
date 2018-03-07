@@ -93,6 +93,7 @@ public class GunScript : MonoBehaviour
         {
             StartCoroutine(Reload());
             isReloading = false;
+            Sounds.AK47reload(AK47, AK47reload);
         }
         #endregion
 
