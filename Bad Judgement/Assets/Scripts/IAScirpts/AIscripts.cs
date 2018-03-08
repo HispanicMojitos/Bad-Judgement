@@ -31,6 +31,11 @@ public class AIscripts : MonoBehaviour
     private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     private float Pause = 5f; // Durée de la pause
+
+    
+    private bool searchCover = false;
+    [SerializeField] private GameObject[] pointDeCouverture;
+    [SerializeField] private GameObject chercheurCouverture;
     #endregion membres
 
     #region start & update
