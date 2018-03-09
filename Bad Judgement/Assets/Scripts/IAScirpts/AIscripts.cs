@@ -7,7 +7,7 @@ public class AIscripts : MonoBehaviour
 
     #region membres
     [SerializeField] [Range(0f, 10f)] private float cadenceDetir = 1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
-    private float tempsDeTir = 1.1f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
+    private float tempsDeTir = 0f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
     [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
     [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
     [SerializeField] private AudioClip M4A8shoot;// Recupere le son du M4A8
@@ -32,7 +32,11 @@ public class AIscripts : MonoBehaviour
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     private float Pause = 5f; // Durée de la pause
 
-    
+
+    private float vieMax;
+    private int choix = 0;
+    private bool run = false;
+    private bool wantToAttack = false;
     private bool searchCover = false;
     [SerializeField] private GameObject[] pointDeCouverture;
     [SerializeField] private GameObject chercheurCouverture;
@@ -44,6 +48,7 @@ public class AIscripts : MonoBehaviour
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
         vie = IA.vie; // On recupere la vie de l'IA via le script Target 
+        vieMax = IA.vie;
     }
     
     void Update()
