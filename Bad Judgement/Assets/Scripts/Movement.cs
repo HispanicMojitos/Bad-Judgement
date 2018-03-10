@@ -38,10 +38,11 @@ public class Movement : MonoBehaviour
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
 
+    [SerializeField] private Animator anim;
+
     #endregion
 
-
-    #region Properties
+    #region Properties & readonly
 
     public bool characterIsMoving { get; private set; }
     public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
@@ -125,7 +126,8 @@ public class Movement : MonoBehaviour
 
         Vector3 jump = new Vector3(0F, jumpForce, 0F); //Making the jump by setting the velocity to the jump force
         playerRigidbody.velocity += jump;
-
+        //playerRigidbody.MovePosition(playerRigidbody.position + jump);
+        //playerRigidbody.position += jump;
         this.characterCanJump = false; //Telling that the player may not jump
         //In the sounds part, there's the method that handles OnCollisionEnter event. I just added this.characterCanJump = true
         //So that when the player touches the ground again, he can jump.
@@ -135,22 +137,35 @@ public class Movement : MonoBehaviour
     {
         if (zAxis != 0 || xAxis != 0) //If player moving
         {
-            if (zAxis < 0) zAxis *= backwardSpeed; //We know that the character is going backwards
+            if (zAxis < 0) //We know that the character is going backwards
+            {
+                zAxis *= backwardSpeed;
+                //PLAY WALK BACKWARD
+            }
             else
             {
                 zAxis *= forwardSpeed;
-                if (wantsToRun) zAxis *= runMultiplier;
+
+                if (wantsToRun)
+                {
+                    zAxis *= runMultiplier;
+                    //PLAY RUN FORWARD
+                }
+                else if(xAxis == 0) this.PlayWalkForward();
+
+  
             }
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
             //X is the strafe and Z is forward/backward
-
+            
             this.transform.Translate(movement); //Making the move
 
             #region sound
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
             #endregion
         }
+        else anim.SetBool("isWalkingF", false);
     }
 
     private void Crouch(float deltaHeight)
@@ -170,6 +185,15 @@ public class Movement : MonoBehaviour
         else toInvert = true;
 
         return toInvert;
+    }
+
+    #endregion
+
+    #region Animation Methods
+
+    private void PlayWalkForward()
+    {
+        anim.SetBool("isWalkingF", true);
     }
 
     #endregion
