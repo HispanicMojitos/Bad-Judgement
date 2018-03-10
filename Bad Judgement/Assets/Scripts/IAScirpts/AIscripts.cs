@@ -6,7 +6,7 @@ public class AIscripts : MonoBehaviour
 {
 
     #region membres
-    [SerializeField] [Range(0f, 10f)] private float cadenceDetir = 1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
+    [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
     private float tempsDeTir = 0f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
     [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
     [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
@@ -32,7 +32,8 @@ public class AIscripts : MonoBehaviour
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     private float Pause = 5f; // Durée de la pause
 
-
+    private float tempsAvantAttaque = 0f;
+    private int[] pointDePatrouillrProcheDePointDeCouverture;
     private float vieMax;
     private int choix = 0;
     private bool run = false;
@@ -49,6 +50,8 @@ public class AIscripts : MonoBehaviour
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
         vie = IA.vie; // On recupere la vie de l'IA via le script Target 
         vieMax = IA.vie;
+        pointDePatrouillrProcheDePointDeCouverture = new int[pointDeCouverture.Length];
+        DeterminePointDePatrouilleProche();
     }
     
     void Update()
@@ -127,10 +130,11 @@ public class AIscripts : MonoBehaviour
                     }
                     else
                     {
-                        Animattack(M4A8);
+                       
 
                         if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
                         {
+                            Animattack(M4A8);
                             AttackShoot(direction); // Permet de faire attaquer l'IA
                             tempsDeTir = 0;
                         }
@@ -215,6 +219,36 @@ public class AIscripts : MonoBehaviour
     {
         IsPatrolling = true;
         vie = IA.vie;
+    }
+
+    private void DeterminePointDePatrouilleProche()
+    {
+        for(int i = 0; i<pointDeCouverture.Length; i++) // Permet de verifier la distance de tout les point de patrouille pour chaque point de couverture
+        {
+            pointDePatrouillrProcheDePointDeCouverture[i] = 0;
+
+            for (int j = 0; i<pointDePatrouille.Length; j++) // Permet de verifier la ditance de tout les points de patrouille existant
+            {
+                for(int k = 0; i<pointDePatrouille.Length; k++) // Permet de verifier la distance du point de patrouille séléctioneé
+                {
+                    if( Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[j].transform.position) 
+                        < 
+                        Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[k].transform.position) )
+                    {
+                        pointDePatrouillrProcheDePointDeCouverture[i] = j;
+                    }
+                }
+            }
+        }
+    }
+
+    private int LifeState()
+    {
+        if (IA.vie >= (vieMax * 70 / 100) ) return 1;
+        else if (IA.vie >= (vieMax * 50 / 100)) return 2;
+        else if (IA.vie >= (vieMax * 35 / 100)) return 3;
+        else if (IA.vie >= (vieMax * 20 / 100)) return 4;
+        else return 5;
     }
     #endregion method
 }
