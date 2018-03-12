@@ -126,8 +126,7 @@ public class Movement : MonoBehaviour
 
         Vector3 jump = new Vector3(0F, jumpForce, 0F); //Making the jump by setting the velocity to the jump force
         playerRigidbody.velocity += jump;
-        //playerRigidbody.MovePosition(playerRigidbody.position + jump);
-        //playerRigidbody.position += jump;
+
         this.characterCanJump = false; //Telling that the player may not jump
         //In the sounds part, there's the method that handles OnCollisionEnter event. I just added this.characterCanJump = true
         //So that when the player touches the ground again, he can jump.
@@ -151,21 +150,21 @@ public class Movement : MonoBehaviour
                     zAxis *= runMultiplier;
                     //PLAY RUN FORWARD
                 }
-                else if(xAxis == 0) this.PlayWalkForward();
+                else if (xAxis == 0) this.PlayWalkForward();
 
-  
+
             }
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
             //X is the strafe and Z is forward/backward
-            
+
             this.transform.Translate(movement); //Making the move
 
             #region sound
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
             #endregion
         }
-        else anim.SetBool("isWalkingF", false);
+        else anim.SetTrigger("idle");
     }
 
     private void Crouch(float deltaHeight)
@@ -193,7 +192,7 @@ public class Movement : MonoBehaviour
 
     private void PlayWalkForward()
     {
-        anim.SetBool("isWalkingF", true);
+        anim.SetTrigger("walkForward");
     }
 
     #endregion
