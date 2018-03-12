@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ public class AIscripts : MonoBehaviour
 {
 
     #region membres
+
+    [SerializeField] private Transform hand;
+
     [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
     private float tempsDeTir = 0f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
     [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
@@ -13,6 +17,7 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private AudioClip M4A8shoot;// Recupere le son du M4A8
     [SerializeField] private GameObject boucheCanon;
     [SerializeField] [Range(0f, 10f)] private float degats = 1f; // Permet de regler les degats de l'IA
+    [SerializeField] private Rigidbody rbM4A8;
     [SerializeField] private Transform M4A8; // prend la position du M4A8
     [SerializeField] private Transform Player; // Nous permet de comparer le joueur a l'intélgience artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
@@ -32,6 +37,7 @@ public class AIscripts : MonoBehaviour
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     private float Pause = 5f; // Durée de la pause
 
+    private float tempsKneelDecidion = 0f;
     private bool changeDirection = false;
     private bool[] volonté;
     private bool saitOuEstLeJoueur = false;
@@ -40,7 +46,7 @@ public class AIscripts : MonoBehaviour
     private float debutAttaque = 0f;
     private float finAttaque = 0f;
     private float tempsAvantAttaque = 0f;
-    private int[] pointDePatrouillrProcheDePointDeCouverture; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
+    private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private float vieMax;
     private int choix = 0;
     private bool isAimingPlayer = false;
@@ -49,10 +55,19 @@ public class AIscripts : MonoBehaviour
     private bool searchCover = false;
     private bool estCouvert = false;
     [SerializeField] private GameObject[] pointDeCouverture;
-     // [SerializeField] private GameObject chercheurCouverture;
+    // [SerializeField] private GameObject chercheurCouverture;
     #endregion membres
 
-    #region start & update
+    #region Awake Start & Update
+
+        #region Awake & Start
+    void Awake()
+    {
+        M4A8.transform.SetParent(hand);
+        M4A8.transform.localPosition = new Vector3(0.287f, -0.046f, 0.008f);
+        M4A8.transform.localRotation = Quaternion.Euler(-18.928f, -95.132f, 85.29f);
+    }
+
     void Start()
     {
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
@@ -61,21 +76,21 @@ public class AIscripts : MonoBehaviour
         vieMax = IA.vie;
 
         volonté = new bool[5];
-        debutAttaque = Random.Range(1f, 0.5f);
-        finAttaque = Random.Range(1f, 1.3f);
-        pointDePatrouillrProcheDePointDeCouverture = new int[pointDeCouverture.Length];
-
-
+        debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+        finAttaque = UnityEngine.Random.Range(1f, 1.3f);
+        PdPprocheDePdC = new int[pointDeCouverture.Length];
+        
         DeterminePointDePatrouilleProchePointDeCouverture();
     }
-    
+# endregion Awake & Start
+
     void Update()
     {
 
         if (IA.vie > 0)
         {
             Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
-            direction.y = 0; // evite que l'IA marche dans le vide lorsqu'on saute
+            //direction.y = 0; // evite que l'IA marche dans le vide lorsqu'on saute
             float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
 
             Debug.DrawLine(transform.position, direction * 100, Color.blue);
@@ -83,25 +98,22 @@ public class AIscripts : MonoBehaviour
             {
                 if (IA.vie == vie) // Si l'IA n'est pas attaquée
                 {
-                    if ((!IsPausing) && chercheCouverture == false) AnimWalk(M4A8);// si il n'a pas a faire de pause, il continue son bonhome de chemin
-                    else if (chercheCouverture == true)
-                    {
-                        AnimRun(M4A8);
-                    }
+                    if ((!IsPausing) && chercheCouverture == false) AnimWalk();// si il n'a pas a faire de pause, il continue son bonhome de chemin
+                    else if (chercheCouverture == true && estCouvert == false) AnimRun();
+                    else if (estCouvert == true) AnimKneel();
 
                     if ( ((actuelPointDePatrouille %3 == 0 ) && Pause >= 0) && chercheCouverture == false) // Permet de ne faire la pause qu'a un point de patrouille donné
                     {
-                        AnimIdle(M4A8);
+                        AnimIdle();
                         IsPausing = true; // l'IA prens sa pause
                         Pause = Pause - Time.deltaTime; // Malheuresement le temps d'une pause ne dure jamais longtemps !! (Bref le temps de la pause diminue)
                     }
                     else IsPausing = false;
 
-                    if (!(actuelPointDePatrouille %3 == 0)) Pause = Random.Range(5f, 15f); // Permet de remettre la pause a son stade initial 
+                    if (!(actuelPointDePatrouille %3 == 0)) Pause = UnityEngine.Random.Range(5f, 15f); // Permet de remettre la pause a son stade initial 
 
                     if ( (Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille && !IsPausing) && chercheCouverture == false) // On verifie la distance entre le point de patrouille actuel et l'IA
                     {
-                        //actuelPointDePatrouille = Random.Range(0, pointDePatrouille.Length);
                         if (reversePatrouille == false) actuelPointDePatrouille++; // On a atteint notre point de patrouille, on passe au suivant !
                         else actuelPointDePatrouille--; // On a atteint notre point de patrouille, on passe au suivant ! sens inverse de la patrouille
 
@@ -116,55 +128,39 @@ public class AIscripts : MonoBehaviour
                             actuelPointDePatrouille += 2;
                         }
                     }
-                    if( ((Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille) && chercheCouverture == true && searchCover == false) || changeDirection == true )
+                    else if (((Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, this.transform.position) < tailleZonePointDepatrouille) && chercheCouverture == true && searchCover == false) || changeDirection == true)
                     {
-                        if (actuelPointDePatrouille == 1)
-                        {
-                            searchCover = true;
-                        }
-                        else if (  actuelPointDePatrouille > 1  )
-                        {
-                            if(!searchCover) actuelPointDePatrouille--;
-                        }
-                        else if (actuelPointDePatrouille < 1)
-                        {
-                            if(!searchCover) actuelPointDePatrouille++;
-                        }
+                        if (actuelPointDePatrouille == PdPprocheDePdC[CherchePointDeCouvertureProche()] && Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, this.transform.position) < tailleZonePointDepatrouille) searchCover = true;
+                        else if (actuelPointDePatrouille > PdPprocheDePdC[CherchePointDeCouvertureProche()]) { if(!searchCover) actuelPointDePatrouille--; }
+                        else if (actuelPointDePatrouille < PdPprocheDePdC[CherchePointDeCouvertureProche()]) { if(!searchCover) actuelPointDePatrouille++; }
                         changeDirection = false;
                     }
 
                     if (!IsPausing && chercheCouverture == false && searchCover == false)
                     {
-                        direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position;
-                        // Permet d'ajuster la direction que doit prendre l'IA a chaque frame
-                        //Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
-
-                        this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);
-                        // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
+                        direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame, Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
+                        this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);// L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                         this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
-                    if(IsPausing == false && chercheCouverture == true)
+                    else if(IsPausing == false && chercheCouverture == true)
                     {
                         if (!searchCover)
                         {
-                            direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position;
-                            // Permet d'ajuster la direction que doit prendre l'IA a chaque frame
-                            //Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
-
-                            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);
-                            // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
+                            direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame, Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
+                            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime); // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                             this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Donne une certaine vitesse a l'IA lorsqu'il marche
                         }
                         else if(searchCover)
                         {
-                            direction = pointDeCouverture[1].transform.position - transform.position;
+                            direction = pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - transform.position;
                             this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);
                             this.transform.Translate(0, 0, Time.deltaTime * vitesse);
                         }
                     }
-                    if (Vector3.Distance(pointDeCouverture[1].transform.position, transform.position) < 0.3f)
+                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, transform.position) < 0.3f)
                     {
                         chercheCouverture = false;
+                       if(wantToAttack == false) isAimingPlayer = false;
                         estCouvert = true;
                     }
                 }
@@ -177,99 +173,87 @@ public class AIscripts : MonoBehaviour
 
             Debug.DrawLine(this.transform.position, direction * 100, Color.yellow);
 
+            VolonteEtat();
 
-            if (!(IA.vie == vie))
-            {
-                switch (VolonteEtat())
-                {
-                    case 1: volonté[0] = true; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
-                    case 2: volonté[0] = false; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
-                    case 3: volonté[0] = false; volonté[1] = false; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
-                    case 4: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = true; volonté[4] = true; break;
-                    case 5: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = false; volonté[4] = true; break;
-                }
-            }
-
+            Debug.DrawLine(head.transform.position - new Vector3(0f, 0.75f,0f), direction * 100, Color.gray);
 
             if (  (((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false))  || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
-                nouvelleDecision += Time.deltaTime;
+                nouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
                 RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
                 if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
-                { // Si 
-                    this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+                { // Si l4IA voit bien le joueur dans sa ligne de mire
+                    this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // L'IA se tourne ver le joueur
                     IsPatrolling = false;
 
-                    if (direction.magnitude > distanceAttaque) // Direction.magnitude represente la distance mathémathique entre le joueur et l'IA
-                    {
-                        this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Permet de faire avancer l'IA sur son axe des Z
-                        AnimRun(M4A8);
-                    }
-                    else
-                    {
-                        isAimingPlayer = true;
-                        AnimAim(M4A8);
-                        if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque))
+                    ///////////////////////////////////// A METTRE SI DIFFICULTE FACILE
+                    //if (direction.magnitude > distanceAttaque  && estCouvert == false) // Direction.magnitude represente la distance mathémathique entre le joueur et l'IA
+                    //{
+                    //    this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Permet de faire avancer l'IA sur son axe des Z
+                    //    AnimRun();
+                    //}
+                    ///////////////////////////////////// A METTRE SI DIFFICULTE FACILE
+
+                    isAimingPlayer = true;
+                        AnimAim();
+                        if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque)) //Permet de faire tirer des rafales a l'IA
                         {
                             if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
                             {
-                                Animattack(M4A8);
+                                Animattack();
                                 AttackShoot(direction); // Permet de faire attaquer l'IA
-                                tempsDeTir = 0;
+                                tempsDeTir = 0;  
                             }
                             else tempsDeTir += Time.deltaTime; // le temps a attendre pour que l'IA pousse effectuer un autre tir augmonte
                         }
                         else if (tempsAvantAttaque > 1.2f)
                         {
                             tempsAvantAttaque = 0;
-                            debutAttaque = Random.Range(1f, 0.5f);
-                            finAttaque = Random.Range(1f, 1.3f);
+                            debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                            finAttaque = UnityEngine.Random.Range(1f, 1.3f);
                         }
-                        tempsAvantAttaque += Time.deltaTime;
-                    }
+                        tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
                 }
                 else if (isAimingPlayer == true)
                 {
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-                    AnimAim(M4A8);
-                    tempsAvantArreterPoursuite += Time.deltaTime;
-                    if (nouvelleDecision > 5f)
+                    AnimAim();
+                    tempsAvantArreterPoursuite += Time.deltaTime; 
+                    if (nouvelleDecision > UnityEngine.Random.Range(2f, 10f)) // Permet de que l'IA prennent une nouvelle décision lorsque le temps de celui ci est dépassé
                     {
-                        int rd = Random.Range(0, 4);
-                        chercheCouverture = true; // volonté[rd];
-                        nouvelleDecision = 0;
+                        chercheCouverture = volonté[UnityEngine.Random.Range(0, 4)]; // ici l'IA va décider de chercher une couverture ou non en fonction de sa volonté
+                        nouvelleDecision = 0; //
                         changeDirection = true;
                     }
-                    if (tempsAvantArreterPoursuite > 60f) stopPoursuite();// arrete la poursuite de l'IA envers le joueur
+                    if (tempsAvantArreterPoursuite > 60f) stopPoursuite();// arrete la poursuite de l'IA envers le joueur lorsque celui ci ne le voit plus pendant tout un temps
                 }
             }
-            else if (IsPatrolling == false)
+            else if (IsPatrolling == false && estCouvert == false)
             {
-                AnimIdle(M4A8); // Joue l'animation Idle et stabilise la position de l'arme avec
                 stopPoursuite(); // arrete la poursuite de l'IA envers le joueur
             }
             else if(estCouvert == true)
             {
-                AnimKneel(M4A8);
+                    nouvelleDecision += Time.deltaTime;
+                if (isAimingPlayer == false) AnimKneel();
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                 nouvelleDecision += Time.deltaTime;
-                if (nouvelleDecision > 5f)
+                if (nouvelleDecision > UnityEngine.Random.Range(5f, 15f))
                 {
                     nouvelleDecision = 0;
-                    isAimingPlayer = true;
+                    isAimingPlayer = volonté[UnityEngine.Random.Range(0, 4)];
+                    wantToAttack = true;
                 }
-                else if(isAimingPlayer == true)
+                if (vie == IA.vie)
                 {
                     RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
-                    if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
+                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && h.transform.CompareTag("Player"))
                     {
-                        isAimingPlayer = true;
-                        AnimAim(M4A8);
-                        if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque))
+                        AnimAimKneel();
+                        if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque)) //Permet de faire tirer des rafales a l'IA
                         {
                             if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
                             {
-                                Animattack(M4A8);
                                 AttackShoot(direction); // Permet de faire attaquer l'IA
                                 tempsDeTir = 0;
                             }
@@ -278,30 +262,65 @@ public class AIscripts : MonoBehaviour
                         else if (tempsAvantAttaque > 1.2f)
                         {
                             tempsAvantAttaque = 0;
-                            debutAttaque = Random.Range(1f, 0.5f);
-                            finAttaque = Random.Range(1f, 1.3f);
+                            debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                            finAttaque = UnityEngine.Random.Range(1f, 1.3f);
                         }
-                        tempsAvantAttaque += Time.deltaTime;
+                    }
+                    else if (isAimingPlayer == true)
+                    {
+                        AnimAim();
+                        if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
+                        {
+                            if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque))
+                            {
+                                if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
+                                {
+                                    AttackShoot(direction); // Permet de faire attaquer l'IA
+                                    tempsDeTir = 0;
+                                }
+                                else tempsDeTir += Time.deltaTime; // le temps a attendre pour que l'IA pousse effectuer un autre tir augmonte
+                            }
+                            else if (tempsAvantAttaque > 1.2f)
+                            {
+                                tempsAvantAttaque = 0;
+                                debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                                finAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                            }
+                        }
+                    }
+                    else isAimingPlayer = false;
+                }
+                else if(vie != IA.vie)
+                {
+                    tempsKneelDecidion += Time.deltaTime;
+                    if(tempsKneelDecidion > 0f)
+                    {
+                        AnimKneel();
+                        vie = IA.vie;
+                        nouvelleDecision = 15.1f;
+                        tempsKneelDecidion = 0f;
                     }
                 }
+
+                tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
             }
         }
         else
         {
             AnimDie();
             M4A8.transform.parent = null;
+            rbM4A8.useGravity = true;
             Destroy(gameObject, 10);
         }
     }
     #endregion start & update
 
-
-
-
+    
 
     #region method
     static private void AnimDie()
     {
+        anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
@@ -310,84 +329,76 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsDead", true);
     }
-    static private void AnimAim(Transform M4A8)
+    static private void AnimAim()
     {
+        anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
         anim.SetBool("IsAttacking", false); // ANIMATION : Commence a attaquer
         anim.SetBool("IsAiming", true);
-        Vector3 M4A8position = new Vector3(0.069f, 1.451f, 0.401f); // On change la position de l'arme pour qu'elle colle avec l'animation
-        M4A8.transform.localPosition = M4A8position; // récupere la position locale du M4A8
-        M4A8.transform.localRotation = Quaternion.Euler(0f, 177.7f, 0f); // On change la rotation de l'arme pour qu'elle colle avec l'animation (Quaternion.uler permet de faire en sorte que l'objet reste qualibré aux degrés inscrit a chaque frame, MAIS NE FAIT ABSOLUMENT PAS TOURNER L'ARME A CHAQUE FRAME NON!
-
     }
-
-    static private void AnimKneel(Transform M4A8)
+    static private void AnimAimKneel()
     {
+        anim.SetBool("IsRunning", false);
+        anim.SetBool("IsKneel", false);
+        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
+        anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
+        anim.SetBool("IsAttacking", false); // ANIMATION : Commence a attaquer
+        anim.SetBool("IsAiming", false);
+        anim.SetBool("IsAimKneel", true);
+    }
+    static private void AnimKneel()
+    {
+        anim.SetBool("IsAimKneel", false);
+        anim.SetBool("IsAimKneel",false);
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", true);
-        Vector3 M4A8position = new Vector3(-0.079f, 1.079f, 0.254f);
-        M4A8.transform.localPosition = M4A8position;
-        M4A8.transform.localRotation = Quaternion.Euler(-31.912f, 110.747f, -9.157f);
     }
-
-    static private void AnimRun(Transform M4A8)
+    static private void AnimRun()
     {
+        anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsKneel", false);
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
         anim.SetBool("IsRunning", true);
-        Vector3 M4A8position = new Vector3(-0.079f, 1.079f, 0.254f);
-        M4A8.transform.localPosition = M4A8position;
-        M4A8.transform.localRotation = Quaternion.Euler(-31.912f, 110.747f, -9.157f);
     }
-
-    static private void AnimWalk(Transform M4A8) // Permet de faire tourner l'animation Walk et de regler l'arme avec l'animation
+    static private void AnimWalk() // Permet de faire tourner l'animation Walk et de regler l'arme avec l'animation
     {
+        anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning",false );
         anim.SetBool("IsKneel", false);
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", true); // ANIMATION : commence a marcher
-        Vector3 M4A8position = new Vector3(-0.079f, 1.079f, 0.254f);
-        M4A8.transform.localPosition = M4A8position;
-        M4A8.transform.localRotation = Quaternion.Euler(-31.912f, 110.747f, -9.157f);
-
     }
-
-    static private void AnimIdle(Transform M4A8) // Permet de faire tourner l'animation idle et de regler l'arme avec l'animation
+    static private void AnimIdle() // Permet de faire tourner l'animation idle et de regler l'arme avec l'animation
     {
+        anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
         anim.SetBool("IsAttacking", false); // ANIMATION : arrete d'attaquer
         anim.SetBool("IsIdle", true); // ANIMATION : fait sa pause
-        Vector3 M4A8position = new Vector3(-0.155f, 1.081f, 0.314f);
-        M4A8.transform.localPosition = M4A8position;
-        M4A8.transform.localRotation = Quaternion.Euler(-26.864f, 116.425f, -11.742f);
     }
-
-    static private void Animattack(Transform M4A8) // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
+    static private void Animattack() // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
     {
+        anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
         anim.SetBool("IsAttacking", true); // ANIMATION : Commence a attaquer
-        Vector3 M4A8position = new Vector3(0.069f, 1.451f, 0.401f); // On change la position de l'arme pour qu'elle colle avec l'animation
-        M4A8.transform.localPosition = M4A8position; // récupere la position locale du M4A8
-        M4A8.transform.localRotation = Quaternion.Euler(0f, 177.7f, 0f); // On change la rotation de l'arme pour qu'elle colle avec l'animation (Quaternion.uler permet de faire en sorte que l'objet reste qualibré aux degrés inscrit a chaque frame, MAIS NE FAIT ABSOLUMENT PAS TOURNER L'ARME A CHAQUE FRAME NON!
     }
 
     private void AttackShoot(Vector3 direction)
@@ -419,33 +430,35 @@ public class AIscripts : MonoBehaviour
         saitOuEstLeJoueur = false;
     }
 
+
+   
     private void DeterminePointDePatrouilleProchePointDeCouverture() // Permet de savoir quel point de patrouille est le plus proche de tel point de couverture
     {
-        for(int i = 0; i<pointDeCouverture.Length; i++) // Permet de verifier la distance de tout les point de patrouille pour chaque point de couverture
+        float pluspetiteDistance;
+        for(int i = 0; i < pointDeCouverture.Length; i++) // Permet de verifier la distance de tout les point de patrouille pour chaque point de couverture
         {
-            pointDePatrouillrProcheDePointDeCouverture[i] = 0;
-
-            for (int j = 0; i<pointDePatrouille.Length; j++) // Permet de verifier la ditance de tout les points de patrouille existant
+            pluspetiteDistance = 1000000f;
+            for (int j = 0; j < pointDePatrouille.Length; j++) // Permet de verifier la ditance de tout les points de patrouille existant
             {
-                for(int k = 0; i<pointDePatrouille.Length; k++) // Permet de verifier la distance du point de patrouille séléctioneé
+                for(int k = 0; k < pointDePatrouille.Length; k++) // Permet de verifier la distance du point de patrouille séléctioneé
                 {
-                    if( Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[j].transform.position) < (Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[k].transform.position) ))
+                    if(   (Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[j].transform.position) < Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[k].transform.position))   && (Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[j].transform.position) < pluspetiteDistance)  )
                     {
-                        pointDePatrouillrProcheDePointDeCouverture[i] = j;
+                        PdPprocheDePdC[i] = j;
+                        pluspetiteDistance = Vector3.Distance(pointDeCouverture[i].transform.position, pointDePatrouille[j].transform.position);
                     }
                 }
             }
         }
     }
-
     private int CherchePointDeCouvertureProche() // Permet de savoir quel point de couverture est le plus proche du joueur
     {
         int poinDeCouvertureProche = 0;
-        for(int i = 0; i < pointDePatrouillrProcheDePointDeCouverture.Length; i++)
+        for(int i = 0; i < PdPprocheDePdC.Length; i++)
         {
-            for (int j = 0; j < pointDePatrouillrProcheDePointDeCouverture.Length; j++)
+            for (int j = 0; j < PdPprocheDePdC.Length; j++)
             {
-                if (Mathf.Abs(Vector3.Distance(Player.transform.position, pointDeCouverture[j].transform.position)) < Mathf.Abs(Vector3.Distance(Player.transform.position, pointDeCouverture[i].transform.position)))
+                if (Vector3.Distance(this.transform.position, pointDeCouverture[j].transform.position) < Vector3.Distance(this.transform.position, pointDeCouverture[i].transform.position) )
                 {
                     poinDeCouvertureProche = j;
                 }
@@ -454,13 +467,30 @@ public class AIscripts : MonoBehaviour
         return poinDeCouvertureProche;
     }
 
-    private int VolonteEtat()
+    private void VolonteEtat()
     {
-        if (IA.vie >= (vieMax * 80 / 100) ) return 1;
-        else if (IA.vie >= (vieMax * 50 / 100)) return 2;
-        else if (IA.vie >= (vieMax * 35 / 100)) return 3;
-        else if (IA.vie >= (vieMax * 20 / 100)) return 4;
-        else return 5;
+        int choix = 0;
+
+        if (IA.vie >= (vieMax * 80 / 100)) choix = 1;
+        else if (IA.vie >= (vieMax * 50 / 100)) choix = 2;
+        else if (IA.vie >= (vieMax * 35 / 100)) choix = 3;
+        else if (IA.vie >= (vieMax * 20 / 100)) choix = 4;
+        else choix = 5;
+
+        Action<int> Volonte = new Action<int>((decision) =>
+      {
+          switch (decision)
+          {
+              case 1: volonté[0] = true; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
+              case 2: volonté[0] = false; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
+              case 3: volonté[0] = false; volonté[1] = false; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
+              case 4: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = true; volonté[4] = true; break;
+              case 5: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = false; volonté[4] = true; break;
+              default:  break;
+          }
+      });
+
+        Volonte(choix);
     }
     #endregion method
 }
