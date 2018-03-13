@@ -52,6 +52,8 @@ public class GunScript : MonoBehaviour
     private bool _isReloading = false;
     private int reloadTime = 3000;
     private Magazines mags;
+    MagTest mag;
+
     #endregion
 
     #region Properties
@@ -76,20 +78,16 @@ public class GunScript : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         aiming = GetComponent<Animation>();
-        currentMag = bulletsPerMag;
         initialPosition = transform.localPosition;
-        mags = new Magazines(magQty, bulletsPerMag);
-        //magQty--;
-        //currentMag = mags[0].bullets;
+        mag = new MagTest(magQty, bulletsPerMag);
     }
     // Update is called once per frame
     void Update()
     {
-        currentMag = mags[mags.index];
+        currentMag = mag.currentMag;
+        magQty = mag.mags.Count;
         #region Reload
-        //magQty = mags.mags.Count-1;
-        //magQty = maxAmmo;
-        if (Input.GetKeyDown(reloadKey) && !isReloading && mags[mags.index]<bulletsPerMag+1 && magQty>0)
+        if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag<bulletsPerMag+1 && magQty!=0)
         {
             StartCoroutine(Reload());
             isReloading = false;
@@ -133,9 +131,9 @@ public class GunScript : MonoBehaviour
         // An invisible ray shot from the camera to the forward direction
         // If the object is hit, we do some damage, if not, then nothing happens
         // First we need to reference the camera
-        if (mags[mags.index] > 0 && !isReloading)
+        if (mag.currentMag > 0 && !isReloading)
         {
-            mags[mags.index]--;
+            mag.currentMag--;
             RaycastHit hit; //This is a varaible that strores info of what the ray hits
             Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
@@ -172,42 +170,7 @@ public class GunScript : MonoBehaviour
 
     IEnumerator Reload()
     {
-        /*if (maxAmmo > 1)
-        {
-            isReloading = true;
-            if (currentMag != 0)
-            {
-                int tmp = bulletsPerMag - currentMag;
-                if (maxAmmo > tmp)
-                {
-                    maxAmmo -= tmp;
-                    maxAmmo--;
-                    currentMag += tmp;
-                    currentMag++;
-                }
-                else
-                {
-                    currentMag += maxAmmo;
-                    maxAmmo = 1;
-                }
-            }
-            else
-            {
-                int tmp = bulletsPerMag - currentMag;
-                if (maxAmmo > tmp)
-                {
-                    maxAmmo -= tmp;
-                    currentMag += tmp;
-                }
-                else
-                {
-                    currentMag += maxAmmo;
-                    maxAmmo = 1;
-                }
-            }
-            Sounds.AK47reload(AK47, AK47reload, 0.3f);
-        }*/
-        mags.Reload();
+        mag.Reload();
         yield return new WaitForSeconds(reloadTime);
     }
 
@@ -215,6 +178,53 @@ public class GunScript : MonoBehaviour
 
 }
 #region Classes
+
+public class MagTest
+{
+    private Queue<int> _mags = new Queue<int>();
+    private int crtMag;
+
+    public Queue<int> mags
+    {
+        get { return _mags; }
+        set { _mags = value; }
+    }
+
+    public int currentMag
+    {
+        get { return crtMag; }
+        set { crtMag = value; }
+    }
+
+    public MagTest(int magNum, int bulletsPMag)
+    {
+        for (int i = 0; i < magNum; i++) _mags.Enqueue(bulletsPMag);
+        crtMag = _mags.Dequeue();
+    }
+
+    public void Reload()
+    {
+        if (_mags.Count>1) 
+        {
+            switch (crtMag)
+            {
+                case 0:
+                    crtMag = _mags.Dequeue();
+                    //GunScript.MagQty--;
+                    break;
+                case 1:
+                    crtMag = _mags.Dequeue() + 1;
+                    //GunScript.MagQty--;
+                    break;
+                default:
+                    crtMag--;
+                    _mags.Enqueue(crtMag);
+                    crtMag = _mags.Dequeue() + 1;
+                    break;
+            }
+        }
+    }
+}
 
 public class Magazines
 {
