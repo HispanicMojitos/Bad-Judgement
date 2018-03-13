@@ -188,14 +188,11 @@ public class AIscripts : MonoBehaviour
 
             Debug.DrawLine(head.transform.position - new Vector3(0f, 0.75f,0f), direction * 100, Color.gray);
 
-            if(Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.9f)
+            if(Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f)
             {
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-                M4A8.transform.localPosition = new Vector3(0.023f, -0.04f, -0.365f);
-                M4A8.transform.localRotation = Quaternion.Euler(-169.489f, 176.729f, 80.002f);
                 AnimAttackCloser();
                 isblocking = true;
-                tempsAvantDelayCoupDeCrosse += Time.deltaTime;
                 if(tempsAvantDelayCoupDeCrosse > 0.1f)
                 {
                     Target joueur = Player.transform.GetComponent<Target>();
@@ -203,6 +200,12 @@ public class AIscripts : MonoBehaviour
                     rbPlayer.AddForce(direction*4,ForceMode.Impulse);
                     tempsAvantDelayCoupDeCrosse = 0;
                 }
+                if (tempsAvantDelayCoupDeCrosse == 0)
+                {
+                    M4A8.transform.localPosition = new Vector3(0.023f, -0.04f, -0.365f);
+                    M4A8.transform.localRotation = Quaternion.Euler(-169.489f, 176.729f, 80.002f);
+                }
+                tempsAvantDelayCoupDeCrosse += Time.deltaTime;
             }
             else if(isblocking == true )
             {
