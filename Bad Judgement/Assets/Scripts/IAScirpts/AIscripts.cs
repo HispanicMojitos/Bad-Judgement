@@ -8,61 +8,59 @@ public class AIscripts : MonoBehaviour
 
     #region membres
 
+    [SerializeField] private Transform hand;
+
+    [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
+    private float tempsDeTir = 0f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
+    [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
     [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
     [SerializeField] private AudioClip M4A8shoot;// Recupere le son du M4A8
-    [SerializeField] private Transform chercheurCouverture;
-    [SerializeField] private Transform hand;
+    [SerializeField] private GameObject boucheCanon;
+    [SerializeField] [Range(0f, 10f)] private float degats = 1f; // Permet de regler les degats de l'IA
+    [SerializeField] private Rigidbody rbM4A8;
     [SerializeField] private Transform M4A8; // prend la position du M4A8
     [SerializeField] private Transform Player; // Nous permet de comparer le joueur a l'intélgience artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
-    [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
-    [SerializeField] private GameObject boucheCanon;
-    [SerializeField] private GameObject[] pointDeCouverture;
-    [SerializeField] private GameObject[] pointDePatrouille; // Recupere l'ensemble des points de patrouille que l'on veuille mettre a l'IA
-    [SerializeField] private Rigidbody rbM4A8;
-    [SerializeField] private BoxCollider bxM4A8;
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
-    private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
-
-    [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
-    [SerializeField] [Range(0f, 10f)] private float degats = 1f; // Permet de regler les degats de l'IA
-    [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
-    [SerializeField] private float vitesse = 1.5f; // Vitesse de marche
-    private float tailleZonePointDepatrouille = 1f; // Taille des points de patrouille par lesquelle l'IA va prendre la route du prochain point de patrouille
-    private float vie = 0f; //On initialise la vie de l'IA
-    private float vieMax; // Recupere la vie max de l'IA pour des comparaison
-    private float tempsDeTir = 0f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
-    private float tempsNouvelleDecision = 0f;
-    private float tempsDebutAttaque = 0f;
-    private float tempsFinAttaque = 0f;
-    private float tempsPause = 5f; // Durée de la pause
-    private float tempsKneelDecision = 0f;
-    private float tempsAvantArreterPoursuite = 0f;
-    private float tempsAvantAttaque = 0f;
-    private float tempsAvantSeredresser = 0f;
-
-    private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
-    private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
     private int angleDevueMax = 60; // Angle de vue maximum de l'IA
     private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
     private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
+    private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
+    private float vie = 0f; //On initialise la vie de l'IA
+    private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
+    [SerializeField] private GameObject[] pointDePatrouille; // Recupere l'ensemble des points de patrouille que l'on veuille mettre a l'IA
+    [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
+    [SerializeField] private float vitesse = 1.5f; // Vitesse de marche
+    private float tailleZonePointDepatrouille = 1f; // Taille des points de patrouille par lesquelle l'IA va prendre la route du prochain point de patrouille
+    private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
+    private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
+    private bool IsPausing = false; // reflete si l'IA doit prendre une pause
+    private float Pause = 5f; // Durée de la pause
 
-    private bool[] volonté;
+    private float tempsKneelDecidion = 0f;
     private bool changeDirection = false;
+    private bool[] volonté;
     private bool saitOuEstLeJoueur = false;
+    private float nouvelleDecision = 0f;
+    private float tempsAvantArreterPoursuite = 0f;
+    private float debutAttaque = 0f;
+    private float finAttaque = 0f;
+    private float tempsAvantAttaque = 0f;
+    private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
+    private float vieMax;
+    private int choix = 0;
     private bool isAimingPlayer = false;
     private bool chercheCouverture = false;
     private bool wantToAttack = false;
     private bool searchCover = false;
     private bool estCouvert = false;
-    private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
-    private bool IsPausing = false; // reflete si l'IA doit prendre une pause
-    private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
+    [SerializeField] private GameObject[] pointDeCouverture;
+    // [SerializeField] private GameObject chercheurCouverture;
     #endregion membres
 
     #region Awake Start & Update
 
-    #region Awake & Start
+        #region Awake & Start
     void Awake()
     {
         M4A8.transform.SetParent(hand);
@@ -78,14 +76,11 @@ public class AIscripts : MonoBehaviour
         vieMax = IA.vie;
 
         volonté = new bool[5];
-        tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
-        tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+        debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+        finAttaque = UnityEngine.Random.Range(1f, 1.3f);
         PdPprocheDePdC = new int[pointDeCouverture.Length];
-        tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
-
-        DeterminePointDePatrouilleProchePointDeCouverture();
         
-        VolonteEtat();
+        DeterminePointDePatrouilleProchePointDeCouverture();
     }
 # endregion Awake & Start
 
@@ -107,15 +102,15 @@ public class AIscripts : MonoBehaviour
                     else if (chercheCouverture == true && estCouvert == false) AnimRun();
                     else if (estCouvert == true) AnimKneel();
 
-                    if (((actuelPointDePatrouille % 3 == 0) && tempsPause >= 0) && chercheCouverture == false) // Permet de ne faire la pause qu'a un point de patrouille donné
+                    if ( ((actuelPointDePatrouille %3 == 0 ) && Pause >= 0) && chercheCouverture == false) // Permet de ne faire la pause qu'a un point de patrouille donné
                     {
                         AnimIdle();
                         IsPausing = true; // l'IA prens sa pause
-                        tempsPause = tempsPause - Time.deltaTime; // Malheuresement le temps d'une pause ne dure jamais longtemps !! (Bref le temps de la pause diminue)
+                        Pause = Pause - Time.deltaTime; // Malheuresement le temps d'une pause ne dure jamais longtemps !! (Bref le temps de la pause diminue)
                     }
-                    else  IsPausing = false;
+                    else IsPausing = false;
 
-                    if (!(actuelPointDePatrouille %3 == 0)) tempsPause = UnityEngine.Random.Range(5f, 15f); // Permet de remettre la pause a son stade initial 
+                    if (!(actuelPointDePatrouille %3 == 0)) Pause = UnityEngine.Random.Range(5f, 15f); // Permet de remettre la pause a son stade initial 
 
                     if ( (Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille && !IsPausing) && chercheCouverture == false) // On verifie la distance entre le point de patrouille actuel et l'IA
                     {
@@ -140,7 +135,6 @@ public class AIscripts : MonoBehaviour
                         else if (actuelPointDePatrouille < PdPprocheDePdC[CherchePointDeCouvertureProche()]) { if(!searchCover) actuelPointDePatrouille++; }
                         changeDirection = false;
                     }
-                    
 
                     if (!IsPausing && chercheCouverture == false && searchCover == false)
                     {
@@ -179,11 +173,13 @@ public class AIscripts : MonoBehaviour
 
             Debug.DrawLine(this.transform.position, direction * 100, Color.yellow);
 
+            VolonteEtat();
+
             Debug.DrawLine(head.transform.position - new Vector3(0f, 0.75f,0f), direction * 100, Color.gray);
 
             if (  (((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false))  || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
-                tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
+                nouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
                 RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
                 if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                 { // Si l4IA voit bien le joueur dans sa ligne de mire
@@ -200,7 +196,7 @@ public class AIscripts : MonoBehaviour
 
                     isAimingPlayer = true;
                         AnimAim();
-                        if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
+                        if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque)) //Permet de faire tirer des rafales a l'IA
                         {
                             if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
                             {
@@ -213,8 +209,8 @@ public class AIscripts : MonoBehaviour
                         else if (tempsAvantAttaque > 1.2f)
                         {
                             tempsAvantAttaque = 0;
-                            tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
-                            tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                            debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                            finAttaque = UnityEngine.Random.Range(1f, 1.3f);
                         }
                         tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
                 }
@@ -223,39 +219,38 @@ public class AIscripts : MonoBehaviour
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                     AnimAim();
                     tempsAvantArreterPoursuite += Time.deltaTime; 
-                    if (tempsNouvelleDecision > UnityEngine.Random.Range(2f, 10f)) // Permet de que l'IA prennent une nouvelle décision lorsque le temps de celui ci est dépassé
+                    if (nouvelleDecision > UnityEngine.Random.Range(2f, 10f)) // Permet de que l'IA prennent une nouvelle décision lorsque le temps de celui ci est dépassé
                     {
                         chercheCouverture = volonté[UnityEngine.Random.Range(0, 4)]; // ici l'IA va décider de chercher une couverture ou non en fonction de sa volonté
-                        tempsNouvelleDecision = 0; //
+                        nouvelleDecision = 0; //
                         changeDirection = true;
                     }
-                    if (tempsAvantArreterPoursuite > 60f) StopPoursuite();// arrete la poursuite de l'IA envers le joueur lorsque celui ci ne le voit plus pendant tout un temps
+                    if (tempsAvantArreterPoursuite > 60f) stopPoursuite();// arrete la poursuite de l'IA envers le joueur lorsque celui ci ne le voit plus pendant tout un temps
                 }
             }
             else if (IsPatrolling == false && estCouvert == false)
             {
-                StopPoursuite(); // arrete la poursuite de l'IA envers le joueur
+                stopPoursuite(); // arrete la poursuite de l'IA envers le joueur
             }
             else if(estCouvert == true)
             {
-                tempsNouvelleDecision += Time.deltaTime;
-
+                    nouvelleDecision += Time.deltaTime;
                 if (isAimingPlayer == false) AnimKneel();
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-
-                if (tempsNouvelleDecision > UnityEngine.Random.Range(5f, 15f))
+                nouvelleDecision += Time.deltaTime;
+                if (nouvelleDecision > UnityEngine.Random.Range(5f, 15f))
                 {
-                    tempsNouvelleDecision = 0;
+                    nouvelleDecision = 0;
                     isAimingPlayer = volonté[UnityEngine.Random.Range(0, 4)];
                     wantToAttack = true;
                 }
                 if (vie == IA.vie)
                 {
                     RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
-                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position)
+                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && h.transform.CompareTag("Player"))
                     {
                         AnimAimKneel();
-                        if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
+                        if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque)) //Permet de faire tirer des rafales a l'IA
                         {
                             if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
                             {
@@ -267,8 +262,8 @@ public class AIscripts : MonoBehaviour
                         else if (tempsAvantAttaque > 1.2f)
                         {
                             tempsAvantAttaque = 0;
-                            tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
-                            tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                            debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                            finAttaque = UnityEngine.Random.Range(1f, 1.3f);
                         }
                     }
                     else if (isAimingPlayer == true)
@@ -276,7 +271,7 @@ public class AIscripts : MonoBehaviour
                         AnimAim();
                         if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                         {
-                            if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque))
+                            if ((tempsAvantAttaque > debutAttaque) && (tempsAvantAttaque <= finAttaque))
                             {
                                 if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
                                 {
@@ -288,8 +283,8 @@ public class AIscripts : MonoBehaviour
                             else if (tempsAvantAttaque > 1.2f)
                             {
                                 tempsAvantAttaque = 0;
-                                tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
-                                tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                                debutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                                finAttaque = UnityEngine.Random.Range(1f, 1.3f);
                             }
                         }
                     }
@@ -297,16 +292,16 @@ public class AIscripts : MonoBehaviour
                 }
                 else if(vie != IA.vie)
                 {
-                    AnimKneel();
-                    tempsKneelDecision += Time.deltaTime;
-                    if(tempsKneelDecision > tempsAvantSeredresser)
+                    tempsKneelDecidion += Time.deltaTime;
+                    if(tempsKneelDecidion > 0f)
                     {
-                        tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
+                        AnimKneel();
                         vie = IA.vie;
-                        tempsNouvelleDecision = 0;
-                        tempsKneelDecision = 0f;
+                        nouvelleDecision = 15.1f;
+                        tempsKneelDecidion = 0f;
                     }
                 }
+
                 tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
             }
         }
@@ -315,7 +310,6 @@ public class AIscripts : MonoBehaviour
             AnimDie();
             M4A8.transform.parent = null;
             rbM4A8.useGravity = true;
-            bxM4A8.enabled = true;
             Destroy(gameObject, 10);
         }
     }
@@ -429,7 +423,7 @@ public class AIscripts : MonoBehaviour
         }
     }
 
-    private void StopPoursuite()
+    private void stopPoursuite()
     {
         IsPatrolling = true;
         vie = IA.vie;
