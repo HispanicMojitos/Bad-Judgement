@@ -37,6 +37,7 @@ public class Movement : MonoBehaviour
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
+    [SerializeField] private CharacterController characterController;
 
     [SerializeField] private Animator anim;
 
@@ -60,6 +61,7 @@ public class Movement : MonoBehaviour
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
         this.characterIsCrouched = false;
 
+        this.characterController = GetComponent<CharacterController>();
         #region sounds
         personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
         piedjumpPersonnage.volume = volumeDesSonsDePas; // permet de regler les son de jumps
@@ -157,9 +159,9 @@ public class Movement : MonoBehaviour
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
             //X is the strafe and Z is forward/backward
-
+            
             this.transform.Translate(movement); //Making the move
-
+            
             #region sound
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
             #endregion

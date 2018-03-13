@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.4964127, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -3422,7 +3422,6 @@ GameObject:
   - component: {fileID: 836389856}
   - component: {fileID: 836389855}
   - component: {fileID: 836389860}
-  - component: {fileID: 836389861}
   m_Layer: 0
   m_Name: SwatCharacter
   m_TagString: Untagged
@@ -3468,6 +3467,7 @@ MonoBehaviour:
   piedjumpPersonnage: {fileID: 1662455099}
   playerRigidbody: {fileID: 1096326881}
   playerCollider: {fileID: 836389858}
+  characterController: {fileID: 0}
   anim: {fileID: 836389859}
 --- !u!82 &836389857
 AudioSource:
@@ -3577,7 +3577,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: a6488c1801e6ff0409c3b609249c9401, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -3594,20 +3594,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1000
---- !u!64 &836389861
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 836389854}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
 --- !u!1 &881158817
 GameObject:
   m_ObjectHideFlags: 0
@@ -4697,7 +4683,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &1114987008
 GameObject:
@@ -9778,7 +9764,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2086394587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0000041949, y: -0.11823, z: -0.081021}
+  m_LocalPosition: {x: 0.0000041949, y: 0.23, z: -0.081021}
   m_LocalScale: {x: 1.1182842, y: 1.1182842, z: 1.1182842}
   m_Children:
   - {fileID: 1037779454}
