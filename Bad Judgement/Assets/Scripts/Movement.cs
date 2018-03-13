@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private AudioSource piedjumpPersonnage; // Source pour les pruits de sauts
     [Range(0f, 1f)] // Permet de regler le volume via un bouton de reglage dans Unity
     private float volumeDesSonsDePas = 0.2F;
-    private char tag = '\0'; // donne la valeur null du char, cette variable permet de faire en sorte dans l'algorithme de continuer un son de pas même lorsqu'on entre en collision avec un autre objet non tagué (exemple : un mur)
+    private char tagNew = '\0'; // donne la valeur null du char, cette variable permet de faire en sorte dans l'algorithme de continuer un son de pas même lorsqu'on entre en collision avec un autre objet non tagué (exemple : un mur)
 
     #endregion Sounds members
 
@@ -55,8 +55,6 @@ public class Movement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //These speeds are based on my real tests and are in KMH :
-
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
         this.characterIsCrouched = false;
 
@@ -67,6 +65,7 @@ public class Movement : MonoBehaviour
 
         //To be moved later :
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; //Setting the cursor to a locked position
     }
 
     // Update is called once per frame
@@ -75,8 +74,8 @@ public class Movement : MonoBehaviour
         #region Cursor
 
         //To be moved :
-        if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
-        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
+        if (Input.GetKeyDown(KeyCode.Escape)) this.CursorUnlock();
+        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) this.CursorLock();
         //Locks the cursor on the window
 
         #endregion
@@ -88,6 +87,7 @@ public class Movement : MonoBehaviour
         float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
         bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
 
+        if (wantsToRun && this.characterIsJumping) wantsToRun = this.InvertBool(wantsToRun);
         this.Move(zAxis, xAxis, wantsToRun);
 
         #endregion
@@ -128,6 +128,7 @@ public class Movement : MonoBehaviour
         playerRigidbody.velocity += jump;
 
         this.characterCanJump = false; //Telling that the player may not jump
+
         //In the sounds part, there's the method that handles OnCollisionEnter event. I just added this.characterCanJump = true
         //So that when the player touches the ground again, he can jump.
     }
@@ -151,15 +152,13 @@ public class Movement : MonoBehaviour
                     //PLAY RUN FORWARD
                 }
                 else if (xAxis == 0) this.PlayWalkForward();
-
-
             }
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
             //X is the strafe and Z is forward/backward
-
+            
             this.transform.Translate(movement); //Making the move
-
+            
             #region sound
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
             #endregion
@@ -178,14 +177,6 @@ public class Movement : MonoBehaviour
         this.characterIsCrouched = InvertBool(this.characterIsCrouched);
     }
 
-    private bool InvertBool(bool toInvert)
-    {
-        if (toInvert) toInvert = false;
-        else toInvert = true;
-
-        return toInvert;
-    }
-
     #endregion
 
     #region Animation Methods
@@ -197,23 +188,47 @@ public class Movement : MonoBehaviour
 
     #endregion
 
+    #region Other Methods 
+
+    private bool InvertBool(bool toInvert)
+    {
+        if (toInvert) toInvert = false;
+        else toInvert = true;
+
+        return toInvert;
+    }
+
+    private void CursorLock()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void CursorUnlock()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    #endregion
+
     #region Sounds detection area
 
     private void OnCollisionEnter(Collision collision) // Permet d'evaluer le son a jouer en fonction du type de sol rencontré /!\ On a besoin d'un rigibody et d'une box Colider /!\
     {
         this.characterCanJump = true;
 
-        if ((collision.collider.CompareTag("Wood") || (tag == 'w' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Grass")) // OPTIMISATION : tag == "something"  allocates memory, CompareTag does not, i've changes this , sources : https://forum.unity.com/threads/making-stepssounds-by-using-oncollisionenter-or-raycasts-optimizations-question.518865/#post-3402025 ,https://answers.unity.com/questions/200820/is-comparetag-better-than-gameobjecttag-performanc.html
+        if ((collision.collider.CompareTag("Wood") || (tagNew == 'w' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Grass")) // OPTIMISATION : tag == "something"  allocates memory, CompareTag does not, i've changes this , sources : https://forum.unity.com/threads/making-stepssounds-by-using-oncollisionenter-or-raycasts-optimizations-question.518865/#post-3402025 ,https://answers.unity.com/questions/200820/is-comparetag-better-than-gameobjecttag-performanc.html
         {
-            Sounds.DeclareSonDemarche(personnage, sonDePasSurBois, piedjumpPersonnage, jumpOnWood, tag, 'w');
+            Sounds.DeclareSonDemarche(personnage, sonDePasSurBois, piedjumpPersonnage, jumpOnWood, tagNew, 'w');
         }
-        else if ((collision.collider.CompareTag("Street") || (tag == 's' && !collision.collider.CompareTag("Street"))) && !collision.collider.CompareTag("Wood") && !collision.collider.CompareTag("Grass")) // Toute ces conditions permette de jouer le sons même en etant en colision avec d'autres objet non tagué (exemple : un mur, un ventilateur, ect...) 
+        else if ((collision.collider.CompareTag("Street") || (tagNew == 's' && !collision.collider.CompareTag("Street"))) && !collision.collider.CompareTag("Wood") && !collision.collider.CompareTag("Grass")) // Toute ces conditions permette de jouer le sons même en etant en colision avec d'autres objet non tagué (exemple : un mur, un ventilateur, ect...) 
         {
-            Sounds.DeclareSonDemarche(personnage, sonDePasSurRue, piedjumpPersonnage, jumpOnStreet, tag, 's');
+            Sounds.DeclareSonDemarche(personnage, sonDePasSurRue, piedjumpPersonnage, jumpOnStreet, tagNew, 's');
         }
-        else if ((collision.collider.CompareTag("Grass") || (tag == 'g' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Wood"))
+        else if ((collision.collider.CompareTag("Grass") || (tagNew == 'g' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Wood"))
         {
-            Sounds.DeclareSonDemarche(personnage, sonDePasSurterre, piedjumpPersonnage, jumpOnGrass, tag, 'g');
+            Sounds.DeclareSonDemarche(personnage, sonDePasSurterre, piedjumpPersonnage, jumpOnGrass, tagNew, 'g');
         }
     }
 
