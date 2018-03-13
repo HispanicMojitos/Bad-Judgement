@@ -22,6 +22,7 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private GameObject[] pointDeCouverture;
     [SerializeField] private GameObject[] pointDePatrouille; // Recupere l'ensemble des points de patrouille que l'on veuille mettre a l'IA
     [SerializeField] private Rigidbody rbM4A8;
+    [SerializeField] private Rigidbody rbPlayer;
     [SerializeField] private BoxCollider bxM4A8;
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
     private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
@@ -42,6 +43,7 @@ public class AIscripts : MonoBehaviour
     private float tempsAvantArreterPoursuite = 0f;
     private float tempsAvantAttaque = 0f;
     private float tempsAvantSeredresser = 0f;
+    private float tempsAvantDelayCoupDeCrosse = 0f;
 
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
@@ -49,7 +51,7 @@ public class AIscripts : MonoBehaviour
     private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
     private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
 
-
+    private bool isblocking = false;
     private bool playSoundOnce = false;
     private bool[] volonté;
     private bool changeDirection = false;
@@ -100,7 +102,7 @@ public class AIscripts : MonoBehaviour
         if (IA.vie > 0)
         {
             Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
-            //direction.y = 0; // evite que l'IA marche dans le vide lorsqu'on saute
+            direction.y = 0; // evite que l'IA marche dans le vide lorsqu'on saute
             float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
 
             Debug.DrawLine(transform.position, direction * 100, Color.blue);
@@ -186,7 +188,30 @@ public class AIscripts : MonoBehaviour
 
             Debug.DrawLine(head.transform.position - new Vector3(0f, 0.75f,0f), direction * 100, Color.gray);
 
-            if (  (((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false))  || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
+            if(Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.9f)
+            {
+                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+                M4A8.transform.localPosition = new Vector3(0.023f, -0.04f, -0.365f);
+                M4A8.transform.localRotation = Quaternion.Euler(-169.489f, 176.729f, 80.002f);
+                AnimAttackCloser();
+                isblocking = true;
+                tempsAvantDelayCoupDeCrosse += Time.deltaTime;
+                if(tempsAvantDelayCoupDeCrosse > 0.1f)
+                {
+                    Target joueur = Player.transform.GetComponent<Target>();
+                    joueur.TakeDamage(joueur.vie*30/100);
+                    rbPlayer.AddForce(direction*4,ForceMode.Impulse);
+                    tempsAvantDelayCoupDeCrosse = 0;
+                }
+            }
+            else if(isblocking == true )
+            {
+                M4A8.transform.localPosition = new Vector3(0.287f, -0.046f, 0.008f);
+                M4A8.transform.localRotation = Quaternion.Euler(-18.928f, -95.132f, 85.29f);
+                tempsAvantDelayCoupDeCrosse = 0;
+                isblocking = false;
+            }
+            else if (  (((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false))  || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
                 tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
                 RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
@@ -334,8 +359,21 @@ public class AIscripts : MonoBehaviour
     
 
     #region method
+    static private void AnimAttackCloser()
+    {
+        anim.SetBool("IsAimKneel", false);
+        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
+        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
+        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
+        anim.SetBool("IsRunning", false);
+        anim.SetBool("IsKneel", false);
+        anim.SetBool("IsAiming", false);
+        anim.SetBool("IsDead", false);
+        anim.SetBool("IsAttackingCloser",true);
+    }
     static private void AnimDie()
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
@@ -347,6 +385,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimAim()
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
@@ -357,6 +396,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimAimKneel()
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
@@ -367,6 +407,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimKneel()
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsAimKneel",false);
         anim.SetBool("IsAiming", false);
@@ -378,6 +419,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimRun()
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsKneel", false);
         anim.SetBool("IsAiming", false);
@@ -388,6 +430,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimWalk() // Permet de faire tourner l'animation Walk et de regler l'arme avec l'animation
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning",false );
         anim.SetBool("IsKneel", false);
@@ -398,6 +441,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimIdle() // Permet de faire tourner l'animation idle et de regler l'arme avec l'animation
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
@@ -408,6 +452,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void Animattack() // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
     {
+        anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
