@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.4964127, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -3513,8 +3513,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10.122001}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -29.92, y: -2.55}
-  m_SizeDelta: {x: 60.08, y: 60.85}
+  m_AnchoredPosition: {x: -23.89, y: -0.54}
+  m_SizeDelta: {x: 70, y: 68.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &758343392
 MonoBehaviour:
@@ -3836,7 +3836,6 @@ MonoBehaviour:
   freeCam: {fileID: 819907542}
   minVertical: 70
   maxVertical: -55
-  maxLeftRightFreeCamAngle: 70
 --- !u!114 &836389856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3858,7 +3857,6 @@ MonoBehaviour:
   piedjumpPersonnage: {fileID: 1662455099}
   playerRigidbody: {fileID: 1096326881}
   playerCollider: {fileID: 836389858}
-  characterController: {fileID: 0}
   anim: {fileID: 836389859}
 --- !u!82 &836389857
 AudioSource:
@@ -4652,8 +4650,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 20.93, y: -4.080346}
-  m_SizeDelta: {x: 66.8, y: 30.51}
+  m_AnchoredPosition: {x: 28.967, y: -0.95}
+  m_SizeDelta: {x: 57.935, y: 27.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1026809852
 GameObject:
@@ -8891,6 +8889,7 @@ GameObject:
   - component: {fileID: 1670321923}
   - component: {fileID: 1670321925}
   - component: {fileID: 1670321924}
+  - component: {fileID: 1670321926}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -8953,6 +8952,20 @@ MeshFilter:
     type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1670321922}
+  m_Mesh: {fileID: 4300000, guid: b92de518ba21fcf4e9472acfdd647084, type: 3}
+--- !u!64 &1670321926
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1670321922}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: b92de518ba21fcf4e9472acfdd647084, type: 3}
 --- !u!1 &1694026628
 GameObject:

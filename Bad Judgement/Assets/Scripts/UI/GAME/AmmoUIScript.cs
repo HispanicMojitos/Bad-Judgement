@@ -8,16 +8,12 @@ public class AmmoUIScript : MonoBehaviour
     #region Membres
 
     [SerializeField] private Text ammoText;
-    private GunScript gun; //Getting gun instance to get current ammo
 
     #endregion
 
     #region Start & Update
 
-    void Start()
-    {
-        gun = new GunScript();
-    }
+    void Start() {}
 
     void Update()
     {

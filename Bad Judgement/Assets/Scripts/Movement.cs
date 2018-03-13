@@ -37,7 +37,6 @@ public class Movement : MonoBehaviour
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
-    [SerializeField] private CharacterController characterController;
 
     [SerializeField] private Animator anim;
 
@@ -56,12 +55,9 @@ public class Movement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //These speeds are based on my real tests and are in KMH :
-
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
         this.characterIsCrouched = false;
 
-        this.characterController = GetComponent<CharacterController>();
         #region sounds
         personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
         piedjumpPersonnage.volume = volumeDesSonsDePas; // permet de regler les son de jumps
@@ -69,6 +65,7 @@ public class Movement : MonoBehaviour
 
         //To be moved later :
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; //Setting the cursor to a locked position
     }
 
     // Update is called once per frame
@@ -77,8 +74,8 @@ public class Movement : MonoBehaviour
         #region Cursor
 
         //To be moved :
-        if (Input.GetKeyDown(KeyCode.Escape)) Cursor.lockState = CursorLockMode.None;
-        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
+        if (Input.GetKeyDown(KeyCode.Escape)) this.CursorUnlock();
+        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) this.CursorLock();
         //Locks the cursor on the window
 
         #endregion
@@ -90,6 +87,7 @@ public class Movement : MonoBehaviour
         float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
         bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
 
+        if (wantsToRun && this.characterIsJumping) wantsToRun = this.InvertBool(wantsToRun);
         this.Move(zAxis, xAxis, wantsToRun);
 
         #endregion
@@ -130,6 +128,7 @@ public class Movement : MonoBehaviour
         playerRigidbody.velocity += jump;
 
         this.characterCanJump = false; //Telling that the player may not jump
+
         //In the sounds part, there's the method that handles OnCollisionEnter event. I just added this.characterCanJump = true
         //So that when the player touches the ground again, he can jump.
     }
@@ -153,8 +152,6 @@ public class Movement : MonoBehaviour
                     //PLAY RUN FORWARD
                 }
                 else if (xAxis == 0) this.PlayWalkForward();
-
-
             }
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
@@ -180,6 +177,19 @@ public class Movement : MonoBehaviour
         this.characterIsCrouched = InvertBool(this.characterIsCrouched);
     }
 
+    #endregion
+
+    #region Animation Methods
+
+    private void PlayWalkForward()
+    {
+        anim.SetTrigger("walkForward");
+    }
+
+    #endregion
+
+    #region Other Methods 
+
     private bool InvertBool(bool toInvert)
     {
         if (toInvert) toInvert = false;
@@ -188,13 +198,16 @@ public class Movement : MonoBehaviour
         return toInvert;
     }
 
-    #endregion
-
-    #region Animation Methods
-
-    private void PlayWalkForward()
+    private void CursorLock()
     {
-        anim.SetTrigger("walkForward");
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void CursorUnlock()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     #endregion
