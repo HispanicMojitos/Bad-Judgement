@@ -8,6 +8,8 @@ public class AIscripts : MonoBehaviour
 
     #region membres
 
+    [SerializeField] private AudioClip[] soundDeath;
+    [SerializeField] private AudioSource mouthHead;
     [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
     [SerializeField] private AudioClip M4A8shoot;// Recupere le son du M4A8
     [SerializeField] private Transform chercheurCouverture;
@@ -47,6 +49,8 @@ public class AIscripts : MonoBehaviour
     private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
     private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
 
+
+    private bool playSoundOnce = false;
     private bool[] volonté;
     private bool changeDirection = false;
     private bool saitOuEstLeJoueur = false;
@@ -83,8 +87,9 @@ public class AIscripts : MonoBehaviour
         PdPprocheDePdC = new int[pointDeCouverture.Length];
         tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
 
+        mouthHead.clip = soundDeath[0];
+
         DeterminePointDePatrouilleProchePointDeCouverture();
-        
         VolonteEtat();
     }
 # endregion Awake & Start
@@ -317,6 +322,11 @@ public class AIscripts : MonoBehaviour
             rbM4A8.useGravity = true;
             bxM4A8.enabled = true;
             Destroy(gameObject, 10);
+            if (!mouthHead.isPlaying && playSoundOnce == false)
+            {
+                mouthHead.PlayOneShot(soundDeath[0]);
+                playSoundOnce = true;
+            }
         }
     }
     #endregion start & update

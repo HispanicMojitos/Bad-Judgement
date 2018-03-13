@@ -68,4 +68,9 @@ public static class Sounds
 
 
     #endregion Movement
+
+    public static void Death(AudioSource mouthHead)
+    {
+        if (!mouthHead.isPlaying) mouthHead.Play();
+    }
 }
