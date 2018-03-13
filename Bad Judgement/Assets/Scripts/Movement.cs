@@ -80,18 +80,6 @@ public class Movement : MonoBehaviour
 
         #endregion
 
-        #region Ground Move
-
-        //Checking for Ground Moving :
-        float xAxis = Input.GetAxis("Horizontal") * sideSpeed * Time.deltaTime;
-        float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
-        bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
-
-        if (wantsToRun && this.characterIsJumping) wantsToRun = this.InvertBool(wantsToRun);
-        this.Move(zAxis, xAxis, wantsToRun);
-
-        #endregion
-
         #region Jump
 
         //Checking for Jump :
@@ -102,6 +90,18 @@ public class Movement : MonoBehaviour
             this.characterIsJumping = true; //Setting the property for other scripts
         }
         else this.characterIsJumping = false; //Setting property for other scripts
+
+        #endregion
+
+        #region Ground Move
+
+        //Checking for Ground Moving :
+        float xAxis = Input.GetAxis("Horizontal") * sideSpeed * Time.deltaTime;
+        float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
+        bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
+
+        if (wantsToRun && !this.characterCanJump) wantsToRun = this.InvertBool(wantsToRun);
+        this.Move(zAxis, xAxis, wantsToRun);
 
         #endregion
 
