@@ -30,7 +30,8 @@ public class AIscripts : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
     [SerializeField] [Range(0f, 10f)] private float degats = 1f; // Permet de regler les degats de l'IA
     [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
-    [SerializeField] private float vitesse = 1.5f; // Vitesse de marche
+    [SerializeField] [Range(0f, 10f)] private float vitesseMarche = 1.5f; // Vitesse de marche
+    [SerializeField] [Range(0f, 10f)] private float vitesseCourse = 4f; // Vitesse de marche
     private float tailleZonePointDepatrouille = 1f; // Taille des points de patrouille par lesquelle l'IA va prendre la route du prochain point de patrouille
     private float vie = 0f; //On initialise la vie de l'IA
     private float vieMax; // Recupere la vie max de l'IA pour des comparaison
@@ -153,22 +154,15 @@ public class AIscripts : MonoBehaviour
                     {
                         direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame, Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
                         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);// L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
-                        this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Donne une certaine vitesse a l'IA lorsqu'il marche
+                        this.transform.Translate(0, 0, Time.deltaTime * vitesseMarche); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
                     else if(IsPausing == false && chercheCouverture == true)
                     {
-                        if (!searchCover)
-                        {
-                            direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame, Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
-                            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime); // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
-                            this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Donne une certaine vitesse a l'IA lorsqu'il marche
-                        }
-                        else if(searchCover)
-                        {
-                            direction = pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - transform.position;
-                            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);
-                            this.transform.Translate(0, 0, Time.deltaTime * vitesse);
-                        }
+                        if (!searchCover) direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame, Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
+                        else if(searchCover)direction = pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - transform.position;
+
+                        this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime); // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
+                        this.transform.Translate(0, 0, Time.deltaTime * vitesseCourse); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
                     if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, transform.position) < 0.3f)
                     {
@@ -196,7 +190,7 @@ public class AIscripts : MonoBehaviour
                 if(tempsAvantDelayCoupDeCrosse > 0.1f)
                 {
                     Target joueur = Player.transform.GetComponent<Target>();
-                    joueur.TakeDamage(joueur.vie*30/100);
+                    joueur.TakeDamage(30/100);
                     rbPlayer.AddForce(direction*2.5f,ForceMode.Impulse);
                     tempsAvantDelayCoupDeCrosse = 0;
                 }
