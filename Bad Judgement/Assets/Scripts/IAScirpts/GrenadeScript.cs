@@ -5,24 +5,20 @@ using UnityEngine;
 
 public class GrenadeScript : MonoBehaviour {
 
-    [SerializeField] private float delay = 3f;
+  
+    [SerializeField] private float delai = 3f;
 
-    private float CountDown;
     private bool aExplosé = false;
     private float rayonExplosion = 5f;
+    private float explosionForce = 50f;
 
-    public GameObject effetExplosion;
-
-	void Start ()
-    {
-        CountDown = delay;
-	}
+    public ParticleSystem effetExplosion;
+    
 	
-	// Update is called once per frame
 	void Update ()
     {
-        CountDown -= Time.deltaTime;
-        if (CountDown <= 0f && aExplosé == false)
+        delai = delai - Time.deltaTime;
+        if ( (delai <= 0f) && (aExplosé == false) )  // On explose la grenade QU'UNE SEULE FOIS, et ce apres 3sec
         {
             Explode();
             aExplosé = true;
@@ -31,9 +27,24 @@ public class GrenadeScript : MonoBehaviour {
 
     private void Explode()
     {
-        Instantiate(effetExplosion, transform.position, transform.rotation);
 
-        Physics.Over
+        Instantiate(effetExplosion, transform.position, transform.rotation); // Permet d'appeler l'effet de particule souhaite => EXPLOSIOOOONNN !!!!
+        Collider Player = new Collider();
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, rayonExplosion); // On initialise le rayon d'action sur laquelle la grenade aura effet
+        foreach (Collider objectProche in colliders)
+        {
+            Rigidbody rb = objectProche.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce, transform.position, rayonExplosion); // Permet d'ajouter une force aux objets proche ayant un rigibody
+            }
+            Player = objectProche;
+           
+        }
+
+        Target Pla = Player.GetComponent<Target>(); // On récupere le script TARGET du joueur pour pouvoir lui enlever de la vie
+        Pla.TakeDamage(50);
 
         Destroy(gameObject);
     }
