@@ -881,7 +881,7 @@ BoxCollider:
   m_GameObject: {fileID: 145151068}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.051998362, y: 0.279333, z: 1.0093803}
   m_Center: {x: 0.0016974697, y: 0.026426286, z: 0.00469023}
@@ -1965,12 +1965,12 @@ MonoBehaviour:
   - {fileID: 1209208458}
   - {fileID: 1787720439}
   rbM4A8: {fileID: 145151069}
-  rbPlayer: {fileID: 0}
+  rbPlayer: {fileID: 1096326881}
   bxM4A8: {fileID: 145151072}
   cadenceDetir: 0.045
   degats: 1
   vitesseRotation: 5
-  vitesse: 0.3
+  vitesse: 0.4
 --- !u!114 &470085429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5067,7 +5067,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 836389854}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1555158481}

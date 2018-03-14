@@ -197,7 +197,7 @@ public class AIscripts : MonoBehaviour
                 {
                     Target joueur = Player.transform.GetComponent<Target>();
                     joueur.TakeDamage(joueur.vie*30/100);
-                    rbPlayer.AddForce(direction*4,ForceMode.Impulse);
+                    rbPlayer.AddForce(direction*2.5f,ForceMode.Impulse);
                     tempsAvantDelayCoupDeCrosse = 0;
                 }
                 if (tempsAvantDelayCoupDeCrosse == 0)
