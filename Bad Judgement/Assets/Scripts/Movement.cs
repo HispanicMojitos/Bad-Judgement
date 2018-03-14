@@ -48,6 +48,9 @@ public class Movement : MonoBehaviour
     public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
     public bool characterIsCrouched { get; private set; }
 
+    public bool characterIsWalkingFwd { get; private set; }
+    public bool characterIsIdle { get; private set; }
+
     #endregion
 
     #region Start and Update
@@ -66,6 +69,10 @@ public class Movement : MonoBehaviour
         //To be moved later :
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; //Setting the cursor to a locked position
+
+
+        this.characterIsIdle = true;
+        this.characterIsWalkingFwd = false;
     }
 
     // Update is called once per frame
@@ -156,14 +163,14 @@ public class Movement : MonoBehaviour
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
             //X is the strafe and Z is forward/backward
-            
+
             this.transform.Translate(movement); //Making the move
-            
+
             #region sound
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
             #endregion
         }
-        else anim.SetTrigger("idle");
+        else this.PlayIdle();
     }
 
     private void Crouch(float deltaHeight)
@@ -183,7 +190,16 @@ public class Movement : MonoBehaviour
 
     private void PlayWalkForward()
     {
-        anim.SetTrigger("walkForward");
+        //anim.SetTrigger("walkForward");
+        anim.SetBool("testBoolIdle", false);
+        anim.SetBool("testBoolWalk", true);
+    }
+
+    private void PlayIdle()
+    {
+        //anim.SetTrigger("idle");
+        anim.SetBool("testBoolWalk", false);
+        anim.SetBool("testBoolIdle", true);
     }
 
     #endregion
