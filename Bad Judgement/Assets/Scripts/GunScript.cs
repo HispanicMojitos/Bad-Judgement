@@ -10,49 +10,50 @@ public class GunScript : MonoBehaviour
 {
     #region Variables
 
+    #region Serialized Fields
+
     #region Sounds members
     [SerializeField] private AudioSource AK47; // AK47 qui est la source de son propre son
     [SerializeField] private AudioClip AK47shoot; // bruit de l'AK47 fait lors d'un seul tir
     [SerializeField] private AudioClip AK47reload; // bruit de rechargement d'un AK47
     #endregion Sounds members
 
-    [SerializeField]
-    private float damage = 10f; // First we declare our needed variables
-    [SerializeField]
-    private KeyCode reloadKey = KeyCode.R;
-    [SerializeField]
-    private float range = 100f;
-    [SerializeField]
-    private float impactForce = 30f;
-    [SerializeField]
-    private float fireRate = 15f;
-    [SerializeField]
-    private GameObject gunEnd; // camera reference
+    #region Weapon variables
+    [SerializeField] private float damage = 10f; // First we declare our needed variables
+    [SerializeField] private float range = 100f;
+    [SerializeField] private float impactForce = 30f;
+    [SerializeField] private float fireRate = 15f;
+    [SerializeField] private GameObject gunEnd; // camera reference
     //public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
-    [SerializeField]
-    private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world
+    [SerializeField] private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world 
+    #endregion
+
+    #region Gun Sway
+    [SerializeField] private float amount;
+    [SerializeField] private float smoothAmount;
+    [SerializeField] private float maxAmount;
+    #endregion
+
+    #region Animation
+    [SerializeField] private Animation aiming;
+    [SerializeField] private static Animator anim;
+    #endregion
+
+    #region Reload
+    [SerializeField] private int bulletsPerMag = 30;
+    [SerializeField] private static int maxAmmo = 300;
+    [SerializeField] private static int currentMag;
+    [SerializeField] private KeyCode reloadKey = KeyCode.R;
+    #endregion
+
+    #endregion
+
     private float nextTimeToFire = 0f;
-    [SerializeField]
-    private Animation aiming;
-    [SerializeField]
-    private float amount;
-    [SerializeField]
-    private float smoothAmount;
-    [SerializeField]
-    private float maxAmount;
-    [SerializeField]
-    private int bulletsPerMag = 30;
-    [SerializeField]
-    private static int maxAmmo = 300;
     private static int magQty = 6;// number of mags you can have
     private Vector3 initialPosition;
-    [SerializeField] private static Animator anim;
-    [SerializeField]
-    private static int currentMag;
     private bool _isReloading = false;
     private int reloadTime = 3000;
-    private Magazines mags;
-    MagTest mag;
+    Magazines mag;
 
     #endregion
 
@@ -79,14 +80,17 @@ public class GunScript : MonoBehaviour
         anim = GetComponent<Animator>();
         aiming = GetComponent<Animation>();
         initialPosition = transform.localPosition;
-        mag = new MagTest(magQty, bulletsPerMag);
+        mag = new Magazines(magQty, bulletsPerMag);
     }
     // Update is called once per frame
     void Update()
     {
+        #region Refresh values
         currentMag = mag.currentMag;
         magQty = mag.mags.Count;
-        #region Reload
+        #endregion
+
+        #region Reload Condition
         if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag<bulletsPerMag+1 && magQty!=0)
         {
             StartCoroutine(Reload());
@@ -110,21 +114,26 @@ public class GunScript : MonoBehaviour
         // this interpolates the initial position with the final position
         #endregion
 
+        #region Shooting Condition
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
             nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
             Shoot();
         }
+        #endregion
+
+        #region Aiming condition
         if (Input.GetButton("Fire2")) // WIP
         {
             anim.SetBool("IsAiming",true);
         }
         else anim.SetBool("IsAiming", false);
-
+        #endregion
     }
 
     #region Methods
 
+    #region Shoot Script
     void Shoot() // to shoot, we will use raycasts. 
     {
         //muzzleFlash.Play();// Play the muzzle flash we create
@@ -162,24 +171,30 @@ public class GunScript : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Aiming Script
     void AimDownSight() //WIP
     {
 
     }
+    #endregion
 
+    #region Reload Script
     IEnumerator Reload()
     {
         mag.Reload();
         yield return new WaitForSeconds(reloadTime);
     }
+    #endregion
 
     #endregion
 
 }
 #region Classes
 
-public class MagTest
+#region Mags
+public class Magazines
 {
     private Queue<int> _mags = new Queue<int>();
     private int crtMag;
@@ -196,7 +211,7 @@ public class MagTest
         set { crtMag = value; }
     }
 
-    public MagTest(int magNum, int bulletsPMag)
+    public Magazines(int magNum, int bulletsPMag)
     {
         for (int i = 0; i < magNum; i++) _mags.Enqueue(bulletsPMag);
         crtMag = _mags.Dequeue();
@@ -225,84 +240,6 @@ public class MagTest
         }
     }
 }
+#endregion
 
-public class Magazines
-{
-    #region Variables
-    private int[] _mags;
-    private int _index;
-    #endregion
-
-    #region Properties
-    public int[] mags
-    {
-        get { return _mags; }
-        set { _mags = value; }
-    }
-    public int index
-    {
-        get { return _index; }
-        set { _index = value; }
-    }
-    public int this[int i]
-    {
-        get { return _mags[i]; }
-        set { _mags[i] = value; }
-    }
-    #endregion
-
-    public Magazines(int magNum, int bulletsPerMag)
-    {
-        FillMags(magNum, bulletsPerMag);
-        _index = 0;
-    }
-
-    private void FillMags(int magNum, int bulletsPerMag)
-    {
-        _mags = new int[magNum];
-        for (int i = 0; i < _mags.Length; i++)
-        {
-            _mags[i] = bulletsPerMag;
-        }
-    }
-
-    public void Reload()
-    {
-        {
-            if (_mags[_index] == 0)
-            {
-                SearchMag();
-                GunScript.MagQty--;
-            }
-            else if (_mags[_index] == 1)
-            {
-                _mags[_index] = 0;
-                GunScript.MagQty--;
-                SearchMag();
-                _mags[_index]++;
-            }
-            else
-            {
-                _mags[_index]--;
-                SearchMag();
-                _mags[_index]++;
-            }
-        }
-    }
-
-    private void SearchMag()
-    {
-        for (int i = 0; i < _mags.Length; i++)
-        {
-            if (_mags[i] != 0)
-            {
-                if (i != _index)
-                {
-                    _index = i;
-                    return;
-                }
-            }
-        }
-    }
-}
 #endregion
