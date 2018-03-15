@@ -13,7 +13,12 @@ ModelImporter:
     4300000: RUST_3d_Low
     7400000: Take 001
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #48'
+    second: {fileID: 2100000, guid: 4f477167fc0be5e4dab9a125b37c42ad, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
