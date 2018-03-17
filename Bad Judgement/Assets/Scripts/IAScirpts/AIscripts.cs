@@ -57,6 +57,7 @@ public class AIscripts : MonoBehaviour
     private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
     private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
 
+    private bool ajetegrenade = true;
     private bool isblocking = false;
     private bool playSoundOnce = false;
     private bool[] volonté;
@@ -71,6 +72,8 @@ public class AIscripts : MonoBehaviour
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
     #endregion membres
+
+
 
     #region Awake Start & Update
 
@@ -104,10 +107,9 @@ public class AIscripts : MonoBehaviour
 
     void Update()
     {
-
+        Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
         if (IA.vie > 0)
         {
-            Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
             direction.y = 0; // evite que l'IA marche dans le vide lorsqu'on saute
             float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
 
@@ -341,7 +343,7 @@ public class AIscripts : MonoBehaviour
                 }
                 tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
 
-                //if(isAimingPlayer == false)
+                //if(isAimingPlayer == false && ajeteGrenade == false)
                 //{
 
                 //    if(volonté[UnityEngine.Random.Range(0,4)] == true)
@@ -356,7 +358,9 @@ public class AIscripts : MonoBehaviour
         {
             AnimDie();
             M4A8.transform.parent = null;
+            
             rbM4A8.useGravity = true;
+            rbM4A8.AddForce(Vector3.right * 0.1f,ForceMode.Impulse);
             bxM4A8.enabled = true;
             Destroy(gameObject, 10);
             if (!mouthHead.isPlaying && playSoundOnce == false)
