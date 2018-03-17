@@ -354,9 +354,9 @@ public class AIscripts : MonoBehaviour
                 }
                 tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
                
-                    if (isAimingPlayer == false && aJeteGrenade == false)
-                    {
-                        tempsKneelDecision += Time.deltaTime;
+                if (aJeteGrenade == false)
+                {
+                    tempsKneelDecision += Time.deltaTime;
                     if (tempsKneelDecision > 5f)
                     {
                         tempsGrenadeChoix = UnityEngine.Random.Range(0, 4);
@@ -376,8 +376,8 @@ public class AIscripts : MonoBehaviour
 
                             if (aJeteGrenade == false) LanceGrenade(Vector3.Distance(Player.position, this.transform.position));
                         }
-                    }
-                    else isThrowingGrenade = false;
+                }
+                else isThrowingGrenade = false;
             }
         }
         else
@@ -540,7 +540,7 @@ public class AIscripts : MonoBehaviour
         AnimKneelGrenade();
         tempsActionGrenade += Time.deltaTime;
         float Force = 0f;
-        if (tempsActionGrenade > 1.4f)
+        if (tempsActionGrenade > 1.35f)
         {
             if (distanceBetween < 20) Force = 20;
             else if (distanceBetween < 30) Force = 28;
