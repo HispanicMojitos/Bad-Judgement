@@ -8,15 +8,14 @@ public class AIscripts : MonoBehaviour
 
     #region membres
 
-    [SerializeField] private Transform Grenade;
-    [SerializeField] private float angleDeTir= 45f;
-
-
+    [SerializeField] private GameObject lanceurGrenad;
+    [SerializeField] private GameObject grenade;
 
     [SerializeField] private AudioClip[] soundDeath;
     [SerializeField] private AudioSource mouthHead;
     [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
     [SerializeField] private AudioClip M4A8shoot;// Recupere le son du M4A8
+    [SerializeField] private AudioClip grenadScream;
     [SerializeField] private Transform chercheurCouverture;
     [SerializeField] private Transform hand;
     [SerializeField] private Transform M4A8; // prend la position du M4A8
@@ -50,14 +49,19 @@ public class AIscripts : MonoBehaviour
     private float tempsAvantAttaque = 0f;
     private float tempsAvantSeredresser = 0f;
     private float tempsAvantDelayCoupDeCrosse = 0f;
+    private float tempsActionGrenade = 0f;
+    private float tempsScreamgrenade = 0f;
 
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
     private int angleDevueMax = 60; // Angle de vue maximum de l'IA
     private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
     private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
+    private int tempsGrenadeChoix = 4;
 
-    private bool ajetegrenade = true;
+    private bool aJeteGrenade = false;
+    private bool isThrowingGrenade = false;
+
     private bool isblocking = false;
     private bool playSoundOnce = false;
     private bool[] volonté;
@@ -110,6 +114,7 @@ public class AIscripts : MonoBehaviour
         Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
         if (IA.vie > 0)
         {
+            VolonteEtat();
             direction.y = 0; // evite que l'IA marche dans le vide lorsqu'on saute
             float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
 
@@ -276,17 +281,18 @@ public class AIscripts : MonoBehaviour
 
                 if (isAimingPlayer == false) AnimKneel();
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-
-                if (tempsNouvelleDecision > UnityEngine.Random.Range(5f, 15f))
+                float random = UnityEngine.Random.Range(5f, 15f);
+                if (tempsNouvelleDecision > random )
                 {
                     tempsNouvelleDecision = 0;
-                    isAimingPlayer = volonté[UnityEngine.Random.Range(0, 4)];
+                    int r = UnityEngine.Random.Range(0, 4);
+                    isAimingPlayer = volonté[r];
                     wantToAttack = true;
                 }
                 if (vie == IA.vie)
                 {
                     RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
-                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position)
+                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && isThrowingGrenade == false & isAimingPlayer == false)
                     {
                         AnimAimKneel();
                         if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
@@ -305,7 +311,7 @@ public class AIscripts : MonoBehaviour
                             tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
                         }
                     }
-                    else if (isAimingPlayer == true)
+                    else if (isAimingPlayer == true && isThrowingGrenade == false)
                     {
                         AnimAim();
                         if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
@@ -329,29 +335,49 @@ public class AIscripts : MonoBehaviour
                     }
                     else isAimingPlayer = false;
                 }
-                else if(vie != IA.vie)
+                else if(vie != IA.vie && isThrowingGrenade == false)
                 {
-                    AnimKneel();
-                    tempsKneelDecision += Time.deltaTime;
-                    if(tempsKneelDecision > tempsAvantSeredresser)
+                    RaycastHit h;
+                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
+                    else
                     {
-                        tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
-                        vie = IA.vie;
-                        tempsNouvelleDecision = 0;
-                        tempsKneelDecision = 0f;
+                        AnimKneel();
+                        tempsKneelDecision += Time.deltaTime;
+                        if (tempsKneelDecision > tempsAvantSeredresser)
+                        {
+                            tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
+                            vie = IA.vie;
+                            tempsNouvelleDecision = 0;
+                            tempsKneelDecision = 0f;
+                        }
                     }
                 }
                 tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
+               
+                    if (isAimingPlayer == false && aJeteGrenade == false)
+                    {
+                        tempsKneelDecision += Time.deltaTime;
+                    if (tempsKneelDecision > 5f)
+                    {
+                        tempsGrenadeChoix = UnityEngine.Random.Range(0, 4);
+                        tempsKneelDecision = 0;
+                    }
+                        if (tempsGrenadeChoix == 1)
+                        {
+                            isThrowingGrenade = true;
+                            AnimKneelGrenade();
+                            tempsKneelDecision = 0;
+                            tempsScreamgrenade += Time.deltaTime;
+                            if (!mouthHead.isPlaying && tempsScreamgrenade < 1.3f)
+                            {
+                                mouthHead.clip = grenadScream;
+                                mouthHead.Play();
+                            }
 
-                //if(isAimingPlayer == false && ajeteGrenade == false)
-                //{
-
-                //    if(volonté[UnityEngine.Random.Range(0,4)] == true)
-                //    {
-
-                //        LanceGrenade()
-                //    }
-                //}
+                            if (aJeteGrenade == false) LanceGrenade(Vector3.Distance(Player.position, this.transform.position));
+                        }
+                    }
+                    else isThrowingGrenade = false;
             }
         }
         else
@@ -375,6 +401,12 @@ public class AIscripts : MonoBehaviour
     
 
     #region method
+    static private void AnimKneelGrenade()
+    {
+        anim.SetBool("IsAiming", false);
+        anim.SetBool("IsAimKneel", false);
+        anim.SetBool("IsGrenade", true);
+    }
     static private void AnimAttackCloser()
     {
         anim.SetBool("IsAimKneel", false);
@@ -412,6 +444,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimAimKneel()
     {
+        anim.SetBool("IsGrenade", false);
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", false);
@@ -423,6 +456,7 @@ public class AIscripts : MonoBehaviour
     }
     static private void AnimKneel()
     {
+        anim.SetBool("IsGrenade", false);
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsAimKneel",false);
@@ -501,41 +535,27 @@ public class AIscripts : MonoBehaviour
     }
     
 
-    //private IEnumerator LanceGrenade(Trans)
-    //{
-    //    // Short delay added before Projectile is thrown
-    //    yield return new WaitForSeconds(1.5f);
+    private void LanceGrenade(float distanceBetween)
+    {
+        AnimKneelGrenade();
+        tempsActionGrenade += Time.deltaTime;
+        float Force = 0f;
+        if (tempsActionGrenade > 1.4f)
+        {
+            if (distanceBetween < 20) Force = 20;
+            else if (distanceBetween < 30) Force = 28;
+            else if (distanceBetween >= 30) Force = 32;
 
-    //    // Move projectile to the position of throwing object + add some offset if needed.
-    //    Projectile.position = myTransform.position + new Vector3(0, 0.0f, 0);
+            tempsActionGrenade = 0;
+            aJeteGrenade = true;
+            GameObject clone = Instantiate(grenade, this.transform);
+            Vector3 distance = this.transform.position - Player.transform.position;
+            distance.y -= 15;
+            clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / Force), ForceMode.Impulse);
+            clone.transform.parent = null;
+        }
 
-    //    // Calculate distance to target
-    //    float target_Distance = Vector3.Distance(Projectile.position, Target.position);
-
-    //    // Calculate the velocity needed to throw the object to the target at specified angle.
-    //    float projectile_Velocity = target_Distance / (Mathf.Sin(2 * firingAngle * Mathf.Deg2Rad) / gravity);
-
-    //    // Extract the X  Y componenent of the velocity
-    //    float Vx = Mathf.Sqrt(projectile_Velocity) * Mathf.Cos(firingAngle * Mathf.Deg2Rad);
-    //    float Vy = Mathf.Sqrt(projectile_Velocity) * Mathf.Sin(firingAngle * Mathf.Deg2Rad);
-
-    //    // Calculate flight time.
-    //    float flightDuration = target_Distance / Vx;
-
-    //    // Rotate projectile to face the target.
-    //    Projectile.rotation = Quaternion.LookRotation(Target.position - Projectile.position);
-
-    //    float elapse_time = 0;
-
-    //    while (elapse_time < flightDuration)
-    //    {
-    //        Projectile.Translate(0, (Vy - (gravity * elapse_time)) * Time.deltaTime, Vx * Time.deltaTime);
-
-    //        elapse_time += Time.deltaTime;
-
-    //        yield return null;
-    //    }
-    //}
+    }
 
     private void StopPoursuite()
     {

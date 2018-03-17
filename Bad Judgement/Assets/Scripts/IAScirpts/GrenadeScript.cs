@@ -7,13 +7,13 @@ public class GrenadeScript : MonoBehaviour
 {
     
     [SerializeField] private Transform bruitExlosion;
-    [SerializeField] private float delai = 3f;
-    [SerializeField] private GameObject joueur;
+    [SerializeField] private float delai = 5f;
+    public GameObject joueur;
     [SerializeField] private GameObject effetExplosion;
     [SerializeField] private GameObject Grenade;
     [SerializeField] [Range(1f, 10f)] private float rayonExplosion = 5f;
     private Target vieGrenade;
-    public bool aExplosé = false;
+    [HideInInspector] public bool aExplosé = false;
     private float vieDeLaGrenade;
 
     private void Awake()
@@ -36,11 +36,14 @@ public class GrenadeScript : MonoBehaviour
     private void Explode()
     {
         Instantiate(effetExplosion, transform.position, transform.rotation);
-
-        if(Vector3.Distance(this.transform.position,joueur.transform.position) < 5)
+        
+        Collider[] collider = Physics.OverlapSphere(this.transform.position, 5f);
+        foreach (Collider objetProche in collider)
         {
-            Target Player = joueur.GetComponent<Target>(); // On récupere le script TARGET du joueur pour pouvoir lui enlever de la vie
-            Player.TakeDamage(50);
+            if(objetProche.GetComponent<Target>() != null)
+            {
+                objetProche.GetComponent<Target>().TakeDamage(50);
+            }
         }
 
         Destroy(Grenade);
