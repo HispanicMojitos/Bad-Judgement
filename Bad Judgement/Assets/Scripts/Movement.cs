@@ -33,6 +33,7 @@ public class Movement : MonoBehaviour
     private float normalCrouchDeltaH = 0.6F;
     private float onTheKneesCrouchDeltaH = 0.35F; //The height the character will lose while crouching
 
+    private bool wantsToRun;
     private bool characterCanJump; //Useful for the jump move
     private float fatigue;
 
@@ -40,6 +41,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
 
     [SerializeField] private Animator anim;
+    
 
     #endregion
 
@@ -51,7 +53,7 @@ public class Movement : MonoBehaviour
 
     public bool characterIsWalkingFwd { get; private set; }
     public bool characterIsIdle { get; private set; }
-    public bool wantsToRun;
+
     public float Fatigue
     {
         get { return fatigue; }
@@ -67,7 +69,7 @@ public class Movement : MonoBehaviour
     {
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
         this.characterIsCrouched = false;
-        fatigue = 0f;
+        fatigue = 0F;
 
         #region sounds
         personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
@@ -171,7 +173,6 @@ public class Movement : MonoBehaviour
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
             //X is the strafe and Z is forward/backward
-
             this.transform.Translate(movement); //Making the move
 
             #region sound
@@ -198,7 +199,7 @@ public class Movement : MonoBehaviour
 
     private void PlayWalkForward()
     {
-        
+
     }
 
     private void PlayIdle()
@@ -229,6 +230,7 @@ public class Movement : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
     private void FatigueCounter()
     {
         if (wantsToRun) fatigue += 5f;
