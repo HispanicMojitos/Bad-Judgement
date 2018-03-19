@@ -7,7 +7,6 @@ public static class Sounds
     #region AK47
 
     #region membres
-    private static float timeSound = 0.001f; // temps du son de tir joué au fur et a mesur que l'on presse le bouton
     private static float cadence = 0f; // permet de cadencer les tirs de l'AK K7
     #endregion membres
 
@@ -21,11 +20,11 @@ public static class Sounds
 
     public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, float volume = 0.3f)
     { 
-                AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
-                AK47.clip = AK47shootSound; // defini le son qu'emet l'AK47
-                AK47.volume = volume; // defini le volume de l'AK47
-                AK47.spatialBlend = 0.8f;
-                AK47.Play();
+         AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
+         AK47.clip = AK47shootSound; // defini le son qu'emet l'AK47
+         AK47.volume = volume; // defini le volume de l'AK47
+         AK47.spatialBlend = 0.8f;
+         AK47.Play();
     }
     #endregion AK47shoot
 

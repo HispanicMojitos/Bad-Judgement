@@ -9,8 +9,12 @@ public class AIscripts : MonoBehaviour
     #region membres
 
     [SerializeField] private GameObject lanceurGrenad;
+    [SerializeField] private GameObject M4A8; // prend la position du M4A8
     [SerializeField] private GameObject grenade;
-
+    [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
+    [SerializeField] private GameObject boucheCanon;
+    [SerializeField] private GameObject[] pointDeCouverture;
+    [SerializeField] private GameObject[] pointDePatrouille; // Recupere l'ensemble des points de patrouille que l'on veuille mettre a l'IA
     [SerializeField] private AudioClip[] soundDeath;
     [SerializeField] private AudioSource mouthHead;
     [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
@@ -18,16 +22,9 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private AudioClip grenadScream;
     [SerializeField] private Transform chercheurCouverture;
     [SerializeField] private Transform hand;
-    [SerializeField] private Transform M4A8; // prend la position du M4A8
     [SerializeField] private Transform Player; // Nous permet de comparer le joueur a l'intélgience artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
-    [SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
-    [SerializeField] private GameObject boucheCanon;
-    [SerializeField] private GameObject[] pointDeCouverture;
-    [SerializeField] private GameObject[] pointDePatrouille; // Recupere l'ensemble des points de patrouille que l'on veuille mettre a l'IA
-    [SerializeField] private Rigidbody rbM4A8;
     [SerializeField] private Rigidbody rbPlayer;
-    [SerializeField] private BoxCollider bxM4A8;
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
     private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
 
@@ -56,12 +53,12 @@ public class AIscripts : MonoBehaviour
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
     private int angleDevueMax = 60; // Angle de vue maximum de l'IA
     private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
-    private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
+    // A METTRE EN MODE FACILE private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
     private int tempsGrenadeChoix = 4;
 
+    private bool estMort = false;
     private bool aJeteGrenade = false;
     private bool isThrowingGrenade = false;
-
     private bool isblocking = false;
     private bool playSoundOnce = false;
     private bool[] volonté;
@@ -76,15 +73,13 @@ public class AIscripts : MonoBehaviour
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
     #endregion membres
-
-
-
+    
     #region Awake Start & Update
 
     #region Awake & Start
     void Awake()
     {
-        M4A8.transform.SetParent(hand);
+        M4A8.transform.SetParent(hand); // On positionne l'arme dans la main de L'IA et on la maintient dans des rotation est position convenable des le début
         M4A8.transform.localPosition = new Vector3(0.287f, -0.046f, 0.008f);
         M4A8.transform.localRotation = Quaternion.Euler(-18.928f, -95.132f, 85.29f);
     }
@@ -94,18 +89,19 @@ public class AIscripts : MonoBehaviour
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
         vie = IA.vie; // On recupere la vie de l'IA via le script Target 
-        vieMax = IA.vie;
+        vieMax = IA.vie; // On recupere la vie dans une valeur tempons de comparaison
 
-        volonté = new bool[5];
         tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
         tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
-        PdPprocheDePdC = new int[pointDeCouverture.Length];
         tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
+
+        PdPprocheDePdC = new int[pointDeCouverture.Length];
+        volonté = new bool[5]; // On initialise la volonté de l'IA
 
         mouthHead.clip = soundDeath[0];
 
-        DeterminePointDePatrouilleProchePointDeCouverture();
-        VolonteEtat();
+        DeterminePointDePatrouilleProchePointDeCouverture(); // Permet de faire prendre connaissance de lIA des point de couverture les plus proches en fonction des points de patrouille
+        VolonteEtat(); // On initialise la vonlonté de l'IA
     }
 # endregion Awake & Start
 
@@ -159,7 +155,7 @@ public class AIscripts : MonoBehaviour
                         else if (actuelPointDePatrouille > PdPprocheDePdC[CherchePointDeCouvertureProche()]) { if(!searchCover) actuelPointDePatrouille--; }
                         else if (actuelPointDePatrouille < PdPprocheDePdC[CherchePointDeCouvertureProche()]) { if(!searchCover) actuelPointDePatrouille++; }
                         changeDirection = false;
-                    }
+                    }// Ici on rafraichi les points de patrouille vers lequel doit se diriger l'IA, ou si il doit aller se couvrir
                     
 
                     if (!IsPausing && chercheCouverture == false && searchCover == false)
@@ -194,29 +190,29 @@ public class AIscripts : MonoBehaviour
 
             Debug.DrawLine(head.transform.position - new Vector3(0f, 0.75f,0f), direction * 100, Color.gray);
 
-            if(Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f)
+            if(Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f) // Si le joueur se trouve trop pres de l'IA il va l'attaquer au corp a corps !! (DU CATCH !!)
             {
-                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // On garde le fait que l'IA regarde vers le joueur
                 AnimAttackCloser();
                 isblocking = true;
                 if(tempsAvantDelayCoupDeCrosse > 0.1f)
                 {
                     Target joueur = Player.transform.GetComponent<Target>();
                     joueur.TakeDamage(30/100);
-                    rbPlayer.AddForce(direction*2.5f,ForceMode.Impulse);
+                    rbPlayer.AddForce(direction*2.5f,ForceMode.Impulse); // Permet de faire reculer le joueur
                     tempsAvantDelayCoupDeCrosse = 0;
                 }
                 if (tempsAvantDelayCoupDeCrosse == 0)
                 {
                     M4A8.transform.localPosition = new Vector3(0.023f, -0.04f, -0.365f);
-                    M4A8.transform.localRotation = Quaternion.Euler(-169.489f, 176.729f, 80.002f);
+                    M4A8.transform.localRotation = Quaternion.Euler(-169.489f, 176.729f, 80.002f); // Permet de changer la position de l'arme le temps de l'animation
                 }
                 tempsAvantDelayCoupDeCrosse += Time.deltaTime;
             }
-            else if(isblocking == true )
+            else if(isblocking == true ) // Si l'IA arrete de bloquer, la position de l'arme va changer
             {
                 M4A8.transform.localPosition = new Vector3(0.287f, -0.046f, 0.008f);
-                M4A8.transform.localRotation = Quaternion.Euler(-18.928f, -95.132f, 85.29f);
+                M4A8.transform.localRotation = Quaternion.Euler(-18.928f, -95.132f, 85.29f); 
                 tempsAvantDelayCoupDeCrosse = 0;
                 isblocking = false;
             }
@@ -335,7 +331,7 @@ public class AIscripts : MonoBehaviour
                     }
                     else isAimingPlayer = false;
                 }
-                else if(vie != IA.vie && isThrowingGrenade == false)
+                else if(vie != IA.vie && isThrowingGrenade == false) // Joue l'animation est la reflexions lorsque l'IA est a genoux
                 {
                     RaycastHit h;
                     if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
@@ -354,7 +350,7 @@ public class AIscripts : MonoBehaviour
                 }
                 tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
                
-                if (aJeteGrenade == false)
+                if (aJeteGrenade == false)//  Partie dans laquelle l'IA se décide de jeter une grenade ounon 
                 {
                     tempsKneelDecision += Time.deltaTime;
                     if (tempsKneelDecision > 5f)
@@ -380,20 +376,20 @@ public class AIscripts : MonoBehaviour
                 else isThrowingGrenade = false;
             }
         }
-        else
+        else if (estMort == false) // Si l'IA meurt il faut jouer sa mort, faire en sorte que l'arme se perde, jouer le bruit de la mrt, etc...
         {
-            AnimDie();
+            M4A8.GetComponent<Rigidbody>().useGravity = true;
+            M4A8.GetComponent<Rigidbody>().AddForce(Vector3.right * 0.1f,ForceMode.Impulse);
+            M4A8.GetComponent<BoxCollider>().enabled = true;
             M4A8.transform.parent = null;
-            
-            rbM4A8.useGravity = true;
-            rbM4A8.AddForce(Vector3.right * 0.1f,ForceMode.Impulse);
-            bxM4A8.enabled = true;
-            Destroy(gameObject, 10);
+
             if (!mouthHead.isPlaying && playSoundOnce == false)
             {
                 mouthHead.PlayOneShot(soundDeath[0]);
                 playSoundOnce = true;
             }
+            AnimDie();
+            estMort = true; // Permet d'éviter de se retrouver dans une boucle inutile
         }
     }
     #endregion start & update
@@ -535,7 +531,7 @@ public class AIscripts : MonoBehaviour
     }
     
 
-    private void LanceGrenade(float distanceBetween)
+    private void LanceGrenade(float distanceBetween) // Permet de faire lancer une grenade a l'IA
     {
         AnimKneelGrenade();
         tempsActionGrenade += Time.deltaTime;
@@ -557,7 +553,7 @@ public class AIscripts : MonoBehaviour
 
     }
 
-    private void StopPoursuite()
+    private void StopPoursuite() // Permet d'arreter la pousuite de l'IA
     {
         IsPatrolling = true;
         vie = IA.vie;
@@ -603,7 +599,7 @@ public class AIscripts : MonoBehaviour
 
     private void VolonteEtat()
     {
-        int choix = 0;
+        int choix = 0; // En fonction de la vie de l'IA, sa volonté changera et l'algorithme  dans la methode Update décidera des actions plus sécuritaire pour l'IA plus sa vie est basse
 
         if (IA.vie >= (vieMax * 80 / 100)) choix = 1;
         else if (IA.vie >= (vieMax * 50 / 100)) choix = 2;
@@ -611,7 +607,7 @@ public class AIscripts : MonoBehaviour
         else if (IA.vie >= (vieMax * 20 / 100)) choix = 4;
         else choix = 5;
 
-        Action<int> Volonte = new Action<int>((decision) =>
+        Action<int> Volonte = new Action<int>((decision) => // PErmet d'avoir cette méthode rapidement dans cette autre méthoden en modifiant les valeurs en cas de besoin
       {
           switch (decision)
           {

@@ -18,7 +18,7 @@ public class Target : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject,10);
+        if(gameObject != null) Destroy(gameObject,10);
     }
 
 }

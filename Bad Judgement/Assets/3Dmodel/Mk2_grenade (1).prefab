@@ -469,7 +469,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 5
-  MinDistance: 1
+  MinDistance: 0.5
   MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
@@ -511,7 +511,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -559,13 +559,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bruitExlosion: {fileID: 4029826542379678}
-  delai: 3
-  joueur: {fileID: 0}
   effetExplosion: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b,
     type: 2}
   Grenade: {fileID: 1337821864753896}
-  rayonExplosion: 5
   "aExplos\xE9": 0
+  delai: 4
+  rayonExplosion: 5
 --- !u!114 &114297244976232330
 MonoBehaviour:
   m_ObjectHideFlags: 1
