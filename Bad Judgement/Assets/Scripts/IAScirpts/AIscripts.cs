@@ -149,7 +149,7 @@ public class AIscripts : MonoBehaviour
                             actuelPointDePatrouille += 2;
                         }
                     }
-                    else if (((Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, this.transform.position) < tailleZonePointDepatrouille) && chercheCouverture == true && searchCover == false) || changeDirection == true)
+                    else if (((Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, this.transform.position) < tailleZonePointDepatrouille) && chercheCouverture == true && searchCover == false) || changeDirection == true && estCouvert == false)
                     {
                         if (actuelPointDePatrouille == PdPprocheDePdC[CherchePointDeCouvertureProche()] && Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, this.transform.position) < tailleZonePointDepatrouille) searchCover = true;
                         else if (actuelPointDePatrouille > PdPprocheDePdC[CherchePointDeCouvertureProche()]) { if(!searchCover) actuelPointDePatrouille--; }
@@ -164,7 +164,7 @@ public class AIscripts : MonoBehaviour
                         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);// L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                         this.transform.Translate(0, 0, Time.deltaTime * vitesseMarche); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
-                    else if(IsPausing == false && chercheCouverture == true)
+                    else if(IsPausing == false && chercheCouverture == true && estCouvert == false)
                     {
                         if (!searchCover) direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame, Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
                         else if(searchCover)direction = pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - transform.position;
@@ -172,11 +172,12 @@ public class AIscripts : MonoBehaviour
                         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime); // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                         this.transform.Translate(0, 0, Time.deltaTime * vitesseCourse); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
-                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, transform.position) < 0.3f)
+                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.3f)
                     {
                         chercheCouverture = false;
                        if(wantToAttack == false) isAimingPlayer = false;
                         estCouvert = true;
+                        AnimKneel();
                     }
                 }
                 else
@@ -558,6 +559,7 @@ public class AIscripts : MonoBehaviour
         IsPatrolling = true;
         vie = IA.vie;
         saitOuEstLeJoueur = false;
+        estCouvert = false;
     }
 
 
