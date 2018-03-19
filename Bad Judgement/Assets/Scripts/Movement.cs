@@ -190,16 +190,12 @@ public class Movement : MonoBehaviour
 
     private void PlayWalkForward()
     {
-        //anim.SetTrigger("walkForward");
-        anim.SetBool("testBoolIdle", false);
-        anim.SetBool("testBoolWalk", true);
+        
     }
 
     private void PlayIdle()
     {
-        //anim.SetTrigger("idle");
-        anim.SetBool("testBoolWalk", false);
-        anim.SetBool("testBoolIdle", true);
+        
     }
 
     #endregion
