@@ -34,6 +34,7 @@ public class Movement : MonoBehaviour
     private float onTheKneesCrouchDeltaH = 0.35F; //The height the character will lose while crouching
 
     private bool characterCanJump; //Useful for the jump move
+    private float fatigue;
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
@@ -50,6 +51,12 @@ public class Movement : MonoBehaviour
 
     public bool characterIsWalkingFwd { get; private set; }
     public bool characterIsIdle { get; private set; }
+    public bool wantsToRun;
+    public float Fatigue
+    {
+        get { return fatigue; }
+        set { fatigue = value; }
+    }
 
     #endregion
 
@@ -60,6 +67,7 @@ public class Movement : MonoBehaviour
     {
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
         this.characterIsCrouched = false;
+        fatigue = 0f;
 
         #region sounds
         personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
@@ -105,7 +113,7 @@ public class Movement : MonoBehaviour
         //Checking for Ground Moving :
         float xAxis = Input.GetAxis("Horizontal") * sideSpeed * Time.deltaTime;
         float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
-        bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
+        wantsToRun = Input.GetKey(KeyCode.LeftShift);
 
         if (wantsToRun && !this.characterCanJump) wantsToRun = this.InvertBool(wantsToRun);
         this.Move(zAxis, xAxis, wantsToRun);
@@ -220,6 +228,12 @@ public class Movement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+    private void FatigueCounter()
+    {
+        if (wantsToRun) fatigue += 5f;
+        if (characterIsJumping) fatigue = +10f;
+        if (characterIsIdle) if (fatigue>0) fatigue -= 2.5f; // if ma boy ain't moving than he restin'
     }
 
     #endregion
