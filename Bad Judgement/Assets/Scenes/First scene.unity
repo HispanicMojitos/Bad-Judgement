@@ -2365,9 +2365,9 @@ MonoBehaviour:
   rbPlayer: {fileID: 1096326881}
   cadenceDetir: 0.045
   degats: 1
-  vitesseRotation: 3
-  vitesseMarche: 0.89
-  vitesseCourse: 0.76
+  vitesseRotation: 5
+  vitesseMarche: 0.33
+  vitesseCourse: 0.84
 --- !u!114 &470085429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5368,6 +5368,7 @@ MonoBehaviour:
   playerRigidbody: {fileID: 1096326881}
   playerCollider: {fileID: 836389858}
   anim: {fileID: 836389859}
+  wantsToRun: 0
 --- !u!82 &836389857
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7500,7 +7501,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1209208458}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.08, y: 0, z: -5.7}
+  m_LocalPosition: {x: -6.05, y: 0, z: -6.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1456593540}
