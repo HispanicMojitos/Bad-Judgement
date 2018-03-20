@@ -41,10 +41,10 @@ public class Movement : MonoBehaviour
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
 
     [SerializeField] private Animator anim;
-    
+    List<AnimBool> animBools = new List<AnimBool>();
 
     #endregion
-
+    
     #region Properties & readonly
 
     public bool characterIsMoving { get; private set; }
@@ -83,6 +83,10 @@ public class Movement : MonoBehaviour
 
         this.characterIsIdle = true;
         this.characterIsWalkingFwd = false;
+
+        //AnimationClip[] animClips = anim.runtimeAnimatorController.animationClips;
+        //for (int i = 0; i < animClips.Length; i++) animBools.Add(new AnimBool(animClips[i].name, false));
+        //foreach (var item in this.animBools) item.SetStateToFalse();
     }
 
     // Update is called once per frame
