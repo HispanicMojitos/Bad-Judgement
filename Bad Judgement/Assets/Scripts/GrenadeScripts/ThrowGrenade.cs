@@ -21,7 +21,7 @@ public class ThrowGrenade : MonoBehaviour {
             distance.y -= 15; // Permet de regler un bon angle de lancer pour la grenade
             if(distance.magnitude < 20) clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude/28) , ForceMode.Impulse);
             else if(distance.magnitude < 30) clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / 27), ForceMode.Impulse);
-            else if (distance.magnitude >= 30) clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / 25), ForceMode.Impulse);
+            else if (distance.magnitude >= 30) clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / 29), ForceMode.Impulse);
         } // Ici on ajuste la puissance de lancer de l'IA en fonction d'ou se trouve le joueur
     }
 }
