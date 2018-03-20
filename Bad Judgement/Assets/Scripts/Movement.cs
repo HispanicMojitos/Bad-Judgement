@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Movement : MonoBehaviour
 {
@@ -40,11 +41,11 @@ public class Movement : MonoBehaviour
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
 
-    [SerializeField] private Animator anim;
-    List<AnimBool> animBools = new List<AnimBool>();
+    [SerializeField] private Animator anim; //Getting the animator
+    List<string> animParametersList; //New list w/ names of booleans to handle animations
 
     #endregion
-    
+
     #region Properties & readonly
 
     public bool characterIsMoving { get; private set; }
@@ -84,23 +85,13 @@ public class Movement : MonoBehaviour
         this.characterIsIdle = true;
         this.characterIsWalkingFwd = false;
 
-        //AnimationClip[] animClips = anim.runtimeAnimatorController.animationClips;
-        //for (int i = 0; i < animClips.Length; i++) animBools.Add(new AnimBool(animClips[i].name, false));
-        //foreach (var item in this.animBools) item.SetStateToFalse();
+        this.animParametersList = AnimatorHandling.GetParameterNames(this.anim);
+        //We send our animator to get a whole list of the animator's parameters. This will allow us to disable all the bools we don't need in only one line !
     }
 
     // Update is called once per frame
     void Update()
     {
-        #region Cursor
-
-        //To be moved :
-        if (Input.GetKeyDown(KeyCode.Escape)) this.CursorUnlock();
-        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) this.CursorLock();
-        //Locks the cursor on the window
-
-        #endregion
-
         #region Jump
 
         //Checking for Jump :
@@ -121,15 +112,16 @@ public class Movement : MonoBehaviour
         float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
         wantsToRun = Input.GetKey(KeyCode.LeftShift);
 
+        //If player wants to run and that he can not jump (he's currently jumping) => He can not jump
         if (wantsToRun && !this.characterCanJump) wantsToRun = this.InvertBool(wantsToRun);
-        this.Move(zAxis, xAxis, wantsToRun);
+        this.Move(zAxis, xAxis, wantsToRun); //Moving the character via another method
 
         #endregion
 
         #region Crouch
 
         if (Input.GetKeyDown(KeyCode.C)) Crouch(this.normalCrouchDeltaH);
-
+        //Doing two != types of crouching depending on the key pressed
         if (Input.GetKeyDown(KeyCode.B)) Crouch(this.onTheKneesCrouchDeltaH);
 
         #endregion
@@ -172,7 +164,7 @@ public class Movement : MonoBehaviour
                     zAxis *= runMultiplier;
                     //PLAY RUN FORWARD
                 }
-                else if (xAxis == 0) this.PlayWalkForward();
+                //else if (xAxis == 0) ;
             }
 
             Vector3 movement = new Vector3(xAxis, 0F, zAxis);
@@ -183,7 +175,7 @@ public class Movement : MonoBehaviour
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
             #endregion
         }
-        else this.PlayIdle();
+        //else...
     }
 
     private void Crouch(float deltaHeight)
@@ -201,15 +193,7 @@ public class Movement : MonoBehaviour
 
     #region Animation Methods
 
-    private void PlayWalkForward()
-    {
 
-    }
-
-    private void PlayIdle()
-    {
-        
-    }
 
     #endregion
 
@@ -221,18 +205,6 @@ public class Movement : MonoBehaviour
         else toInvert = true;
 
         return toInvert;
-    }
-
-    private void CursorLock()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    private void CursorUnlock()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     private void FatigueCounter()

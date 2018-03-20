@@ -67,6 +67,15 @@ public class CamControl : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Mouse0)) this.InvertAxis();
         //If LeftAlt + LeftClick => Inverting Y axis
+
+        #region Cursor
+
+        //To be moved :
+        if (Input.GetKeyDown(KeyCode.Escape)) this.CursorUnlock();
+        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) this.CursorLock();
+        //Locks the cursor on the window
+
+        #endregion
     }
 
     #endregion
@@ -132,4 +141,19 @@ public class CamControl : MonoBehaviour
 
     #endregion
 
+    #region Cursor
+
+    private void CursorLock()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void CursorUnlock()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    #endregion
 }
