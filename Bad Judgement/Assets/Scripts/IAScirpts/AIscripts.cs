@@ -118,16 +118,16 @@ public class AIscripts : MonoBehaviour
             Debug.DrawLine(transform.position, direction * 100, Color.blue);
             if (IsPatrolling && pointDePatrouille.Length > 0 || chercheCouverture == true) // Si l'IA patrouille ET qu'il existe des point de patrouille pou lui patrouiller, alors  son algorithme se met en place (évite les erreurs)
             {
-                if(chercheCouverture == true)
+                if (chercheCouverture == true)
                 {
-                    Debug.DrawLine( chercheurCouverture.transform.position, pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, Color.green);
-                    RaycastHit hit;
-                    if(Physics.Raycast(chercheurCouverture.transform.position, pointDeCouverture[CherchePointDeCouvertureProche()].transform.position))
+                    RaycastHit k; // On utilise un raycast pour voir si l'IA voit le joueurs
+                    if (Physics.Raycast(chercheurCouverture.transform.position, (pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - chercheurCouverture.transform.position) , out k) && k.transform.CompareTag("cover") )
                     {
-
+                        searchCover = true;
                     }
-
+                    Debug.DrawLine(chercheurCouverture.transform.position, (pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - chercheurCouverture.transform.position) * 50, Color.green);
                 }
+
                 if (IA.vie == vie) // Si l'IA n'est pas attaquée
                 {
                     if ((!IsPausing) && chercheCouverture == false) AnimWalk();// si il n'a pas a faire de pause, il continue son bonhome de chemin
@@ -526,19 +526,12 @@ public class AIscripts : MonoBehaviour
 
         if (Physics.Raycast(boucheCanon.transform.position, direction, out hit)) // si le raycast est bien en direction du joueur et qu'il le touche bien
         {
-            //GameObject proj = Instantiate(Projectile) as GameObject; // permet de creer plusieurs balles a l'infini, autant que l'on veut : gameobject proj = balle =
-            ////Projectile.transform.position = boucheCanon.transform.position; // On initialise la positions des balles a la bouche du canon du M4A1
-            //Rigidbody rb = proj.GetComponent<Rigidbody>(); // permet de récuperer le rigibody du Gameobject proj, qui est en fait la balle
-            //rb.AddForce(transform.forward * 10000); // permet d'envoyer les balles a une certaine vitess
-
             Target joueur = hit.transform.GetComponent<Target>(); // permet de recuperer le script de l'entité avec laquelle le 'hit' s'est rencontré
 
             if(joueur != null) // Si la cible du raycast a bien le script Target attaché
                    joueur.TakeDamage(degats); // On fait subir des dommages au joueurs qui a le script Target attaché
 
             Sounds.AK47shoot(M4A8Source, M4A8shoot); // permet de jouer le son de tir 
-
-            //Destroy(proj, 1f); // detruit le projectil apres 1 seconde d'existance dans le monde du jeux
         }
     }
     
