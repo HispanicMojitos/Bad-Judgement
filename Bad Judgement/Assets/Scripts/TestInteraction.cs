@@ -15,10 +15,19 @@ public class TestInteraction : MonoBehaviour
         if ( (Physics.Raycast(transform.position, direction, out hit,3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
         {
             reloadImage.enabled = true; // affiche l'image tant que l'on reste focalisé sur une arme
-            if(Input.GetKeyDown(KeyCode.R) ) // Si on appuye sur la touche R
+            if(Input.GetKeyDown(KeyCode.R)) // Si on appuye sur la touche R
             {
-                Destroy(hit.transform.gameObject);
-                reloadImage.enabled = false; // Permet d'enelever l'image 
+                if (GunScript.Mag.mags.Count < 6)
+                {
+                    int nbreDeBalles = Random.Range(4, 12);
+                    Destroy(hit.transform.gameObject);
+                    reloadImage.enabled = false; // Permet d'enelever l'image 
+                    GunScript.Mag.mags.Enqueue(nbreDeBalles);
+                }
+                else
+                {
+                    Debug.Log("Max Mag count");
+                }
                 // Ici ajouter la methode pour ajouter un montant de recharge de l'arme Actuelle (  int nbreDeBalles = Random.Range(4, 12); )
             }
         }

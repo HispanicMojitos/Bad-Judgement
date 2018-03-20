@@ -53,7 +53,7 @@ public class GunScript : MonoBehaviour
     private Vector3 initialPosition;
     private bool _isReloading = false;
     private int reloadTime = 3000;
-    Magazines mag;
+    private static Magazines mag;
 
     #endregion
 
@@ -72,6 +72,11 @@ public class GunScript : MonoBehaviour
     {
         get { return magQty; }
         set { magQty = value; }
+    }
+    public static Magazines Mag
+    {
+        get { return mag; }
+        set { mag = value; }
     }
     #endregion
 
