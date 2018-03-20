@@ -20,7 +20,6 @@ public class GunScript : MonoBehaviour
 
     #region Weapon variables
     [SerializeField] private float damage = 10f; // First we declare our needed variables
-    [SerializeField] private float range = 100f;
     [SerializeField] private float impactForce = 30f;
     [SerializeField] private float fireRate = 15f;
     [SerializeField] private GameObject gunEnd; // camera reference
@@ -34,14 +33,8 @@ public class GunScript : MonoBehaviour
     [SerializeField] private float maxAmount;
     #endregion
 
-    #region Animation
-    [SerializeField] private Animation aiming;
-    [SerializeField] private static Animator anim;
-    #endregion
-
     #region Reload
     [SerializeField] private int bulletsPerMag = 30;
-    [SerializeField] private static int maxAmmo = 300;
     [SerializeField] private static int currentMag;
     [SerializeField] private KeyCode reloadKey = KeyCode.R;
     #endregion
@@ -82,8 +75,6 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
-        aiming = GetComponent<Animation>();
         initialPosition = transform.localPosition;
         mag = new Magazines(magQty, bulletsPerMag);
     }
@@ -130,9 +121,7 @@ public class GunScript : MonoBehaviour
         #region Aiming condition
         if (Input.GetButton("Fire2")) // WIP
         {
-            anim.SetBool("IsAiming",true);
         }
-        else anim.SetBool("IsAiming", false);
         #endregion
     }
 
