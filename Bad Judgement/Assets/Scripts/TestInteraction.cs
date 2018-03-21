@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class TestInteraction : MonoBehaviour
 {
-    [SerializeField] private Image reloadImage; 
-    
+    [SerializeField] private Image reloadImage;
+    [SerializeField] private Image Interactionimage;
+    private bool porteOuverte = false;
+
 	void Update ()
     {
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100; // Permet d'afficher le raycast
@@ -28,9 +30,41 @@ public class TestInteraction : MonoBehaviour
                 {
                     Debug.Log("Max Mag count");
                 }
-                // Ici ajouter la methode pour ajouter un montant de recharge de l'arme Actuelle (  int nbreDeBalles = Random.Range(4, 12); )
             }
         }
         else if (reloadImage.enabled == true) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
+
+        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
+        {
+            Interactionimage.enabled = true;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (porteOuverte == false)
+                {
+                    porteOuverte = true;
+                    HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
+                    JointSpring jSpring = joint.spring;
+
+                    jSpring.spring = 100;
+                    jSpring.damper = 50;
+                    jSpring.targetPosition = -90;
+                    joint.spring = jSpring;
+                    joint.useSpring = true;
+                }
+                else
+                {
+                    porteOuverte = false;
+                    HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
+                    JointSpring jSpring = hit.transform.GetComponent<HingeJoint>().spring;
+
+                    jSpring.spring = 100;
+                    jSpring.damper = 50;
+                    jSpring.targetPosition = 0;
+                    joint.spring = jSpring;
+                    joint.useSpring = true;
+                }
+            }
+        }
+        else Interactionimage.enabled = false;
     }
 }
