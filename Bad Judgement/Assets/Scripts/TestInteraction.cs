@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TestInteraction : MonoBehaviour
 {
     [SerializeField] private Image reloadImage;
-    [SerializeField] private Image Interactionimage;
+    [SerializeField] private Image interactionImage;
     private bool porteOuverte = false;
 
 	void Update ()
@@ -36,7 +36,7 @@ public class TestInteraction : MonoBehaviour
 
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
-            Interactionimage.enabled = true;
+            interactionImage.enabled = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (porteOuverte == false)
@@ -55,7 +55,7 @@ public class TestInteraction : MonoBehaviour
                 {
                     porteOuverte = false;
                     HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
-                    JointSpring jSpring = hit.transform.GetComponent<HingeJoint>().spring;
+                    JointSpring jSpring = joint.spring;
 
                     jSpring.spring = 100;
                     jSpring.damper = 50;
@@ -65,6 +65,6 @@ public class TestInteraction : MonoBehaviour
                 }
             }
         }
-        else Interactionimage.enabled = false;
+        else interactionImage.enabled = false;
     }
 }
