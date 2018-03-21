@@ -11,7 +11,7 @@ public static class AnimatorHandling
         List<string> animatorParameterList = new List<string>();
 
         List<AnimatorControllerParameter> animParamList = anim.parameters.ToList();
-        for (int i = 0; i < animParamList.Count; i++) animatorParameterList[i] = animParamList[i].name;
+        for (int i = 0; i < animParamList.Count; i++) animatorParameterList.Add(animParamList[i].name);
 
         return animatorParameterList;
     }
