@@ -48,6 +48,7 @@ public class AIscripts : MonoBehaviour
     private float tempsAvantDelayCoupDeCrosse = 0f;
     private float tempsActionGrenade = 0f;
     private float tempsScreamgrenade = 0f;
+    private float tempsAvantSeCouvrir = 0f;
 
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
@@ -244,9 +245,15 @@ public class AIscripts : MonoBehaviour
                     //    AnimRun();
                     //}
                     ///////////////////////////////////// A METTRE SI DIFFICULTE FACILE
+                    tempsAvantSeCouvrir += Time.deltaTime;
+                    if (tempsAvantSeCouvrir > UnityEngine.Random.Range(4, 10))
+                    {
+                        chercheCouverture = true;
+                        changeDirection = true;
+                    }
 
                     isAimingPlayer = true;
-                        AnimAim();
+                    AnimAim();
                         if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
                         {
                             if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
@@ -321,6 +328,7 @@ public class AIscripts : MonoBehaviour
                     }
                     else if (isAimingPlayer == true && isThrowingGrenade == false)
                     {
+                        
                         AnimAim();
                         if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                         {
@@ -349,6 +357,9 @@ public class AIscripts : MonoBehaviour
                     if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
                     else
                     {
+                        if (tempsAvantArreterPoursuite > 60f) StopPoursuite();
+                        else tempsAvantArreterPoursuite += Time.deltaTime;
+
                         AnimKneel();
                         tempsKneelDecision += Time.deltaTime;
                         if (tempsKneelDecision > tempsAvantSeredresser)
@@ -359,6 +370,7 @@ public class AIscripts : MonoBehaviour
                             tempsKneelDecision = 0f;
                         }
                     }
+
                 }
                 tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
                
