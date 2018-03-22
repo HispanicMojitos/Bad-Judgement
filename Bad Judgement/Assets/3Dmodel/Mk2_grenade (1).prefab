@@ -562,6 +562,7 @@ MonoBehaviour:
   effetExplosion: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b,
     type: 2}
   Grenade: {fileID: 1337821864753896}
+  coll: {fileID: 136379692274507882}
   "aExplos\xE9": 0
   delai: 4
   rayonExplosion: 5
@@ -598,7 +599,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1337821864753896}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.13311075
   m_Height: 0.36723986

@@ -411,9 +411,9 @@ public class AIscripts : MonoBehaviour
         }
         else if (estMort == false) // Si l'IA meurt il faut jouer sa mort, faire en sorte que l'arme se perde, jouer le bruit de la mrt, etc...
         {
+            M4A8.GetComponent<Rigidbody>().isKinematic = false;
             M4A8.GetComponent<Rigidbody>().useGravity = true;
-            M4A8.GetComponent<Rigidbody>().isKinematic = true;
-            M4A8.GetComponent<Rigidbody>().AddForce(Vector3.right * 0.1f,ForceMode.Impulse);
+            M4A8.GetComponent<Rigidbody>().AddForce(Vector3.right * 0.2f,ForceMode.Impulse);
             M4A8.GetComponent<BoxCollider>().enabled = true;
             M4A8.transform.parent = null;
             capsColStand.enabled = false;
