@@ -7,6 +7,9 @@ public class TestInteraction : MonoBehaviour
 {
     [SerializeField] private Image reloadImage;
     [SerializeField] private Image interactionImage;
+    [SerializeField] private AudioClip porteFerme;
+    [SerializeField] private AudioClip openDoor;
+    [SerializeField] private AudioClip closeDoor;
     private bool porteOuverte = false;
 
 	void Update ()
@@ -50,6 +53,7 @@ public class TestInteraction : MonoBehaviour
                     jSpring.targetPosition = -90;
                     joint.spring = jSpring;
                     joint.useSpring = true;
+                    Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
                 }
                 else
                 {
@@ -62,9 +66,16 @@ public class TestInteraction : MonoBehaviour
                     jSpring.targetPosition = 0;
                     joint.spring = jSpring;
                     joint.useSpring = true;
+                    Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), closeDoor);
                 }
             }
         }
+        else if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < 3))
+        {
+            interactionImage.enabled = true;
+            if (Input.GetKeyDown(KeyCode.E)) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), porteFerme);
+        }
         else interactionImage.enabled = false;
+
     }
 }

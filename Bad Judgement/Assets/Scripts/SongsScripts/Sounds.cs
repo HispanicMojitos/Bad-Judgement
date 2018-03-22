@@ -72,4 +72,13 @@ public static class Sounds
     {
         if (!mouthHead.isPlaying) mouthHead.Play();
     }
+
+    public static void PlayDoorSond(AudioSource door, AudioClip doorSound)
+    {
+        if(!door.isPlaying || door.clip != doorSound)
+        {
+            door.clip = doorSound;
+            door.Play();
+        }
+    }
 }
