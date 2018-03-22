@@ -7,6 +7,8 @@ public class AIscripts : MonoBehaviour
 {
 
     #region membres
+    [SerializeField] private CapsuleCollider capsColKnneel;
+    [SerializeField] private CapsuleCollider capsColStand;
 
     [SerializeField] private GameObject lanceurGrenad;
     [SerializeField] private GameObject M4A8; // prend la position du M4A8
@@ -59,6 +61,7 @@ public class AIscripts : MonoBehaviour
     // A METTRE EN MODE FACILE private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
     private int tempsGrenadeChoix = 4;
 
+    private bool estAGenoux = false;
     private bool estMort = false;
     private bool aJeteGrenade = false;
     private bool isThrowingGrenade = false;
@@ -214,6 +217,7 @@ public class AIscripts : MonoBehaviour
 
             if(Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f) // Si le joueur se trouve trop pres de l'IA il va l'attaquer au corp a corps !! (DU CATCH !!)
             {
+
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // On garde le fait que l'IA regarde vers le joueur
                 AnimAttackCloser();
                 isblocking = true;
@@ -408,10 +412,12 @@ public class AIscripts : MonoBehaviour
         else if (estMort == false) // Si l'IA meurt il faut jouer sa mort, faire en sorte que l'arme se perde, jouer le bruit de la mrt, etc...
         {
             M4A8.GetComponent<Rigidbody>().useGravity = true;
+            M4A8.GetComponent<Rigidbody>().isKinematic = true;
             M4A8.GetComponent<Rigidbody>().AddForce(Vector3.right * 0.1f,ForceMode.Impulse);
             M4A8.GetComponent<BoxCollider>().enabled = true;
             M4A8.transform.parent = null;
-
+            capsColStand.enabled = false;
+            capsColKnneel.enabled = false;
             if (!mouthHead.isPlaying && playSoundOnce == false)
             {
                 mouthHead.PlayOneShot(soundDeath[0]);
@@ -426,49 +432,16 @@ public class AIscripts : MonoBehaviour
     
 
     #region method
-    static private void AnimKneelGrenade()
+    private void AnimKneelGrenade()
     {
+        estKneel();
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsGrenade", true);
     }
-    static private void AnimAttackCloser()
+    private void AnimAimKneel()
     {
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsDead", false);
-        anim.SetBool("IsAttackingCloser",true);
-    }
-    static private void AnimDie()
-    {
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsDead", true);
-    }
-    static private void AnimAim()
-    {
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
-        anim.SetBool("IsAttacking", false); // ANIMATION : Commence a attaquer
-        anim.SetBool("IsAiming", true);
-    }
-    static private void AnimAimKneel()
-    {
+        estKneel();
         anim.SetBool("IsGrenade", false);
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsRunning", false);
@@ -479,12 +452,13 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsAimKneel", true);
     }
-    static private void AnimKneel()
+    private void AnimKneel()
     {
+        estKneel();
         anim.SetBool("IsGrenade", false);
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsAimKneel",false);
+        anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsAiming", false);
         anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
@@ -492,8 +466,34 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsKneel", true);
     }
-    static private void AnimRun()
+    private void AnimAttackCloser()
     {
+        estStand();
+        anim.SetBool("IsAimKneel", false);
+        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
+        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
+        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
+        anim.SetBool("IsRunning", false);
+        anim.SetBool("IsKneel", false);
+        anim.SetBool("IsAiming", false);
+        anim.SetBool("IsDead", false);
+        anim.SetBool("IsAttackingCloser",true);
+    }
+    private void AnimAim()
+    {
+        estStand();
+        anim.SetBool("IsAttackingCloser", false);
+        anim.SetBool("IsAimKneel", false);
+        anim.SetBool("IsRunning", false);
+        anim.SetBool("IsKneel", false);
+        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
+        anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
+        anim.SetBool("IsAttacking", false); // ANIMATION : Commence a attaquer
+        anim.SetBool("IsAiming", true);
+    }
+    private void AnimRun()
+    {
+        estStand();
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsKneel", false);
@@ -503,8 +503,9 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
         anim.SetBool("IsRunning", true);
     }
-    static private void AnimWalk() // Permet de faire tourner l'animation Walk et de regler l'arme avec l'animation
+    private void AnimWalk() // Permet de faire tourner l'animation Walk et de regler l'arme avec l'animation
     {
+        estStand();
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning",false );
@@ -514,8 +515,9 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", true); // ANIMATION : commence a marcher
     }
-    static private void AnimIdle() // Permet de faire tourner l'animation idle et de regler l'arme avec l'animation
+    private void AnimIdle() // Permet de faire tourner l'animation idle et de regler l'arme avec l'animation
     {
+        estStand();
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
@@ -525,8 +527,9 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsAttacking", false); // ANIMATION : arrete d'attaquer
         anim.SetBool("IsIdle", true); // ANIMATION : fait sa pause
     }
-    static private void Animattack() // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
+    private void Animattack() // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
     {
+        estStand();
         anim.SetBool("IsAttackingCloser", false);
         anim.SetBool("IsAimKneel", false);
         anim.SetBool("IsRunning", false);
@@ -535,6 +538,18 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
         anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
         anim.SetBool("IsAttacking", true); // ANIMATION : Commence a attaquer
+    }
+    private void AnimDie()
+    {
+        anim.SetBool("IsAttackingCloser", false);
+        anim.SetBool("IsAimKneel", false);
+        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
+        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
+        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
+        anim.SetBool("IsRunning", false);
+        anim.SetBool("IsKneel", false);
+        anim.SetBool("IsAiming", false);
+        anim.SetBool("IsDead", true);
     }
 
     private void AttackShoot(Vector3 direction)
@@ -645,5 +660,26 @@ public class AIscripts : MonoBehaviour
 
         Volonte(choix);
     }
+
+    private void estKneel()
+    {
+        if (estAGenoux == false)
+        {
+            capsColStand.enabled = false;
+            capsColKnneel.enabled = true;
+            estAGenoux = true;
+        }
+    }
+
+    private void estStand()
+    {
+        if (estAGenoux == true)
+        {
+            capsColKnneel.enabled = false;
+            capsColStand.enabled = true;
+            estAGenoux = false;
+        }
+    }
+
     #endregion method
 }
