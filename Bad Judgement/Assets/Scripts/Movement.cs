@@ -42,7 +42,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
 
     [SerializeField] private Animator anim; //Getting the animator
-    List<string> animParametersList; //New list w/ names of booleans to handle animations
+    //List<string> animParametersList; //New list w/ names of booleans to handle animations
 
     #endregion
 
@@ -51,6 +51,7 @@ public class Movement : MonoBehaviour
     public bool characterIsMoving { get; private set; }
     public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
     public bool characterIsCrouched { get; private set; }
+    public bool characterIsGrounded { get; private set; }
 
     public bool characterIsWalkingFwd { get; private set; }
     public bool characterIsIdle { get; private set; }
@@ -70,6 +71,7 @@ public class Movement : MonoBehaviour
     {
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
         this.characterIsCrouched = false;
+        this.characterIsGrounded = true;
         fatigue = 0F;
 
         #region sounds
@@ -85,13 +87,19 @@ public class Movement : MonoBehaviour
         this.characterIsIdle = true;
         this.characterIsWalkingFwd = false;
 
-        this.animParametersList = AnimatorHandling.GetParameterNames(this.anim);
+        //this.animParametersList = AnimatorHandling.GetParameterNames(this.anim);
         //We send our animator to get a whole list of the animator's parameters. This will allow us to disable all the bools we don't need in only one line !
     }
 
     // Update is called once per frame
     void Update()
     {
+        #region Ground Move
+
+        if (this.characterIsGrounded) this.Move();
+
+        #endregion
+
         #region Jump
 
         //Checking for Jump :
@@ -105,19 +113,6 @@ public class Movement : MonoBehaviour
 
         #endregion
 
-        #region Ground Move
-
-        //Checking for Ground Moving :
-        float xAxis = Input.GetAxis("Horizontal") * sideSpeed * Time.deltaTime;
-        float zAxis = Input.GetAxis("Vertical") * Time.deltaTime;
-        wantsToRun = Input.GetKey(KeyCode.LeftShift);
-
-        //If player wants to run and that he can not jump (he's currently jumping) => He can not jump
-        if (wantsToRun && !this.characterCanJump) wantsToRun = this.InvertBool(wantsToRun);
-        this.Move(zAxis, xAxis, wantsToRun); //Moving the character via another method
-
-        #endregion
-
         #region Crouch
 
         if (Input.GetKeyDown(KeyCode.C)) Crouch(this.normalCrouchDeltaH);
@@ -125,6 +120,8 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B)) Crouch(this.onTheKneesCrouchDeltaH);
 
         #endregion
+
+        Debug.Log(this.playerRigidbody.velocity);
     }
 
     #endregion
@@ -146,36 +143,34 @@ public class Movement : MonoBehaviour
         //So that when the player touches the ground again, he can jump.
     }
 
-    private void Move(float zAxis, float xAxis, bool wantsToRun)
+    private void Move() //Fully reworked to correct collision bugs
     {
-        if (zAxis != 0 || xAxis != 0) //If player moving
+        Vector3 currentVelocity = playerRigidbody.velocity; //Getting current velocity
+        Vector3 targetSpeed = new Vector3(Input.GetAxis("Horizontal"), 0F, Input.GetAxis("Vertical")); //Calculating new velocity
+
+
+        if (targetSpeed.x != 0 || targetSpeed.z != 0)
         {
-            if (zAxis < 0) //We know that the character is going backwards
-            {
-                zAxis *= backwardSpeed;
-                //PLAY WALK BACKWARD
-            }
-            else
-            {
-                zAxis *= forwardSpeed;
+            bool wantsToRun = Input.GetKey(KeyCode.LeftShift); //Checking if player pressed Lshift (means that he wants to run)
 
-                if (wantsToRun)
-                {
-                    zAxis *= runMultiplier;
-                    //PLAY RUN FORWARD
-                }
-                //else if (xAxis == 0) ;
-            }
+            targetSpeed = transform.TransformDirection(targetSpeed); //Doing a transformDirection to be able to turn the axes
 
-            Vector3 movement = new Vector3(xAxis, 0F, zAxis);
-            //X is the strafe and Z is forward/backward
-            this.transform.Translate(movement); //Making the move
+            if (targetSpeed.z > 0) targetSpeed.z *= forwardSpeed; //If going forward multiplying by forward speed
+            else targetSpeed.z *= forwardSpeed; //If going backwards, multiplying by backwards speed that is lower than forward one
+            targetSpeed.x *= sideSpeed; //Assigning speeds to each component of the moving Vector
+
+
+            Vector3 deltaMove = targetSpeed - currentVelocity;
+            //Not doing the difference between actual velocity and new one would provoke a kind of acceleration which we don't want
+
+            if (wantsToRun) deltaMove *= runMultiplier; //If player wants to run, we increase movement speed by a number that'll change depending on exhaust
+
+            playerRigidbody.AddForce(deltaMove * 50F); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
 
             #region sound
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
-            #endregion
+            #endregion  
         }
-        //else...
     }
 
     private void Crouch(float deltaHeight)
