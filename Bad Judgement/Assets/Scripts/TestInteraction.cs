@@ -46,7 +46,7 @@ public class TestInteraction : MonoBehaviour
                     JointSpring jSpring = joint.spring;
 
                     jSpring.spring = 100;
-                    jSpring.damper = 50;
+                    jSpring.damper = 30;
                     jSpring.targetPosition = -90;
                     joint.spring = jSpring;
                     joint.useSpring = true;
@@ -58,7 +58,7 @@ public class TestInteraction : MonoBehaviour
                     JointSpring jSpring = joint.spring;
 
                     jSpring.spring = 100;
-                    jSpring.damper = 50;
+                    jSpring.damper = 30;
                     jSpring.targetPosition = 0;
                     joint.spring = jSpring;
                     joint.useSpring = true;

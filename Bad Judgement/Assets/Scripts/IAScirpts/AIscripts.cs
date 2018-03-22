@@ -36,11 +36,12 @@ public class AIscripts : MonoBehaviour
     private float tailleZonePointDepatrouille = 1f; // Taille des points de patrouille par lesquelle l'IA va prendre la route du prochain point de patrouille
     private float vie = 0f; //On initialise la vie de l'IA
     private float vieMax; // Recupere la vie max de l'IA pour des comparaison
+
+    private float tempsPause = 5f; // Durée de la pause
     private float tempsDeTir = 0f; // TOUCHE PAS A CA PTIT CON = la valeur 0 doit etre absolument initialisée pour permettre a l'IA de tirer
     private float tempsNouvelleDecision = 0f;
     private float tempsDebutAttaque = 0f;
     private float tempsFinAttaque = 0f;
-    private float tempsPause = 5f; // Durée de la pause
     private float tempsKneelDecision = 0f;
     private float tempsAvantArreterPoursuite = 0f;
     private float tempsAvantAttaque = 0f;
@@ -49,6 +50,7 @@ public class AIscripts : MonoBehaviour
     private float tempsActionGrenade = 0f;
     private float tempsScreamgrenade = 0f;
     private float tempsAvantSeCouvrir = 0f;
+    private float tempsAvantAcroupir = 0f;
 
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
@@ -74,7 +76,13 @@ public class AIscripts : MonoBehaviour
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
     #endregion membres
-    
+
+    #region membres pour difficultes
+
+    int nbrDePause = 3; // Plus on augmonte ce nombre, plus l'IA fera de pause
+
+    #endregion membres pour difficultes
+
     #region Awake Start & Update
 
     #region Awake & Start
@@ -109,9 +117,10 @@ public class AIscripts : MonoBehaviour
     void Update()
     {
 
-        Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
+        
         if (IA.vie > 0)
         {
+            Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
             VolonteEtat();
             direction.y = 0; // evite que l'IA marche dans le vide lorsqu'on saute
             float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
@@ -135,7 +144,7 @@ public class AIscripts : MonoBehaviour
                     else if (chercheCouverture == true && estCouvert == false) AnimRun();
                     else if (estCouvert == true) AnimKneel();
 
-                    if (((actuelPointDePatrouille % 3 == 0) && tempsPause >= 0) && chercheCouverture == false) // Permet de ne faire la pause qu'a un point de patrouille donné
+                    if (((actuelPointDePatrouille %nbrDePause == 0) && tempsPause >= 0) && chercheCouverture == false) // Permet de ne faire la pause qu'a un point de patrouille donné
                     {
                         AnimIdle();
                         IsPausing = true; // l'IA prens sa pause
@@ -143,7 +152,7 @@ public class AIscripts : MonoBehaviour
                     }
                     else  IsPausing = false;
 
-                    if (!(actuelPointDePatrouille %3 == 0)) tempsPause = UnityEngine.Random.Range(5f, 15f); // Permet de remettre la pause a son stade initial 
+                    if (!(actuelPointDePatrouille %nbrDePause == 0)) tempsPause = UnityEngine.Random.Range(5f, 15f); // Permet de remettre la pause a son stade initial 
 
                     if ( (Vector3.Distance(pointDePatrouille[actuelPointDePatrouille].transform.position, transform.position) < tailleZonePointDepatrouille && !IsPausing) && chercheCouverture == false) // On verifie la distance entre le point de patrouille actuel et l'IA
                     {
@@ -238,13 +247,6 @@ public class AIscripts : MonoBehaviour
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // L'IA se tourne ver le joueur
                     IsPatrolling = false;
 
-                    ///////////////////////////////////// A METTRE SI DIFFICULTE FACILE
-                    //if (direction.magnitude > distanceAttaque  && estCouvert == false) // Direction.magnitude represente la distance mathémathique entre le joueur et l'IA
-                    //{
-                    //    this.transform.Translate(0, 0, Time.deltaTime * vitesse); // Permet de faire avancer l'IA sur son axe des Z
-                    //    AnimRun();
-                    //}
-                    ///////////////////////////////////// A METTRE SI DIFFICULTE FACILE
                     tempsAvantSeCouvrir += Time.deltaTime;
                     if (tempsAvantSeCouvrir > UnityEngine.Random.Range(4, 10))
                     {
@@ -306,6 +308,7 @@ public class AIscripts : MonoBehaviour
                 }
                 if (vie == IA.vie)
                 {
+                    tempsAvantAcroupir = 0;
                     RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
                     if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && isThrowingGrenade == false & isAimingPlayer == false)
                     {
@@ -328,7 +331,6 @@ public class AIscripts : MonoBehaviour
                     }
                     else if (isAimingPlayer == true && isThrowingGrenade == false)
                     {
-                        
                         AnimAim();
                         if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                         {
@@ -353,24 +355,27 @@ public class AIscripts : MonoBehaviour
                 }
                 else if(vie != IA.vie && isThrowingGrenade == false) // Joue l'animation est la reflexions lorsque l'IA est a genoux
                 {
-                    RaycastHit h;
-                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
-                    else
+                    tempsAvantAcroupir += Time.deltaTime;
+                    if (tempsAvantAcroupir > 1f)
                     {
-                        if (tempsAvantArreterPoursuite > 60f) StopPoursuite();
-                        else tempsAvantArreterPoursuite += Time.deltaTime;
-
-                        AnimKneel();
-                        tempsKneelDecision += Time.deltaTime;
-                        if (tempsKneelDecision > tempsAvantSeredresser)
+                        RaycastHit h;
+                        if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
+                        else
                         {
-                            tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
-                            vie = IA.vie;
-                            tempsNouvelleDecision = 0;
-                            tempsKneelDecision = 0f;
+                            if (tempsAvantArreterPoursuite > 60f) StopPoursuite();
+                            else tempsAvantArreterPoursuite += Time.deltaTime;
+
+                            AnimKneel();
+                            tempsKneelDecision += Time.deltaTime;
+                            if (tempsKneelDecision > tempsAvantSeredresser)
+                            {
+                                tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
+                                vie = IA.vie;
+                                tempsNouvelleDecision = 0;
+                                tempsKneelDecision = 0f;
+                            }
                         }
                     }
-
                 }
                 tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
                
