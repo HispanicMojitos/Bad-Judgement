@@ -436,18 +436,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &68603608
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 68603604}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.9447576, y: 2.0506718, z: 0.1788934}
-  m_Center: {x: 0.19156122, y: 1.011177, z: 0.11394658}
 --- !u!82 &68603610
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2891,6 +2879,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &886963034 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1396020586500856, guid: 162b62a57ed31934dbd93c1e34d28118,
+    type: 2}
+  m_PrefabInternal: {fileID: 126403506}
+--- !u!65 &886963038
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 886963034}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8150001, y: 0.03250001, z: 2.0000005}
+  m_Center: {x: 0.00000047683716, y: 0, z: -0.00000017881393}
 --- !u!1 &887154780
 GameObject:
   m_ObjectHideFlags: 0
