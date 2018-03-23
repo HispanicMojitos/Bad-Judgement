@@ -27,7 +27,7 @@ public class Movement : MonoBehaviour
     private float backwardSpeed;
     private float sideSpeed = 2.15F; //Speeds
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
-    private float runMultiplier = 1.6F; //If the player wants to run, his forward speed will be multiplicated by 2
+    private float runMultiplier = 1.6F; //If the player wants to run, his forward speed will be multiplicated by 1.6
 
     private float jumpForce = 4.5F; //Force of the jump that the character will have
 
@@ -135,8 +135,8 @@ public class Movement : MonoBehaviour
         #endregion sound
 
         Vector3 jump = new Vector3(0F, jumpForce, 0F); //Making the jump by setting the velocity to the jump force
-        playerRigidbody.velocity += jump;
-
+        //playerRigidbody.velocity += jump;
+        playerRigidbody.AddForce(jump, ForceMode.VelocityChange);
         this.characterCanJump = false; //Telling that the player may not jump
 
         //In the sounds part, there's the method that handles OnCollisionEnter event. I just added this.characterCanJump = true
@@ -146,7 +146,7 @@ public class Movement : MonoBehaviour
     private void Move() //Fully reworked to correct collision bugs
     {
         Vector3 currentVelocity = playerRigidbody.velocity; //Getting current velocity
-        Vector3 targetSpeed = new Vector3(Input.GetAxis("Horizontal"), 0F, Input.GetAxis("Vertical")); //Calculating new velocity
+        Vector3 targetSpeed = new Vector3(Input.GetAxis("Horizontal"), currentVelocity.y, Input.GetAxis("Vertical")); //Calculating new velocity
 
 
         if (targetSpeed.x != 0 || targetSpeed.z != 0)
@@ -159,13 +159,17 @@ public class Movement : MonoBehaviour
             else targetSpeed.z *= forwardSpeed; //If going backwards, multiplying by backwards speed that is lower than forward one
             targetSpeed.x *= sideSpeed; //Assigning speeds to each component of the moving Vector
 
+            if (wantsToRun) //If player wants to run, we increase movement speed by a number that'll change depending on exhaust
+            {
+                targetSpeed.x *= runMultiplier;
+                targetSpeed.z *= runMultiplier;
+            }
 
             Vector3 deltaMove = targetSpeed - currentVelocity;
+            
             //Not doing the difference between actual velocity and new one would provoke a kind of acceleration which we don't want
 
-            if (wantsToRun) deltaMove *= runMultiplier; //If player wants to run, we increase movement speed by a number that'll change depending on exhaust
-
-            playerRigidbody.AddForce(deltaMove * 50F); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
+            playerRigidbody.AddForce(deltaMove, ForceMode.VelocityChange); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
 
             #region sound
             Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
