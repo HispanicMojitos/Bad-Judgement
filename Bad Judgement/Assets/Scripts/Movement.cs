@@ -34,7 +34,7 @@ public class Movement : MonoBehaviour
     private float normalCrouchDeltaH = 0.6F;
     private float onTheKneesCrouchDeltaH = 0.35F; //The height the character will lose while crouching
 
-    private bool wantsToRun;
+    private bool wantsToRun; //To know is the character wants to run
     private bool characterCanJump; //Useful for the jump move
     private float fatigue;
 
@@ -120,8 +120,6 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B)) Crouch(this.onTheKneesCrouchDeltaH);
 
         #endregion
-
-        Debug.Log(this.playerRigidbody.velocity);
     }
 
     #endregion
@@ -153,11 +151,12 @@ public class Movement : MonoBehaviour
         {
             bool wantsToRun = Input.GetKey(KeyCode.LeftShift); //Checking if player pressed Lshift (means that he wants to run)
 
-            targetSpeed = transform.TransformDirection(targetSpeed); //Doing a transformDirection to be able to turn the axes
-
             if (targetSpeed.z > 0) targetSpeed.z *= forwardSpeed; //If going forward multiplying by forward speed
-            else targetSpeed.z *= forwardSpeed; //If going backwards, multiplying by backwards speed that is lower than forward one
+            else targetSpeed.z *= backwardSpeed; //If going backwards, multiplying by backwards speed that is lower than forward one
             targetSpeed.x *= sideSpeed; //Assigning speeds to each component of the moving Vector
+
+            targetSpeed = transform.TransformDirection(targetSpeed); //Doing a transformDirection to be able to turn the axes
+            //Have to keep this after applying speeds so that we don't have speeds/direction problems
 
             if (wantsToRun) //If player wants to run, we increase movement speed by a number that'll change depending on exhaust
             {
