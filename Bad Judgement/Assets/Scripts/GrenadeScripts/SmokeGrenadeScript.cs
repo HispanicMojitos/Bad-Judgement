@@ -34,9 +34,7 @@ public class SmokeGrenadeScript : MonoBehaviour
     private void Emmet()
     {
         if (audioSmoke.isPlaying == false) audioSmoke.Play();
-
-        Instantiate(effetFumée, transform.position, Quaternion.Euler(-90, 0, 0)); 
-        effetFumée.transform.localPosition = smokeGrenade.transform.position;
+        effetFumée.SetActive(true);
         effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
         aExplosé = true;
         Destroy(smokeLigth, 15);
