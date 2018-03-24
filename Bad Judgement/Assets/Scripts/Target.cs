@@ -18,7 +18,7 @@ public class Target : MonoBehaviour
 
     void Die()
     {
-        if(gameObject != null) Destroy(gameObject,10);
+        if(gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null) Destroy(gameObject,10);
     }
 
 }
