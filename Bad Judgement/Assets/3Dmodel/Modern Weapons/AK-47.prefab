@@ -211,19 +211,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c18c17b319cbd144a66e2bc6e591684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AK47: {fileID: 0}
+  AK47shoot: {fileID: 8300000, guid: 942aa86056a8a2646862f6d4d0c52cea, type: 3}
+  AK47reload: {fileID: 8300000, guid: 45d287b3be5ce7a409b7b320cea0ed40, type: 3}
   damage: 10
-  range: 100
   impactForce: 30
   fireRate: 600
   gunEnd: {fileID: 1677285004343522}
   impactEffect: {fileID: 1401464572213446}
-  AK47: {fileID: 0}
-  AK47shoot: {fileID: 8300000, guid: 942aa86056a8a2646862f6d4d0c52cea, type: 3}
-  AK47reload: {fileID: 8300000, guid: 45d287b3be5ce7a409b7b320cea0ed40, type: 3}
-  aiming: {fileID: 0}
   amount: 0.09
   smoothAmount: 5
   maxAmount: 0.4
+  bulletsPerMag: 30
+  reloadKey: 114
 --- !u!120 &120053094203942624
 LineRenderer:
   m_ObjectHideFlags: 1
