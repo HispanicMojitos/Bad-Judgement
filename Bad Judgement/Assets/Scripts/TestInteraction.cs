@@ -14,9 +14,9 @@ public class TestInteraction : MonoBehaviour
 
 	void Update ()
     {
-        Vector3 direction = transform.TransformDirection(Vector3.forward) * 100; // Permet d'afficher le raycast
+        Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;
-        Debug.DrawLine(transform.position, direction * 3,Color.cyan);
+        Debug.DrawLine(transform.position, direction * 3,Color.cyan); // Permet d'afficher le raycast
         if ( (Physics.Raycast(transform.position, direction, out hit,3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
         {
             reloadImage.enabled = true; // affiche l'image tant que l'on reste focalisé sur une arme

@@ -6,7 +6,6 @@ public class ThrowGrenade : MonoBehaviour {
 
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject grenade;
-    [SerializeField] private Rigidbody rbGrenade;
     private float tempsDelai;
 
     // Update is called once per frame
