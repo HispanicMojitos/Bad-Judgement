@@ -48,19 +48,13 @@ public class Movement : MonoBehaviour
 
     #region Properties & readonly
 
-    public bool characterIsMoving { get; private set; }
-    public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
-    public bool characterIsCrouched { get; private set; }
-    public bool characterIsGrounded { get; private set; }
+    public static bool characterIsMoving { get; private set; }
+    public static bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
+    public static bool characterIsCrouched { get; private set; }
+    public static bool characterIsGrounded { get; private set; }
 
-    public bool characterIsWalkingFwd { get; private set; }
-    public bool characterIsIdle { get; private set; }
-
-    public float Fatigue
-    {
-        get { return fatigue; }
-        set { fatigue = value; }
-    }
+    public static bool characterIsWalkingFwd { get; private set; }
+    public static bool characterIsIdle { get; private set; }
 
     #endregion
 
@@ -70,8 +64,8 @@ public class Movement : MonoBehaviour
     void Start()
     {
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
-        this.characterIsCrouched = false;
-        this.characterIsGrounded = true;
+        characterIsCrouched = false;
+        characterIsGrounded = true;
         fatigue = 0F;
 
         #region sounds
@@ -84,8 +78,8 @@ public class Movement : MonoBehaviour
         Cursor.visible = false; //Setting the cursor to a locked position
 
 
-        this.characterIsIdle = true;
-        this.characterIsWalkingFwd = false;
+        characterIsIdle = true;
+        characterIsWalkingFwd = false;
 
         //this.animParametersList = AnimatorHandling.GetParameterNames(this.anim);
         //We send our animator to get a whole list of the animator's parameters. This will allow us to disable all the bools we don't need in only one line !
@@ -96,7 +90,7 @@ public class Movement : MonoBehaviour
     {
         #region Ground Move
 
-        if (this.characterIsGrounded) this.Move();
+        if (characterIsGrounded) this.Move();
 
         #endregion
 
@@ -104,12 +98,12 @@ public class Movement : MonoBehaviour
 
         //Checking for Jump :
         //If player wants to jump AND that character can jump AND that character isn't crouched :
-        if (Input.GetButtonDown("Jump") && this.characterCanJump && !(this.characterIsCrouched))
+        if (Input.GetButtonDown("Jump") && this.characterCanJump && !(characterIsCrouched))
         {
             Jump(); //Makes the character jump
-            this.characterIsJumping = true; //Setting the property for other scripts
+            characterIsJumping = true; //Setting the property for other scripts
         }
-        else this.characterIsJumping = false; //Setting property for other scripts
+        else characterIsJumping = false; //Setting property for other scripts
 
         #endregion
 
@@ -178,13 +172,13 @@ public class Movement : MonoBehaviour
 
     private void Crouch(float deltaHeight)
     {
-        if (this.characterIsCrouched) deltaHeight *= -(1.0F);
+        if (characterIsCrouched) deltaHeight *= -(1.0F);
         //If the player is crouched then we make the height higher and not lower
 
         this.playerCollider.height -= deltaHeight;
         this.playerCollider.center -= new Vector3(0F, (deltaHeight / 2), 0F);
 
-        this.characterIsCrouched = InvertBool(this.characterIsCrouched);
+        characterIsCrouched = InvertBool(characterIsCrouched);
     }
 
     #endregion
