@@ -25,7 +25,7 @@ public class Target : MonoBehaviour
     void Die()
     {
         if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false) Destroy(gameObject, 10);
-        else if (gameObject.CompareTag("Player") == true) Destroy(gameObject;  // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
+        else if (gameObject.CompareTag("Player") == true) Destroy(gameObject);  // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
     }
 
 }
