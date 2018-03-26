@@ -7,10 +7,10 @@ public class PlayerThrowGrenade : MonoBehaviour
     
     [SerializeField] private GameObject smokeGrenade;
     [SerializeField] private GameObject lanceurGrenade;
-    private int nbrSmokeGrenade;
-    private float distanceMax = 25f;
+    public int nbrSmokeGrenade;
+    private float distanceMax = 20f;
+    private float distanceMin = 4f;
 
-    // Use this for initialization
     void Start ()
     {
         nbrSmokeGrenade = 2;
@@ -18,29 +18,18 @@ public class PlayerThrowGrenade : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update ()
-    {
-
-        Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
-        RaycastHit hit;
-        Physics.Raycast(transform.position, direction, out hit);
-        Debug.DrawLine(transform.position, direction*3, Color.white);
-        if (Input.GetKeyDown(KeyCode.G))
+    { 
+        if (Input.GetKeyDown(KeyCode.G)/* && nbrSmokeGrenade > 0*/)
         {
-            GameObject clone = Instantiate(smokeGrenade, transform);
+            Vector3 direction = lanceurGrenade.transform.TransformDirection(Vector3.forward) * 100;
+            RaycastHit hit;
+            Physics.Raycast(transform.position, direction, out hit);
+            nbrSmokeGrenade--;
+
+            GameObject clone = Instantiate(smokeGrenade, lanceurGrenade.transform);
             clone.transform.parent = null;
+             clone.GetComponent<Rigidbody>().AddForce(((direction * 0.15f)), ForceMode.Impulse);
 
-            Vector3 distance = transform.position - hit.transform.position; 
-            distance.y -= 30;
-
-            if (distance.magnitude < distanceMax && hit.transform != null)
-            {
-                clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / 100), ForceMode.Impulse);
-            }
-            else
-            {
-                clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / 100), ForceMode.Impulse);
-            }
-            
         }
     }
 }

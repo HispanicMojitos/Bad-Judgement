@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1115,6 +1115,7 @@ GameObject:
   - component: {fileID: 297378018}
   - component: {fileID: 297378017}
   - component: {fileID: 297378022}
+  - component: {fileID: 297378023}
   m_Layer: 0
   m_Name: Normal Camera
   m_TagString: Untagged
@@ -1134,6 +1135,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 439124511}
+  - {fileID: 1419730177}
   m_Father: {fileID: 1037779454}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1303,6 +1305,21 @@ MonoBehaviour:
   porteFerme: {fileID: 8300000, guid: 89ae3d3b526534442962d05a69c9dec4, type: 3}
   openDoor: {fileID: 8300000, guid: 7620b32e83059424593d74fb23def8cf, type: 3}
   closeDoor: {fileID: 8300000, guid: 57bd178a405d12040b1380e529c862e8, type: 3}
+--- !u!114 &297378023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 297378015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5003271b88c6946bbeca37f0158467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokeGrenade: {fileID: 1737387877989138, guid: 76e23023781e59049b7f7e82cd589d2b,
+    type: 2}
+  lanceurGrenade: {fileID: 1419730176}
+  nbrSmokeGrenade: 0
 --- !u!1 &301053944
 GameObject:
   m_ObjectHideFlags: 0
@@ -4545,6 +4562,34 @@ Transform:
   - {fileID: 108340207}
   m_Father: {fileID: 1327873036}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1419730176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1419730177}
+  m_Layer: 0
+  m_Name: LanceurGrenade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1419730177
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1419730176}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.25, y: 0, z: -0.08}
+  m_LocalScale: {x: 0.8942271, y: 0.8942271, z: 0.8942271}
+  m_Children: []
+  m_Father: {fileID: 297378016}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440622990
 GameObject:
