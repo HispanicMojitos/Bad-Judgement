@@ -24,7 +24,7 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private AudioClip grenadScream;
     [SerializeField] private Transform chercheurCouverture;
     [SerializeField] private Transform hand;
-    [SerializeField] private Transform Player; // Nous permet de comparer le joueur a l'intélgience artificelle
+    public Transform Player; // Nous permet de comparer le joueur a l'intélgience artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
     [SerializeField] private Rigidbody rbPlayer;
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
@@ -72,13 +72,13 @@ public class AIscripts : MonoBehaviour
     private bool changeDirection = false;
     private bool saitOuEstLeJoueur = false;
     private bool isAimingPlayer = false;
-    private bool chercheCouverture = false;
+    public bool chercheCouverture = false;
     private bool wantToAttack = false;
     private bool searchCover = false;
-    private bool estCouvert = false;
+    public bool estCouvert = false;
     private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
-    private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
+    public bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
     #endregion membres
 
     #region membres pour difficultes

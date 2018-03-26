@@ -27,7 +27,7 @@ public class PlayerThrowGrenade : MonoBehaviour
 
             GameObject clone = Instantiate(smokeGrenade, lanceurGrenade.transform);
             clone.transform.parent = null;
-             clone.GetComponent<Rigidbody>().AddForce(((direction * 0.15f)), ForceMode.Impulse);
+            clone.GetComponent<Rigidbody>().AddForce(((direction * 0.15f)), ForceMode.Impulse);
 
         }
     }

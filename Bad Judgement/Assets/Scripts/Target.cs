@@ -6,8 +6,14 @@ public class Target : MonoBehaviour
 {
     // Now we need a target script to recieve damage and other stuff
     [SerializeField]private float health = 50f;
-    public float vie{ get { return health; } }
-    
+    private float healthMax;
+    public float vie { get { return health; } }
+    public float vieMax { get { return healthMax; } }
+
+    private void Awake()
+    {
+        healthMax = health;
+    }
 
     public void TakeDamage(float amount)
     {
@@ -18,7 +24,8 @@ public class Target : MonoBehaviour
 
     void Die()
     {
-        if(gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null) Destroy(gameObject,10);
+        if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false) Destroy(gameObject, 10);
+        else if (gameObject.CompareTag("Player") == true) Destroy(gameObject;  // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
     }
 
 }

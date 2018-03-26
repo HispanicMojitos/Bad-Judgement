@@ -11,8 +11,10 @@ public class SmokeGrenadeScript : MonoBehaviour
     [SerializeField] private GameObject smokeGrenade;
 
     private Target vieGrenade;
-    private bool emmetFumee = false; 
+    private bool emmetFumee = false;
+    private bool finFumee = false;
     private float delai = 5f;
+    private float tempsRafraichissement = - 5;
     private float vieDeLaGrenade; 
     
     private void Start()
@@ -27,16 +29,40 @@ public class SmokeGrenadeScript : MonoBehaviour
         delai = delai - Time.deltaTime;
         if (((delai <= 0f) && (emmetFumee == false)) || ((vieGrenade.vie != vieDeLaGrenade) && emmetFumee == false))    Emmet();
         if (emmetFumee == true) effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
-        if(delai < -20)
+
+        if(delai < -20 && finFumee == false)
         {
-            Collider[] collider = Physics.OverlapSphere(this.transform.position, 50); // permet de recuperer tout les objet dans un rayon determiné
-
-            foreach (Collider objetProche in collider) { if (objetProche.GetComponent<AIscripts>() != null) objetProche.GetComponent<AIscripts>().canSeePlayer = true; }
-
-
-            Destroy(gameObject.GetComponent<SphereCollider>());
-            Destroy(gameObject.GetComponent<SmokeGrenadeScript>());
+            finFumee = true;
+            Collider[] collider = Physics.OverlapSphere(this.transform.position, 50);
+            foreach (Collider objetProche in collider)
+            {
+                if (objetProche.GetComponent<AIscripts>() != null)
+                {
+                    objetProche.GetComponent<AIscripts>().canSeePlayer = true;
+                }
+            }
+            Destroy(this.gameObject.GetComponent<Target>());
+            Destroy(this.gameObject.GetComponent<SmokeGrenadeScript>());
         }
+
+        if (delai < tempsRafraichissement && finFumee == false)
+        {
+            tempsRafraichissement--;
+            Collider[] collider = Physics.OverlapSphere(this.transform.position, 50);
+            foreach (Collider objetProche in collider)
+            {
+                if (objetProche.GetComponent<AIscripts>() != null)
+                {
+                    if (Vector3.Distance(objetProche.GetComponent<AIscripts>().Player.gameObject.transform.position, objetProche.GetComponent<AIscripts>().gameObject.transform.position) < (Vector3.Distance(this.gameObject.transform.position, objetProche.GetComponent<AIscripts>().gameObject.transform.position))  )
+                    {
+                        objetProche.GetComponent<AIscripts>().canSeePlayer = true;
+                    }
+                    else objetProche.GetComponent<AIscripts>().canSeePlayer = false;
+                }
+            }
+        }
+
+
     }
 
     private void Emmet()
@@ -46,10 +72,16 @@ public class SmokeGrenadeScript : MonoBehaviour
         effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
         emmetFumee = true;
         
-
         Collider[] collider = Physics.OverlapSphere(this.transform.position, 50); // permet de recuperer tout les objet dans un rayon determiné
 
-        foreach (Collider objetProche in collider) { if (objetProche.GetComponent<AIscripts>() != null) objetProche.GetComponent<AIscripts>().canSeePlayer = false; }
+        foreach (Collider objetProche in collider)
+        {
+            if (objetProche.GetComponent<AIscripts>() != null)
+            {
+                objetProche.GetComponent<AIscripts>().canSeePlayer = false;
+                objetProche.GetComponent<AIscripts>().chercheCouverture = true;
+            }
+        }
         Destroy(smokeLigth, 15);
-      }
+    }
 }

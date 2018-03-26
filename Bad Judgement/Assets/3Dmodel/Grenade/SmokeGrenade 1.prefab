@@ -73,7 +73,6 @@ GameObject:
   - component: {fileID: 54352577970152336}
   - component: {fileID: 136842263340341152}
   - component: {fileID: 82500158841289026}
-  - component: {fileID: 135668121671379994}
   - component: {fileID: 114055272923407074}
   - component: {fileID: 114684355184238642}
   m_Layer: 0
@@ -358,7 +357,6 @@ MonoBehaviour:
   soundSmoke: {fileID: 8300000, guid: 50b49cd6dbc2aff43b0666eaf5265851, type: 3}
   "effetFum\xE9e": {fileID: 1344757269362364}
   smokeGrenade: {fileID: 1651031743508036}
-  rayonExplosion: 5
 --- !u!114 &114684355184238642
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,18 +369,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
---- !u!135 &135668121671379994
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651031743508036}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 8966.145
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136842263340341152
 CapsuleCollider:
   m_ObjectHideFlags: 1
