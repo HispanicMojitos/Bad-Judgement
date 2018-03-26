@@ -36,13 +36,14 @@ public class Movement : MonoBehaviour
 
     private bool wantsToRun; //To know is the character wants to run
     private bool characterCanJump; //Useful for the jump move
-    private float fatigue;
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
 
     [SerializeField] private Animator anim; //Getting the animator
     //List<string> animParametersList; //New list w/ names of booleans to handle animations
+
+    FatigueSys fatigue;
 
     #endregion
 
@@ -66,20 +67,16 @@ public class Movement : MonoBehaviour
         backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
         characterIsCrouched = false;
         characterIsGrounded = true;
-        fatigue = 0F;
 
         #region sounds
         personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
         piedjumpPersonnage.volume = volumeDesSonsDePas; // permet de regler les son de jumps
         #endregion 
 
-        //To be moved later :
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false; //Setting the cursor to a locked position
-
-
         characterIsIdle = true;
         characterIsWalkingFwd = false;
+
+        this.fatigue = new FatigueSys();
 
         //this.animParametersList = AnimatorHandling.GetParameterNames(this.anim);
         //We send our animator to get a whole list of the animator's parameters. This will allow us to disable all the bools we don't need in only one line !
@@ -152,10 +149,11 @@ public class Movement : MonoBehaviour
             targetSpeed = transform.TransformDirection(targetSpeed); //Doing a transformDirection to be able to turn the axes
             //Have to keep this after applying speeds so that we don't have speeds/direction problems
 
-            if (wantsToRun) //If player wants to run, we increase movement speed by a number that'll change depending on exhaust
+            if (wantsToRun && this.fatigue.isAbleToRun()) //If player wants to run, we increase movement speed by a number that'll change depending on exhaust
             {
                 targetSpeed.x *= runMultiplier;
                 targetSpeed.z *= runMultiplier;
+                this.fatigue.Running();
             }
 
             Vector3 deltaMove = targetSpeed - currentVelocity;
@@ -197,13 +195,6 @@ public class Movement : MonoBehaviour
         else toInvert = true;
 
         return toInvert;
-    }
-
-    private void FatigueCounter()
-    {
-        if (wantsToRun) fatigue += 5f;
-        if (characterIsJumping) fatigue = +10f;
-        if (characterIsIdle) if (fatigue>0) fatigue -= 2.5f; // if ma boy ain't moving than he restin'
     }
 
     #endregion
