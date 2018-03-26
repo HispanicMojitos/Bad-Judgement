@@ -9,11 +9,9 @@ public class SmokeGrenadeScript : MonoBehaviour
     [SerializeField] private AudioClip soundSmoke;
     [SerializeField] private GameObject effetFumée;
     [SerializeField] private GameObject smokeGrenade;
-    
-    [SerializeField] [Range(1f, 10f)] private float rayonExplosion = 5f;
 
     private Target vieGrenade;
-    private bool aExplosé = false; 
+    private bool emmetFumee = false; 
     private float delai = 5f;
     private float vieDeLaGrenade; 
     
@@ -27,8 +25,18 @@ public class SmokeGrenadeScript : MonoBehaviour
     void Update()
     {
         delai = delai - Time.deltaTime;
-        if (((delai <= 0f) && (aExplosé == false)) || ((vieGrenade.vie != vieDeLaGrenade) && aExplosé == false))    Emmet();
-        if (aExplosé == true) effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        if (((delai <= 0f) && (emmetFumee == false)) || ((vieGrenade.vie != vieDeLaGrenade) && emmetFumee == false))    Emmet();
+        if (emmetFumee == true) effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        if(delai < -20)
+        {
+            Collider[] collider = Physics.OverlapSphere(this.transform.position, 50); // permet de recuperer tout les objet dans un rayon determiné
+
+            foreach (Collider objetProche in collider) { if (objetProche.GetComponent<AIscripts>() != null) objetProche.GetComponent<AIscripts>().canSeePlayer = true; }
+
+
+            Destroy(gameObject.GetComponent<SphereCollider>());
+            Destroy(gameObject.GetComponent<SmokeGrenadeScript>());
+        }
     }
 
     private void Emmet()
@@ -36,7 +44,12 @@ public class SmokeGrenadeScript : MonoBehaviour
         if (audioSmoke.isPlaying == false) audioSmoke.Play();
         effetFumée.SetActive(true);
         effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
-        aExplosé = true;
+        emmetFumee = true;
+        
+
+        Collider[] collider = Physics.OverlapSphere(this.transform.position, 50); // permet de recuperer tout les objet dans un rayon determiné
+
+        foreach (Collider objetProche in collider) { if (objetProche.GetComponent<AIscripts>() != null) objetProche.GetComponent<AIscripts>().canSeePlayer = false; }
         Destroy(smokeLigth, 15);
       }
 }

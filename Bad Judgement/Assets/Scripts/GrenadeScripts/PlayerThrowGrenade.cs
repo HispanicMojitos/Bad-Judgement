@@ -16,10 +16,9 @@ public class PlayerThrowGrenade : MonoBehaviour
         nbrSmokeGrenade = 2;
     }
 	
-	// Update is called once per frame
 	void Update ()
     { 
-        if (Input.GetKeyDown(KeyCode.G)/* && nbrSmokeGrenade > 0*/)
+        if (Input.GetKeyDown(KeyCode.G) && nbrSmokeGrenade > 0)
         {
             Vector3 direction = lanceurGrenade.transform.TransformDirection(Vector3.forward) * 100;
             RaycastHit hit;

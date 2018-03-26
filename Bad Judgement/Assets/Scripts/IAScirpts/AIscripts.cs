@@ -61,6 +61,7 @@ public class AIscripts : MonoBehaviour
     // A METTRE EN MODE FACILE private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
     private int tempsGrenadeChoix = 4;
 
+    public bool canSeePlayer = true;
     private bool estAGenoux = false;
     private bool estMort = false;
     private bool aJeteGrenade = false;
@@ -554,16 +555,19 @@ public class AIscripts : MonoBehaviour
 
     private void AttackShoot(Vector3 direction)
     {
-        RaycastHit hit; // permet de savoir si le raycaste se confronte a quelque chose
-
-        if (Physics.Raycast(boucheCanon.transform.position, direction, out hit)) // si le raycast est bien en direction du joueur et qu'il le touche bien
+        if (canSeePlayer == true)
         {
-            Target joueur = hit.transform.GetComponent<Target>(); // permet de recuperer le script de l'entité avec laquelle le 'hit' s'est rencontré
+            RaycastHit hit; // permet de savoir si le raycaste se confronte a quelque chose
 
-            if(joueur != null) // Si la cible du raycast a bien le script Target attaché
-                   joueur.TakeDamage(degats); // On fait subir des dommages au joueurs qui a le script Target attaché
+            if (Physics.Raycast(boucheCanon.transform.position, direction, out hit)) // si le raycast est bien en direction du joueur et qu'il le touche bien
+            {
+                Target joueur = hit.transform.GetComponent<Target>(); // permet de recuperer le script de l'entité avec laquelle le 'hit' s'est rencontré
 
-            Sounds.AK47shoot(M4A8Source, M4A8shoot); // permet de jouer le son de tir 
+                if (joueur != null) // Si la cible du raycast a bien le script Target attaché
+                    joueur.TakeDamage(degats); // On fait subir des dommages au joueurs qui a le script Target attaché
+
+                Sounds.AK47shoot(M4A8Source, M4A8shoot); // permet de jouer le son de tir 
+            }
         }
     }
     
