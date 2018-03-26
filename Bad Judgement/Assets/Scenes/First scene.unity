@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2631,7 +2631,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1037779454}
-  - component: {fileID: 836389859}
   - component: {fileID: 1096326881}
   - component: {fileID: 836389858}
   - component: {fileID: 836389857}
@@ -2682,7 +2681,7 @@ MonoBehaviour:
   piedjumpPersonnage: {fileID: 1662455099}
   playerRigidbody: {fileID: 1096326881}
   playerCollider: {fileID: 836389858}
-  anim: {fileID: 836389859}
+  anim: {fileID: 0}
 --- !u!82 &836389857
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2778,24 +2777,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!95 &836389859
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 95250890744735434, guid: ccc22d265d3db654493e70a093458796,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 836389854}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8cf16dfd2d18b9b47a77514d8c8ea246, type: 3}
-  m_Controller: {fileID: 9100000, guid: a6488c1801e6ff0409c3b609249c9401, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &836389860
 MonoBehaviour:
   m_ObjectHideFlags: 0
