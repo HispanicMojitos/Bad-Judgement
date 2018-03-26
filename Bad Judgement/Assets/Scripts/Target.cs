@@ -5,16 +5,9 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     // Now we need a target script to recieve damage and other stuff
-    [SerializeField]private float healthMax = 50f;
-    private float health;
-
+    [SerializeField]private float health = 50f;
     public float vie{ get { return health; } }
-    public float vieMax { get { return healthMax; } }
-
-    private void Start()
-    {
-        this.health = healthMax;
-    }
+    
 
     public void TakeDamage(float amount)
     {
