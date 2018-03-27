@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SmokeGrenadeScript : MonoBehaviour
 {
-    [SerializeField] private Light smokeLigth;
     [SerializeField] private AudioSource audioSmoke;
     [SerializeField] private AudioClip soundSmoke;
     [SerializeField] private GameObject effetFumée;
@@ -82,6 +81,5 @@ public class SmokeGrenadeScript : MonoBehaviour
                 objetProche.GetComponent<AIscripts>().chercheCouverture = true;
             }
         }
-        Destroy(smokeLigth, 15);
     }
 }

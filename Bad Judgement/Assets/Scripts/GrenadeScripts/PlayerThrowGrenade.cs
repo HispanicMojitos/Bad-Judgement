@@ -7,14 +7,9 @@ public class PlayerThrowGrenade : MonoBehaviour
     
     [SerializeField] private GameObject smokeGrenade;
     [SerializeField] private GameObject lanceurGrenade;
-    public int nbrSmokeGrenade;
+    public int nbrSmokeGrenade = 2;
     private float distanceMax = 20f;
     private float distanceMin = 4f;
-
-    void Start ()
-    {
-        nbrSmokeGrenade = 2;
-    }
 	
 	void Update ()
     { 
