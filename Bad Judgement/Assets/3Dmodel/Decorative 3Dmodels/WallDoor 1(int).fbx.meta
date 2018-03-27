@@ -1,20 +1,22 @@
 fileFormatVersion: 2
-guid: 4ce1801914563654d9cc68ca570d0198
-timeCreated: 1520445186
+guid: 8c404297f626d4643b0357116938b700
+timeCreated: 1522161695
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: unnamed
-    2100002: None__TexturesCom_BrickSmallDark0032_2_M_jpg
+    2100000: None
     2300000: //RootNode
     3300000: //RootNode
     4300000: Plane
-    7400000: Default Take
-    9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None
+    second: {fileID: 2100000, guid: 7856d14b6d279fa40aaf567ee9c69cbe, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -88,7 +90,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
