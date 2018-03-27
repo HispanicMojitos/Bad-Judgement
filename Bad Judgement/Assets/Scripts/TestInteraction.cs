@@ -10,9 +10,9 @@ public class TestInteraction : MonoBehaviour
     [SerializeField] private AudioClip porteFerme;
     [SerializeField] private AudioClip openDoor;
     [SerializeField] private AudioClip closeDoor;
-    private bool porteOuverte = false;
+    
 
-	void Update ()
+    void Update ()
     {
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;
@@ -42,12 +42,11 @@ public class TestInteraction : MonoBehaviour
             interactionImage.enabled = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (porteOuverte == false)
-                {
-                    porteOuverte = true;
-                    HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
-                    JointSpring jSpring = joint.spring;
+                HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
+                JointSpring jSpring = joint.spring;
 
+                if (jSpring.targetPosition == 0)
+                {
                     jSpring.spring = 100;
                     jSpring.damper = 30;
                     jSpring.targetPosition = -90;
@@ -55,12 +54,8 @@ public class TestInteraction : MonoBehaviour
                     joint.useSpring = true;
                     Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
                 }
-                else
+                else if(jSpring.targetPosition == -90)
                 {
-                    porteOuverte = false;
-                    HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
-                    JointSpring jSpring = joint.spring;
-
                     jSpring.spring = 100;
                     jSpring.damper = 30;
                     jSpring.targetPosition = 0;
@@ -76,6 +71,5 @@ public class TestInteraction : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E)) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), porteFerme);
         }
         else interactionImage.enabled = false;
-
     }
 }
