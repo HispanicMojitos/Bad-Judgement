@@ -40,7 +40,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
 
-    [SerializeField] private Animator anim; //Getting the animator
     //List<string> animParametersList; //New list w/ names of booleans to handle animations
 
     FatigueSys fatigue;
@@ -183,7 +182,10 @@ public class Movement : MonoBehaviour
 
     #region Animation Methods
 
+    public void Dying()
+    {
 
+    }
 
     #endregion
 
