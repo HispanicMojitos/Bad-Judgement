@@ -79,7 +79,7 @@ public class GunScript : MonoBehaviour
         mag = new Magazines(magQty, bulletsPerMag);
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         #region Refresh values
         currentMag = mag.currentMag;
