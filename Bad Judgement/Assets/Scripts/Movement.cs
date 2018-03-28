@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour
     #endregion Sounds members
 
     private float forwardSpeed = 4.2F;
-    private float backwardSpeed;
+    private float backwardSpeed = 2.8F;
     private float sideSpeed = 2.15F; //Speeds
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
     private float runMultiplier = 1.6F; //If the player wants to run, his forward speed will be multiplicated by 1.6
@@ -40,18 +40,24 @@ public class Movement : MonoBehaviour
     //List<string> animParametersList; //New list w/ names of booleans to handle animations
 
     FatigueSys fatigue;
-
+    
     #endregion
 
     #region Properties & readonly
 
-    public bool characterIsMoving { get; private set; }
-    public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
-    public bool characterIsCrouched { get; private set; }
-    public bool characterIsGrounded { get; private set; }
+    //Properties accessible in readonly in other scripts :
 
-    public bool characterIsWalkingFwd { get; private set; }
-    public bool characterIsIdle { get; private set; }
+    public bool characterIsMoving { get; private set; }  //Working
+    /// <summary>True if character is walking BUT false if running !!!!</summary>
+    public bool characterIsWalking { get; private set; } //Working
+    public bool characterIsRunning { get; private set; } //Working
+    /// <summary>[NOT WORKING/WIP]Get if the character has been jumping during previous frame</summary>
+    public bool characterIsJumping { get; private set; } //Working
+    public bool characterIsCrouched { get; private set; } //Working
+    /// <summary>NOT WORKING => WIP</summary>
+    public bool characterIsGrounded { get; private set; } //NOT WORKING => WIP
+
+    //Those allows to get player's exhaust and allows creating percentage w/ Max. exhaust (designed for UI) :
 
     public float playerExhaust { get { return this.fatigue.fatigue; } }
     public float playerMaxExhaust { get { return this.fatigue.maxFatigue; } }
@@ -63,15 +69,9 @@ public class Movement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        backwardSpeed = (0.66F * forwardSpeed); //After real tests, reverse speed is 2/3 times of forward speed.
-        characterIsCrouched = false;
-        characterIsGrounded = true;
+        this.fatigue = new FatigueSys(); //Instanciating new exhaust system (Class by JS)
 
-
-        characterIsIdle = true;
-        characterIsWalkingFwd = false;
-
-        this.fatigue = new FatigueSys();
+        this.InitState(); //Initializing character state (Setting booleans correclty before starting playing)
 
         //this.animParametersList = AnimatorHandling.GetParameterNames(this.anim);
         //We send our animator to get a whole list of the animator's parameters. This will allow us to disable all the bools we don't need in only one line !
@@ -106,6 +106,8 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B)) Crouch(this.onTheKneesCrouchDeltaH);
 
         #endregion
+
+        Debug.Log(this.characterIsCrouched);
     }
 
     #endregion
@@ -148,22 +150,26 @@ public class Movement : MonoBehaviour
             {
                 targetSpeed.x *= runMultiplier;
                 targetSpeed.z *= runMultiplier;
-                this.fatigue.Running();
+
+                this.SetStateRun();
+
                 #region sound
                 Sounds.Marche(pieds, sonCourse, this.characterCanJump);
                 #endregion sound
             }
+            else this.SetStateWalk();
 
             Vector3 deltaMove = targetSpeed - currentVelocity;
-            
+
             //Not doing the difference between actual velocity and new one would provoke a kind of acceleration which we don't want
 
             playerRigidbody.AddForce(deltaMove, ForceMode.VelocityChange); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
 
             #region sound
-            if(!wantsToRun) Sounds.Marche(pieds,sonDePas, this.characterCanJump);
+            if (!wantsToRun) Sounds.Marche(pieds, sonDePas, this.characterCanJump);
             #endregion  
         }
+        else this.SetStateIdle();
     }
 
     private void Crouch(float deltaHeight)
@@ -174,7 +180,7 @@ public class Movement : MonoBehaviour
         this.playerCollider.height -= deltaHeight;
         this.playerCollider.center -= new Vector3(0F, (deltaHeight / 2), 0F);
 
-        characterIsCrouched = InvertBool(characterIsCrouched);
+        this.characterIsCrouched = InvertBool(characterIsCrouched);
     }
 
     #endregion
@@ -196,6 +202,40 @@ public class Movement : MonoBehaviour
         else toInvert = true;
 
         return toInvert;
+    }
+
+    private void SetStateRun()
+    {
+        this.characterIsMoving = true;
+        this.characterIsRunning = true;
+
+        this.characterIsWalking = false;
+    }
+
+    private void SetStateWalk()
+    {
+        this.characterIsMoving = true;
+        this.characterIsWalking = true;
+
+        this.characterIsRunning = false;
+    }
+
+    private void SetStateIdle()
+    {
+        this.characterIsRunning = false;
+        this.characterIsWalking = false;
+        this.characterIsMoving = false;
+    }
+
+    private void InitState()
+    {
+        this.characterIsMoving = false;
+        this.characterIsRunning = false;
+        this.characterIsWalking = false;
+        this.characterIsCrouched = false;
+        this.characterIsJumping = false;
+
+        this.characterIsGrounded = true;
     }
 
     #endregion

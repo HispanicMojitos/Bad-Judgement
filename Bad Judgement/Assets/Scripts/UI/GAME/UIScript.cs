@@ -58,7 +58,7 @@ public class UIScript : MonoBehaviour
     {
         var player = ourPlayer.GetComponent<Movement>();
 
-        float tempExhaust = (player.playerExhaust / player.playerMaxExhaust) * 100;
+        float tempExhaust = (player.playerExhaust / player.playerMaxExhaust) * 100.0F;
         int exhaustPercentage = Mathf.RoundToInt(tempExhaust); //On arrondit pour avoir un entier
 
         this.exhaustSlider.value = exhaustPercentage;
