@@ -6,18 +6,6 @@ public static class Sounds
 {
     #region AK47
 
-    #region membres
-    private static float cadence = 0f; // permet de cadencer les tirs de l'AK K7
-    #endregion membres
-
-    #region AK47shoot
-
-    public static float Cadence
-    {
-        get { return cadence; }
-        set { Cadence = value; }
-    }
-
     public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, float volume = 0.3f)
     { 
          AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
@@ -26,9 +14,7 @@ public static class Sounds
          AK47.spatialBlend = 0.8f;
          AK47.Play();
     }
-    #endregion AK47shoot
-
-    #region AK47reload
+    
     public static void AK47reload(AudioSource AK47, AudioClip AK47reloadSound, float volume = 1f)
     {
         AK47.Stop();
@@ -37,35 +23,39 @@ public static class Sounds
         AK47.Play();
     }
 
-    #endregion AK47reload
-
     #endregion AK47
     
     #region Movement
-
-    #region FootSteeps
     public static void FootSteepsSound(AudioSource personnage)
     {
         if (!personnage.isPlaying) personnage.Play();
     }
-
-    #endregion FootSteeps
-
-    #region jump
-    public static void JumpSound(AudioSource piedPersonnage)
+    
+    
+    public static void Jump(AudioSource piedPersonnage, AudioClip jumpSound)
     {
-        if (!piedPersonnage.isPlaying) piedPersonnage.Play();
+        if (!piedPersonnage.isPlaying)
+        {
+            piedPersonnage.clip = jumpSound;
+            piedPersonnage.Play();
+        }
     }
 
-    public static void DeclareSonDemarche(AudioSource personnage, AudioClip sonDePasSur,  AudioSource piedjumpPersonnage, AudioClip jumpOn, char tag, char lettre)
+    static private int numeroPied = 0;
+    public static void Marche(AudioSource[] pieds,AudioClip sonDePas, bool canJump)
     {
-        personnage.clip = sonDePasSur; // Ici le son va alors devenir celui d'un bruit de pas sur le bois, pour les autres ca va jouer les son que l'on aura alors importé aussi lorsque la surface change
-        piedjumpPersonnage.clip = jumpOn; // Pareil pour les jumps 
-        if (tag != lettre) tag = lettre;
+        if (canJump == true)
+        {
+            if (!pieds[numeroPied].isPlaying)
+            {
+                pieds[0].clip = sonDePas;
+                pieds[1].clip = sonDePas;
+                if (numeroPied == 0) numeroPied = 1;
+                else if (numeroPied == 1) numeroPied = 0;
+                pieds[numeroPied].Play();
+            }
+        }
     }
-    #endregion jump
-
-
     #endregion Movement
 
     public static void Death(AudioSource mouthHead)

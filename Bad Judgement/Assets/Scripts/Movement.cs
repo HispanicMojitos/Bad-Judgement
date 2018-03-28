@@ -8,15 +8,11 @@ public class Movement : MonoBehaviour
     #region Members
 
     #region Sounds members
-
-    [SerializeField] private AudioClip sonDePasSurRue; //Initialisation des sons de pas 
-    [SerializeField] private AudioClip sonDePasSurBois;
-    [SerializeField] private AudioClip sonDePasSurterre;
-    [SerializeField] private AudioClip jumpOnGrass; // Initialisation de sons de Jump
-    [SerializeField] private AudioClip jumpOnStreet;
-    [SerializeField] private AudioClip jumpOnWood;
-    [SerializeField] private AudioSource personnage; // Source pour les bruits de pas normaux
-    [SerializeField] private AudioSource piedjumpPersonnage; // Source pour les pruits de sauts
+    [SerializeField] private AudioClip sonDePas;
+    [SerializeField] private AudioClip tombe;
+    [SerializeField] private AudioClip saute;
+    [SerializeField] private AudioSource[] pieds = new AudioSource[2]; // Source pour les pruits de sauts
+    [SerializeField] private AudioSource personnage;
     [Range(0f, 1f)] // Permet de regler le volume via un bouton de reglage dans Unity
     private float volumeDesSonsDePas = 0.2F;
     private char tagNew = '\0'; // donne la valeur null du char, cette variable permet de faire en sorte dans l'algorithme de continuer un son de pas même lorsqu'on entre en collision avec un autre objet non tagué (exemple : un mur)
@@ -67,10 +63,6 @@ public class Movement : MonoBehaviour
         characterIsCrouched = false;
         characterIsGrounded = true;
 
-        #region sounds
-        personnage.volume = volumeDesSonsDePas; // Permet de reglez les sons de pas
-        piedjumpPersonnage.volume = volumeDesSonsDePas; // permet de regler les son de jumps
-        #endregion 
 
         characterIsIdle = true;
         characterIsWalkingFwd = false;
@@ -119,7 +111,7 @@ public class Movement : MonoBehaviour
     private void Jump()
     {
         #region sound
-        Sounds.JumpSound(piedjumpPersonnage); // Permet de jouer les sons de saut
+        Sounds.Jump(personnage, saute);
         #endregion sound
 
         Vector3 jump = new Vector3(0F, jumpForce, 0F); //Making the jump by setting the velocity to the jump force
@@ -162,7 +154,7 @@ public class Movement : MonoBehaviour
             playerRigidbody.AddForce(deltaMove, ForceMode.VelocityChange); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
 
             #region sound
-            Sounds.FootSteepsSound(personnage); // Permet de jouer les sons de pas
+            Sounds.Marche(pieds,sonDePas, this.characterCanJump);
             #endregion  
         }
     }
@@ -201,25 +193,9 @@ public class Movement : MonoBehaviour
 
     #endregion
 
-    #region Sounds detection area
+    #region jump detection area
 
-    private void OnCollisionEnter(Collision collision) // Permet d'evaluer le son a jouer en fonction du type de sol rencontré /!\ On a besoin d'un rigibody et d'une box Colider /!\
-    {
-        this.characterCanJump = true;
-
-        if ((collision.collider.CompareTag("Wood") || (tagNew == 'w' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Grass")) // OPTIMISATION : tag == "something"  allocates memory, CompareTag does not, i've changes this , sources : https://forum.unity.com/threads/making-stepssounds-by-using-oncollisionenter-or-raycasts-optimizations-question.518865/#post-3402025 ,https://answers.unity.com/questions/200820/is-comparetag-better-than-gameobjecttag-performanc.html
-        {
-            Sounds.DeclareSonDemarche(personnage, sonDePasSurBois, piedjumpPersonnage, jumpOnWood, tagNew, 'w');
-        }
-        else if ((collision.collider.CompareTag("Street") || (tagNew == 's' && !collision.collider.CompareTag("Street"))) && !collision.collider.CompareTag("Wood") && !collision.collider.CompareTag("Grass")) // Toute ces conditions permette de jouer le sons même en etant en colision avec d'autres objet non tagué (exemple : un mur, un ventilateur, ect...) 
-        {
-            Sounds.DeclareSonDemarche(personnage, sonDePasSurRue, piedjumpPersonnage, jumpOnStreet, tagNew, 's');
-        }
-        else if ((collision.collider.CompareTag("Grass") || (tagNew == 'g' && !collision.collider.CompareTag("Wood"))) && !collision.collider.CompareTag("Street") && !collision.collider.CompareTag("Wood"))
-        {
-            Sounds.DeclareSonDemarche(personnage, sonDePasSurterre, piedjumpPersonnage, jumpOnGrass, tagNew, 'g');
-        }
-    }
+    private void OnCollisionEnter(Collision collision) { this.characterCanJump = true; }
 
     #endregion
 
