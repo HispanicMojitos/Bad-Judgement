@@ -71,4 +71,14 @@ public static class Sounds
             door.Play();
         }
     }
+
+    public static void BeatsOfHeart(AudioSource coeur, AudioClip battements)
+    {
+        if( !coeur.isPlaying)
+        {
+            coeur.clip = battements;
+            coeur.spatialBlend = 0f;
+            coeur.Play(); 
+        }
+    }
 }

@@ -22,6 +22,11 @@ public class Target : MonoBehaviour
         // we create a script that destroys an object when its health is equal or lower than 0
     }
 
+    public void GainHealth(float HP)
+    {
+        if (health < healthMax) health += HP;
+    }
+
     void Die()
     {
         if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false) Destroy(gameObject, 10);
