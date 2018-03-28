@@ -10,17 +10,17 @@ public class TestInteraction : MonoBehaviour
     [SerializeField] private AudioClip porteFerme;
     [SerializeField] private AudioClip openDoor;
     [SerializeField] private AudioClip closeDoor;
-    
 
-    void Update ()
+
+    void Update()
     {
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;
-        Debug.DrawLine(transform.position, direction * 3,Color.cyan); // Permet d'afficher le raycast
-        if ( (Physics.Raycast(transform.position, direction, out hit,3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
+        Debug.DrawLine(transform.position, direction * 3, Color.cyan); // Permet d'afficher le raycast
+        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
         {
             reloadImage.enabled = true; // affiche l'image tant que l'on reste focalisé sur une arme
-            if(Input.GetKeyDown(KeyCode.R)) // Si on appuye sur la touche R
+            if (Input.GetKeyDown(KeyCode.R)) // Si on appuye sur la touche R
             {
                 if (GunScript.Mag.mags.Count < 6)
                 {
@@ -44,9 +44,10 @@ public class TestInteraction : MonoBehaviour
             {
                 HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
                 JointSpring jSpring = joint.spring;
-
                 if (jSpring.targetPosition == 0)
                 {
+
+                    hit.transform.GetComponent<Rigidbody>().isKinematic = false;
                     jSpring.spring = 100;
                     jSpring.damper = 30;
                     jSpring.targetPosition = -90;
@@ -54,8 +55,9 @@ public class TestInteraction : MonoBehaviour
                     joint.useSpring = true;
                     Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
                 }
-                else if(jSpring.targetPosition == -90)
+                else if (jSpring.targetPosition == -90)
                 {
+                    StartCoroutine(Attend(hit));
                     jSpring.spring = 100;
                     jSpring.damper = 30;
                     jSpring.targetPosition = 0;
@@ -72,4 +74,11 @@ public class TestInteraction : MonoBehaviour
         }
         else interactionImage.enabled = false;
     }
+
+    IEnumerator Attend(RaycastHit h)
+    {
+        yield return new WaitForSeconds(1.5f);
+        h.transform.GetComponent<Rigidbody>().isKinematic = true;
+    }
+    
 }

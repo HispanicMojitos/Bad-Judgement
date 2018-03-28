@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     #region Members
 
     #region Sounds members
+    [SerializeField] private AudioClip sonCourse;
     [SerializeField] private AudioClip sonDePas;
     [SerializeField] private AudioClip tombe;
     [SerializeField] private AudioClip saute;
@@ -145,6 +146,9 @@ public class Movement : MonoBehaviour
                 targetSpeed.x *= runMultiplier;
                 targetSpeed.z *= runMultiplier;
                 this.fatigue.Running();
+                #region sound
+                Sounds.Marche(pieds, sonCourse, this.characterCanJump);
+                #endregion sound
             }
 
             Vector3 deltaMove = targetSpeed - currentVelocity;
@@ -154,7 +158,7 @@ public class Movement : MonoBehaviour
             playerRigidbody.AddForce(deltaMove, ForceMode.VelocityChange); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
 
             #region sound
-            Sounds.Marche(pieds,sonDePas, this.characterCanJump);
+            if(!wantsToRun) Sounds.Marche(pieds,sonDePas, this.characterCanJump);
             #endregion  
         }
     }
