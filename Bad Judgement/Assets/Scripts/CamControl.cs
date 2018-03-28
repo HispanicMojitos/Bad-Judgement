@@ -46,6 +46,8 @@ public class CamControl : MonoBehaviour
 
         verticalEulerVector = Vector3.zero;
         horizontalEulerVector = Vector3.zero;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 
@@ -70,7 +72,6 @@ public class CamControl : MonoBehaviour
 
         #region Cursor
 
-        //To be moved :
         if (Input.GetKeyDown(KeyCode.Escape)) this.CursorUnlock();
         if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) this.CursorLock();
         //Locks the cursor on the window

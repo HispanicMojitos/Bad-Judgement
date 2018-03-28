@@ -12,6 +12,9 @@ public class UIScript : MonoBehaviour
     [SerializeField] private Text healthText;
     [SerializeField] private Slider healthSlider;
 
+    [SerializeField] private Text exhaustText;
+    [SerializeField] private Slider exhaustSlider;
+
     [SerializeField] private Text ammoText;
 
     #endregion
@@ -22,6 +25,7 @@ public class UIScript : MonoBehaviour
     {
         UpdateAmmoQty();
         UpdatePlayerHealth();
+        UpdatePlayerExhaust();
     }
 
     #endregion
@@ -48,6 +52,17 @@ public class UIScript : MonoBehaviour
         //Setting text and slider values depending on the health value :
         this.healthText.text = healthPercentage.ToString();
         this.healthSlider.value = healthPercentage;
+    }
+
+    private void UpdatePlayerExhaust()
+    {
+        var player = ourPlayer.GetComponent<Movement>();
+
+        float tempExhaust = (player.playerExhaust / player.playerMaxExhaust) * 100;
+        int exhaustPercentage = Mathf.RoundToInt(tempExhaust); //On arrondit pour avoir un entier
+
+        this.exhaustSlider.value = exhaustPercentage;
+        this.exhaustText.text = exhaustPercentage.ToString();
     }
 
     #endregion

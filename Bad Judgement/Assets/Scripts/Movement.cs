@@ -45,13 +45,16 @@ public class Movement : MonoBehaviour
 
     #region Properties & readonly
 
-    public static bool characterIsMoving { get; private set; }
-    public static bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
-    public static bool characterIsCrouched { get; private set; }
-    public static bool characterIsGrounded { get; private set; }
+    public bool characterIsMoving { get; private set; }
+    public bool characterIsJumping { get; private set; } //Properties accessible in readonly in other scripts
+    public bool characterIsCrouched { get; private set; }
+    public bool characterIsGrounded { get; private set; }
 
-    public static bool characterIsWalkingFwd { get; private set; }
-    public static bool characterIsIdle { get; private set; }
+    public bool characterIsWalkingFwd { get; private set; }
+    public bool characterIsIdle { get; private set; }
+
+    public float playerExhaust { get { return this.fatigue.fatigue; } }
+    public float playerMaxExhaust { get { return this.fatigue.maxFatigue; } }
 
     #endregion
 
