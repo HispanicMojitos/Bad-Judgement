@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    #region membres
     [SerializeField] private AudioClip[] bulletHits;
-    [SerializeField] private AudioSource player;
+    [SerializeField] private AudioClip[] hurtSound;
     [SerializeField] private AudioClip heartBeats;
+    [SerializeField] private AudioClip HealBreath;
+    [SerializeField] private AudioSource player;
+    [SerializeField] private AudioSource moutPlayer;
     private float vie;
     private bool finiRepos = false;
     private bool attendRepos = false;
     private float delaiAvantRepos=10;
     private float delaiEntreRecup = 0;
-
-	void Start ()
+    #endregion membres
+    void Start ()
     {
         vie = this.gameObject.GetComponent<Target>().vie;
     }
@@ -25,6 +29,8 @@ public class PlayerHealth : MonoBehaviour
             vie = this.gameObject.GetComponent<Target>().vie;
             delaiAvantRepos = 10f;
             Sounds.bulletSound(player,bulletHits);
+            if (moutPlayer.clip == HealBreath) moutPlayer.Stop();
+            Sounds.hurtHuman(moutPlayer, hurtSound);
             attendRepos = true;
         }
 
@@ -47,6 +53,13 @@ public class PlayerHealth : MonoBehaviour
         delaiEntreRecup -= 0.2f;
         this.gameObject.GetComponent<Target>().GainHealth(1);
         vie = this.gameObject.GetComponent<Target>().vie;
+
+        if(!moutPlayer.isPlaying)
+        {
+            moutPlayer.clip = HealBreath;
+            moutPlayer.Play();
+        }
+
         if (vie == 50)
         {
             attendRepos = false;

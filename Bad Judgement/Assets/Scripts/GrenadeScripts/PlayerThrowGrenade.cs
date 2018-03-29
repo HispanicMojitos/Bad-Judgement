@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerThrowGrenade : MonoBehaviour
 {
-    
     [SerializeField] private GameObject smokeGrenade;
     [SerializeField] private GameObject lanceurGrenade;
     public int nbrSmokeGrenade = 2;

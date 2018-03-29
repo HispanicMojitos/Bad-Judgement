@@ -73,6 +73,7 @@ public static class Sounds
         }
     }
 
+    #region human sound
     /// <summary> Joue le son d'un battement de coeur en 2D </summary>
     public static void BeatsOfHeart(AudioSource coeur, AudioClip battements) 
     {
@@ -98,4 +99,20 @@ public static class Sounds
             }
         }
     }
+
+    public static void hurtHuman(AudioSource mouth, AudioClip[] hurt)
+    {
+        int random = Random.Range(0, 10);
+        if (random == 2)
+        {
+            if (!mouth.isPlaying)
+            {
+                int randomhirt = Random.Range(0, hurt.Length);
+                mouth.clip = hurt[randomhirt];
+                mouth.spatialBlend = 1f;
+                mouth.Play();
+            }
+        }
+    }
+    #endregion human sound
 }
