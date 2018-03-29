@@ -23,9 +23,12 @@ public class UIScript : MonoBehaviour
 
     void Update()
     {
-        UpdateAmmoQty();
-        UpdatePlayerHealth();
-        UpdatePlayerExhaust();
+        if (this.ourPlayer != null) //If the player object hasn't been destroyed
+        {
+            UpdateAmmoQty();
+            UpdatePlayerHealth();
+            UpdatePlayerExhaust();
+        }
     }
 
     #endregion
@@ -49,6 +52,8 @@ public class UIScript : MonoBehaviour
         var player = ourPlayer.GetComponent<Target>();
         //Creating a percentage from a simple value :
         float healthPercentage = (player.vie / player.vieMax) * 100;
+
+        if (healthPercentage < 0) healthPercentage = 0;
         //Setting text and slider values depending on the health value :
         this.healthText.text = healthPercentage.ToString();
         this.healthSlider.value = healthPercentage;
