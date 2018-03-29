@@ -22,7 +22,7 @@ public class SmokeGrenadeScript : MonoBehaviour
         vieGrenade = this.GetComponent<Target>(); 
         vieDeLaGrenade = vieGrenade.vie; 
         audioSmoke.clip = soundSmoke;
-        espaceFumée.enabled = true;
+        espaceFumée.enabled = false;
     }
 
     void Update()

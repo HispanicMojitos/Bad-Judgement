@@ -42,6 +42,9 @@ public static class Sounds
     }
 
     static private int numeroPied = 0;
+    /// <summary>
+    /// 
+    /// </summary>
     public static void Marche(AudioSource[] pieds,AudioClip sonDePas, bool canJump)
     {
         if (canJump == true)
@@ -72,13 +75,31 @@ public static class Sounds
         }
     }
 
-    public static void BeatsOfHeart(AudioSource coeur, AudioClip battements)
+    /// <summary>
+    /// Woah !!! 
+    /// </summary>
+    public static void BeatsOfHeart(AudioSource coeur, AudioClip battements) 
     {
-        if( !coeur.isPlaying)
+        if ( !coeur.isPlaying)
         {
             coeur.clip = battements;
             coeur.spatialBlend = 0f;
             coeur.Play(); 
+        }
+    }
+
+    public static void  bulletSound(AudioSource corps, AudioClip[] bullet)
+    {
+        int random = Random.Range(0,1);
+        if( random == 0)
+        {
+            if (!corps.isPlaying)
+            {
+                int randomBullet = Random.Range(0, bullet.Length);
+                corps.clip = bullet[randomBullet];
+                corps.spatialBlend = 1f;
+                corps.Play();
+            }
         }
     }
 }

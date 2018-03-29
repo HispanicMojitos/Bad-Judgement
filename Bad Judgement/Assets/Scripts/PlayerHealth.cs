@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] private AudioClip[] bulletHits;
     [SerializeField] private AudioSource player;
     [SerializeField] private AudioClip heartBeats;
     private float vie;
+    private bool finiRepos = false;
     private bool attendRepos = false;
     private float delaiAvantRepos=10;
     private float delaiEntreRecup = 0;
-	// Use this for initialization
+
 	void Start ()
     {
         vie = this.gameObject.GetComponent<Target>().vie;
-        
-	}
+    }
 	
-	// Update is called once per frame
 	void Update ()
     {
         if (vie != this.gameObject.GetComponent<Target>().vie)
         {
             vie = this.gameObject.GetComponent<Target>().vie;
             delaiAvantRepos = 10f;
+            Sounds.bulletSound(player,bulletHits);
             attendRepos = true;
         }
 
@@ -33,11 +34,12 @@ public class PlayerHealth : MonoBehaviour
             if(delaiAvantRepos < delaiEntreRecup) Repos();
         }
 
-        if (this.gameObject.GetComponent<Target>().vie <= (this.gameObject.GetComponent<Target>().vieMax * 0.2))
+        if (this.gameObject.GetComponent<Target>().vie <= (this.gameObject.GetComponent<Target>().vieMax * 0.2)) Sounds.BeatsOfHeart(player, heartBeats);
+        else if (player.isPlaying && finiRepos == true)
         {
-            Sounds.BeatsOfHeart(player, heartBeats);
+            player.Stop();
+            finiRepos = false;
         }
-        else if (player.isPlaying) player.Stop();
 	}
     
     private void Repos()
@@ -49,6 +51,7 @@ public class PlayerHealth : MonoBehaviour
         {
             attendRepos = false;
             delaiEntreRecup = 0;
+            finiRepos = true;
         }
     }
 }
