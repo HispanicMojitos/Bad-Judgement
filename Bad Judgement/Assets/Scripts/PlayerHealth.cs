@@ -51,7 +51,7 @@ public class PlayerHealth : MonoBehaviour
         {
             attendRepos = false;
             delaiEntreRecup = 0;
-            finiRepos = true;
         }
+        else if(vie == 20) finiRepos = true;
     }
 }

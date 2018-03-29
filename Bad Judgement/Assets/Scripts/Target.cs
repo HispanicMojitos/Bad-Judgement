@@ -22,6 +22,8 @@ public class Target : MonoBehaviour
         // we create a script that destroys an object when its health is equal or lower than 0
     }
 
+    /// <summary> Permet de faire regagner de la vie au gameObject avec le Target Correspondant </summary>
+    /// <param name="HP"></param>
     public void GainHealth(float HP)
     {
         if (health < healthMax) health += HP;

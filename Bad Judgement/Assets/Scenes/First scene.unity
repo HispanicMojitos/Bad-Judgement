@@ -18005,6 +18005,7 @@ MonoBehaviour:
   personnage: {fileID: 836389857}
   playerRigidbody: {fileID: 1096326881}
   playerCollider: {fileID: 836389858}
+  groundDetection: {fileID: 0}
 --- !u!82 &836389857
 AudioSource:
   m_ObjectHideFlags: 0
@@ -18111,6 +18112,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc1af200a919474ca4d7725f9110651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletHits:
+  - {fileID: 8300000, guid: a47ad271186bb8a4ab422079169b48b3, type: 3}
+  - {fileID: 8300000, guid: 9f5187cdfaaf827489f84786633c19c9, type: 3}
+  - {fileID: 8300000, guid: 9269efa075ce32646b5d1d5e1022d56d, type: 3}
+  - {fileID: 8300000, guid: ce73ec015853f7b4f9096844b80c49bb, type: 3}
+  - {fileID: 8300000, guid: af72762ac610f054ca2e5445b192bffa, type: 3}
   player: {fileID: 836389857}
   heartBeats: {fileID: 8300000, guid: 755b10c97cb45cc49a3f7cbc83960289, type: 3}
 --- !u!114 &836389860

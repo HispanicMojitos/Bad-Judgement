@@ -12,7 +12,7 @@ public class GrenadeScript : MonoBehaviour
     [SerializeField] private CapsuleCollider coll;
     [HideInInspector] public bool aExplosé = false; // Permet de récuperer l'etat de l'explosion de la grenade dans d'autre scripts
     [SerializeField] [Range(1f, 7f)] private float delai = 5f;
-    [SerializeField] [Range(1f, 10f)] private float rayonExplosion = 5f;
+    [SerializeField] [Range(1f, 10f)] private float rayonExplosion = 8f;
     private float vieDeLaGrenade; // Valeur tempon pour récuperer la valeur de la vie de la grenade
 
     private void Awake()
@@ -40,8 +40,15 @@ public class GrenadeScript : MonoBehaviour
         
         Collider[] collider = Physics.OverlapSphere(this.transform.position, rayonExplosion); // permet de recuperer tout les objet dans un rayon determiné
 
-        foreach (Collider objetProche in collider) { if(objetProche.GetComponent<Target>() != null) objetProche.GetComponent<Target>().TakeDamage(50); } // On enleve de la vie a tout les objets en ayant, dans le rayon de l'explosion
-
+        foreach (Collider objetProche in collider)
+        {
+            if (objetProche.GetComponent<Target>() != null)
+            {
+               if(Vector3.Distance(objetProche.GetComponent<Target>().transform.position,this.gameObject.transform.position) < 3 )  objetProche.GetComponent<Target>().TakeDamage(50);
+               else if (Vector3.Distance(objetProche.GetComponent<Target>().transform.position, this.gameObject.transform.position) < 5) objetProche.GetComponent<Target>().TakeDamage(30);
+               else if (Vector3.Distance(objetProche.GetComponent<Target>().transform.position, this.gameObject.transform.position) <= 8) objetProche.GetComponent<Target>().TakeDamage(15);
+            }
+        } // On enleve de la vie a tout les objets en ayant, dans le rayon de l'explosion
         Destroy(Grenade);// On detruit en fin la grenade
     }
 }

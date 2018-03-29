@@ -42,9 +42,7 @@ public static class Sounds
     }
 
     static private int numeroPied = 0;
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary> Permet de jouer les sons de pas lorsqu'on marche OU cours (tout depends du clipAudio donné) </summary>
     public static void Marche(AudioSource[] pieds,AudioClip sonDePas, bool canJump)
     {
         if (canJump == true)
@@ -75,9 +73,7 @@ public static class Sounds
         }
     }
 
-    /// <summary>
-    /// Woah !!! 
-    /// </summary>
+    /// <summary> Joue le son d'un battement de coeur en 2D </summary>
     public static void BeatsOfHeart(AudioSource coeur, AudioClip battements) 
     {
         if ( !coeur.isPlaying)
