@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -950,10 +950,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.3
   MaxDistance: 5
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1997,7 +1997,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -7518,7 +7518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5003271b88c6946bbeca37f0158467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smokeGrenade: {fileID: 1434162217784458, guid: df12eb7160617c8468f032a81c3cb90b,
+  smokeGrenade: {fileID: 1174695243871352, guid: a7fcc8c974a2a824ab423a31c41bceb5,
     type: 2}
   lanceurGrenade: {fileID: 1419730176}
   nbrSmokeGrenade: 2
@@ -31539,7 +31539,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1419730176}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.25, y: 0, z: -0.08}
+  m_LocalPosition: {x: -4.21, y: 0.37, z: -0.08}
   m_LocalScale: {x: 0.8942271, y: 0.8942271, z: 0.8942271}
   m_Children: []
   m_Father: {fileID: 297378016}

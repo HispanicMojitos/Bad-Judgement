@@ -8,6 +8,7 @@ public class SmokeGrenadeScript : MonoBehaviour
     [SerializeField] private AudioClip soundSmoke;
     [SerializeField] private GameObject effetFumée;
     [SerializeField] private GameObject smokeGrenade;
+    [SerializeField] private SphereCollider espaceFumée;
 
     private Target vieGrenade;
     private bool emmetFumee = false;
@@ -21,15 +22,19 @@ public class SmokeGrenadeScript : MonoBehaviour
         vieGrenade = this.GetComponent<Target>(); 
         vieDeLaGrenade = vieGrenade.vie; 
         audioSmoke.clip = soundSmoke;
+        espaceFumée.enabled = true;
     }
 
     void Update()
     {
+        if (Input.GetButton("Fire1") && espaceFumée.enabled == true) espaceFumée.enabled = false;
+        else if (espaceFumée.enabled == false && delai < 0f && !Input.GetButton("Fire1")) espaceFumée.enabled = true;
+
         delai = delai - Time.deltaTime;
         if (((delai <= 0f) && (emmetFumee == false)) || ((vieGrenade.vie != vieDeLaGrenade) && emmetFumee == false))    Emmet();
         if (emmetFumee == true) effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
-        if(delai < -20 && finFumee == false)
+        if(delai < -40 && finFumee == false)
         {
             finFumee = true;
             Collider[] collider = Physics.OverlapSphere(this.transform.position, 50);
@@ -40,25 +45,10 @@ public class SmokeGrenadeScript : MonoBehaviour
                     objetProche.GetComponent<AIscripts>().canSeePlayer = true;
                 }
             }
+            espaceFumée.enabled = false;
             Destroy(this.gameObject.GetComponent<Target>());
             Destroy(this.gameObject.GetComponent<SmokeGrenadeScript>());
-        }
-
-        if (delai < tempsRafraichissement && finFumee == false)
-        {
-            tempsRafraichissement--;
-            Collider[] collider = Physics.OverlapSphere(this.transform.position, 50);
-            foreach (Collider objetProche in collider)
-            {
-                if (objetProche.GetComponent<AIscripts>() != null)
-                {
-                    if (Vector3.Distance(objetProche.GetComponent<AIscripts>().Player.gameObject.transform.position, objetProche.GetComponent<AIscripts>().gameObject.transform.position) < (Vector3.Distance(this.gameObject.transform.position, objetProche.GetComponent<AIscripts>().gameObject.transform.position))  )
-                    {
-                        objetProche.GetComponent<AIscripts>().canSeePlayer = true;
-                    }
-                    else objetProche.GetComponent<AIscripts>().canSeePlayer = false;
-                }
-            }
+            Destroy(espaceFumée);
         }
 
 
@@ -77,7 +67,6 @@ public class SmokeGrenadeScript : MonoBehaviour
         {
             if (objetProche.GetComponent<AIscripts>() != null)
             {
-                objetProche.GetComponent<AIscripts>().canSeePlayer = false;
                 objetProche.GetComponent<AIscripts>().chercheCouverture = true;
             }
         }
