@@ -36,10 +36,11 @@ public class Movement : MonoBehaviour
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
-
+    [SerializeField] private GameObject groundDetection;
     //List<string> animParametersList; //New list w/ names of booleans to handle animations
 
     FatigueSys fatigue;
+    RaycastHit groundRay;
     
     #endregion
 
@@ -54,7 +55,7 @@ public class Movement : MonoBehaviour
     /// <summary>[NOT WORKING/WIP]Get if the character has been jumping during previous frame</summary>
     public bool characterIsJumping { get; private set; } //Working
     public bool characterIsCrouched { get; private set; } //Working
-    /// <summary>NOT WORKING => WIP</summary>
+    /// <summary>Was character on the ground during last frame ?</summary>
     public bool characterIsGrounded { get; private set; } //NOT WORKING => WIP
 
     //Those allows to get player's exhaust and allows creating percentage w/ Max. exhaust (designed for UI) :
@@ -68,8 +69,9 @@ public class Movement : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    {
+    { 
         this.fatigue = new FatigueSys(); //Instanciating new exhaust system (Class by JS)
+        this.groundRay = new RaycastHit();
 
         this.InitState(); //Initializing character state (Setting booleans correclty before starting playing)
 
@@ -90,7 +92,7 @@ public class Movement : MonoBehaviour
 
         //Checking for Jump :
         //If player wants to jump AND that character can jump AND that character isn't crouched :
-        if (Input.GetButtonDown("Jump") && this.characterCanJump && !(characterIsCrouched))
+        if (Input.GetButtonDown("Jump") && this.characterIsGrounded && !(characterIsCrouched))
         {
             Jump(); //Makes the character jump
             characterIsJumping = true; //Setting the property for other scripts
@@ -107,7 +109,11 @@ public class Movement : MonoBehaviour
 
         #endregion
 
-        Debug.Log(this.characterIsCrouched);
+        #region Ground Detection
+
+        this.characterIsGrounded = this.GetIfCharacterIsGrounded();
+
+        #endregion
     }
 
     #endregion
@@ -202,6 +208,17 @@ public class Movement : MonoBehaviour
         else toInvert = true;
 
         return toInvert;
+    }
+
+    private bool GetIfCharacterIsGrounded()
+    {
+        //If the player is on the ground 
+        if (Physics.Raycast(this.groundDetection.transform.position, this.groundDetection.transform.forward, out this.groundRay, 0.3F))
+        {
+            if (this.groundRay.collider.tag == "Ground") return true;
+        }
+
+        return false;
     }
 
     private void SetStateRun()
