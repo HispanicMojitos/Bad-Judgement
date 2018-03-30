@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1967,7 +1967,7 @@ HingeJoint:
   m_Spring:
     spring: 0
     damper: 0
-    targetPosition: 0
+    targetPosition: 3
   m_UseMotor: 0
   m_Motor:
     targetVelocity: 0
@@ -1997,7 +1997,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -7506,7 +7506,7 @@ MonoBehaviour:
   interactionImage: {fileID: 1674849538}
   porteFerme: {fileID: 8300000, guid: 89ae3d3b526534442962d05a69c9dec4, type: 3}
   openDoor: {fileID: 8300000, guid: 7620b32e83059424593d74fb23def8cf, type: 3}
-  closeDoor: {fileID: 8300000, guid: 57bd178a405d12040b1380e529c862e8, type: 3}
+  closeDoor: {fileID: 8300000, guid: 707bd28f7d32c9a4c92b936df4530182, type: 3}
 --- !u!114 &297378023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13145,6 +13145,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 593743025}
+  - component: {fileID: 593743026}
   m_Layer: 0
   m_Name: swat:Head
   m_TagString: Untagged
@@ -13170,6 +13171,86 @@ Transform:
   m_Father: {fileID: 606441036}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &593743026
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 593743024}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.1
+  MaxDistance: 5
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &597591520
 GameObject:
   m_ObjectHideFlags: 0
@@ -18118,11 +18199,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9269efa075ce32646b5d1d5e1022d56d, type: 3}
   - {fileID: 8300000, guid: ce73ec015853f7b4f9096844b80c49bb, type: 3}
   - {fileID: 8300000, guid: af72762ac610f054ca2e5445b192bffa, type: 3}
-  hurtSound: []
+  hurtSound:
+  - {fileID: 8300000, guid: 5366963746798bc4a94e8d7ff5e1fa3c, type: 3}
+  - {fileID: 8300000, guid: f6e9ae0dbec1f624b9e919536d6e2aba, type: 3}
   heartBeats: {fileID: 8300000, guid: 755b10c97cb45cc49a3f7cbc83960289, type: 3}
-  HealBreath: {fileID: 0}
+  HealBreath: {fileID: 8300000, guid: f6e9ae0dbec1f624b9e919536d6e2aba, type: 3}
   player: {fileID: 836389857}
-  moutPlayer: {fileID: 0}
+  moutPlayer: {fileID: 593743026}
 --- !u!114 &836389860
 MonoBehaviour:
   m_ObjectHideFlags: 0

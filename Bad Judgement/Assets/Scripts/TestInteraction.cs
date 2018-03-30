@@ -40,27 +40,28 @@ public class TestInteraction : MonoBehaviour
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
             interactionImage.enabled = true;
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E)) // Si on regarde une porte ET que l'on appuye sur E
             {
-                HingeJoint joint = hit.transform.GetComponent<HingeJoint>();
+                HingeJoint joint = hit.transform.GetComponent<HingeJoint>(); // Permet de récupérer le Hinge Joint
                 JointSpring jSpring = joint.spring;
-                if (jSpring.targetPosition == 0)
+                if (jSpring.targetPosition == 3) // Si la porte est fermée, on l'ouvre
                 {
-
-                    hit.transform.GetComponent<Rigidbody>().isKinematic = false;
+                    hit.rigidbody.isKinematic = false;
+                    StartCoroutine(Attend(hit));
                     jSpring.spring = 100;
                     jSpring.damper = 30;
-                    jSpring.targetPosition = -90;
+                    jSpring.targetPosition = -90; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
                     joint.spring = jSpring;
                     joint.useSpring = true;
                     Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
                 }
-                else if (jSpring.targetPosition == -90)
+                else if (jSpring.targetPosition == -90) // Si la porte est ouverte, on la ferme
                 {
-                    StartCoroutine(Attend(hit));
+                    hit.rigidbody.isKinematic = false;
+                    StartCoroutine(Attend(hit,false));
                     jSpring.spring = 100;
                     jSpring.damper = 30;
-                    jSpring.targetPosition = 0;
+                    jSpring.targetPosition = 3; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
                     joint.spring = jSpring;
                     joint.useSpring = true;
                     Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), closeDoor);
@@ -69,16 +70,37 @@ public class TestInteraction : MonoBehaviour
         }
         else if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
-            interactionImage.enabled = true;
+            interactionImage.enabled = true; // Ici On joue le son d'une porte fermée
             if (Input.GetKeyDown(KeyCode.E)) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), porteFerme);
         }
-        else interactionImage.enabled = false;
+        else interactionImage.enabled = false; // On eleve l'image d'interacation GUI E si non besoin d'elle
     }
 
-    IEnumerator Attend(RaycastHit h)
+    IEnumerator Attend(RaycastHit h, bool souvre = true) // Permet de faire en sorte que l'on puisse plus pousser la porte apres un certain temps
     {
-        yield return new WaitForSeconds(1.5f);
-        h.transform.GetComponent<Rigidbody>().isKinematic = true;
+        if (souvre == true)
+        {
+            for (float vel = 0.02f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
+            {
+                yield return new WaitForSeconds(0.1f); // On attend dans cette interface IEnumerator en parallele de tout ce qui se passe dans le jeux
+                if (h.rigidbody.velocity.magnitude < vel) h.rigidbody.isKinematic = true; // Permet de fair que l'on puisse pas bouger une porte lorsqu'elle est fermée
+            }
+        }
+        else
+        {
+            for (float vel = 0.02f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
+            {
+                yield return new WaitForSeconds(0.1f); // On attend dans cette interface IEnumerator en parallele de tout ce qui se passe dans le jeux
+                if (h.rigidbody.velocity.magnitude < vel)
+                {
+                    h.transform.GetComponent<AudioSource>().time = 0.5f;
+                    Sounds.PlayDoorSond(h.transform.GetComponent<AudioSource>(), closeDoor);
+                    h.rigidbody.isKinematic = true; // Permet de fair que l'on puisse pas bouger une porte lorsqu'elle est fermée
+                    h.transform.GetComponent<AudioSource>().time = 0f;
+                }
+                else h.transform.GetComponent<AudioSource>().Stop();
+            }
+        }
+
     }
-    
 }

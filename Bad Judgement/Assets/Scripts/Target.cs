@@ -15,20 +15,20 @@ public class Target : MonoBehaviour
         healthMax = health;
     }
 
+    /// <summary> Permet d'enlever de la vie aux gameObject attaché aux script Target ( "amount" etant le nombre de point de vie enlevé lors de ce frame)</summary>
     public void TakeDamage(float amount)
     {
-        health -= amount;
         if (health <= 0f) Die();
-        // we create a script that destroys an object when its health is equal or lower than 0
+        else health -= amount;
     }
 
-    /// <summary> Permet de faire regagner de la vie au gameObject avec le Target Correspondant </summary>
-    /// <param name="HP"></param>
+    /// <summary> Permet de faire regagner de la vie au gameObjec ("HP" etant le nombre de vie que regagnera cet objet lors de ce frame, ne peut pas depasser la vieMax initialisée)</summary>
     public void GainHealth(float HP)
     {
         if (health < healthMax) health += HP;
     }
 
+    /// <summary> Permet de faire Mourir/Detruire les Objetc attaché à ce script</summary>
     void Die()
     {
         if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false) Destroy(gameObject, 10);

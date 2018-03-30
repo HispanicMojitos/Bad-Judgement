@@ -34,7 +34,7 @@ public class SmokeGrenadeScript : MonoBehaviour
         if (((delai <= 0f) && (emmetFumee == false)) || ((vieGrenade.vie != vieDeLaGrenade) && emmetFumee == false))    Emmet();
         if (emmetFumee == true) effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
-        if(delai < -40 && finFumee == false)
+        if(delai < -40 && finFumee == false) // Si la fumée est dissipée
         {
             finFumee = true;
             Collider[] collider = Physics.OverlapSphere(this.transform.position, 50);
@@ -42,13 +42,13 @@ public class SmokeGrenadeScript : MonoBehaviour
             {
                 if (objetProche.GetComponent<AIscripts>() != null)
                 {
-                    objetProche.GetComponent<AIscripts>().canSeePlayer = true;
+                    objetProche.GetComponent<AIscripts>().canSeePlayer = true; // On renseigne aux IA qu'elles peuvent regarder le joueur apres que la fumée se soit dissipée
                 }
             }
             espaceFumée.enabled = false;
             Destroy(this.gameObject.GetComponent<Target>());
             Destroy(this.gameObject.GetComponent<SmokeGrenadeScript>());
-            Destroy(espaceFumée);
+            Destroy(espaceFumée);     // On detruit tout ce que l'on a plus besoin pour cause d'optimisation
         }
 
 

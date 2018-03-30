@@ -36,8 +36,8 @@ public class GrenadeScript : MonoBehaviour
 
     private void Explode()
     {
-        Instantiate(effetExplosion, transform.position, transform.rotation); // On créé l'effet de particule d'explosion
-        
+        GameObject fumeeExplosion = Instantiate(effetExplosion, transform.position, transform.rotation); // On créé l'effet de particule d'explosion
+        Destroy(fumeeExplosion, 4f);
         Collider[] collider = Physics.OverlapSphere(this.transform.position, rayonExplosion); // permet de recuperer tout les objet dans un rayon determiné
 
         foreach (Collider objetProche in collider)

@@ -6,6 +6,7 @@ public static class Sounds
 {
     #region AK47
 
+    /// <summary>Joue le son d'une unique balle (Coupe le son precedent)</summary>
     public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, float volume = 0.3f)
     { 
          AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
@@ -14,7 +15,8 @@ public static class Sounds
          AK47.spatialBlend = 0.8f;
          AK47.Play();
     }
-    
+
+    /// <summary> Permet de jouer le son de rechargement (Coupe le son precedent de l'AK47)</summary>
     public static void AK47reload(AudioSource AK47, AudioClip AK47reloadSound, float volume = 1f)
     {
         AK47.Stop();
@@ -24,14 +26,10 @@ public static class Sounds
     }
 
     #endregion AK47
-    
+
     #region Movement
-    public static void FootSteepsSound(AudioSource personnage)
-    {
-        if (!personnage.isPlaying) personnage.Play();
-    }
-    
-    
+
+    /// <summary> permet de jouer le son de jump </summary>
     public static void Jump(AudioSource piedPersonnage, AudioClip jumpSound)
     {
         if (!piedPersonnage.isPlaying)
@@ -41,7 +39,7 @@ public static class Sounds
         }
     }
 
-    static private int numeroPied = 0;
+    static private int numeroPied = 0; // Variabes utilisée pour la méthode statique Marche
     /// <summary> Permet de jouer les sons de pas lorsqu'on marche OU cours (tout depends du clipAudio donné) </summary>
     public static void Marche(AudioSource[] pieds,AudioClip sonDePas, bool canJump)
     {
@@ -59,11 +57,8 @@ public static class Sounds
     }
     #endregion Movement
 
-    public static void Death(AudioSource mouthHead)
-    {
-        if (!mouthHead.isPlaying) mouthHead.Play();
-    }
-
+    #region interaction sound
+    /// <summary> Permet de jouer un son de porte et de couper les son actuel, si existant</summary>
     public static void PlayDoorSond(AudioSource door, AudioClip doorSound)
     {
         if(!door.isPlaying || door.clip != doorSound)
@@ -72,8 +67,10 @@ public static class Sounds
             door.Play();
         }
     }
+    #endregion interaction sound
 
     #region human sound
+
     /// <summary> Joue le son d'un battement de coeur en 2D </summary>
     public static void BeatsOfHeart(AudioSource coeur, AudioClip battements) 
     {
@@ -85,9 +82,21 @@ public static class Sounds
         }
     }
 
+    /// <summary> Joue le son d'un cri d'un mort qu'une seul et unique fois grace au pramatre " playSoundOnce"</summary>
+    public static void Death(AudioSource mouthHead,AudioClip deathSound,bool playSoundOnce)
+    {
+        if (!mouthHead.isPlaying && playSoundOnce == false)
+        {
+            mouthHead.clip = deathSound;
+            mouthHead.Play();
+            playSoundOnce = true;
+        }
+    }
+
+    /// <summary> Joue le son des balles arrivant aux oreilles au hasard dans le tableau "bullet"</summary>
     public static void  bulletSound(AudioSource corps, AudioClip[] bullet)
     {
-        int random = Random.Range(0,1);
+        int random = Random.Range(0,1); // Plus l'ecart est grand, moins le son de balle sera fréquent
         if( random == 0)
         {
             if (!corps.isPlaying)
@@ -99,10 +108,10 @@ public static class Sounds
             }
         }
     }
-
-    public static void hurtHuman(AudioSource mouth, AudioClip[] hurt)
+    /// <summary> Choisi au hasard quand jouer le son de douleur du personnage, et choisi au hasard le son de personnage choisi grace au tableau "hurt" </summary>
+    public static void hurtHuman(AudioSource mouth, AudioClip[] hurt, float vie)
     {
-        int random = Random.Range(0, 10);
+        int random = Random.Range(0, 10); // Plus l'ecart est grand, moin le son de cris de douleur sera entendu
         if (random == 2)
         {
             if (!mouth.isPlaying)
