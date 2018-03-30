@@ -46,37 +46,30 @@ public class CamControl : MonoBehaviour
 
         verticalEulerVector = Vector3.zero;
         horizontalEulerVector = Vector3.zero;
-
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        float yGameAxis = Input.GetAxis("Mouse X"); //The horizontal (X) mouse axis matches with the ingame y rotation axis
-        float xGameAxis = Input.GetAxis("Mouse Y"); //The vertical (Y) mouse axis matches with the ingame x rotation axis
-
-        if (yGameAxis != 0)
+        if (!UIScript.gameIsPaused)
         {
-            if (isFreeCamActive) MoveCamHoriz(yGameAxis); //Rotating the camera because of freecam mode
-            else MoveCamHoriz(yGameAxis); //Rotating the player on its Y-axis.
+            float yGameAxis = Input.GetAxis("Mouse X"); //The horizontal (X) mouse axis matches with the ingame y rotation axis
+            float xGameAxis = Input.GetAxis("Mouse Y"); //The vertical (Y) mouse axis matches with the ingame x rotation axis
+
+            if (yGameAxis != 0)
+            {
+                if (isFreeCamActive) MoveCamHoriz(yGameAxis); //Rotating the camera because of freecam mode
+                else MoveCamHoriz(yGameAxis); //Rotating the player on its Y-axis.
+            }
+            MoveCamVertically(xGameAxis); //Moving the camera vertically (X axis)
+
+            if (Input.GetKeyDown(KeyCode.LeftAlt)) ChangeFreeCamOrNot();
+            //Setting Camera to free if alt is pressed, reverting action by pressing a second time
+
+            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Mouse0)) this.InvertAxis();
+            //If LeftAlt + LeftClick => Inverting Y axis 
         }
-        MoveCamVertically(xGameAxis); //Moving the camera vertically (X axis)
-
-        if (Input.GetKeyDown(KeyCode.LeftAlt)) ChangeFreeCamOrNot();
-        //Setting Camera to free if alt is pressed, reverting action by pressing a second time
-
-        if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Mouse0)) this.InvertAxis();
-        //If LeftAlt + LeftClick => Inverting Y axis
-
-        #region Cursor
-
-        if (Input.GetKeyDown(KeyCode.Escape)) this.CursorUnlock();
-        if (Cursor.lockState == CursorLockMode.None && Input.GetKey(KeyCode.Mouse0)) this.CursorLock();
-        //Locks the cursor on the window
-
-        #endregion
     }
 
     #endregion
@@ -138,22 +131,6 @@ public class CamControl : MonoBehaviour
 
             this.isFreeCamActive = true;
         }
-    }
-
-    #endregion
-
-    #region Cursor
-
-    private void CursorLock()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    private void CursorUnlock()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     #endregion

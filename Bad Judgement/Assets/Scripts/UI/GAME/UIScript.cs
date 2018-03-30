@@ -7,7 +7,11 @@ public class UIScript : MonoBehaviour
 {
     #region Membres
 
+    public static bool gameIsPaused { get; private set; }
+
     [SerializeField] private Transform ourPlayer;
+
+    [SerializeField] private GameObject pauseMenu;
 
     [SerializeField] private Text healthText;
     [SerializeField] private Slider healthSlider;
@@ -21,13 +25,27 @@ public class UIScript : MonoBehaviour
 
     #region Start & Update
 
+    private void Start()
+    {
+        gameIsPaused = false;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     void Update()
     {
-        if (this.ourPlayer != null) //If the player object hasn't been destroyed
+        if(this.ourPlayer != null) //If the player object hasn't been destroyed
         {
             UpdateAmmoQty();
             UpdatePlayerHealth();
             UpdatePlayerExhaust();
+
+            if (Input.GetKeyDown(KeyCode.Escape)) //Handling Pause
+            {
+                if (gameIsPaused) Resume();
+                else Pause();
+            }
         }
     }
 
@@ -68,6 +86,28 @@ public class UIScript : MonoBehaviour
 
         this.exhaustSlider.value = exhaustPercentage;
         this.exhaustText.text = exhaustPercentage.ToString();
+    }
+
+    public void Resume() //Public access keyword to access it via button
+    {
+        Time.timeScale = 1.0F;
+        gameIsPaused = false;
+
+        this.pauseMenu.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void Pause()
+    {
+        Time.timeScale = 0.0F;
+        gameIsPaused = true;
+
+        this.pauseMenu.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     #endregion

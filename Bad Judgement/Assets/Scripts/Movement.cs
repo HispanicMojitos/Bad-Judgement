@@ -82,38 +82,41 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region Ground Move
-
-        if (characterIsGrounded) this.Move();
-
-        #endregion
-
-        #region Jump
-
-        //Checking for Jump :
-        //If player wants to jump AND that character can jump AND that character isn't crouched :
-        if (Input.GetButtonDown("Jump") && this.characterIsGrounded && !(characterIsCrouched))
+        if (!UIScript.gameIsPaused)
         {
-            Jump(); //Makes the character jump
-            characterIsJumping = true; //Setting the property for other scripts
+            #region Ground Move
+
+            if (characterIsGrounded) this.Move();
+
+            #endregion
+
+            #region Jump
+
+            //Checking for Jump :
+            //If player wants to jump AND that character can jump AND that character isn't crouched :
+            if (Input.GetButtonDown("Jump") && this.characterIsGrounded && !(characterIsCrouched))
+            {
+                Jump(); //Makes the character jump
+                characterIsJumping = true; //Setting the property for other scripts
+            }
+            else characterIsJumping = false; //Setting property for other scripts
+
+            #endregion
+
+            #region Crouch
+
+            if (Input.GetKeyDown(KeyCode.C)) Crouch(this.normalCrouchDeltaH);
+            //Doing two != types of crouching depending on the key pressed
+            if (Input.GetKeyDown(KeyCode.B)) Crouch(this.onTheKneesCrouchDeltaH);
+
+            #endregion
+
+            #region Ground Detection
+
+            this.characterIsGrounded = this.GetIfCharacterIsGrounded();
+
+            #endregion 
         }
-        else characterIsJumping = false; //Setting property for other scripts
-
-        #endregion
-
-        #region Crouch
-
-        if (Input.GetKeyDown(KeyCode.C)) Crouch(this.normalCrouchDeltaH);
-        //Doing two != types of crouching depending on the key pressed
-        if (Input.GetKeyDown(KeyCode.B)) Crouch(this.onTheKneesCrouchDeltaH);
-
-        #endregion
-
-        #region Ground Detection
-
-        this.characterIsGrounded = this.GetIfCharacterIsGrounded();
-
-        #endregion
     }
 
     #endregion
@@ -253,6 +256,11 @@ public class Movement : MonoBehaviour
         this.characterIsJumping = false;
 
         this.characterIsGrounded = true;
+    }
+
+    private void DetermineExhaust()
+    {
+
     }
 
     #endregion
