@@ -108,6 +108,16 @@ public class UIScript : MonoBehaviour
         //Instanciate Menu Here
     }
 
+    public void OnSaveButtonPressed()
+    {
+        
+    }
+
+    public void OnQuitButtonPressed()
+    {
+
+    }
+
     private void Pause()
     {
         Time.timeScale = 0.0F;
