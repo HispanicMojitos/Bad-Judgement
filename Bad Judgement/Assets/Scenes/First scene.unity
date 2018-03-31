@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -7733,8 +7733,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicClip: {fileID: 8300000, guid: 6e7e7f1615a201646bd27eab4f2d0715, type: 3}
   musicSource: {fileID: 297378017}
-  volume: 0.05
-  pitch: 1
 --- !u!81 &297378019
 AudioListener:
   m_ObjectHideFlags: 0
@@ -7803,7 +7801,7 @@ MonoBehaviour:
   interactionImage: {fileID: 1674849538}
   porteFerme: {fileID: 8300000, guid: 89ae3d3b526534442962d05a69c9dec4, type: 3}
   openDoor: {fileID: 8300000, guid: 7620b32e83059424593d74fb23def8cf, type: 3}
-  closeDoor: {fileID: 8300000, guid: 707bd28f7d32c9a4c92b936df4530182, type: 3}
+  closeDoor: {fileID: 8300000, guid: a228af3263128f7498acea2516d1b216, type: 3}
 --- !u!114 &297378023
 MonoBehaviour:
   m_ObjectHideFlags: 0

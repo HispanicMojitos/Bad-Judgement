@@ -64,7 +64,6 @@ public class TestInteraction : MonoBehaviour
                     jSpring.targetPosition = 3; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
                     joint.spring = jSpring;
                     joint.useSpring = true;
-                    Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), closeDoor);
                 }
             }
         }
@@ -88,7 +87,7 @@ public class TestInteraction : MonoBehaviour
         }
         else
         {
-            for (float vel = 0.02f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
+            for (float vel = 0.1f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
             {
                 yield return new WaitForSeconds(0.1f); // On attend dans cette interface IEnumerator en parallele de tout ce qui se passe dans le jeux
                 if (h.rigidbody.velocity.magnitude < vel)

@@ -4,6 +4,24 @@ using UnityEngine;
 // /!\  ATTENTION CE SCRIPT VA BEAUCOUP CHANGER, NOTTEMMENT LORSQU'ON VA METTRE PLUSIEURS ARME,JE VERRAI AVEC VOUS CAR IL FAUT ADAPTER LE SCRIPT EN FONCTION DES ARMES
 public static class Sounds
 {
+    #region propriétés && membres
+    private static float volumeSon = 1f;
+    private static float volumeMusique = 1f;
+
+    /// <summary> Volume des sons du jeux /!\ A faire varier de 0f à 1f /!\</summary>
+    public static float VolumeSon
+    {
+        get { return volumeSon;  }
+        set { volumeSon = value;  }
+    }
+    /// <summary> Volume des musiques du jeux /!\ A faire varier de 0f à 1f /!\ </summary>
+    public static float VolumeMusique
+    {
+        get { return volumeMusique; }
+        set { volumeMusique = value; }
+    }
+    #endregion propriété && membres
+
     #region AK47
 
     /// <summary>Joue le son d'une unique balle (Coupe le son precedent)</summary>
@@ -11,8 +29,7 @@ public static class Sounds
     { 
          AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
          AK47.clip = AK47shootSound; // defini le son qu'emet l'AK47
-         AK47.volume = volume; // defini le volume de l'AK47
-         AK47.spatialBlend = 0.8f;
+         AK47.volume = VolumeSon; // defini le volume de l'AK47
          AK47.Play();
     }
 
@@ -21,7 +38,7 @@ public static class Sounds
     {
         AK47.Stop();
         AK47.clip = AK47reloadSound;
-        AK47.volume = volume;
+        AK47.volume = VolumeSon;
         AK47.Play();
     }
 
@@ -35,6 +52,7 @@ public static class Sounds
         if (!piedPersonnage.isPlaying)
         {
             piedPersonnage.clip = jumpSound;
+            piedPersonnage.volume = VolumeSon;
             piedPersonnage.Play();
         }
     }
@@ -48,7 +66,9 @@ public static class Sounds
             if (!pieds[numeroPied].isPlaying)
             {
                 pieds[0].clip = sonDePas;
+                pieds[0].volume = VolumeSon;
                 pieds[1].clip = sonDePas;
+                pieds[1].volume = VolumeSon;
                 if (numeroPied == 0) numeroPied = 1;
                 else if (numeroPied == 1) numeroPied = 0;
                 pieds[numeroPied].Play();
@@ -64,6 +84,7 @@ public static class Sounds
         if(!door.isPlaying || door.clip != doorSound)
         {
             door.clip = doorSound;
+            door.volume = VolumeSon;
             door.Play();
         }
     }
@@ -78,6 +99,7 @@ public static class Sounds
         {
             coeur.clip = battements;
             coeur.spatialBlend = 0f;
+            coeur.volume = VolumeSon;
             coeur.Play(); 
         }
     }
@@ -88,6 +110,7 @@ public static class Sounds
         if (!mouthHead.isPlaying && playSoundOnce == false)
         {
             mouthHead.clip = deathSound;
+            mouthHead.volume = VolumeSon;
             mouthHead.Play();
             playSoundOnce = true;
         }
@@ -104,6 +127,7 @@ public static class Sounds
                 int randomBullet = Random.Range(0, bullet.Length);
                 corps.clip = bullet[randomBullet];
                 corps.spatialBlend = 1f;
+                corps.volume = VolumeSon;
                 corps.Play();
             }
         }
@@ -119,9 +143,22 @@ public static class Sounds
                 int randomhirt = Random.Range(0, hurt.Length);
                 mouth.clip = hurt[randomhirt];
                 mouth.spatialBlend = 1f;
+                mouth.volume = VolumeSon;
                 mouth.Play();
             }
         }
     }
     #endregion human sound
+    /// <summary>Permet de jouer une musique voulue grace à une source auditive initialisée </summary>
+    public static void JouerMusique(AudioSource OrigineDuSon, AudioClip Musique)
+    {
+        if(!OrigineDuSon.isPlaying)
+        {
+            OrigineDuSon.clip = Musique;
+            OrigineDuSon.volume = VolumeMusique;
+            OrigineDuSon.loop = true;
+            OrigineDuSon.Play();
+        }
+
+    }
 }
