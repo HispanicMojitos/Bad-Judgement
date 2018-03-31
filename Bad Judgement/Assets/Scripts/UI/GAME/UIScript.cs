@@ -88,6 +88,10 @@ public class UIScript : MonoBehaviour
         this.exhaustText.text = exhaustPercentage.ToString();
     }
 
+    #endregion
+
+    #region Pause Menu
+
     public void Resume() //Public access keyword to access it via button
     {
         Time.timeScale = 1.0F;
@@ -97,6 +101,11 @@ public class UIScript : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void OnOptionsButtonPressed()
+    {
+        //Instanciate Menu Here
     }
 
     private void Pause()
