@@ -1,36 +1,24 @@
 fileFormatVersion: 2
-guid: e772aa0923962424c8c3f7e3d96ff6da
-timeCreated: 1522246432
+guid: 1f8830b311ddc204c869e1863e49d8fe
+timeCreated: 1522593177
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: ARMCHAIR
-    100002: ARMCHAIR.001
-    100004: ARMCHAIR.002
-    100006: //RootNode
-    400000: ARMCHAIR
-    400002: ARMCHAIR.001
-    400004: ARMCHAIR.002
-    400006: //RootNode
-    2100000: BLACK_MATTE
-    2100002: MetalChrome
-    2100004: BLACK_PLSTC
-    2300000: ARMCHAIR
-    2300002: ARMCHAIR.001
-    2300004: ARMCHAIR.002
-    3300000: ARMCHAIR
-    3300002: ARMCHAIR.001
-    3300004: ARMCHAIR.002
-    4300000: ARMCHAIR.002
-    4300002: ARMCHAIR.001
-    4300004: ARMCHAIR
+    100000: default
+    100002: //RootNode
+    400000: default
+    400002: //RootNode
+    2100000: defaultMat
+    2300000: default
+    3300000: default
+    4300000: default
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: BLACK_MATTE
-    second: {fileID: 2100000, guid: 7856d14b6d279fa40aaf567ee9c69cbe, type: 2}
+      name: defaultMat
+    second: {fileID: 2100000, guid: 2ae5c21f50afff54f8179238b189fd26, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -1,36 +1,94 @@
 fileFormatVersion: 2
-guid: e772aa0923962424c8c3f7e3d96ff6da
-timeCreated: 1522246432
+guid: 8492e854139537b4b858548881c048e2
+timeCreated: 1522591094
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: ARMCHAIR
-    100002: ARMCHAIR.001
-    100004: ARMCHAIR.002
+    100000: Box01
+    100002: Box02
+    100004: Box03
     100006: //RootNode
-    400000: ARMCHAIR
-    400002: ARMCHAIR.001
-    400004: ARMCHAIR.002
+    100008: Circle01
+    100010: Cylinder01
+    100012: Cylinder02
+    100014: Cylinder03
+    100016: Cylinder04
+    100018: Donut01
+    400000: Box01
+    400002: Box02
+    400004: Box03
     400006: //RootNode
-    2100000: BLACK_MATTE
-    2100002: MetalChrome
-    2100004: BLACK_PLSTC
-    2300000: ARMCHAIR
-    2300002: ARMCHAIR.001
-    2300004: ARMCHAIR.002
-    3300000: ARMCHAIR
-    3300002: ARMCHAIR.001
-    3300004: ARMCHAIR.002
-    4300000: ARMCHAIR.002
-    4300002: ARMCHAIR.001
-    4300004: ARMCHAIR
+    400008: Circle01
+    400010: Cylinder01
+    400012: Cylinder02
+    400014: Cylinder03
+    400016: Cylinder04
+    400018: Donut01
+    2100000: wire_212212212
+    2100002: wire_000112255
+    2100004: wire_000000197
+    2100006: wire_132132132
+    2100008: wire_255255255
+    2100010: wire_234234234
+    2300000: Box01
+    2300002: Box02
+    2300004: Box03
+    2300006: Circle01
+    2300008: Cylinder01
+    2300010: Cylinder02
+    2300012: Cylinder03
+    2300014: Cylinder04
+    2300016: Donut01
+    3300000: Box01
+    3300002: Box02
+    3300004: Box03
+    3300006: Circle01
+    3300008: Cylinder01
+    3300010: Cylinder02
+    3300012: Cylinder03
+    3300014: Cylinder04
+    3300016: Donut01
+    4300000: Box02
+    4300002: Circle01
+    4300004: Cylinder02
+    4300006: Cylinder04
+    4300008: Donut01
+    4300010: Cylinder03
+    4300012: Box01
+    4300014: Cylinder01
+    4300016: Box03
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: BLACK_MATTE
+      name: wire_000000197
     second: {fileID: 2100000, guid: 7856d14b6d279fa40aaf567ee9c69cbe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wire_000112255
+    second: {fileID: 2100018, guid: a9259de0c7761da4c8ee0d4d30a84e8c, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wire_132132132
+    second: {fileID: 2100000, guid: 2062b6d0a7a2d4f46b4689198aedadd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wire_212212212
+    second: {fileID: 2100000, guid: 2062b6d0a7a2d4f46b4689198aedadd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wire_234234234
+    second: {fileID: 2100000, guid: 175d0e45f833c9246ba0dba71402f49c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wire_255255255
+    second: {fileID: 2100000, guid: 175d0e45f833c9246ba0dba71402f49c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
