@@ -10,7 +10,7 @@ public class UIScript : MonoBehaviour
     #region Sound member
     public AudioMixerSnapshot pause; // Permet de modifier de redefinir tout les son du jeux lorsqu'on est en pause
     public AudioMixerSnapshot enJeux; // Permet de modifier de redefinir tout les son du jeux lorsqu'on est en jeux
-    #region Sound member 
+    #endregion Sound member 
 
     public static bool gameIsPaused { get; private set; }
 
