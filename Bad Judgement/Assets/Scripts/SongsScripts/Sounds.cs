@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+
 // /!\  ATTENTION CE SCRIPT VA BEAUCOUP CHANGER, NOTTEMMENT LORSQU'ON VA METTRE PLUSIEURS ARME,JE VERRAI AVEC VOUS CAR IL FAUT ADAPTER LE SCRIPT EN FONCTION DES ARMES
 public static class Sounds
 {
@@ -161,4 +163,14 @@ public static class Sounds
         }
 
     }
+
+    #region Mixer
+
+    /// <summary>permet de mettre changer le son via une transition le son en pause (On a besoin d'un ellement AudioMixerSnashot en parametre) </summary>
+    static public void soundPaused(AudioMixerSnapshot pause) { pause.TransitionTo(0.1f); }
+
+    /// <summary>permet de mettre changer le son via une transition le son en jeux (On a besoin d'un ellement AudioMixerSnashot en parametre) </summary>
+    static public void soundEnJeux(AudioMixerSnapshot enJeux) {enJeux.TransitionTo(0.1f); }
+
+    #endregion Mixer
 }

@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class UIScript : MonoBehaviour
 {
     #region Membres
+    #region Sound member
+    public AudioMixerSnapshot pause; // Permet de modifier de redefinir tout les son du jeux lorsqu'on est en pause
+    public AudioMixerSnapshot enJeux; // Permet de modifier de redefinir tout les son du jeux lorsqu'on est en jeux
+    #region Sound member 
 
     public static bool gameIsPaused { get; private set; }
 
@@ -96,7 +101,9 @@ public class UIScript : MonoBehaviour
     {
         Time.timeScale = 1.0F;
         gameIsPaused = false;
-
+        #region Sounds
+        Sounds.soundPaused(enJeux);
+        #endregion Sounds
         this.pauseMenu.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -122,7 +129,9 @@ public class UIScript : MonoBehaviour
     {
         Time.timeScale = 0.0F;
         gameIsPaused = true;
-
+        #region Sounds
+        Sounds.soundPaused(pause);
+        #endregion Sounds
         this.pauseMenu.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
