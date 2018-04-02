@@ -13832,7 +13832,7 @@ AudioSource:
   m_GameObject: {fileID: 593743024}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243963460777151926, guid: 91541567ec1e9984b9119798329b9e10,
+  OutputAudioMixerGroup: {fileID: 243195036538814804, guid: 624c214c8e28fe84b81d30cd542209e3,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
@@ -18971,7 +18971,7 @@ AudioSource:
   m_GameObject: {fileID: 836389854}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243963460777151926, guid: 91541567ec1e9984b9119798329b9e10,
+  OutputAudioMixerGroup: {fileID: 243195036538814804, guid: 624c214c8e28fe84b81d30cd542209e3,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
@@ -35409,6 +35409,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 187b74e989349764a9fd5ca358ebca37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pause: {fileID: 245746152229285894, guid: 624c214c8e28fe84b81d30cd542209e3, type: 2}
+  enJeux: {fileID: 24500006, guid: 624c214c8e28fe84b81d30cd542209e3, type: 2}
   ourPlayer: {fileID: 1037779454}
   pauseMenu: {fileID: 429857304}
   healthText: {fileID: 1727395000}
@@ -36666,7 +36668,7 @@ AudioSource:
   m_GameObject: {fileID: 1545021850}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243963460777151926, guid: 91541567ec1e9984b9119798329b9e10,
+  OutputAudioMixerGroup: {fileID: 243195036538814804, guid: 624c214c8e28fe84b81d30cd542209e3,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
@@ -44062,7 +44064,7 @@ AudioSource:
   m_GameObject: {fileID: 1852685155}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243963460777151926, guid: 91541567ec1e9984b9119798329b9e10,
+  OutputAudioMixerGroup: {fileID: 243195036538814804, guid: 624c214c8e28fe84b81d30cd542209e3,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1

@@ -18,8 +18,10 @@ public class PlayerHealth : MonoBehaviour
     /// <summary> delai entre chaque récupération de point de vie </summary>
     private float delaiEntreRecup = 0f;
     #endregion membres
+
+
     void Start () {  vie = this.gameObject.GetComponent<Target>().vie;  }
-	
+
 	void Update ()
     {
         if (vie != this.gameObject.GetComponent<Target>().vie)
