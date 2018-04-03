@@ -13,7 +13,6 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private GameObject lanceurGrenad;
     [SerializeField] private GameObject M4A8; // prend la position du M4A8
     [SerializeField] private GameObject grenade;
-    //[SerializeField] private GameObject Projectile; // Recupere la forme des projéctile envoyé par le M4A8
     [SerializeField] private GameObject boucheCanon;
     [SerializeField] private GameObject[] pointDeCouverture;
     [SerializeField] private GameObject[] pointDePatrouille; // Recupere l'ensemble des points de patrouille que l'on veuille mettre a l'IA
@@ -120,8 +119,6 @@ public class AIscripts : MonoBehaviour
 
     void Update()
     {
-
-
         if (IA.vie > 0)
         {
             Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
@@ -144,13 +141,13 @@ public class AIscripts : MonoBehaviour
 
                 if (IA.vie == vie) // Si l'IA n'est pas attaquée
                 {
-                    if ((!IsPausing) && chercheCouverture == false) AnimWalk();// si il n'a pas a faire de pause, il continue son bonhome de chemin
-                    else if (chercheCouverture == true && estCouvert == false) AnimRun();
-                    else if (estCouvert == true) AnimKneel();
+                    if ((!IsPausing) && chercheCouverture == false) SetAnimation(isWalking:true);// si il n'a pas a faire de pause, il continue son bonhome de chemin
+                    else if (chercheCouverture == true && estCouvert == false) SetAnimation(isRunning:true);
+                    else if (estCouvert == true) SetAnimation(isKneel: true);
 
                     if (((actuelPointDePatrouille % nbrDePause == 0) && tempsPause >= 0) && chercheCouverture == false) // Permet de ne faire la pause qu'a un point de patrouille donné
                     {
-                        AnimIdle();
+                        SetAnimation(isIdle:true);
                         IsPausing = true; // l'IA prens sa pause
                         tempsPause = tempsPause - Time.deltaTime; // Malheuresement le temps d'une pause ne dure jamais longtemps !! (Bref le temps de la pause diminue)
                     }
@@ -202,7 +199,7 @@ public class AIscripts : MonoBehaviour
                         chercheCouverture = false;
                         if (wantToAttack == false) isAimingPlayer = false;
                         estCouvert = true;
-                        AnimKneel();
+                        SetAnimation(isKneel: true);
                     }
                 }
                 else
@@ -218,9 +215,8 @@ public class AIscripts : MonoBehaviour
 
             if (Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f) // Si le joueur se trouve trop pres de l'IA il va l'attaquer au corp a corps !! (DU CATCH !!)
             {
-
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // On garde le fait que l'IA regarde vers le joueur
-                AnimAttackCloser();
+                SetAnimation(isAttackingCloser:true);
                 isblocking = true;
                 if (tempsAvantDelayCoupDeCrosse > 0.1f)
                 {
@@ -260,12 +256,12 @@ public class AIscripts : MonoBehaviour
                     }
 
                     isAimingPlayer = true;
-                    AnimAim();
+                    SetAnimation(isAiming:true);
                     if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
                     {
                         if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
                         {
-                            Animattack();
+                            SetAnimation(isAttack:true);
                             AttackShoot(direction); // Permet de faire attaquer l'IA
                             tempsDeTir = 0;
                         }
@@ -282,7 +278,7 @@ public class AIscripts : MonoBehaviour
                 else if (isAimingPlayer == true)
                 {
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-                    AnimAim();
+                    SetAnimation(isAiming: true);
                     tempsAvantArreterPoursuite += Time.deltaTime;
                     if (tempsNouvelleDecision > UnityEngine.Random.Range(2f, 10f)) // Permet de que l'IA prennent une nouvelle décision lorsque le temps de celui ci est dépassé
                     {
@@ -297,11 +293,11 @@ public class AIscripts : MonoBehaviour
             {
                 StopPoursuite(); // arrete la poursuite de l'IA envers le joueur
             }
-            else if (estCouvert == true)
+            else if (estCouvert == true) // IIci on a les differentes actions pour lesquelle l'IA est couvert
             {
                 tempsNouvelleDecision += Time.deltaTime;
 
-                if (isAimingPlayer == false) AnimKneel();
+                if (isAimingPlayer == false) SetAnimation(isKneel: true);
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                 float random = UnityEngine.Random.Range(5f, 15f);
                 if (tempsNouvelleDecision > random)
@@ -317,7 +313,7 @@ public class AIscripts : MonoBehaviour
                     RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
                     if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && isThrowingGrenade == false & isAimingPlayer == false)
                     {
-                        AnimAimKneel();
+                        SetAnimation(isAimKneel:true);
                         if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
                         {
                             if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
@@ -336,7 +332,7 @@ public class AIscripts : MonoBehaviour
                     }
                     else if (isAimingPlayer == true && isThrowingGrenade == false)
                     {
-                        AnimAim();
+                        SetAnimation(isAiming: true);
                         if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                         {
                             if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque))
@@ -369,8 +365,7 @@ public class AIscripts : MonoBehaviour
                         {
                             if (tempsAvantArreterPoursuite > 60f) StopPoursuite();
                             else tempsAvantArreterPoursuite += Time.deltaTime;
-
-                            AnimKneel();
+                            SetAnimation(isKneel: true);
                             tempsKneelDecision += Time.deltaTime;
                             if (tempsKneelDecision > tempsAvantSeredresser)
                             {
@@ -395,7 +390,7 @@ public class AIscripts : MonoBehaviour
                     if (tempsGrenadeChoix == 1)
                     {
                         isThrowingGrenade = true;
-                        AnimKneelGrenade();
+                        SetAnimation(kneeGrenad: true);
                         tempsKneelDecision = 0;
                         tempsScreamgrenade += Time.deltaTime;
                         if (!mouthHead.isPlaying && tempsScreamgrenade < 1.3f)
@@ -412,6 +407,7 @@ public class AIscripts : MonoBehaviour
         }
         else if (estMort == false) // Si l'IA meurt il faut jouer sa mort, faire en sorte que l'arme se perde, jouer le bruit de la mrt, etc...
         {
+            SetAnimation(isDead: true);
             M4A8.GetComponent<Rigidbody>().isKinematic = false;
             M4A8.GetComponent<Rigidbody>().useGravity = true;
             M4A8.GetComponent<Rigidbody>().AddForce(Vector3.right * 0.2f, ForceMode.Impulse);
@@ -420,7 +416,6 @@ public class AIscripts : MonoBehaviour
             capsColStand.enabled = false;
             capsColKnneel.enabled = false;
             Sounds.Death(mouthHead, soundDeath[0],playSoundOnce);
-            AnimDie();
             estMort = true; // Permet d'éviter de se retrouver dans une boucle inutile
         }
     }
@@ -429,125 +424,39 @@ public class AIscripts : MonoBehaviour
     
 
     #region method
-    private void AnimKneelGrenade()
+    private void SetAnimation(bool isAimKneel = false  ,bool isKneel = false  ,bool kneeGrenad = false  ,bool isIdle = false  ,bool isAiming = false  ,bool isAttack = false  ,bool isWalking = false  ,bool isRunning = false  ,bool isAttackingCloser = false  ,bool isDead = false) // Utilisation de prametre nomé, a récuperer en argument nommer pour décider quelle animation sera jouée
     {
-        estKneel();
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsGrenade", true);
-    }
-    private void AnimAimKneel()
+        if(isAimKneel == true || isKneel == true || kneeGrenad == true) etatDeboutOuGenoux(false);
+        else etatDeboutOuGenoux(true);
+        anim.SetBool("IsAimKneel", isAimKneel);
+        anim.SetBool("IsKneel", isKneel);
+        anim.SetBool("IsGrenade", kneeGrenad);
+        anim.SetBool("IsIdle", isIdle);
+        anim.SetBool("IsAiming", isAiming);
+        anim.SetBool("IsAttacking", isAttack);
+        anim.SetBool("IsWalking", isWalking);
+        anim.SetBool("IsRunning", isRunning);
+        anim.SetBool("IsAttackingCloser", isAttackingCloser);
+        anim.SetBool("IsDead", isDead);
+
+    } // Cette methode permet ainsi de mettre en action l'animation souhaitée
+    
+    private void etatDeboutOuGenoux(bool doisEtreDebout) // Permet de regler l'etat de la box collider de l'énemy en fonction qu'il soit debout ou acroupi
     {
-        estKneel();
-        anim.SetBool("IsGrenade", false);
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
-        anim.SetBool("IsAttacking", false); // ANIMATION : Commence a attaquer
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsAimKneel", true);
+        if (estAGenoux == false && doisEtreDebout == false)
+        {
+            capsColStand.enabled = false;
+            capsColKnneel.enabled = true;
+            estAGenoux = true;
+        }
+        else if (estAGenoux == true && doisEtreDebout == true)
+        {
+            capsColKnneel.enabled = false;
+            capsColStand.enabled = true;
+            estAGenoux = false;
+        }
     }
-    private void AnimKneel()
-    {
-        estKneel();
-        anim.SetBool("IsGrenade", false);
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", true);
-    }
-    private void AnimAttackCloser()
-    {
-        estStand();
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsDead", false);
-        anim.SetBool("IsAttackingCloser",true);
-    }
-    private void AnimAim()
-    {
-        estStand();
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
-        anim.SetBool("IsAttacking", false); // ANIMATION : Commence a attaquer
-        anim.SetBool("IsAiming", true);
-    }
-    private void AnimRun()
-    {
-        estStand();
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsRunning", true);
-    }
-    private void AnimWalk() // Permet de faire tourner l'animation Walk et de regler l'arme avec l'animation
-    {
-        estStand();
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsRunning",false );
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", true); // ANIMATION : commence a marcher
-    }
-    private void AnimIdle() // Permet de faire tourner l'animation idle et de regler l'arme avec l'animation
-    {
-        estStand();
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsAttacking", false); // ANIMATION : arrete d'attaquer
-        anim.SetBool("IsIdle", true); // ANIMATION : fait sa pause
-    }
-    private void Animattack() // Permet de faire tourner l'animation Animattack et de regler l'arme avec l'animation
-    {
-        estStand();
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : arrete de marcher
-        anim.SetBool("IsAttacking", true); // ANIMATION : Commence a attaquer
-    }
-    private void AnimDie()
-    {
-        anim.SetBool("IsAttackingCloser", false);
-        anim.SetBool("IsAimKneel", false);
-        anim.SetBool("IsAttacking", false); // ANIMATION Arrete d'attaquer
-        anim.SetBool("IsIdle", false); // ANIMATION : arrete de rien faire
-        anim.SetBool("IsWalking", false); // ANIMATION : commence a marcher
-        anim.SetBool("IsRunning", false);
-        anim.SetBool("IsKneel", false);
-        anim.SetBool("IsAiming", false);
-        anim.SetBool("IsDead", true);
-    }
+
 
     private void AttackShoot(Vector3 direction)
     {
@@ -570,7 +479,7 @@ public class AIscripts : MonoBehaviour
 
     private void LanceGrenade(float distanceBetween) // Permet de faire lancer une grenade a l'IA
     {
-        AnimKneelGrenade();
+        SetAnimation(kneeGrenad:true);
         tempsActionGrenade += Time.deltaTime;
         float Force = 0f;
         if (tempsActionGrenade > 1.35f)
@@ -597,8 +506,6 @@ public class AIscripts : MonoBehaviour
         saitOuEstLeJoueur = false;
         estCouvert = false;
     }
-
-
    
     private void DeterminePointDePatrouilleProchePointDeCouverture() // Permet de savoir quel point de patrouille est le plus proche de tel point de couverture
     {
@@ -660,26 +567,5 @@ public class AIscripts : MonoBehaviour
 
         Volonte(choix);
     }
-
-    private void estKneel()
-    {
-        if (estAGenoux == false)
-        {
-            capsColStand.enabled = false;
-            capsColKnneel.enabled = true;
-            estAGenoux = true;
-        }
-    }
-
-    private void estStand()
-    {
-        if (estAGenoux == true)
-        {
-            capsColKnneel.enabled = false;
-            capsColStand.enabled = true;
-            estAGenoux = false;
-        }
-    }
-
     #endregion method
 }
