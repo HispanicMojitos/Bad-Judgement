@@ -78,9 +78,9 @@ public class OptionsMenu : MonoBehaviour
 
     private void InitQuality()
     {
-        qualityDropdown.value = 1;
+        qualityDropdown.value = 2;
         //Default value at medium
-        QualitySettings.SetQualityLevel(1);
+        QualitySettings.SetQualityLevel(2);
     }
 
     private void InitVolume()
