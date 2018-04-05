@@ -155,12 +155,12 @@ public static class Sounds
 
     /// <summary>permet de mettre changer le son via une transition (On a besoin d'un ellement AudioMixerSnashot en parametre, pour passer au propriété audio de cet AudioMixer) </summary>
     static public void transitionSound(AudioMixerSnapshot pause) { pause.TransitionTo(0.1f); }
-    
+    /// <summary> Permet de modifier le volume des musiques en prenant en parametre le mixerMaster qui s'occupe de la gèrence de tout les mixeur </summary>
     static public void MusicVolumSet(AudioMixer backgroundMusicMixer, float volume)
     {
         backgroundMusicMixer.SetFloat("Volumemusic", volume);
     }
-
+    /// <summary> Permet de modifier le volume des effets sonore en prenant en parametre le mixerMaster qui s'occupe de la gèrence de tout les mixeur </summary>
     static public void SoundEffectVolumeSet(AudioMixer soundEffectMixer, float volume)
     {
         soundEffectMixer.SetFloat("VolumesoundEffect", volume);

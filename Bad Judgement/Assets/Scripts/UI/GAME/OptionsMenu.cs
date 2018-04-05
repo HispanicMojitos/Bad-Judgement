@@ -130,14 +130,14 @@ public class OptionsMenu : MonoBehaviour
     
     public void EffectsVolume(float volume)
     {
-        VolumeSon = volume;
+        VolumeSon = volume; // Jai changé le Sounds.VolumeSon en VolumeSon
         effectsVolumeText.text = volume.ToString();
         Sounds.SoundEffectVolumeSet(MasterMixer, volume);
     }
 
     public void MusicVolume(float volume)
     {
-        VolumeMusique = volume;
+        VolumeMusique = volume; // jai changé le Sounds.VolumeMusique en VolumeMusique 
         musicVolumeText.text = volume.ToString();
         Sounds.MusicVolumSet(MasterMixer, volume);
     }
