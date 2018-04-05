@@ -7,21 +7,8 @@ using UnityEngine.Audio;
 public static class Sounds
 {
     #region propriétés && membres
-    private static float volumeSon = 1f;
-    private static float volumeMusique = 1f;
-
-    /// <summary> Volume des sons du jeux /!\ A faire varier de 0f à 1f /!\</summary>
-    public static float VolumeSon
-    {
-        get { return volumeSon;  }
-        set { volumeSon = value;  }
-    }
-    /// <summary> Volume des musiques du jeux /!\ A faire varier de 0f à 1f /!\ </summary>
-    public static float VolumeMusique
-    {
-        get { return volumeMusique; }
-        set { volumeMusique = value; }
-    }
+    private static float VolumeSon = 1f;
+    private static float VolumeMusique = 1f;
     #endregion propriété && membres
 
     #region AK47
@@ -166,11 +153,18 @@ public static class Sounds
 
     #region Mixer
 
-    /// <summary>permet de mettre changer le son via une transition le son en pause (On a besoin d'un ellement AudioMixerSnashot en parametre) </summary>
-    static public void soundPaused(AudioMixerSnapshot pause) { pause.TransitionTo(0.1f); }
+    /// <summary>permet de mettre changer le son via une transition (On a besoin d'un ellement AudioMixerSnashot en parametre, pour passer au propriété audio de cet AudioMixer) </summary>
+    static public void transitionSound(AudioMixerSnapshot pause) { pause.TransitionTo(0.1f); }
+    
+    static public void MusicVolumSet(AudioMixer backgroundMusicMixer, float volume)
+    {
+        backgroundMusicMixer.SetFloat("Volumemusic", volume);
+    }
 
-    /// <summary>permet de mettre changer le son via une transition le son en jeux (On a besoin d'un ellement AudioMixerSnashot en parametre) </summary>
-    static public void soundEnJeux(AudioMixerSnapshot enJeux) {enJeux.TransitionTo(0.1f); }
+    static public void SoundEffectVolumeSet(AudioMixer soundEffectMixer, float volume)
+    {
+        soundEffectMixer.SetFloat("VolumesoundEffect", volume);
+    }
 
     #endregion Mixer
 }

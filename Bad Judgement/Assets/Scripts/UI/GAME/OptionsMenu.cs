@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.Audio;
 
 public class OptionsMenu : MonoBehaviour
 {
+
+    #region sounds
+    [SerializeField] private AudioMixer MasterMixer; // Permet de controller de manière optimisée et efficace TOUT les sons du jeux
+    private float VolumeSon = 0f; // Valeur max des sons initialisé
+    private float VolumeMusique = 0f; // Valeur max des musiques initialisé
+    #endregion sounds
+
     [SerializeField] private GameObject optionsMenu; //The menu itself
     [SerializeField] private GameObject optionsPanel; //The panel of the options menu
     [SerializeField] private Scrollbar navSlider; //Navigation up-down with the slider
@@ -85,16 +93,16 @@ public class OptionsMenu : MonoBehaviour
 
     private void InitVolume()
     {
-        float volumeEffets = Sounds.VolumeSon;
-        float volumeMusique = Sounds.VolumeMusique;
+        float volumeEffets = VolumeSon; // Jai changé le Sounds.VolumeSon en VolumeSon
+        float volumeMusique = VolumeMusique; // jai changé le Sounds.VolumeMusique en VolumeMusique 
 
         //Initializing effects slider and text values :
         effectsVolumeSlider.value = volumeEffets; //Setting the slider to the correct value
-        effectsVolumeText.text = (volumeEffets * 100).ToString() + "%"; //Displaying a percentage
+        effectsVolumeText.text = (volumeEffets + 100).ToString() + "%"; //Displaying a percentage
 
         //Initializing musique slider and text values :
         musicVolumeSlider.value = volumeMusique; //Slider at the correct value aswell
-        musicVolumeText.text = (volumeMusique * 100).ToString() + "%"; //Creating a percentage
+        musicVolumeText.text = (volumeMusique + 100).ToString() + "%"; //Creating a percentage
     } 
 
     #endregion
@@ -122,14 +130,16 @@ public class OptionsMenu : MonoBehaviour
     
     public void EffectsVolume(float volume)
     {
-        Sounds.VolumeSon = volume;
+        VolumeSon = volume;
         effectsVolumeText.text = volume.ToString();
+        Sounds.SoundEffectVolumeSet(MasterMixer, volume);
     }
 
     public void MusicVolume(float volume)
     {
-        Sounds.VolumeMusique = volume;
+        VolumeMusique = volume;
         musicVolumeText.text = volume.ToString();
+        Sounds.MusicVolumSet(MasterMixer, volume);
     }
 
     #endregion

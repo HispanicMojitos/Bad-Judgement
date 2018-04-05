@@ -104,7 +104,7 @@ public class UIScript : MonoBehaviour
         gameIsPaused = false;
 
         #region Sounds
-        Sounds.soundPaused(enJeux);
+        Sounds.transitionSound(enJeux);
         #endregion Sounds
 
         this.pauseMenu.SetActive(false);
@@ -134,7 +134,7 @@ public class UIScript : MonoBehaviour
         gameIsPaused = true;
 
         #region Sounds
-        Sounds.soundPaused(pause);
+        Sounds.transitionSound(pause);
         #endregion Sounds
 
         this.pauseMenu.SetActive(true);

@@ -20,7 +20,7 @@ public class ExlosionScrit : MonoBehaviour { // CE SCRIPT PERMET DE JOUER LE SON
         if (grenadeAudioSource.isPlaying == false && gre.aExplosé == true) // Si l'etat de la grenade est qu'elle a explosé, on joue le son
         {
             grenadeAudioSource.Play(); // Permet de jouer le son de l'explosion
-            Destroy(gameObject, 4f); // On detruit l'objet
+            Destroy(gameObject, 3.5f); // On detruit l'objet
         }
 	}
 }
