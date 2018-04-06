@@ -17,7 +17,9 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private GameObject optionsMenu; //The menu itself
     [SerializeField] private GameObject optionsPanel; //The panel of the options menu
     [SerializeField] private Scrollbar navSlider; //Navigation up-down with the slider
-    private static float navScrollSpeed = 1.3F;
+    private static float navScrollSpeed = 5F;
+    private static float panelMinPosition = -34F;
+    private static float panelMaxPosition = 35F;
 
     [SerializeField] private Dropdown resolutionDropdown;
     private Resolution[] possibleResolutions; //This is for resolution changing
@@ -44,6 +46,12 @@ public class OptionsMenu : MonoBehaviour
         InitFullScreen();
         InitQuality();
         InitVolume();
+    }
+
+    private void Update()
+    {
+        Debug.Log(optionsPanel.transform.localPosition.y);
+        if (optionMenuIsActive) MouseNav(Input.GetAxis("Mouse ScrollWheell"));
     }
 
     #region Initializing options menu components
@@ -169,7 +177,26 @@ public class OptionsMenu : MonoBehaviour
 
     #region Mouse ScrollNavigation
 
+    public void OnScrollValueChanged(float value)
+    {
+        float panelDeltaHeight = panelMaxPosition - panelMinPosition;
+        //Getting the height between the top and bottom of the panel
 
+        float actualPanelYPos = optionsPanel.transform.localPosition.y; //Actual Y position of the panel
+        float targetYPos = (value * panelDeltaHeight) + panelMinPosition; //Target position calcul
+        //Value is the value of the scrollbar (0 => 1)
+        //We multiply it by the height to so that the scrollbar is "calibrated". By doing that we have a "common" scale for scrollbar and panel
+        //After that, we add so that we can go in the negative values (the "+" is used and not a "-" because there's a negative number (- & - = +)
+        //Pour une explication détaillée venez me voir
+
+        optionsPanel.transform.localPosition = new Vector3(0F, targetYPos, 0F);
+        //To be changed to have a smoother movement of the panel
+    }
+
+    private void MouseNav(float mouseAxis)
+    {
+        
+    }
 
     #endregion
 }
