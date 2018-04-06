@@ -190,12 +190,17 @@ public class OptionsMenu : MonoBehaviour
         //Pour une explication détaillée venez me voir
 
         optionsPanel.transform.localPosition = new Vector3(0F, targetYPos, 0F);
-        //To be changed to have a smoother movement of the panel
+        //Increases or decreases Y position of the panel.
+
+        //This system works thanks to a mask that fits the options menu panel dimensions.
     }
 
     private void MouseNav(float mouseAxis)
     {
-        
+        mouseAxis *= -1F;
+        //When we scroll down we want to increase value and when we scroll up we want to decrease => so we invert the mouse scroll axis value
+
+        navSlider.value += mouseAxis; //Automatically clamped between 0 & 1
     }
 
     #endregion
