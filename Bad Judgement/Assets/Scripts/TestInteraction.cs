@@ -48,7 +48,7 @@ public class TestInteraction : MonoBehaviour
                 {
                     hit.rigidbody.isKinematic = false;
                     StartCoroutine(Attend(hit));
-                    jSpring.spring = 100;
+                    jSpring.spring = 150;
                     jSpring.damper = 30;
                     jSpring.targetPosition = -90; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
                     joint.spring = jSpring;
@@ -59,7 +59,7 @@ public class TestInteraction : MonoBehaviour
                 {
                     hit.rigidbody.isKinematic = false;
                     StartCoroutine(Attend(hit,false));
-                    jSpring.spring = 100;
+                    jSpring.spring = 150;
                     jSpring.damper = 30;
                     jSpring.targetPosition = 3; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
                     joint.spring = jSpring;
@@ -79,7 +79,7 @@ public class TestInteraction : MonoBehaviour
     {
         if (souvre == true)
         {
-            for (float vel = 0.02f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
+            for (float vel = 0.2f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
             {
                 yield return new WaitForSeconds(0.1f); // On attend dans cette interface IEnumerator en parallele de tout ce qui se passe dans le jeux
                 if (h.rigidbody.velocity.magnitude < vel) h.rigidbody.isKinematic = true; // Permet de fair que l'on puisse pas bouger une porte lorsqu'elle est fermée
@@ -87,7 +87,7 @@ public class TestInteraction : MonoBehaviour
         }
         else
         {
-            for (float vel = 0.1f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
+            for (float vel = 0.2f; h.rigidbody.isKinematic == false;) // Tant que la porte n'est pas correctement fermée, on continue
             {
                 yield return new WaitForSeconds(0.1f); // On attend dans cette interface IEnumerator en parallele de tout ce qui se passe dans le jeux
                 if (h.rigidbody.velocity.magnitude < vel)

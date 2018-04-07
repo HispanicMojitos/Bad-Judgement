@@ -293,7 +293,7 @@ public class AIscripts : MonoBehaviour
             {
                 StopPoursuite(); // arrete la poursuite de l'IA envers le joueur
             }
-            else if (estCouvert == true) // IIci on a les differentes actions pour lesquelle l'IA est couvert
+            else if (estCouvert == true) // Ici on a les differentes actions pour lesquelle l'IA est couvert
             {
                 tempsNouvelleDecision += Time.deltaTime;
 
