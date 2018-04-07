@@ -55,7 +55,7 @@ public class AIscripts : MonoBehaviour
 
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
-    private int angleDevueMax = 60; // Angle de vue maximum de l'IA
+    private int angleDevueMax = 20; // Angle de vue maximum de l'IA
     private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
     // A METTRE EN MODE FACILE private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
     private int tempsGrenadeChoix = 4;
@@ -243,15 +243,16 @@ public class AIscripts : MonoBehaviour
             }
             else if ((((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
-                if (saitOuEstLeJoueur == false)
-                {
-                    saitOuEstLeJoueur = true;
-                    Player.GetComponent<PlayerHealth>().estRepere = true;
-                }
+              
                 tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
                 RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
                 if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                 { // Si l4IA voit bien le joueur dans sa ligne de mire
+                    if (saitOuEstLeJoueur == false)
+                    {
+                        saitOuEstLeJoueur = true;
+                        Player.GetComponent<PlayerHealth>().estRepere = true;
+                    }
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // L'IA se tourne ver le joueur
                     IsPatrolling = false;
 
@@ -534,6 +535,12 @@ public class AIscripts : MonoBehaviour
         IsPausing = false;
         searchCover = false;
         isAimingPlayer = false;
+        canSeePlayer = true;
+        estAGenoux = false;
+        changeDirection = false;
+        wantToAttack = false;
+        
+        tempsAvantArreterPoursuite = 0;
     }
    
     private void DeterminePointDePatrouilleProchePointDeCouverture() // Permet de savoir quel point de patrouille est le plus proche de tel point de couverture
@@ -588,8 +595,8 @@ public class AIscripts : MonoBehaviour
               case 1: volonté[0] = true; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
               case 2: volonté[0] = false; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
               case 3: volonté[0] = false; volonté[1] = false; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
-              case 4: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = true; volonté[4] = true; break;
-              case 5: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = false; volonté[4] = true; break;
+              case 4: volonté[0] = false; volonté[1] = false; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
+              case 5: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = true; volonté[4] = true; break;
               default:  break;
           }
       });
