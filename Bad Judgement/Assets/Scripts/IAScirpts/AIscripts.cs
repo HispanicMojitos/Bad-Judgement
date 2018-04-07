@@ -78,6 +78,8 @@ public class AIscripts : MonoBehaviour
     private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
     public bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
+
+    public bool reprendLaRonde = false;
     #endregion membres
 
     #region membres pour difficultes
@@ -127,7 +129,7 @@ public class AIscripts : MonoBehaviour
             float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
 
             Debug.DrawLine(transform.position, direction * 100, Color.blue);
-            if (IsPatrolling && pointDePatrouille.Length > 0 || chercheCouverture == true) // Si l'IA patrouille ET qu'il existe des point de patrouille pou lui patrouiller, alors  son algorithme se met en place (évite les erreurs)
+            if ( (IsPatrolling && pointDePatrouille.Length > 0 || chercheCouverture == true) || reprendLaRonde == true) // Si l'IA patrouille ET qu'il existe des point de patrouille pou lui patrouiller, alors  son algorithme se met en place (évite les erreurs)
             {
                 if (chercheCouverture == true)
                 {
@@ -241,6 +243,11 @@ public class AIscripts : MonoBehaviour
             }
             else if ((((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
+                if (saitOuEstLeJoueur == false)
+                {
+                    saitOuEstLeJoueur = true;
+                    Player.GetComponent<PlayerHealth>().estRepere = true;
+                }
                 tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
                 RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
                 if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
@@ -279,19 +286,26 @@ public class AIscripts : MonoBehaviour
                 {
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                     SetAnimation(isAiming: true);
-                    tempsAvantArreterPoursuite += Time.deltaTime;
                     if (tempsNouvelleDecision > UnityEngine.Random.Range(2f, 10f)) // Permet de que l'IA prennent une nouvelle décision lorsque le temps de celui ci est dépassé
                     {
                         chercheCouverture = volonté[UnityEngine.Random.Range(0, 4)]; // ici l'IA va décider de chercher une couverture ou non en fonction de sa volonté
                         tempsNouvelleDecision = 0; //
                         changeDirection = true;
                     }
-                    if (tempsAvantArreterPoursuite > 60f) StopPoursuite();// arrete la poursuite de l'IA envers le joueur lorsque celui ci ne le voit plus pendant tout un temps
+                    if (tempsAvantArreterPoursuite > 10f)
+                    {
+                        StopPoursuite();
+                        Player.GetComponent<PlayerHealth>().estRepere = false;
+                    } // arrete la poursuite de l'IA envers le joueur lorsque celui ci ne le voit plus pendant tout un temps
+                    else tempsAvantArreterPoursuite += Time.deltaTime;
                 }
             }
             else if (IsPatrolling == false && estCouvert == false)
             {
-                StopPoursuite(); // arrete la poursuite de l'IA envers le joueur
+                IsPatrolling = true;
+                vie = IA.vie;
+                saitOuEstLeJoueur = false;
+                estCouvert = false;
             }
             else if (estCouvert == true) // Ici on a les differentes actions pour lesquelle l'IA est couvert
             {
@@ -351,6 +365,12 @@ public class AIscripts : MonoBehaviour
                                 tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
                             }
                         }
+                        if (tempsAvantArreterPoursuite > 10f)
+                        {
+                            StopPoursuite();
+                            Player.GetComponent<PlayerHealth>().estRepere = false;
+                        }
+                        else tempsAvantArreterPoursuite += Time.deltaTime;
                     }
                     else isAimingPlayer = false;
                 }
@@ -363,7 +383,11 @@ public class AIscripts : MonoBehaviour
                         if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
                         else
                         {
-                            if (tempsAvantArreterPoursuite > 60f) StopPoursuite();
+                            if (tempsAvantArreterPoursuite > 10f)
+                            {
+                                StopPoursuite();
+                                Player.GetComponent<PlayerHealth>().estRepere = false;
+                            }
                             else tempsAvantArreterPoursuite += Time.deltaTime;
                             SetAnimation(isKneel: true);
                             tempsKneelDecision += Time.deltaTime;
@@ -505,6 +529,11 @@ public class AIscripts : MonoBehaviour
         vie = IA.vie;
         saitOuEstLeJoueur = false;
         estCouvert = false;
+        chercheCouverture = false;
+        reprendLaRonde = true;
+        IsPausing = false;
+        searchCover = false;
+        isAimingPlayer = false;
     }
    
     private void DeterminePointDePatrouilleProchePointDeCouverture() // Permet de savoir quel point de patrouille est le plus proche de tel point de couverture

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GrenadeScript : MonoBehaviour
 {
+    private Collider[] collider;
     [SerializeField] private Transform bruitExlosion;
     [SerializeField] private GameObject effetExplosion;
     [SerializeField] private GameObject Grenade;
@@ -28,8 +29,8 @@ public class GrenadeScript : MonoBehaviour
         if (delai < 3.7f) coll.isTrigger = false;
         if ( ((delai <= 0f) && (aExplosé == false)) || vieGrenade.vie != vieDeLaGrenade)  // On explose la grenade QU'UNE SEULE FOIS, et ce apres tatata secondes
         {
-            bruitExlosion.transform.parent = null; // Permet de faire en sorte que la grenade joue un son, et ce apres qu'elle soit détruite
             aExplosé = true;
+            bruitExlosion.transform.parent = null; // Permet de faire en sorte que la grenade joue un son, et ce apres qu'elle soit détruite
             Explode();
         }
 	}
@@ -38,7 +39,7 @@ public class GrenadeScript : MonoBehaviour
     {
         GameObject fumeeExplosion = Instantiate(effetExplosion, transform.position, transform.rotation); // On créé l'effet de particule d'explosion
         Destroy(fumeeExplosion, 4f);
-        Collider[] collider = Physics.OverlapSphere(this.transform.position, rayonExplosion); // permet de recuperer tout les objet dans un rayon determiné
+        collider = Physics.OverlapSphere(this.transform.position, rayonExplosion); // permet de recuperer tout les objet dans un rayon determiné
 
         foreach (Collider objetProche in collider)
         {
@@ -51,4 +52,6 @@ public class GrenadeScript : MonoBehaviour
         } // On enleve de la vie a tout les objets en ayant, dans le rayon de l'explosion
         Destroy(Grenade);// On detruit en fin la grenade
     }
+
+    
 }

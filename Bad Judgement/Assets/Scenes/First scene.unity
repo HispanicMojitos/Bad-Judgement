@@ -13177,6 +13177,7 @@ MonoBehaviour:
   chercheCouverture: 0
   estCouvert: 0
   IsPatrolling: 1
+  reprendLaRonde: 0
 --- !u!114 &470085429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23095,6 +23096,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc1af200a919474ca4d7725f9110651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  "Rep\xE9r\xE9": {fileID: 245380830633509656, guid: 624c214c8e28fe84b81d30cd542209e3,
+    type: 2}
+  enJeux: {fileID: 0}
   bulletHits:
   - {fileID: 8300000, guid: a47ad271186bb8a4ab422079169b48b3, type: 3}
   - {fileID: 8300000, guid: 9f5187cdfaaf827489f84786633c19c9, type: 3}
@@ -23108,6 +23112,7 @@ MonoBehaviour:
   HealBreath: {fileID: 8300000, guid: f6e9ae0dbec1f624b9e919536d6e2aba, type: 3}
   player: {fileID: 836389857}
   moutPlayer: {fileID: 593743026}
+  estRepere: 0
 --- !u!114 &836389860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43840,6 +43845,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pause: {fileID: 245746152229285894, guid: 624c214c8e28fe84b81d30cd542209e3, type: 2}
   enJeux: {fileID: 24500006, guid: 624c214c8e28fe84b81d30cd542209e3, type: 2}
+  "rep\xE9r\xE9": {fileID: 245380830633509656, guid: 624c214c8e28fe84b81d30cd542209e3,
+    type: 2}
   ourPlayer: {fileID: 1037779454}
   pauseMenu: {fileID: 429857304}
   healthText: {fileID: 1727395000}

@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
     #region membres
+    [SerializeField] private AudioMixerSnapshot Repéré;
+    [SerializeField] private AudioMixerSnapshot enJeux;
     [SerializeField] private AudioClip[] bulletHits;
     [SerializeField] private AudioClip[] hurtSound;
     [SerializeField] private AudioClip heartBeats;
     [SerializeField] private AudioClip HealBreath;
     [SerializeField] private AudioSource player;
     [SerializeField] private AudioSource moutPlayer;
+    public bool estRepere = false;
     /// <summary> Valeur récuperant la vie du joueur lors de la frame actuelle  </summary>
     private float vie;
     /// <summary> delai avant que le joueur récupere de la vie lorsqu'il est au repos </summary>
@@ -24,6 +28,9 @@ public class PlayerHealth : MonoBehaviour
 
 	void Update ()
     {
+        if(estRepere == true) Sounds.transitionSound(Repéré, 1f);
+        if(estRepere == false) Sounds.transitionSound(enJeux, 1f);
+
         if (vie != this.gameObject.GetComponent<Target>().vie)
         {
             vie = this.gameObject.GetComponent<Target>().vie;
