@@ -17,8 +17,8 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private GameObject optionsMenu; //The menu itself
     [SerializeField] private GameObject optionsPanel; //The panel of the options menu
     [SerializeField] private Scrollbar navSlider; //Navigation up-down with the slider
-    private static float panelMinPosition = -34F;
-    private static float panelMaxPosition = 35F;
+    private static float panelMinPosition = -134F;
+    private static float panelMaxPosition = 80F;
 
     [SerializeField] private Dropdown resolutionDropdown;
     private Resolution[] possibleResolutions; //This is for resolution changing
@@ -33,6 +33,9 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Text musicVolumeText;
     [SerializeField] private Slider musicVolumeSlider;
 
+    [SerializeField] private Dropdown difficultyDropdown;
+    [SerializeField] private Toggle invertMouseYAxis;
+
     #region Properties
 
     public static bool optionMenuIsActive { get; private set; }
@@ -41,19 +44,28 @@ public class OptionsMenu : MonoBehaviour
 
     private void Start()
     {
-        InitResolution(); //Initialize resolution options
+        InitPanelPos();
+        InitResolution();
         InitFullScreen();
         InitQuality();
         InitVolume();
+        InitGameplay();
     }
 
     private void Update()
     {
-        Debug.Log(optionsPanel.transform.localPosition.y);
         if (optionMenuIsActive) MouseNav(Input.GetAxis("Mouse ScrollWheell"));
     }
 
     #region Initializing options menu components
+
+    private void InitPanelPos()
+    {
+        Vector3 panelPos = optionsPanel.transform.localPosition;
+        panelPos.y = panelMinPosition;
+
+        optionsPanel.transform.localPosition = panelPos;
+    }
 
     private void InitResolution()
     {
@@ -112,6 +124,26 @@ public class OptionsMenu : MonoBehaviour
         musicVolumeText.text = (volumeMusique + 100).ToString() + "%"; //Creating a percentage
     } 
 
+    private void InitGameplay()
+    {
+        #region Difficulty
+
+        difficultyDropdown.ClearOptions(); //We clear the choices of the dropdown to be sure
+        difficultyDropdown.AddOptions(Difficulté.difficultiesList); //We get the list of difficulties from the Difficulty script
+
+        difficultyDropdown.value = 2;
+        difficultyDropdown.RefreshShownValue();
+
+        #endregion
+
+        #region Invert Mouse Y Axis
+
+        CamControl.isVerticalAxisInverted = false;
+        invertMouseYAxis.isOn = false;
+
+        #endregion
+    }
+
     #endregion
 
     #region Options Tweak
@@ -147,6 +179,17 @@ public class OptionsMenu : MonoBehaviour
         VolumeMusique = volume; // jai changé le Sounds.VolumeMusique en VolumeMusique 
         musicVolumeText.text = volume.ToString();
         Sounds.MusicVolumSet(MasterMixer, volume);
+    }
+
+    public void DifficultyChange(int difficultyValue)
+    {
+        Difficulté.ChangeDifficulty(difficultyValue);
+        //We change the difficulty with the new one
+    }
+
+    public void InvertMouseYAxis(bool state)
+    {
+        CamControl.isVerticalAxisInverted = state;
     }
 
     #endregion

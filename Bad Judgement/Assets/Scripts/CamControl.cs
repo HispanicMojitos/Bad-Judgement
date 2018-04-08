@@ -22,7 +22,7 @@ public class CamControl : MonoBehaviour
     
     #region Properties
 
-    public bool isVerticalAxisInverted { get; private set; } //For you LERUTH
+    public static bool isVerticalAxisInverted { get; set; } //For you LERUTH
 
     public bool isFreeCamActive { get; private set; }
 
@@ -40,7 +40,7 @@ public class CamControl : MonoBehaviour
                            //As project I'd like to put a second cam which could be changed to TPS if we press a button
 
         //Initializing properties :
-        this.isVerticalAxisInverted = false;
+        isVerticalAxisInverted = false;
         this.horizontalSensitivity = 6.0F;
         this.verticalSensitivity = 6.0F;
 
@@ -62,13 +62,11 @@ public class CamControl : MonoBehaviour
                 if (isFreeCamActive) MoveCamHoriz(yGameAxis); //Rotating the camera because of freecam mode
                 else MoveCamHoriz(yGameAxis); //Rotating the player on its Y-axis.
             }
+
             MoveCamVertically(xGameAxis); //Moving the camera vertically (X axis)
 
             if (Input.GetKeyDown(KeyCode.LeftAlt)) ChangeFreeCamOrNot();
             //Setting Camera to free if alt is pressed, reverting action by pressing a second time
-
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Mouse0)) this.InvertAxis();
-            //If LeftAlt + LeftClick => Inverting Y axis 
         }
     }
 
@@ -76,17 +74,12 @@ public class CamControl : MonoBehaviour
 
     #region Cam Methods
 
-    private void InvertAxis()
-    {
-        if (this.isVerticalAxisInverted) this.isVerticalAxisInverted = false;
-        else this.isVerticalAxisInverted = true;
-    }
-
     private void MoveCamVertically(float xGameAxis)
     {
         this.cam.transform.localEulerAngles = verticalEulerVector; //Refreshing cam movement every frame
 
         float verticalRotation = xGameAxis * verticalSensitivity; //Applying sensitivity
+        if (isVerticalAxisInverted) verticalRotation *= (-1F);
         verticalEulerVector.x += verticalRotation; //Adding the mouse axis to the actual rotation
 
         if (verticalEulerVector.x >= minVertical) verticalEulerVector.x = minVertical;
