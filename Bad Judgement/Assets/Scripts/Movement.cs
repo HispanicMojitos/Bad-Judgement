@@ -56,7 +56,7 @@ public class Movement : MonoBehaviour
     public bool characterIsJumping { get; private set; } //Working
     public bool characterIsCrouched { get; private set; } //Working
     /// <summary>Was character on the ground during last frame ?</summary>
-    public bool characterIsGrounded { get; private set; } //NOT WORKING => WIP
+    public bool characterIsGrounded { get; private set; } //Working
 
     //Those allows to get player's exhaust and allows creating percentage w/ Max. exhaust (designed for UI) :
 
@@ -115,7 +115,14 @@ public class Movement : MonoBehaviour
 
             this.characterIsGrounded = this.GetIfCharacterIsGrounded();
 
-            #endregion 
+            #endregion
+
+            #region Exhaust
+
+            DetermineExhaust();
+            //That method I created will call the good method in FatigueSys class to in/de-crease exhaust in function of what the character is doing
+
+            #endregion
         }
     }
 
@@ -260,14 +267,20 @@ public class Movement : MonoBehaviour
 
     private void DetermineExhaust()
     {
+        if (this.characterIsJumping) fatigue.Jumping();
 
+        if (characterIsCrouched)
+        {
+            if (characterIsMoving) fatigue.crouchWalking();
+            else fatigue.Crouched();
+        }
+        else
+        {
+            if (characterIsRunning) fatigue.Running();
+            else if (characterIsWalking) fatigue.Walking();
+            else fatigue.Idle();
+        }
     }
-
-    #endregion
-
-    #region jump detection area
-
-    private void OnCollisionEnter(Collision collision) { this.characterCanJump = true; }
 
     #endregion
 

@@ -65,6 +65,7 @@ public class FatigueSys
         if (this.fatigue < 500.0f) return true;
         else return false;
     }
+
     public bool isAbleToRun()
     {
         if (this.fatigue < 750.0F) return true;
