@@ -876,6 +876,7 @@ GameObject:
   - component: {fileID: 114938999344822784}
   - component: {fileID: 114886704576092766}
   - component: {fileID: 114389768384204970}
+  - component: {fileID: 114749025965620072}
   m_Layer: 0
   m_Name: SwatCharacter
   m_TagString: Player
@@ -1931,7 +1932,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1178646687262588}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.98, y: 0, z: 0}
+  m_LocalPosition: {x: 15.98, y: 0.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4129835534839914}
@@ -3265,7 +3266,7 @@ AudioSource:
   MinDistance: 0.1
   MaxDistance: 10
   Pan2D: 1
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3346,7 +3347,7 @@ AudioSource:
   MinDistance: 0.1
   MaxDistance: 5
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3508,7 +3509,7 @@ AudioSource:
   MinDistance: 0.1
   MaxDistance: 10
   Pan2D: -1
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3589,7 +3590,7 @@ AudioSource:
   MinDistance: 0.1
   MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3670,7 +3671,7 @@ AudioSource:
   MinDistance: 0.8
   MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3735,7 +3736,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1610233709667012}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 8cf16dfd2d18b9b47a77514d8c8ea246, type: 3}
   m_Controller: {fileID: 9100000, guid: 450a7bce680e2b34d8ef9af01b811101, type: 2}
   m_CullingMode: 0
@@ -3791,6 +3792,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc1af200a919474ca4d7725f9110651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  "Rep\xE9r\xE9": {fileID: 245380830633509656, guid: 624c214c8e28fe84b81d30cd542209e3,
+    type: 2}
+  enJeux: {fileID: 24500006, guid: 624c214c8e28fe84b81d30cd542209e3, type: 2}
   bulletHits:
   - {fileID: 8300000, guid: a47ad271186bb8a4ab422079169b48b3, type: 3}
   - {fileID: 8300000, guid: 9f5187cdfaaf827489f84786633c19c9, type: 3}
@@ -3804,6 +3808,7 @@ MonoBehaviour:
   HealBreath: {fileID: 8300000, guid: f6e9ae0dbec1f624b9e919536d6e2aba, type: 3}
   player: {fileID: 82531531327254832}
   moutPlayer: {fileID: 82437252064657556}
+  estRepere: 0
 --- !u!114 &114538108196602898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3841,7 +3846,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1610233709667012}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06b3dac077f5abf4daecff32c78112ec, type: 3}
   m_Name: 
@@ -3849,6 +3854,17 @@ MonoBehaviour:
   leftIKHandTarget: {fileID: 4032009094062516}
   rightIKHandTarget: {fileID: 4145807511629982}
   IKWeight: 1
+--- !u!114 &114749025965620072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1610233709667012}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b52bf6d05b7254b47acdc276d3f45d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114832040224209310
 MonoBehaviour:
   m_ObjectHideFlags: 1

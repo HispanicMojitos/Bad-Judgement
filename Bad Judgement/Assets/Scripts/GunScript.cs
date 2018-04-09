@@ -23,6 +23,7 @@ public class GunScript : MonoBehaviour
     [SerializeField] private float impactForce = 30f;
     [SerializeField] private float fireRate = 15f;
     [SerializeField] private GameObject gunEnd; // camera reference
+    [SerializeField] private Animator anim;
     //public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
     [SerializeField] private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world 
     #endregion
@@ -136,6 +137,8 @@ public class GunScript : MonoBehaviour
         // First we need to reference the camera
         if (mag.currentMag > 0 && !isReloading)
         {
+            anim.SetBool("isShooting", true);
+            anim.Play("Shoot");
             mag.currentMag--;
             RaycastHit hit; //This is a varaible that strores info of what the ray hits
             Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
@@ -163,6 +166,7 @@ public class GunScript : MonoBehaviour
                 // We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
 
             }
+            anim.SetBool("isShooting", false);
         }
     }
     #endregion
@@ -178,6 +182,9 @@ public class GunScript : MonoBehaviour
     IEnumerator Reload()
     {
         mag.Reload();
+        anim.SetBool("isReloading", true);
+        anim.Play("Reload");
+        anim.SetBool("isReloading", false);
         yield return new WaitForSeconds(reloadTime);
     }
     #endregion
