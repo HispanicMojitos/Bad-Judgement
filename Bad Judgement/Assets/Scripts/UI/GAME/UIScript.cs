@@ -116,11 +116,6 @@ public class UIScript : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void OnOptionsButtonPressed()
-    {
-        //Instanciate Menu Here
-    }
-
     public void OnSaveButtonPressed()
     {
         
