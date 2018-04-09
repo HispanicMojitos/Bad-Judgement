@@ -281,7 +281,7 @@ public class AIscripts : MonoBehaviour
                     else if (tempsAvantAttaque > 1.2f)
                     {
                         tempsAvantAttaque = 0;
-                        tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                        tempsDebutAttaque = UnityEngine.Random.Range(0.3f, 0.7f);
                         tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
                     }
                     tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
@@ -344,7 +344,7 @@ public class AIscripts : MonoBehaviour
                         else if (tempsAvantAttaque > 1.2f)
                         {
                             tempsAvantAttaque = 0;
-                            tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                            tempsDebutAttaque = UnityEngine.Random.Range(0.3f, 0.7f);
                             tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
                         }
                     }
@@ -365,7 +365,7 @@ public class AIscripts : MonoBehaviour
                             else if (tempsAvantAttaque > 1.2f)
                             {
                                 tempsAvantAttaque = 0;
-                                tempsDebutAttaque = UnityEngine.Random.Range(1f, 0.5f);
+                                tempsDebutAttaque = UnityEngine.Random.Range(0.3f, 0.7f);
                                 tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
                             }
                         }
@@ -485,7 +485,7 @@ public class AIscripts : MonoBehaviour
         }
     }
 
-
+    private int précision = 5; // Plus cette valeur est grande, plus l'IA est précise dans ses tirs
     private void AttackShoot(Vector3 direction)
     {
         if (canSeePlayer == true)
@@ -494,10 +494,16 @@ public class AIscripts : MonoBehaviour
 
             if (Physics.Raycast(boucheCanon.transform.position, direction, out hit)) // si le raycast est bien en direction du joueur et qu'il le touche bien
             {
+                float reelDegats;
+                int i = UnityEngine.Random.Range(0,précision); // Perme
+
+                if (i == 0) reelDegats = 0; // Permet de choisir le fait si ce tir la fera des degats ou pas au joueurs
+                else reelDegats = degats;
+
                 Target joueur = hit.transform.GetComponent<Target>(); // permet de recuperer le script de l'entité avec laquelle le 'hit' s'est rencontré
 
                 if (joueur != null) // Si la cible du raycast a bien le script Target attaché
-                    joueur.TakeDamage(degats); // On fait subir des dommages au joueurs qui a le script Target attaché
+                    joueur.TakeDamage(reelDegats); // On fait subir des dommages au joueurs qui a le script Target attaché
 
                 Sounds.AK47shoot(M4A8Source, M4A8shoot); // permet de jouer le son de tir 
             }
@@ -595,10 +601,10 @@ public class AIscripts : MonoBehaviour
       {
           switch (decision)
           {
-              case 1: volonté[0] = true; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
-              case 2: volonté[0] = false; volonté[1] = true; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
-              case 3: volonté[0] = false; volonté[1] = false; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
-              case 4: volonté[0] = false; volonté[1] = false; volonté[2] = true; volonté[3] = true; volonté[4] = true; break;
+              case 1: volonté[0] = true;  volonté[1] = true;  volonté[2] = true;  volonté[3] = true; volonté[4] = true; break;
+              case 2: volonté[0] = false; volonté[1] = true;  volonté[2] = true;  volonté[3] = true; volonté[4] = true; break;
+              case 3: volonté[0] = false; volonté[1] = false; volonté[2] = true;  volonté[3] = true; volonté[4] = true; break;
+              case 4: volonté[0] = false; volonté[1] = false; volonté[2] = true;  volonté[3] = true; volonté[4] = true; break;
               case 5: volonté[0] = false; volonté[1] = false; volonté[2] = false; volonté[3] = true; volonté[4] = true; break;
               default:  break;
           }
@@ -612,37 +618,41 @@ public class AIscripts : MonoBehaviour
         switch(Difficulté.difficultyLevelIndex)
         {
             case 0: // BABY
-                paramètreDifficultéIA(true,25,10);
+                paramètreDifficultéIA(true,25,10,10,20,3,1);
                 break;
 
             case 1: // EASY
-                paramètreDifficultéIA(true,40,15);
+                paramètreDifficultéIA(true,40,20,15,15,6,1);
                 break;
 
             case 2: // NORMAL
-                paramètreDifficultéIA(false,60,30);
+                paramètreDifficultéIA(false,60,30,30,10,8,1);
                 break;
 
             case 3: // Hard
-                paramètreDifficultéIA(false, 90,60);
+                paramètreDifficultéIA(false, 90,40,60,7.5f,10,2);
                 break;
 
             case 4: // INFAMY
-                paramètreDifficultéIA(false,100,100);
+                paramètreDifficultéIA(false,100,50,100,5,15,3);
                 break;
 
             default: // Par defaut la difficulté sera mise sur Normal
-
+                paramètreDifficultéIA(false, 60,30, 30, 10, 5, 1);
                 break;
         }
         OptionsMenu.changeDifficultée = false;
     }
 
-    private void paramètreDifficultéIA(bool grenade, int angleVue, float t_avantReprendreRonde)
+    private void paramètreDifficultéIA(bool grenade, int angleVue, int distanceVue, float t_avantReprendreRonde, float t_pause, int precis, int dmg)
     {
+        distanceDeVueMax = distanceVue;
+        degats = dmg;
+        précision = precis;
         aJeteGrenade = grenade;
         angleDevueMax = angleVue;
         difficulteTempsReprendRonde = t_avantReprendreRonde;
+        tempsPause = t_pause;
     }
     #endregion method
 }

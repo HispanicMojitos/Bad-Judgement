@@ -12,6 +12,7 @@ AudioMixerController:
   - {fileID: 24500006}
   - {fileID: 245746152229285894}
   - {fileID: 245380830633509656}
+  - {fileID: 245042600883205188}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
@@ -31,7 +32,7 @@ AudioMixerController:
     - 9b4a02692e5dd8743b4ebcca21f7a583
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 245380830633509656}
+  m_TargetSnapshot: {fileID: 245042600883205188}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -339,6 +340,36 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!245 &245042600883205188
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: PeuDeVie
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 309976b20142c724f91af077e29e840d
+  m_FloatValues:
+    623da110244d11c429b1b070555e80fa: 22000
+    087305200e4245545b20eeeebd350694: 2
+    550ab23046b608a46ae4dd1794ac9ec8: 0
+    a1b7e701429ae88418622d7b802d87fe: 1.8
+    c883a931606248042bf30245b4022032: 0
+    cdc315b10c9798942b5d1e9cb2e54ce2: 2.4583216
+    4c13aa431ec7d114383054a85b1f2719: 1
+    7206c584310695046ba0873f893e76f6: -10
+    fe36de2501269114eb0b002fa6c73af7: -5.3230715
+    7e3bf35684c932f45a793f8133cd121e: 0
+    da80aa86b943989469b3b498bc24ad22: 22000
+    cf918357e7369824c886f9eb92de6864: -9.332112
+    fb97f318bb0e9b34c8f5bc5081cb7992: 22000
+    caeb11d909139c24bbdd335cdaaebf9f: 0
+    5f8caf3cb980c734fa9b1c51b779422d: 1
+    d0e57bbc502eb74448e1357325b4512f: -5.722481
+    b6ee6b6dcb92ee740abf9b13bdaeb733: 0.1
+    6f5635ed2fbce95488c79a6ec81b4076: 10
+    52b7afefc366cd04294261e6f6e163d3: 0.1
+    3c60e8ff2a1570d42868aa242faac1d9: 6743
+  m_TransitionOverrides: {}
 --- !u!245 &245380830633509656
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0

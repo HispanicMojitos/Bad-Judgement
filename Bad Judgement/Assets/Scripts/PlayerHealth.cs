@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     #region membres
     [SerializeField] private AudioMixerSnapshot Repéré;
+    [SerializeField] private AudioMixerSnapshot PeuDeVie;
     [SerializeField] private AudioMixerSnapshot enJeux;
     [SerializeField] private AudioClip[] bulletHits;
     [SerializeField] private AudioClip[] hurtSound;
@@ -15,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private AudioSource player;
     [SerializeField] private AudioSource moutPlayer;
     public bool estRepere = false;
+    public bool aPeuDeVie = false;
     /// <summary> Valeur récuperant la vie du joueur lors de la frame actuelle  </summary>
     private float vie;
     /// <summary> delai avant que le joueur récupere de la vie lorsqu'il est au repos </summary>
@@ -28,8 +30,9 @@ public class PlayerHealth : MonoBehaviour
 
 	void Update ()
     {
-        if(estRepere == true) Sounds.transitionSound(Repéré, 1f);
-        if(estRepere == false) Sounds.transitionSound(enJeux, 1f);
+        if(estRepere == true && aPeuDeVie == false) Sounds.transitionSound(Repéré, 0.5f);
+        else if(estRepere == false && aPeuDeVie == false) Sounds.transitionSound(enJeux, 0.5f);
+        else if (aPeuDeVie == true) Sounds.transitionSound(PeuDeVie, 0.3f);
 
         if (vie != this.gameObject.GetComponent<Target>().vie)
         {
@@ -45,7 +48,11 @@ public class PlayerHealth : MonoBehaviour
         {
             delaiAvantRepos = delaiAvantRepos - Time.deltaTime;
             if(delaiAvantRepos < delaiEntreRecup) Repos();
-            if (this.gameObject.GetComponent<Target>().vie <= (this.gameObject.GetComponent<Target>().vieMax * 0.2f)) Sounds.BeatsOfHeart(player, heartBeats);
+            if (this.gameObject.GetComponent<Target>().vie <= (this.gameObject.GetComponent<Target>().vieMax * 0.2f))
+            {
+                aPeuDeVie = true;
+                Sounds.BeatsOfHeart(player, heartBeats);
+            }
         }
 
 	}
@@ -68,6 +75,10 @@ public class PlayerHealth : MonoBehaviour
             player.Stop();
             delaiEntreRecup = 0;
         }
-        else if (vie >=this.gameObject.GetComponent<Target>().vieMax * 0.21f) player.Stop();
+        else if (vie >= this.gameObject.GetComponent<Target>().vieMax * 0.21f)
+        {
+            aPeuDeVie = false;
+            player.Stop();
+        }
     }
 }
