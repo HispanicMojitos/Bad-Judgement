@@ -16,7 +16,7 @@ public class GrenadeScript : MonoBehaviour
     [SerializeField] [Range(1f, 10f)] private float rayonExplosion = 8f;
     private float vieDeLaGrenade; // Valeur tempon pour récuperer la valeur de la vie de la grenade
 
-    private void Awake()
+    void Awake()
     {
         vieGrenade = this.GetComponent<Target>(); // On récupere le composant du script Target attaché à la grenade
         vieDeLaGrenade = vieGrenade.vie; // On récupere la vie de la grenade en valeur tempon
