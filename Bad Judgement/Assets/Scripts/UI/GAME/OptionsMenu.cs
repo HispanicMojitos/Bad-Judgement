@@ -223,8 +223,6 @@ public class OptionsMenu : MonoBehaviour
     {
         float panelDeltaHeight = panelMaxPosition - panelMinPosition;
         //Getting the height between the top and bottom of the panel
-
-        float actualPanelYPos = optionsPanel.transform.localPosition.y; //Actual Y position of the panel
         float targetYPos = (value * panelDeltaHeight) + panelMinPosition; //Target position calcul
         //Value is the value of the scrollbar (0 => 1)
         //We multiply it by the height to so that the scrollbar is "calibrated". By doing that we have a "common" scale for scrollbar and panel

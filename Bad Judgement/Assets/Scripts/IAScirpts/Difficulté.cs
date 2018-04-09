@@ -11,6 +11,7 @@ public class Difficulté : MonoBehaviour
         "Baby", "Easy", "Medium", "Hard", "Infamy"
     };
 
+    //List of difficulties
 
     #endregion
 
@@ -20,20 +21,19 @@ public class Difficulté : MonoBehaviour
     {
         get { return listeDifficultes; }
     }
+    //It allows me to get the difficulties names for the menu
+
+    public static string difficultyLevelName { get { return difficultiesList[difficultyLevelIndex]; } }
+    //For the name, we've a "get" that returns the difficulty's name thanks to the current difficulty index
+    public static int difficultyLevelIndex { get; private set; }
+    //Contains current difficulty
+    public static int maxDifficultyIndex { get { return (difficultiesList.Count - 1); } }
+    //Returns maximal difficulty index (int) (on sait jamais que t'en aies besoin @Martin)
 
     #endregion
-
+    //Allows to change the difficulty
     public static void ChangeDifficulty(int niveau)
     {
-        string difficultyLevel = listeDifficultes[niveau];
-
-        switch (difficultyLevel)
-        {
-            case "Baby": break;
-            case "facile": break;
-            case "Normal": break;
-            case "Difficile": break;
-            case "Infamy": break;
-        }
+        difficultyLevelIndex = niveau;
     }   
 }
