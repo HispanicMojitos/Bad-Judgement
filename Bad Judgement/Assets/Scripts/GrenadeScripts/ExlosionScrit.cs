@@ -9,7 +9,7 @@ public class ExlosionScrit : MonoBehaviour { // CE SCRIPT PERMET DE JOUER LE SON
     [SerializeField] private GameObject grenade; 
     GrenadeScript gre;
 
-    void Start ()
+    void Awake ()
     {
         grenadeAudioSource.clip = grenadeExlosion; // On initialise le son de la grenade
         gre = grenade.GetComponent<GrenadeScript>(); // On récupere l'etat de la grenade pour l'utiliser ensuite

@@ -9,7 +9,6 @@ public class AIscripts : MonoBehaviour
     #region membres
     [SerializeField] private CapsuleCollider capsColKnneel;
     [SerializeField] private CapsuleCollider capsColStand;
-
     [SerializeField] private GameObject lanceurGrenad;
     [SerializeField] private GameObject M4A8; // prend la position du M4A8
     [SerializeField] private GameObject grenade;
@@ -30,7 +29,7 @@ public class AIscripts : MonoBehaviour
     private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
 
     [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
-    [SerializeField] [Range(0f, 10f)] private float degats = 1f; // Permet de regler les degats de l'IA
+    private float degats = 1f; // Permet de regler les degats de l'IA
     [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
     [SerializeField] [Range(0f, 10f)] private float vitesseMarche = 1.5f; // Vitesse de marche
     [SerializeField] [Range(0f, 10f)] private float vitesseCourse = 4f; // Vitesse de marche
@@ -52,6 +51,7 @@ public class AIscripts : MonoBehaviour
     private float tempsScreamgrenade = 0f;
     private float tempsAvantSeCouvrir = 0f;
     private float tempsAvantAcroupir = 0f;
+    private float difficulteTempsReprendRonde = 10;
 
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
@@ -121,6 +121,9 @@ public class AIscripts : MonoBehaviour
 
     void Update()
     {
+        if (OptionsMenu.changeDifficultée == true)
+            ChangementDeDifficulté();
+
         if (IA.vie > 0)
         {
             Vector3 direction = Player.position - this.transform.position; // Ici on retourne le rapport de la direction du joueur par rapport a l' IA au niveau de la position de ceux ci dans l'espace virtuel du jeux
@@ -293,7 +296,7 @@ public class AIscripts : MonoBehaviour
                         tempsNouvelleDecision = 0; //
                         changeDirection = true;
                     }
-                    if (tempsAvantArreterPoursuite > 10f)
+                    if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
                     {
                         StopPoursuite();
                         Player.GetComponent<PlayerHealth>().estRepere = false;
@@ -366,7 +369,7 @@ public class AIscripts : MonoBehaviour
                                 tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
                             }
                         }
-                        if (tempsAvantArreterPoursuite > 10f)
+                        if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
                         {
                             StopPoursuite();
                             Player.GetComponent<PlayerHealth>().estRepere = false;
@@ -384,7 +387,7 @@ public class AIscripts : MonoBehaviour
                         if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
                         else
                         {
-                            if (tempsAvantArreterPoursuite > 10f)
+                            if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
                             {
                                 StopPoursuite();
                                 Player.GetComponent<PlayerHealth>().estRepere = false;
@@ -580,7 +583,7 @@ public class AIscripts : MonoBehaviour
 
     private void VolonteEtat()
     {
-        int choix = 0; // En fonction de la vie de l'IA, sa volonté changera et l'algorithme  dans la methode Update décidera des actions plus sécuritaire pour l'IA plus sa vie est basse
+        byte choix = 0; // En fonction de la vie de l'IA, sa volonté changera et l'algorithme  dans la methode Update décidera des actions plus sécuritaire pour l'IA plus sa vie est basse
 
         if (IA.vie >= (vieMax * 80 / 100)) choix = 1;
         else if (IA.vie >= (vieMax * 50 / 100)) choix = 2;
@@ -602,6 +605,44 @@ public class AIscripts : MonoBehaviour
       });
 
         Volonte(choix);
+    }
+
+    private void ChangementDeDifficulté()
+    {
+        switch(Difficulté.difficultyLevelIndex)
+        {
+            case 0: // BABY
+                paramètreDifficultéIA(true,25,10);
+                break;
+
+            case 1: // EASY
+                paramètreDifficultéIA(true,40,15);
+                break;
+
+            case 2: // NORMAL
+                paramètreDifficultéIA(false,60,30);
+                break;
+
+            case 3: // Hard
+                paramètreDifficultéIA(false, 90,60);
+                break;
+
+            case 4: // INFAMY
+                paramètreDifficultéIA(false,100,100);
+                break;
+
+            default: // Par defaut la difficulté sera mise sur Normal
+
+                break;
+        }
+        OptionsMenu.changeDifficultée = false;
+    }
+
+    private void paramètreDifficultéIA(bool grenade, int angleVue, float t_avantReprendreRonde)
+    {
+        aJeteGrenade = grenade;
+        angleDevueMax = angleVue;
+        difficulteTempsReprendRonde = t_avantReprendreRonde;
     }
     #endregion method
 }

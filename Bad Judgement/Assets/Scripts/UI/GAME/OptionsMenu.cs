@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 
 public class OptionsMenu : MonoBehaviour
 {
+    public static bool changeDifficultée = true; // Permet de savoir si la changée a été changée, et pouvoir la changer dans l'IA script
 
     #region sounds
     [SerializeField] private AudioMixer MasterMixer; // Permet de controller de manière optimisée et efficace TOUT les sons du jeux
@@ -122,7 +123,7 @@ public class OptionsMenu : MonoBehaviour
         //Initializing musique slider and text values :
         musicVolumeSlider.value = volumeMusique; //Slider at the correct value aswell
         musicVolumeText.text = (volumeMusique + 100).ToString() + "%"; //Creating a percentage
-    } 
+    }
 
     private void InitGameplay()
     {
@@ -130,7 +131,7 @@ public class OptionsMenu : MonoBehaviour
 
         difficultyDropdown.ClearOptions(); //We clear the choices of the dropdown to be sure
         difficultyDropdown.AddOptions(Difficulté.difficultiesList); //We get the list of difficulties from the Difficulty script
-
+        
         difficultyDropdown.value = 2;
         difficultyDropdown.RefreshShownValue();
 
@@ -183,6 +184,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void DifficultyChange(int difficultyValue)
     {
+        changeDifficultée = true;
         Difficulté.ChangeDifficulty(difficultyValue);
         //We change the difficulty with the new one
     }
