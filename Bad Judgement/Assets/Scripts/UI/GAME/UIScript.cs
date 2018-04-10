@@ -50,7 +50,7 @@ public class UIScript : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape)) //Handling Pause
             {
-                if (gameIsPaused) Resume();
+                if (gameIsPaused && !OptionsMenu.optionMenuIsActive) Resume(); 
                 else Pause();
             }
         }

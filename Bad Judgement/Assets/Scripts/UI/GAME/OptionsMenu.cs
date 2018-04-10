@@ -56,6 +56,8 @@ public class OptionsMenu : MonoBehaviour
     private void Update()
     {
         if (optionMenuIsActive) MouseNav(Input.GetAxis("Mouse ScrollWheell"));
+
+        if (Input.GetKeyDown(KeyCode.Escape) && optionMenuIsActive) DeactivateMenu();
     }
 
     #region Initializing options menu components
