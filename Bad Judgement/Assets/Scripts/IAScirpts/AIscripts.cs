@@ -22,7 +22,7 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private AudioClip grenadScream;
     [SerializeField] private Transform chercheurCouverture;
     [SerializeField] private Transform hand;
-    public Transform Player; // Nous permet de comparer le joueur a l'intélgience artificelle
+    public Transform Player; // Nous permet de comparer le joueur a l'intéligence artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
     [SerializeField] private Rigidbody rbPlayer;
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
@@ -60,7 +60,7 @@ public class AIscripts : MonoBehaviour
     // A METTRE EN MODE FACILE private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
     private int tempsGrenadeChoix = 4;
 
-    public bool canSeePlayer = true;
+    [HideInInspector] public bool canSeePlayer = true;
     private bool estAGenoux = false;
     private bool estMort = false;
     private bool aJeteGrenade = false;
@@ -71,15 +71,15 @@ public class AIscripts : MonoBehaviour
     private bool changeDirection = false;
     private bool saitOuEstLeJoueur = false;
     private bool isAimingPlayer = false;
-    public bool chercheCouverture = false;
+    [HideInInspector] public bool chercheCouverture = false;
     private bool wantToAttack = false;
     private bool searchCover = false;
-    public bool estCouvert = false;
+    [HideInInspector] public bool estCouvert = false;
     private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
-    public bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
+    [HideInInspector]  public bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
 
-    public bool reprendLaRonde = false;
+    [HideInInspector]public bool reprendLaRonde = false;
     #endregion membres
 
     #region membres pour difficultes
@@ -226,7 +226,7 @@ public class AIscripts : MonoBehaviour
                 if (tempsAvantDelayCoupDeCrosse > 0.1f)
                 {
                     Target joueur = Player.transform.GetComponent<Target>();
-                    joueur.TakeDamage(30 / 100);
+                    joueur.TakeDamage(3);
                     rbPlayer.AddForce(direction * 2.5f, ForceMode.Impulse); // Permet de faire reculer le joueur
                     tempsAvantDelayCoupDeCrosse = 0;
                 }
@@ -618,15 +618,15 @@ public class AIscripts : MonoBehaviour
         switch(Difficulté.difficultyLevelIndex)
         {
             case 0: // BABY
-                paramètreDifficultéIA(true,25,10,10,20,3,1);
+                paramètreDifficultéIA(true,25,10,50,20,3,1);
                 break;
 
             case 1: // EASY
-                paramètreDifficultéIA(true,40,20,15,15,6,1);
+                paramètreDifficultéIA(true,40,20,50,15,6,1);
                 break;
 
             case 2: // NORMAL
-                paramètreDifficultéIA(false,60,30,30,10,8,1);
+                paramètreDifficultéIA(false,60,30,50,10,8,1);
                 break;
 
             case 3: // Hard
@@ -638,7 +638,7 @@ public class AIscripts : MonoBehaviour
                 break;
 
             default: // Par defaut la difficulté sera mise sur Normal
-                paramètreDifficultéIA(false, 60,30, 30, 10, 5, 1);
+                paramètreDifficultéIA(false, 60,30, 50, 10, 5, 1);
                 break;
         }
         OptionsMenu.changeDifficultée = false;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GrenadeScript : MonoBehaviour
 {
-    private Collider[] collider;
+    private new Collider[] collider;
     [SerializeField] private Transform bruitExlosion;
     [SerializeField] private GameObject effetExplosion;
     [SerializeField] private GameObject Grenade;

@@ -15,8 +15,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private AudioClip HealBreath;
     [SerializeField] private AudioSource player;
     [SerializeField] private AudioSource moutPlayer;
-    public bool estRepere = false;
-    public bool aPeuDeVie = false;
+    [HideInInspector]public bool estRepere = false;
+    [HideInInspector]public bool aPeuDeVie = false;
     /// <summary> Valeur récuperant la vie du joueur lors de la frame actuelle  </summary>
     private float vie;
     /// <summary> delai avant que le joueur récupere de la vie lorsqu'il est au repos </summary>
