@@ -52,6 +52,7 @@ public class AIscripts : MonoBehaviour
     private float tempsAvantSeCouvrir = 0f;
     private float tempsAvantAcroupir = 0f;
     private float difficulteTempsReprendRonde = 10;
+    private float delayAvntSeCouvrir = 1f;
 
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
@@ -132,6 +133,7 @@ public class AIscripts : MonoBehaviour
             float angle = Vector3.Angle(direction, head.forward); // Permet de retourner un angle en comparant la position de la tête de l'IA avec celle du joueur
 
             Debug.DrawLine(transform.position, direction * 100, Color.blue);
+
             if ( (IsPatrolling && pointDePatrouille.Length > 0 || chercheCouverture == true) || reprendLaRonde == true) // Si l'IA patrouille ET qu'il existe des point de patrouille pou lui patrouiller, alors  son algorithme se met en place (évite les erreurs)
             {
                 if (chercheCouverture == true)
@@ -216,7 +218,7 @@ public class AIscripts : MonoBehaviour
 
             Debug.DrawLine(this.transform.position, direction * 100, Color.yellow);
 
-            Debug.DrawLine(head.transform.position - new Vector3(0f, 0.75f, 0f), direction * 100, Color.gray);
+            Debug.DrawLine(head.transform.position, (Player.position - this.transform.position)*100, Color.magenta);
 
             if (Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f) // Si le joueur se trouve trop pres de l'IA il va l'attaquer au corp a corps !! (DU CATCH !!)
             {
@@ -244,7 +246,7 @@ public class AIscripts : MonoBehaviour
                 tempsAvantDelayCoupDeCrosse = 0;
                 isblocking = false;
             }
-            else if ((((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
+            else if ((((Vector3.Distance(Player.position, this.transform.position) < 100f ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
               
                 tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
@@ -381,7 +383,7 @@ public class AIscripts : MonoBehaviour
                 else if (vie != IA.vie && isThrowingGrenade == false) // Joue l'animation est la reflexions lorsque l'IA est a genoux
                 {
                     tempsAvantAcroupir += Time.deltaTime;
-                    if (tempsAvantAcroupir > 1f)
+                    if (tempsAvantAcroupir > delayAvntSeCouvrir)
                     {
                         RaycastHit h;
                         if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
@@ -520,7 +522,7 @@ public class AIscripts : MonoBehaviour
         {
             if (distanceBetween < 20) Force = 20;
             else if (distanceBetween < 30) Force = 28;
-            else if (distanceBetween >= 30) Force = 32;
+            else if (distanceBetween >= 30) Force = 30;
 
             tempsActionGrenade = 0;
             aJeteGrenade = true;
@@ -618,33 +620,33 @@ public class AIscripts : MonoBehaviour
         switch(Difficulté.difficultyLevelIndex)
         {
             case 0: // BABY
-                paramètreDifficultéIA(true,25,10,50,20,3,1);
+                paramètreDifficultéIA(true,25,10,100,20,3,1,1);
                 break;
 
             case 1: // EASY
-                paramètreDifficultéIA(true,40,20,50,15,6,1);
+                paramètreDifficultéIA(true,40,20,100,15,6,1,0.8f);
                 break;
 
             case 2: // NORMAL
-                paramètreDifficultéIA(false,60,30,50,10,8,1);
+                paramètreDifficultéIA(false,60,30,100,10,8,1,0.55f);
                 break;
 
             case 3: // Hard
-                paramètreDifficultéIA(false, 90,40,60,7.5f,10,2);
+                paramètreDifficultéIA(false, 90,40,100,7.5f,10,2,0.4f);
                 break;
 
             case 4: // INFAMY
-                paramètreDifficultéIA(false,100,50,100,5,15,3);
+                paramètreDifficultéIA(false,100,50,100,5,15,3,0.2f);
                 break;
 
             default: // Par defaut la difficulté sera mise sur Normal
-                paramètreDifficultéIA(false, 60,30, 50, 10, 5, 1);
+                paramètreDifficultéIA(false, 60, 30, 100, 10, 8, 1, 0.55f);
                 break;
         }
         OptionsMenu.changeDifficultée = false;
     }
 
-    private void paramètreDifficultéIA(bool grenade, int angleVue, int distanceVue, float t_avantReprendreRonde, float t_pause, int precis, int dmg)
+    private void paramètreDifficultéIA(bool grenade, int angleVue, int distanceVue, float t_avantReprendreRonde, float t_pause, int precis, int dmg, float delayGenoux)
     {
         distanceDeVueMax = distanceVue;
         degats = dmg;
@@ -653,6 +655,7 @@ public class AIscripts : MonoBehaviour
         angleDevueMax = angleVue;
         difficulteTempsReprendRonde = t_avantReprendreRonde;
         tempsPause = t_pause;
+        delayAvntSeCouvrir = delayGenoux;
     }
     #endregion method
 }

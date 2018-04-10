@@ -60252,6 +60252,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 114222290436297468, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: reloadImage
+      value: 
+      objectReference: {fileID: 2096716081}
+    - target: {fileID: 114222290436297468, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: interactionImage
+      value: 
+      objectReference: {fileID: 1674849538}
+    - target: {fileID: 136072197718561958, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_Height
+      value: 3.13592
+      objectReference: {fileID: 0}
+    - target: {fileID: 136072197718561958, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 0.56796
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
   m_IsPrefabParent: 0
