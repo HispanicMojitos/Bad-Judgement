@@ -1,0 +1,199 @@
+fileFormatVersion: 2
+guid: 26cdbd374414432458df2e0596fceedc
+timeCreated: 1523365982
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: ANPEQ-2.tga
+    100002: barrel_a2
+    100004: bottom_rail
+    100006: cz.001_cz
+    100008: //RootNode
+    100010: f7.vtf
+    100012: frontsight
+    100014: grip
+    100016: hands_hands.000
+    100018: hands_hands.001
+    100020: joint
+    100022: lense2.tga
+    100024: lower
+    100026: mag
+    100028: mag.001
+    100030: rearsight
+    100032: side_rail
+    100034: stock
+    100036: toprail
+    100038: TroyGrip
+    100040: upper_upper.002
+    400000: ANPEQ-2.tga
+    400002: barrel_a2
+    400004: bottom_rail
+    400006: cz.001_cz
+    400008: //RootNode
+    400010: f7.vtf
+    400012: frontsight
+    400014: grip
+    400016: hands_hands.000
+    400018: hands_hands.001
+    400020: joint
+    400022: lense2.tga
+    400024: lower
+    400026: mag
+    400028: mag.001
+    400030: rearsight
+    400032: side_rail
+    400034: stock
+    400036: toprail
+    400038: TroyGrip
+    400040: upper_upper.002
+    2100000: Magint.tga
+    2100002: v_hands.tga
+    2100004: Material2
+    2100006: magazine.vtf
+    2100008: CZ805.tga
+    2100010: lense2.tga
+    2100012: ANPEQ-2.tga
+    2100014: Material1
+    2100016: f7.vtf
+    2100018: sleeve_diffuse_ts.vtf
+    2300000: ANPEQ-2.tga
+    2300002: barrel_a2
+    2300004: bottom_rail
+    2300006: cz.001_cz
+    2300008: f7.vtf
+    2300010: frontsight
+    2300012: grip
+    2300014: hands_hands.000
+    2300016: hands_hands.001
+    2300018: joint
+    2300020: lense2.tga
+    2300022: lower
+    2300024: mag
+    2300026: mag.001
+    2300028: rearsight
+    2300030: side_rail
+    2300032: stock
+    2300034: toprail
+    2300036: TroyGrip
+    2300038: upper_upper.002
+    3300000: ANPEQ-2.tga
+    3300002: barrel_a2
+    3300004: bottom_rail
+    3300006: cz.001_cz
+    3300008: f7.vtf
+    3300010: frontsight
+    3300012: grip
+    3300014: hands_hands.000
+    3300016: hands_hands.001
+    3300018: joint
+    3300020: lense2.tga
+    3300022: lower
+    3300024: mag
+    3300026: mag.001
+    3300028: rearsight
+    3300030: side_rail
+    3300032: stock
+    3300034: toprail
+    3300036: TroyGrip
+    3300038: upper_upper.002
+    4300000: mag.001
+    4300002: hands_hands.000
+    4300004: frontsight
+    4300006: mag
+    4300008: cz.001_cz
+    4300010: lense2.tga
+    4300012: grip
+    4300014: ANPEQ-2.tga
+    4300016: joint
+    4300018: TroyGrip
+    4300020: side_rail
+    4300022: stock
+    4300024: lower
+    4300026: f7.vtf
+    4300028: upper_upper.002
+    4300030: toprail
+    4300032: bottom_rail
+    4300034: rearsight
+    4300036: hands_hands.001
+    4300038: barrel_a2
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
