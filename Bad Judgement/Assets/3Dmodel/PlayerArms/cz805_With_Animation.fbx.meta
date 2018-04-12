@@ -117,7 +117,57 @@ ModelImporter:
     4300034: rearsight
     4300036: hands_hands.001
     4300038: barrel_a2
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ANPEQ-2.tga
+    second: {fileID: 2100000, guid: 6173e0b6378deb844a302fea52c89ffb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CZ805.tga
+    second: {fileID: 2100000, guid: 49e58201eb615c54ca6be76e1a5339de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Magint.tga
+    second: {fileID: 2100000, guid: 9eae2aa0a3622fb4f8503a522e942f68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material1
+    second: {fileID: 2100000, guid: 33e413f08ce99e44ba52c5d335134d39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material2
+    second: {fileID: 2100000, guid: 9eae2aa0a3622fb4f8503a522e942f68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: f7.vtf
+    second: {fileID: 2100000, guid: a563a08caf1615d4c9ab3e93c2d7e2df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lense2.tga
+    second: {fileID: 2100000, guid: ff6f5d738d54e514bac923b9765622fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: magazine.vtf
+    second: {fileID: 2100000, guid: 33e413f08ce99e44ba52c5d335134d39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sleeve_diffuse_ts.vtf
+    second: {fileID: 2100000, guid: 5bae18c100aacc04da7746409d69ed39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v_hands.tga
+    second: {fileID: 2100000, guid: c0c05becd3dadde4e9a837bc261e21cd, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

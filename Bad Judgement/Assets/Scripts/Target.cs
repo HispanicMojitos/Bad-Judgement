@@ -10,6 +10,7 @@ public class Target : MonoBehaviour
     public float vie { get { return health; } }
     public float vieMax { get { return healthMax; } }
 
+
     private void Awake()
     {
         healthMax = health;
@@ -31,8 +32,9 @@ public class Target : MonoBehaviour
     /// <summary> Permet de faire Mourir/Detruire les Objetc attaché à ce script</summary>
     void Die()
     {
-        if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false) Destroy(gameObject, 10);
+        if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false && gameObject.CompareTag("Ally") == false) Destroy(gameObject, 10);
         else if (gameObject.CompareTag("Player") == true) Destroy(gameObject);  // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
+        else if (gameObject.CompareTag("Ally") == true) ;
     }
 
 }
