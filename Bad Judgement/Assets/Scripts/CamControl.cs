@@ -78,7 +78,7 @@ public class CamControl : MonoBehaviour
     {
         this.cam.transform.localEulerAngles = verticalEulerVector; //Refreshing cam movement every frame
 
-        float verticalRotation = xGameAxis * horizontalSensitivity; //Applying sensitivity
+        float verticalRotation = xGameAxis * verticalSensitivity; //Applying sensitivity
         if (isVerticalAxisInverted) verticalRotation *= (-1F);
         verticalEulerVector.x += verticalRotation; //Adding the mouse axis to the actual rotation
 
@@ -88,7 +88,7 @@ public class CamControl : MonoBehaviour
 
     private void MoveCamHoriz(float yGameAxis)
     {
-        yGameAxis *= verticalSensitivity; //Applying sensitivity
+        yGameAxis *= horizontalSensitivity; //Applying sensitivity
 
         this.transform.Rotate(0F, yGameAxis, 0F); //Horizontal rotate (applied to the player)
     }
@@ -98,7 +98,7 @@ public class CamControl : MonoBehaviour
     {
         this.cam.transform.localEulerAngles = horizontalEulerVector; //Refreshing camera horizontal rotation every frame
 
-        float horizontalRotation = yGameAxis * verticalSensitivity; //Applying sensitivity
+        float horizontalRotation = yGameAxis * horizontalSensitivity; //Applying sensitivity
         horizontalEulerVector.y += horizontalRotation; //Adding the mouse rotation to the actual rotation
 
         //Clamping cam to a certain angle
