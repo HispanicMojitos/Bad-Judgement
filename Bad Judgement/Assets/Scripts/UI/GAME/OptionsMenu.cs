@@ -18,8 +18,8 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private GameObject optionsMenu; //The menu itself
     [SerializeField] private GameObject optionsPanel; //The panel of the options menu
     [SerializeField] private Scrollbar navSlider; //Navigation up-down with the slider
-    private static float panelMinPosition = -134F;
-    private static float panelMaxPosition = 80F;
+    private static float panelMinPosition = -136F;
+    private static float panelMaxPosition = 144F;
 
     [SerializeField] private Dropdown resolutionDropdown;
     private Resolution[] possibleResolutions; //This is for resolution changing
@@ -36,6 +36,11 @@ public class OptionsMenu : MonoBehaviour
 
     [SerializeField] private Dropdown difficultyDropdown;
     [SerializeField] private Toggle invertMouseYAxis;
+
+    [SerializeField] private Slider verticalSensitivitySlider;
+    [SerializeField] private Text verticalSensitivityText;
+    [SerializeField] private Slider horizontalSensitivitySlider;
+    [SerializeField] private Text horizontalSensitivityText;
 
     #region Properties
 
@@ -145,6 +150,13 @@ public class OptionsMenu : MonoBehaviour
         invertMouseYAxis.isOn = false;
 
         #endregion
+
+        #region Sensitivity
+
+        horizontalSensitivitySlider.value = CamControl.horizontalSensitivity;
+        verticalSensitivitySlider.value = CamControl.verticalSensitivity;
+
+        #endregion
     }
 
     #endregion
@@ -194,6 +206,20 @@ public class OptionsMenu : MonoBehaviour
     public void InvertMouseYAxis(bool state)
     {
         CamControl.isVerticalAxisInverted = state;
+    }
+
+    public void HorizontalSensitivity(float value)
+    {
+        //Slider has a value between 1 and 10
+        CamControl.horizontalSensitivity = value;
+        horizontalSensitivityText.text = value.ToString();
+    }
+
+    public void VerticalSensitivity(float value)
+    {
+        //Slider has a value between 1 & 10
+        CamControl.verticalSensitivity = value;
+        verticalSensitivityText.text = value.ToString();
     }
 
     #endregion

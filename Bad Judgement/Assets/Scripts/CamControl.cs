@@ -26,8 +26,8 @@ public class CamControl : MonoBehaviour
 
     public bool isFreeCamActive { get; private set; }
 
-    public float horizontalSensitivity { get; set; }
-    public float verticalSensitivity { get; set; }
+    public static float verticalSensitivity { get; set; }
+    public static float horizontalSensitivity { get; set; }
 
     #endregion
 
@@ -41,8 +41,8 @@ public class CamControl : MonoBehaviour
 
         //Initializing properties :
         isVerticalAxisInverted = false;
-        this.horizontalSensitivity = 6.0F;
-        this.verticalSensitivity = 6.0F;
+        horizontalSensitivity = 5.0F;
+        verticalSensitivity = 5.0F;
 
         verticalEulerVector = Vector3.zero;
         horizontalEulerVector = Vector3.zero;
@@ -78,7 +78,7 @@ public class CamControl : MonoBehaviour
     {
         this.cam.transform.localEulerAngles = verticalEulerVector; //Refreshing cam movement every frame
 
-        float verticalRotation = xGameAxis * verticalSensitivity; //Applying sensitivity
+        float verticalRotation = xGameAxis * horizontalSensitivity; //Applying sensitivity
         if (isVerticalAxisInverted) verticalRotation *= (-1F);
         verticalEulerVector.x += verticalRotation; //Adding the mouse axis to the actual rotation
 
@@ -88,7 +88,7 @@ public class CamControl : MonoBehaviour
 
     private void MoveCamHoriz(float yGameAxis)
     {
-        yGameAxis *= horizontalSensitivity; //Applying vertical sensitivity
+        yGameAxis *= verticalSensitivity; //Applying sensitivity
 
         this.transform.Rotate(0F, yGameAxis, 0F); //Horizontal rotate (applied to the player)
     }
@@ -98,7 +98,7 @@ public class CamControl : MonoBehaviour
     {
         this.cam.transform.localEulerAngles = horizontalEulerVector; //Refreshing camera horizontal rotation every frame
 
-        float horizontalRotation = yGameAxis * horizontalSensitivity; //Applying sensitivity
+        float horizontalRotation = yGameAxis * verticalSensitivity; //Applying sensitivity
         horizontalEulerVector.y += horizontalRotation; //Adding the mouse rotation to the actual rotation
 
         //Clamping cam to a certain angle
