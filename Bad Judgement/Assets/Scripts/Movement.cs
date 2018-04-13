@@ -14,10 +14,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private AudioClip saute;
     [SerializeField] private AudioSource[] pieds = new AudioSource[2]; // Source pour les pruits de sauts
     [SerializeField] private AudioSource personnage;
-    [Range(0f, 1f)] // Permet de regler le volume via un bouton de reglage dans Unity
-    private float volumeDesSonsDePas = 0.2F;
-    private char tagNew = '\0'; // donne la valeur null du char, cette variable permet de faire en sorte dans l'algorithme de continuer un son de pas même lorsqu'on entre en collision avec un autre objet non tagué (exemple : un mur)
-
     #endregion Sounds members
 
     private float forwardSpeed = 4.2F;

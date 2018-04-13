@@ -17,8 +17,7 @@ public class AIally : MonoBehaviour
     private Movement mvmentPlayer;
 
     private float degats = 1f;
-    private float MaxDistance = 10;
-    private float vieActuelle;
+    private float MaxDistance = 5;
     private float tempsDelayChangerCible;
 
     private bool doitcourir = false;
@@ -28,7 +27,6 @@ public class AIally : MonoBehaviour
 
     void Start()
     {
-        vieActuelle = allyHealthState.vie;
         mvmentPlayer = player.GetComponent<Movement>();
 
         collider = Physics.OverlapSphere(this.transform.position, 100); // permet de recuperer tout les objet dans un rayon determiné
@@ -51,7 +49,7 @@ public class AIally : MonoBehaviour
 
             Debug.DrawRay(head.transform.position, direction * 10,Color.red);
 
-            if (Vector3.Distance(this.transform.position, player.position) > 5)
+            if (Vector3.Distance(this.transform.position, player.position) > MaxDistance)
             {
                 
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);

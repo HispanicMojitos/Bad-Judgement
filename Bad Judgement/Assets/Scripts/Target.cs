@@ -34,7 +34,7 @@ public class Target : MonoBehaviour
     {
         if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false && gameObject.CompareTag("Ally") == false) Destroy(gameObject, 10);
         else if (gameObject.CompareTag("Player") == true) Destroy(gameObject);  // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
-        else if (gameObject.CompareTag("Ally") == true) ;
+        else if (gameObject.CompareTag("Ally") == true) /*Ajouter ici une methode pour la mort de l'IA alliée*/;
     }
 
 }
