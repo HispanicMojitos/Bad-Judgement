@@ -12,32 +12,27 @@ public class AIally : MonoBehaviour
     [SerializeField] private AudioClip cz805shoot;
     [SerializeField] private Transform head;
     private new Collider[] collider;
-    private List<Transform> enemies;
-    private Transform enemiActuel;
+    [SerializeField] private List<Transform> enemies;
+    private Transform enemiActuel = null;
     private Movement mvmentPlayer;
-
+    
     private float degats = 1f;
     private float MaxDistance = 5;
-    private float tempsDelayChangerCible;
+    private float tempsDelayChangerCible = 1.1f;
+
+    private float tempsDebutAttaque = 0f;
+    private float tempsFinAttaque = 0f;
+    private float tempsAvantAttaque = 0f;
+    private float tempsDeTir = 0f;
+    [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.03f;
 
     private bool doitcourir = false;
     public bool allyEstRéanimé = false;
-    private bool aUneCible = false;
 
 
     void Start()
     {
         mvmentPlayer = player.GetComponent<Movement>();
-
-        collider = Physics.OverlapSphere(this.transform.position, 100); // permet de recuperer tout les objet dans un rayon determiné
-        enemies = new List<Transform>();
-        foreach (Collider objetProche in collider)
-        {
-            if (objetProche.CompareTag("Enemy") == true )
-            {
-                enemies.Add(objetProche.transform);
-            }
-        }
     }
 
 	void Update ()
@@ -72,22 +67,55 @@ public class AIally : MonoBehaviour
                 SetAnimation(isIdle: true);
             }
 
+            RaycastHit h;
+
             tempsDelayChangerCible += Time.deltaTime ;
-            if(aUneCible == false && tempsDelayChangerCible > 1)
+            if(enemiActuel == null && tempsDelayChangerCible > 1) // Si l'allié n'as pas de cible, elle va en choisir une
             {
                 foreach(Transform cible in enemies)
                 {
-                    RaycastHit h;
-                    if(Physics.Raycast(head.transform.position, cible.position, out h) && h.transform.position == cible.transform.position)
+                    if (enemiActuel != null) break;
+                    enemiActuel = cible;
+                }
+                tempsDelayChangerCible = 0;
+            }
+            else if (enemiActuel != null )
+            {
+                Debug.DrawRay(head.transform.position, (enemiActuel.position - transform.position + new Vector3(0,0,0) ) * 100, Color.red);
+                if (Physics.Raycast(head.transform.position, (enemiActuel.position - transform.position + new Vector3(0, 0, 0) ), out h) && h.transform.position == enemiActuel.transform.position)
+                {
+                    direction = enemiActuel.position - this.transform.position;
+
+                    this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+
+                    SetAnimation(isAiming: true);
+                    if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
                     {
-                        enemiActuel = cible;
+                        if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
+                        {
+                            SetAnimation(isAttack: true);
+                            AttackShoot(direction); // Permet de faire attaquer l'IA
+                            tempsDeTir = 0;
+                        }
+                        else tempsDeTir += Time.deltaTime; // le temps a attendre pour que l'IA pousse effectuer un autre tir augmonte
                     }
+                    else if (tempsAvantAttaque > 1.2f)
+                    {
+                        tempsAvantAttaque = 0;
+                        tempsDebutAttaque = UnityEngine.Random.Range(0.3f, 0.7f);
+                        tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                    }
+                    tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
+
+                    if (enemiActuel.GetComponent<AIscripts>().estMort == true) enemiActuel = null;
                 }
             }
-
+            
 
         }
-        else if (allyHealthState.vie == 0 )
+
+
+        else if (allyHealthState.vie == 0 ) // Si l'alliée n'a plus de vie
         {
             SetAnimation(isDead: true);
         }

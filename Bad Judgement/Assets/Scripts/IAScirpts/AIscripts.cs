@@ -27,7 +27,7 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private Rigidbody rbPlayer;
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
     private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
-
+    
     [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
     private float degats = 1f; // Permet de regler les degats de l'IA
     [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
@@ -63,7 +63,7 @@ public class AIscripts : MonoBehaviour
 
     [HideInInspector] public bool canSeePlayer = true;
     private bool estAGenoux = false;
-    private bool estMort = false;
+    [HideInInspector] public bool estMort = false;
     private bool aJeteGrenade = false;
     private bool isThrowingGrenade = false;
     private bool isblocking = false;
@@ -246,7 +246,7 @@ public class AIscripts : MonoBehaviour
                 tempsAvantDelayCoupDeCrosse = 0;
                 isblocking = false;
             }
-            else if ((((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
+            else if ((((Vector3.Distance(Player.position, this.transform.position) < 100 ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
               
                 tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
@@ -447,8 +447,7 @@ public class AIscripts : MonoBehaviour
             capsColKnneel.enabled = false;
             Sounds.Death(mouthHead, soundDeath[0],playSoundOnce);
             estMort = true; // Permet d'éviter de se retrouver dans une boucle inutile
-
-            Destroy(this.transform);
+            
             Destroy(this.GetComponent<Target>());
             Destroy(this.GetComponent<AIscripts>());
         }
