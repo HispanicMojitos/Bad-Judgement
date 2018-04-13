@@ -45,7 +45,6 @@ public class Movement : MonoBehaviour
     #endregion
 
     #region Properties & readonly
-
     //Properties accessible in readonly in other scripts :
 
     public bool characterIsMoving { get; private set; }  //Working

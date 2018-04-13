@@ -447,6 +447,10 @@ public class AIscripts : MonoBehaviour
             capsColKnneel.enabled = false;
             Sounds.Death(mouthHead, soundDeath[0],playSoundOnce);
             estMort = true; // Permet d'éviter de se retrouver dans une boucle inutile
+
+            Destroy(this.transform);
+            Destroy(this.GetComponent<Target>());
+            Destroy(this.GetComponent<AIscripts>());
         }
     }
     #endregion start & update
