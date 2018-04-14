@@ -27,7 +27,9 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private Rigidbody rbPlayer;
     [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
     private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
-    
+    [SerializeField] private Transform[] alliés;
+
+
     [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
     private float degats = 1f; // Permet de regler les degats de l'IA
     [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
@@ -54,6 +56,8 @@ public class AIscripts : MonoBehaviour
     private float difficulteTempsReprendRonde = 10;
     private float delayAvntSeCouvrir = 1f;
 
+    private int actuelleCible;
+    private int nbreAlliés;
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
     private int angleDevueMax = 20; // Angle de vue maximum de l'IA
@@ -101,6 +105,8 @@ public class AIscripts : MonoBehaviour
 
     void Start()
     {
+        actuelleCible = 0;
+        nbreAlliés = alliés.Length;
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
         vie = IA.vie; // On recupere la vie de l'IA via le script Target 
@@ -305,6 +311,9 @@ public class AIscripts : MonoBehaviour
                 }
                 else if (isAimingPlayer == true)
                 {
+                    if (actuelleCible == (nbreAlliés - 1)) actuelleCible++;
+                    else actuelleCible = 1;
+                    if(alliés[actuelleCible].CompareTag("Player") || alliés[actuelleCible].GetComponent<AIally>().estHS == false) Player = alliés[actuelleCible];
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                     SetAnimation(isAiming: true);
                     if (tempsNouvelleDecision > UnityEngine.Random.Range(2f, 10f)) // Permet de que l'IA prennent une nouvelle décision lorsque le temps de celui ci est dépassé

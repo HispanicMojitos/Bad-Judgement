@@ -29,6 +29,7 @@ public class AIally : MonoBehaviour
     private bool doitcourir = false;
     public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
+    public bool estHS = false;
 
 
     void Start()
@@ -120,11 +121,10 @@ public class AIally : MonoBehaviour
             }
             
         }
-
-
         else if (allyHealthState.vie == 0 ) // Si l'alliée n'a plus de vie
         {
             SetAnimation(isDead: true);
+            estHS = true;
         }
     }
 
