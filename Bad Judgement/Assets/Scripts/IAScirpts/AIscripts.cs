@@ -146,7 +146,7 @@ public class AIscripts : MonoBehaviour
                     Debug.DrawLine(chercheurCouverture.transform.position, (pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - chercheurCouverture.transform.position) * 50, Color.green);
                 }
 
-                if (IA.vie == vie) // Si l'IA n'est pas attaquée
+                if (IA.vie == vie ) // Si l'IA n'est pas attaquée
                 {
                     if ((!IsPausing) && chercheCouverture == false) SetAnimation(isWalking:true);// si il n'a pas a faire de pause, il continue son bonhome de chemin
                     else if (chercheCouverture == true && estCouvert == false) SetAnimation(isRunning:true);
@@ -193,7 +193,7 @@ public class AIscripts : MonoBehaviour
                         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime);// L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                         this.transform.Translate(0, 0, Time.deltaTime * vitesseMarche); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
-                    else if (IsPausing == false && chercheCouverture == true && estCouvert == false)
+                    else if (IsPausing == false && chercheCouverture == true && estCouvert == false && Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) > 0.5f)
                     {
                         if (!searchCover) direction = pointDePatrouille[actuelPointDePatrouille].transform.position - transform.position; // Permet d'ajuster la direction que doit prendre l'IA a chaque frame, Notemment ici l'IA prend la direction du point actuel de patrouille qu'elle doit rejoindre
                         else if (searchCover) direction = pointDeCouverture[CherchePointDeCouvertureProche()].transform.position - transform.position;
@@ -201,7 +201,7 @@ public class AIscripts : MonoBehaviour
                         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime); // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                         this.transform.Translate(0, 0, Time.deltaTime * vitesseCourse); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
-                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.3f)
+                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.5f)
                     {
                         chercheCouverture = false;
                         if (wantToAttack == false) isAimingPlayer = false;
@@ -213,6 +213,21 @@ public class AIscripts : MonoBehaviour
                 {
                     IsPatrolling = false; // Si le joueur attaque l'IA, l'IA va venir l'attaquer
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+
+                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.5f)
+                    {
+                        chercheCouverture = false;
+                        if (wantToAttack == false) isAimingPlayer = false;
+                        estCouvert = true;
+                        SetAnimation(isKneel: true);
+                    }
+                    else if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 1f)
+                    {
+                        chercheCouverture = false;
+                        if (wantToAttack == false) isAimingPlayer = false;
+                        estCouvert = true;
+                        SetAnimation(isKneel: true);
+                    }
                 }
             }
 
@@ -331,7 +346,7 @@ public class AIscripts : MonoBehaviour
                 {
                     tempsAvantAcroupir = 0;
                     RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
-                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && isThrowingGrenade == false & isAimingPlayer == false)
+                    if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && isThrowingGrenade == false )
                     {
                         SetAnimation(isAimKneel:true);
                         if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
@@ -382,11 +397,53 @@ public class AIscripts : MonoBehaviour
                 }
                 else if (vie != IA.vie && isThrowingGrenade == false) // Joue l'animation est la reflexions lorsque l'IA est a genoux
                 {
+                    RaycastHit h;
+                    if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position && isAimingPlayer == true)
+                    {
+                        SetAnimation(isAiming: true);
+                        if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque))
+                        {
+                            if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
+                            {
+                                AttackShoot(direction); // Permet de faire attaquer l'IA
+                                tempsDeTir = 0;
+                            }
+                            else tempsDeTir += Time.deltaTime; // le temps a attendre pour que l'IA pousse effectuer un autre tir augmonte
+                        }
+                        else if (tempsAvantAttaque > 1.2f)
+                        {
+                            tempsAvantAttaque = 0;
+                            tempsDebutAttaque = UnityEngine.Random.Range(0.3f, 0.7f);
+                            tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                        }
+                    }
                     tempsAvantAcroupir += Time.deltaTime;
                     if (tempsAvantAcroupir > delayAvntSeCouvrir)
                     {
-                        RaycastHit h;
-                        if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position) vie = IA.vie;
+                        if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position)
+                        {
+                            SetAnimation(isAimKneel:true);
+                            vie = IA.vie; // Si l'enemi est attaqué lorsqu'il est acroupi, il peut attaquer en même temps
+                            if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && isThrowingGrenade == false & isAimingPlayer == false)
+                            {
+                                SetAnimation(isAimKneel: true);
+                                if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
+                                {
+                                    if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
+                                    {
+                                        AttackShoot(direction); // Permet de faire attaquer l'IA
+                                        tempsDeTir = 0;
+                                    }
+                                    else tempsDeTir += Time.deltaTime; // le temps a attendre pour que l'IA pousse effectuer un autre tir augmonte
+                                }
+                                else if (tempsAvantAttaque > 1.2f)
+                                {
+                                    tempsAvantAttaque = 0;
+                                    tempsDebutAttaque = UnityEngine.Random.Range(0.3f, 0.7f);
+                                    tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                                }
+                            }
+                        }
                         else
                         {
                             if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
@@ -396,11 +453,13 @@ public class AIscripts : MonoBehaviour
                             }
                             else tempsAvantArreterPoursuite += Time.deltaTime;
                             SetAnimation(isKneel: true);
+                            isAimingPlayer = false;
                             tempsKneelDecision += Time.deltaTime;
                             if (tempsKneelDecision > tempsAvantSeredresser)
                             {
                                 tempsAvantSeredresser = UnityEngine.Random.Range(2f, 8f);
                                 vie = IA.vie;
+                                isAimingPlayer = true;
                                 tempsNouvelleDecision = 0;
                                 tempsKneelDecision = 0f;
                             }
@@ -623,27 +682,27 @@ public class AIscripts : MonoBehaviour
         switch(Difficulté.difficultyLevelIndex)
         {
             case 0: // BABY
-                paramètreDifficultéIA(true,25,10,100,20,3,1,1);
+                paramètreDifficultéIA(true,25,10,100,20,3,1,10);
                 break;
 
             case 1: // EASY
-                paramètreDifficultéIA(true,40,20,100,15,6,1,0.8f);
+                paramètreDifficultéIA(true,40,20,100,15,6,1,8f);
                 break;
 
             case 2: // NORMAL
-                paramètreDifficultéIA(false,60,30,100,10,8,1,0.55f);
+                paramètreDifficultéIA(false,60,30,100,10,8,1,5f);
                 break;
 
             case 3: // Hard
-                paramètreDifficultéIA(false, 90,40,100,7.5f,10,2,0.4f);
+                paramètreDifficultéIA(false, 90,40,100,7.5f,10,2,4f);
                 break;
 
             case 4: // INFAMY
-                paramètreDifficultéIA(false,100,50,100,5,15,3,0.2f);
+                paramètreDifficultéIA(false,100,50,100,5,15,3,2f);
                 break;
 
             default: // Par defaut la difficulté sera mise sur Normal
-                paramètreDifficultéIA(false, 60, 30, 100, 10, 8, 1, 0.55f);
+                paramètreDifficultéIA(false, 60, 30, 100, 10, 8, 1, 1f);
                 break;
         }
         OptionsMenu.changeDifficultée = false;

@@ -16,18 +16,19 @@ public class AIally : MonoBehaviour
     private Transform enemiActuel = null;
     private Movement mvmentPlayer;
     
-    private float degats = 1f;
+    private float degats = 0.5f;
     private float MaxDistance = 5;
-    private float tempsDelayChangerCible = 1.1f;
+    private float tempsDelayChangerCible = 0.05f;
 
     private float tempsDebutAttaque = 0f;
     private float tempsFinAttaque = 0f;
     private float tempsAvantAttaque = 0f;
     private float tempsDeTir = 0f;
-    [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.03f;
+    [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 1f;
 
     private bool doitcourir = false;
     public bool allyEstRéanimé = false;
+    private bool peutSuivreJoueur = true;
 
 
     void Start()
@@ -43,47 +44,49 @@ public class AIally : MonoBehaviour
             direction.y = 0;
 
             Debug.DrawRay(head.transform.position, direction * 10,Color.red);
-
-            if (Vector3.Distance(this.transform.position, player.position) > MaxDistance)
+            if (peutSuivreJoueur == true)
             {
-                
-                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+                if (Vector3.Distance(this.transform.position, player.position) > MaxDistance) // PERMET DE SUIVRE LE JOUEUR
+                {
 
-                if (mvmentPlayer.characterIsRunning == false && doitcourir == false)
-                {
-                    this.transform.Translate(0, 0, Time.deltaTime * 1.8f);
-                    SetAnimation(isWalking: true);
+                    this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+
+                    if (mvmentPlayer.characterIsRunning == false && doitcourir == false)
+                    {
+                        this.transform.Translate(0, 0, Time.deltaTime * 1.8f);
+                        SetAnimation(isWalking: true);
+                    }
+                    else if (mvmentPlayer.characterIsRunning == true || doitcourir == true)
+                    {
+                        this.transform.Translate(0, 0, Time.deltaTime * 0.9f);
+                        doitcourir = true;
+                        SetAnimation(isRunning: true);
+                    }
                 }
-                else if (mvmentPlayer.characterIsRunning == true || doitcourir == true)
+                else
                 {
-                    this.transform.Translate(0, 0, Time.deltaTime * 0.9f);
-                    doitcourir = true;
-                    SetAnimation(isRunning: true);
+                    doitcourir = false;
+                    SetAnimation(isIdle: true);
                 }
             }
-            else
-            {
-                doitcourir = false;
-                SetAnimation(isIdle: true);
-            }
-
             RaycastHit h;
 
-            tempsDelayChangerCible += Time.deltaTime ;
-            if(enemiActuel == null && tempsDelayChangerCible > 1) // Si l'allié n'as pas de cible, elle va en choisir une
+            tempsDelayChangerCible += Time.deltaTime;
+            if (enemiActuel == null && tempsDelayChangerCible > 1) // Si l'allié n'as pas de cible, elle va en choisir une
             {
-                foreach(Transform cible in enemies)
+                foreach (Transform cible in enemies)
                 {
                     if (enemiActuel != null) break;
                     enemiActuel = cible;
                 }
                 tempsDelayChangerCible = 0;
             }
-            else if (enemiActuel != null )
+            else if (enemiActuel != null) // PERMER D'ATTAQUER LES CIBLES
             {
-                Debug.DrawRay(head.transform.position, (enemiActuel.position - transform.position + new Vector3(0,0,0) ) * 100, Color.red);
-                if (Physics.Raycast(head.transform.position, (enemiActuel.position - transform.position + new Vector3(0, 0, 0) ), out h) && h.transform.position == enemiActuel.transform.position)
+                Debug.DrawRay(head.transform.position, (enemiActuel.position - transform.position) * 100, Color.red);
+                if (Physics.Raycast(head.transform.position, (enemiActuel.position - transform.position) * 100, out h) && h.transform.position == enemiActuel.transform.position)
                 {
+                    peutSuivreJoueur = false;
                     direction = enemiActuel.position - this.transform.position;
 
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
@@ -91,7 +94,7 @@ public class AIally : MonoBehaviour
                     SetAnimation(isAiming: true);
                     if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
                     {
-                        if (tempsDeTir > cadenceDetir) // permet de cadancer les tirs de l'IA
+                        if (tempsDeTir > 0.05f) // permet de cadancer les tirs de l'IA
                         {
                             SetAnimation(isAttack: true);
                             AttackShoot(direction); // Permet de faire attaquer l'IA
@@ -109,9 +112,13 @@ public class AIally : MonoBehaviour
 
                     if (enemiActuel.GetComponent<AIscripts>().estMort == true) enemiActuel = null;
                 }
+                else // ICI L'ALLIE VISE l4IA QUI SE CACHE OU UNE AUTRE IA QUI N'EST PAS CAHEE
+                {
+                    SetAnimation(isAiming: true);
+                    peutSuivreJoueur = false;
+                }
             }
             
-
         }
 
 
