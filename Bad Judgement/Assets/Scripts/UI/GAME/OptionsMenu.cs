@@ -42,6 +42,8 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Slider horizontalSensitivitySlider;
     [SerializeField] private Text horizontalSensitivityText;
 
+    private OptionsSave optionsFile = new OptionsSave();
+
     #region Properties
 
     public static bool optionMenuIsActive { get; private set; }
@@ -51,17 +53,18 @@ public class OptionsMenu : MonoBehaviour
     private void Start()
     {
         InitPanelPos();
-        InitResolution();
+        optionsFile.Init(); //Initializes user config
+
         InitFullScreen();
+        InitResolution();
         InitQuality();
-        InitVolume();
+        //InitVolume();
         InitGameplay();
     }
 
     private void Update()
     {
         if (optionMenuIsActive) MouseNav(Input.GetAxis("Mouse ScrollWheell"));
-
         if (Input.GetKeyDown(KeyCode.Escape) && optionMenuIsActive) DeactivateMenu();
     }
 
@@ -79,6 +82,10 @@ public class OptionsMenu : MonoBehaviour
     {
         #region Resolution Initialization
 
+        int dropDownValue = 0;
+        Resolution currentRes = optionsFile.GetResolution();
+        Screen.SetResolution(currentRes.width, currentRes.height, Screen.fullScreen);
+
         possibleResolutions = Screen.resolutions; //Getting the possible resolutions in an array
         resolutionDropdown.ClearOptions(); //Clearing dropdown displayed options to be sure
 
@@ -87,20 +94,16 @@ public class OptionsMenu : MonoBehaviour
         {
             string option = possibleResolutions[i].width + "x" + possibleResolutions[i].height;
             resolutionOptions.Add(option);
-            //For each resolution, we put it in the list under the "width x height" for
+            //For each resolution, we put it in the list under the "width x height" form
 
-            if (possibleResolutions[i].width == Screen.currentResolution.width && possibleResolutions[i].height == Screen.currentResolution.height)
-            {
-                resolutionDropdown.value = i;
-                //If our current resolution is the same as the one we are treating, we say that the selected resolution in the dropdown is the same as
-                //the one that is effective. Otherwise, the selected value in the options menu wouldn't be the same as the effective at the first time
-            }
+            if (possibleResolutions[i].width == currentRes.width && possibleResolutions[i].height == currentRes.height) dropDownValue = i;
         }
+
         //Finally, we add the options => Takes a list of string as an argument
         resolutionDropdown.AddOptions(resolutionOptions);
         //List isn't declared in the class, it is not in the memory anymore after ending this method.
         //But we need the array so we declared it as a class member.
-
+        resolutionDropdown.value = dropDownValue;
         resolutionDropdown.RefreshShownValue(); //Refreshes displayed value
 
         #endregion
@@ -108,53 +111,58 @@ public class OptionsMenu : MonoBehaviour
 
     private void InitFullScreen()
     {
-        fullscreenToggle.isOn = Screen.fullScreen;
+        bool fullscreen = bool.Parse(optionsFile.GetValueOfSetting("fullscreen"));
+        ChangeFullScreen(fullscreen);
+        fullscreenToggle.isOn = fullscreen;
     }
 
     private void InitQuality()
     {
-        qualityDropdown.value = 2;
-        //Default value at medium
-        QualitySettings.SetQualityLevel(2);
+        int qualityValue = int.Parse(optionsFile.GetValueOfSetting("quality"));
+        ChangeQuality(qualityValue);
+        qualityDropdown.value = qualityValue; 
     }
 
     private void InitVolume()
     {
-        float volumeEffets = VolumeSon; // Jai changé le Sounds.VolumeSon en VolumeSon
-        float volumeMusique = VolumeMusique; // jai changé le Sounds.VolumeMusique en VolumeMusique 
+        float effectsVolume = float.Parse(optionsFile.GetValueOfSetting("effects sound"));
+        float musicVolume = float.Parse(optionsFile.GetValueOfSetting("music sound"));
 
-        //Initializing effects slider and text values :
-        effectsVolumeSlider.value = volumeEffets; //Setting the slider to the correct value
-        effectsVolumeText.text = (volumeEffets + 100).ToString() + "%"; //Displaying a percentage
-
-        //Initializing musique slider and text values :
-        musicVolumeSlider.value = volumeMusique; //Slider at the correct value aswell
-        musicVolumeText.text = (volumeMusique + 100).ToString() + "%"; //Creating a percentage
+        MusicVolume(musicVolume);
+        EffectsVolume(effectsVolume);
     }
 
     private void InitGameplay()
     {
         #region Difficulty
 
+        int difficultyValue = int.Parse(optionsFile.GetValueOfSetting("difficulty"));
+        DifficultyChange(difficultyValue);
+
         difficultyDropdown.ClearOptions(); //We clear the choices of the dropdown to be sure
         difficultyDropdown.AddOptions(Difficulté.difficultiesList); //We get the list of difficulties from the Difficulty script
-        
-        difficultyDropdown.value = 2;
+        difficultyDropdown.value = difficultyValue;
         difficultyDropdown.RefreshShownValue();
 
         #endregion
 
         #region Invert Mouse Y Axis
 
-        CamControl.isVerticalAxisInverted = false;
-        invertMouseYAxis.isOn = false;
+        bool invertYAxis = bool.Parse(optionsFile.GetValueOfSetting("invert mouse y axis"));
+        InvertMouseYAxis(invertYAxis);
+        invertMouseYAxis.isOn = invertYAxis;
 
         #endregion
 
         #region Sensitivity
 
-        horizontalSensitivitySlider.value = CamControl.horizontalSensitivity;
-        verticalSensitivitySlider.value = CamControl.verticalSensitivity;
+        float vSens = float.Parse(optionsFile.GetValueOfSetting("vertical sensitivity"));
+        float hSens = float.Parse(optionsFile.GetValueOfSetting("horizontal sensitivity"));
+        HorizontalSensitivity(hSens);
+        VerticalSensitivity(vSens);
+
+        horizontalSensitivitySlider.value = hSens;
+        verticalSensitivitySlider.value = vSens;
 
         #endregion
     }
@@ -166,6 +174,7 @@ public class OptionsMenu : MonoBehaviour
     public void ChangeQuality(int qualityIndex) //We get the index of the selected quality in the dropdown
     {
         QualitySettings.SetQualityLevel(qualityIndex);
+        optionsFile.ModifySetting("quality", qualityIndex.ToString());
     } 
 
     public void ChangeResolution(int resolutionIndex) //We get the index of the selected resolution in the dropdown
@@ -175,11 +184,15 @@ public class OptionsMenu : MonoBehaviour
         //Getting the resolution height and width from the array we created at the start using the index of the selected resolution in the dropdown 
         Screen.SetResolution(width, height, Screen.fullScreen);
         //Setting the resolution with the width, height. For the fullscreen parameter, we just let it as it was by getting if the screen was fullscreen or not.
+
+        string value = width + "x" + height;
+        optionsFile.ModifySetting("resolution", value); 
     } 
 
     public void ChangeFullScreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+        optionsFile.ModifySetting("fullscreen", isFullscreen.ToString());
     }
     
     public void EffectsVolume(float volume)
@@ -187,6 +200,7 @@ public class OptionsMenu : MonoBehaviour
         VolumeSon = volume; // Jai changé le Sounds.VolumeSon en VolumeSon
         effectsVolumeText.text = volume.ToString();
         Sounds.SoundEffectVolumeSet(MasterMixer, volume);
+        optionsFile.ModifySetting("effects sound", volume.ToString());
     }
 
     public void MusicVolume(float volume)
@@ -194,6 +208,7 @@ public class OptionsMenu : MonoBehaviour
         VolumeMusique = volume; // jai changé le Sounds.VolumeMusique en VolumeMusique 
         musicVolumeText.text = volume.ToString();
         Sounds.MusicVolumSet(MasterMixer, volume);
+        optionsFile.ModifySetting("music sound", volume.ToString());
     }
 
     public void DifficultyChange(int difficultyValue)
@@ -201,11 +216,13 @@ public class OptionsMenu : MonoBehaviour
         changeDifficultée = true;
         Difficulté.ChangeDifficulty(difficultyValue);
         //We change the difficulty with the new one
+        optionsFile.ModifySetting("difficulty", difficultyValue.ToString());
     }
 
     public void InvertMouseYAxis(bool state)
     {
         CamControl.isVerticalAxisInverted = state;
+        optionsFile.ModifySetting("invert mouse y axis", state.ToString());
     }
 
     public void HorizontalSensitivity(float value)
@@ -213,6 +230,7 @@ public class OptionsMenu : MonoBehaviour
         //Slider has a value between 1 and 10
         CamControl.horizontalSensitivity = value;
         horizontalSensitivityText.text = value.ToString();
+        optionsFile.ModifySetting("horizontal sensitivity", value.ToString());
     }
 
     public void VerticalSensitivity(float value)
@@ -220,6 +238,7 @@ public class OptionsMenu : MonoBehaviour
         //Slider has a value between 1 & 10
         CamControl.verticalSensitivity = value;
         verticalSensitivityText.text = value.ToString();
+        optionsFile.ModifySetting("vertical sensitivity", value.ToString());
     }
 
     #endregion
@@ -240,8 +259,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void OnApplySettingButtonPressed()
     {
-        //SAVE HERE
-        //WAIT
+        optionsFile.Save();
         this.DeactivateMenu();
     }
 
