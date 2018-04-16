@@ -121,7 +121,7 @@ public class AIally : MonoBehaviour
             }
             
         }
-        else if (allyHealthState.vie == 0 ) // Si l'alliée n'a plus de vie
+        else if (allyHealthState.vie <= 0 ) // Si l'alliée n'a plus de vie
         {
             SetAnimation(isDead: true);
             estHS = true;

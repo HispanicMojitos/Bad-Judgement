@@ -30,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
 
 	void Update ()
     {
-        if(estRepere == true && aPeuDeVie == false) Sounds.transitionSound(Repéré, 0.5f);
+        if(estRepere == true && aPeuDeVie == false) Sounds.transitionSound(Repéré, 0.01f);
         else if(estRepere == false && aPeuDeVie == false) Sounds.transitionSound(enJeux, 0.5f);
         else if (aPeuDeVie == true) Sounds.transitionSound(PeuDeVie, 0.3f);
 

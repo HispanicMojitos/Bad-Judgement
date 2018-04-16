@@ -234,12 +234,31 @@ public class AIscripts : MonoBehaviour
                         estCouvert = true;
                         SetAnimation(isKneel: true);
                     }
+
+                    RaycastHit h;
+                    if (Physics.Raycast(head.transform.position, alliés[0].position - this.transform.position, out h) && h.transform.position != alliés[0].position) // Si le joueur ne peut pas etre dans la ligne de mire de l'IA lorsqu'elle est attaquée
+                    {
+                        foreach (Transform a in alliés)
+                        {
+                            if (a.GetComponent<AIally>() != null && a.GetComponent<AIally>().estHS == false)
+                            {
+                                Player = a;
+                                if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position) break;
+                            }
+                        }
+                    }
+                    else Player = alliés[0];
                 }
             }
 
             Debug.DrawLine(this.transform.position, direction * 100, Color.yellow);
 
             Debug.DrawLine(head.transform.position, (Player.position - this.transform.position)*100, Color.magenta);
+
+            if(alliés[0] != Player) // Si l'IA a tué l'un des alliés du joueur, elle va directement se concentrer sur le joueur si possible
+            {
+                if (Player.GetComponent<AIally>().estHS == true) Player = alliés[0]; // alliés[0] reresente la valeur du comosant Transform du joueur
+            }
 
             if (Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f) // Si le joueur se trouve trop pres de l'IA il va l'attaquer au corp a corps !! (DU CATCH !!)
             {
@@ -269,15 +288,17 @@ public class AIscripts : MonoBehaviour
             }
             else if ((((Vector3.Distance(Player.position, this.transform.position) < 100 ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
-              
+
+                EtatCiblage();
+
                 tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
-                RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
+                RaycastHit h;
                 if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                 { // Si l4IA voit bien le joueur dans sa ligne de mire
                     if (saitOuEstLeJoueur == false)
                     {
                         saitOuEstLeJoueur = true;
-                        Player.GetComponent<PlayerHealth>().estRepere = true;
+                        alliés[0].GetComponent<PlayerHealth>().estRepere = true; // alliés[0] etant le Joueur principal
                     }
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // L'IA se tourne ver le joueur
                     IsPatrolling = false;
@@ -311,9 +332,6 @@ public class AIscripts : MonoBehaviour
                 }
                 else if (isAimingPlayer == true)
                 {
-                    if (actuelleCible == (nbreAlliés - 1)) actuelleCible++;
-                    else actuelleCible = 1;
-                    if(alliés[actuelleCible].CompareTag("Player") || alliés[actuelleCible].GetComponent<AIally>().estHS == false) Player = alliés[actuelleCible];
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                     SetAnimation(isAiming: true);
                     if (tempsNouvelleDecision > UnityEngine.Random.Range(2f, 10f)) // Permet de que l'IA prennent une nouvelle décision lorsque le temps de celui ci est dépassé
@@ -339,6 +357,8 @@ public class AIscripts : MonoBehaviour
             }
             else if (estCouvert == true) // Ici on a les differentes actions pour lesquelle l'IA est couvert
             {
+                EtatCiblage();
+
                 tempsNouvelleDecision += Time.deltaTime;
 
                 if (isAimingPlayer == false) SetAnimation(isKneel: true);
@@ -355,6 +375,7 @@ public class AIscripts : MonoBehaviour
                 {
                     tempsAvantAcroupir = 0;
                     RaycastHit h; // On utilise un raycast pour voir si l'IA voit le joueurs
+
                     if (Physics.Raycast(head.transform.position - new Vector3(0f, 0.75f, 0f), Player.position - this.transform.position, out h) && h.transform.position == Player.position && isThrowingGrenade == false )
                     {
                         SetAnimation(isAimKneel:true);
@@ -376,6 +397,7 @@ public class AIscripts : MonoBehaviour
                     }
                     else if (isAimingPlayer == true && isThrowingGrenade == false)
                     {
+                        if (Physics.Raycast(head.transform.position, alliés[0].position - this.transform.position, out h) && h.transform.position == alliés[0].position) Player = alliés[0]; // ermet de changer de cible vers le joueur principal
                         SetAnimation(isAiming: true);
                         if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                         {
@@ -542,6 +564,28 @@ public class AIscripts : MonoBehaviour
 
     } // Cette methode permet ainsi de mettre en action l'animation souhaitée
     
+    /// <summary> Permet, ar un jeux de raycast, de voir sir l'IA enemie l'enemie, et si as de viser un allié en etat d'attaque</summary>
+    private void EtatCiblage()
+    {
+        RaycastHit h;
+        if (Physics.Raycast(head.transform.position, alliés[0].position - this.transform.position, out h) && h.transform.position == alliés[0].position) Player = alliés[0]; // permet de faire en sorte que l'IA enemie se focus sur le joueur des qu'elle eut tirer dessus
+        else if (Player == alliés[0])
+        {
+            foreach (Transform a in alliés) // Ici on va chercher un allié a ciblé pour l'IA enemie si elle ne peut pas voir le joueur
+            {
+                if (a.GetComponent<AIally>() != null && a.GetComponent<AIally>().estHS == false)
+                {
+                    if (Physics.Raycast(head.transform.position, a.position - this.transform.position, out h) && h.transform.position == a.position)
+                    {
+                        Player = a;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
     private void etatDeboutOuGenoux(bool doisEtreDebout) // Permet de regler l'etat de la box collider de l'énemy en fonction qu'il soit debout ou acroupi
     {
         if (estAGenoux == false && doisEtreDebout == false)
