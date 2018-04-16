@@ -11,8 +11,6 @@ public class OptionsMenu : MonoBehaviour
 
     #region sounds
     [SerializeField] private AudioMixer MasterMixer; // Permet de controller de manière optimisée et efficace TOUT les sons du jeux
-    private float VolumeSon = 0f; // Valeur max des sons initialisé
-    private float VolumeMusique = 0f; // Valeur max des musiques initialisé
     #endregion sounds
 
     [SerializeField] private GameObject optionsMenu; //The menu itself
@@ -58,7 +56,7 @@ public class OptionsMenu : MonoBehaviour
         InitFullScreen();
         InitResolution();
         InitQuality();
-        //InitVolume();
+        InitVolume();
         InitGameplay();
     }
 
@@ -196,19 +194,33 @@ public class OptionsMenu : MonoBehaviour
     }
     
     public void EffectsVolume(float volume)
-    {
-        VolumeSon = volume; // Jai changé le Sounds.VolumeSon en VolumeSon
-        effectsVolumeText.text = volume.ToString();
+    {   
         Sounds.SoundEffectVolumeSet(MasterMixer, volume);
         optionsFile.ModifySetting("effects sound", volume.ToString());
+
+        float volumePercentage = (volume / (-80)) * 100;
+        //From a value that goes from -80 to 0, we make it go from 100 to 0
+        effectsVolumeText.text = CreatePercentageWithDecibels(volume).ToString();
     }
 
     public void MusicVolume(float volume)
     {
-        VolumeMusique = volume; // jai changé le Sounds.VolumeMusique en VolumeMusique 
-        musicVolumeText.text = volume.ToString();
         Sounds.MusicVolumSet(MasterMixer, volume);
         optionsFile.ModifySetting("music sound", volume.ToString());
+
+        musicVolumeText.text = CreatePercentageWithDecibels(volume).ToString();
+    }
+
+    private int CreatePercentageWithDecibels(float decibels)
+    {
+        int volumePercentage = Mathf.RoundToInt(((decibels / (-80.0F)) * 100.0F));
+        //From a value that goes from -80 to 0, we make it go from 100 to 0
+        int differenceToHundred = 100 + volumePercentage;
+
+        volumePercentage -= 100;
+        volumePercentage *= (-1);
+
+        return volumePercentage;
     }
 
     public void DifficultyChange(int difficultyValue)
