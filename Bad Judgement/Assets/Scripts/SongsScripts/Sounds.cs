@@ -46,6 +46,13 @@ public static class Sounds
         }
     }
 
+    public static void AtterissageApresJump(AudioSource personnage, AudioClip clipAtterrissage)
+    {
+        personnage.Stop();
+        personnage.clip = clipAtterrissage;
+        personnage.Play();
+    }
+
     static private int numeroPied = 0; // Variabes utilisée pour la méthode statique Marche
     /// <summary> Permet de jouer les sons de pas lorsqu'on marche OU cours (tout depends du clipAudio donné) </summary>
     public static void Marche(AudioSource[] pieds,AudioClip sonDePas, bool canJump)

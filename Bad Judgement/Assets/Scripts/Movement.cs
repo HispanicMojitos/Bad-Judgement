@@ -109,6 +109,7 @@ public class Movement : MonoBehaviour
             #region Ground Detection
 
             this.characterIsGrounded = this.GetIfCharacterIsGrounded();
+            
 
             #endregion
 
@@ -165,7 +166,7 @@ public class Movement : MonoBehaviour
                 this.SetStateRun();
 
                 #region sound
-                Sounds.Marche(pieds, sonCourse, this.characterCanJump);
+                Sounds.Marche(pieds, sonCourse, !this.characterCanJump);
                 #endregion sound
             }
             else this.SetStateWalk();
@@ -177,7 +178,7 @@ public class Movement : MonoBehaviour
             playerRigidbody.AddForce(deltaMove, ForceMode.VelocityChange); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
 
             #region sound
-            if (!wantsToRun) Sounds.Marche(pieds, sonDePas, this.characterCanJump);
+            if (!wantsToRun) Sounds.Marche(pieds, sonDePas, !this.characterCanJump);
             #endregion  
         }
         else this.SetStateIdle();
