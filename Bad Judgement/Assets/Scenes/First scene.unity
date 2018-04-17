@@ -112,7 +112,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: e143c058a194b04438b8a983c61d614c, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!4 &6226093 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 8c404297f626d4643b0357116938b700, type: 3}
@@ -1044,7 +1044,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &30252900
 Transform:
@@ -15364,7 +15364,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &557931990
 Transform:
@@ -15965,7 +15965,7 @@ MonoBehaviour:
   head: {fileID: 687706105}
   enemies:
   - {fileID: 470085427}
-  detecteurObstacle: {fileID: 94584189}
+  detecteurObstacle: {fileID: 0}
   cadenceDetir: 0.03
   "allyEstR\xE9anim\xE9": 1
   estHS: 0
@@ -21400,7 +21400,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &758279873
 Transform:
@@ -21722,7 +21722,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &782497528
 Transform:
@@ -21731,7 +21731,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 782497527}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 64.08, y: -2.59, z: -31.55}
+  m_LocalPosition: {x: 64.08, y: -2.57, z: -31.55}
   m_LocalScale: {x: 25, y: 0.099999994, z: 2}
   m_Children: []
   m_Father: {fileID: 1130645781}
@@ -22091,7 +22091,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &795488401
 Transform:
@@ -23702,7 +23702,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &841398626
 Transform:
@@ -24845,7 +24845,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &882662895
 Transform:
@@ -27745,7 +27745,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &991545012
 Transform:
@@ -28677,7 +28677,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1017456958
 Transform:
@@ -29010,7 +29010,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1024336871
 Transform:
@@ -34584,7 +34584,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1178323988
 Transform:
@@ -34595,7 +34595,7 @@ Transform:
   m_GameObject: {fileID: 1178323987}
   m_LocalRotation: {x: 0, y: 0.7059706, z: -0, w: -0.70824116}
   m_LocalPosition: {x: 31.7, y: -2.58, z: 53.9}
-  m_LocalScale: {x: 0.8730908, y: 3, z: 5}
+  m_LocalScale: {x: 0.9100001, y: 3, z: 5}
   m_Children: []
   m_Father: {fileID: 1130645781}
   m_RootOrder: 10
@@ -36894,7 +36894,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1250690398
 Transform:
@@ -37620,7 +37620,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1283187980
 Transform:
@@ -44840,7 +44840,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1496755130
 Transform:
@@ -62799,7 +62799,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2107638316
 Transform:
