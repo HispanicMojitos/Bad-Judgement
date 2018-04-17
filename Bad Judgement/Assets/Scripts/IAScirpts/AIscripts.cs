@@ -561,6 +561,7 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsRunning", isRunning);
         anim.SetBool("IsAttackingCloser", isAttackingCloser);
         anim.SetBool("IsDead", isDead);
+        anim.SetBool("IsGettingUp", false);
 
     } // Cette methode permet ainsi de mettre en action l'animation souhaitée
     
