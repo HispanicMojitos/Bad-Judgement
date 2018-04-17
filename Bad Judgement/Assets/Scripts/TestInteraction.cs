@@ -44,7 +44,7 @@ public class TestInteraction : MonoBehaviour
             {
                 HingeJoint joint = hit.transform.GetComponent<HingeJoint>(); // Permet de récupérer le Hinge Joint
                 JointSpring jSpring = joint.spring;
-                if (jSpring.targetPosition == 3) // Si la porte est fermée, on l'ouvre
+                if (jSpring.targetPosition <= 3 && jSpring.targetPosition >= 0) // Si la porte est fermée, on l'ouvre
                 {
                     hit.rigidbody.isKinematic = false;
                     StartCoroutine(Attend(hit));

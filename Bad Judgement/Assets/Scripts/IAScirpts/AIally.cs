@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AIally : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class AIally : MonoBehaviour
     [SerializeField] private AudioClip cz805shoot;
     [SerializeField] private Transform head;
     [SerializeField] private List<Transform> enemies;
-    [SerializeField] private Transform detecteurObstacle;
+    private NavMeshAgent cetAllié;
     private Transform enemiActuel = null;
     private Movement mvmentPlayer;
     
@@ -24,16 +25,16 @@ public class AIally : MonoBehaviour
     private float tempsFinAttaque = 0f;
     private float tempsAvantAttaque = 0f;
     private float tempsDeTir = 0f;
-    [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 1f;
 
     private bool doitcourir = false;
-    public bool allyEstRéanimé = false;
+    [HideInInspector] public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
-    public bool estHS = false;
+    [HideInInspector] public bool estHS = false;
 
 
     void Start()
     {
+        cetAllié = this.GetComponent<NavMeshAgent>();
         mvmentPlayer = player.GetComponent<Movement>();
     }
 
@@ -51,68 +52,22 @@ public class AIally : MonoBehaviour
             {
                 if (Vector3.Distance(this.transform.position, player.position) > MaxDistance) // PERMET DE SUIVRE LE JOUEUR
                 {
-                   
+                    cetAllié.isStopped = false;
+                    cetAllié.SetDestination(player.position);
 
-                    if (Physics.Raycast(detecteurObstacle.transform.position, player.transform.position * 200, out h) && h.transform.position == player.transform.position) // SI l'allié peut marcher vers le joueur directement
+                    if (mvmentPlayer.characterIsRunning == false && doitcourir == false)
                     {
-                        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-
-                        if (mvmentPlayer.characterIsRunning == false && doitcourir == false)
-                        {
-                            this.transform.Translate(0, 0, Time.deltaTime * 1.8f);
-                            SetAnimation(isWalking: true);
-                        }
-                        else if (mvmentPlayer.characterIsRunning == true || doitcourir == true)
-                        {
-                            this.transform.Translate(0, 0, Time.deltaTime * 0.9f);
-                            doitcourir = true;
-                            SetAnimation(isRunning: true);
-                        }
+                        SetAnimation(isWalking: true);
                     }
-                    else // Si l'i ne peut pas marcher ver le joueur directement
+                    else if (mvmentPlayer.characterIsRunning == true || doitcourir == true)
                     {
-                        Debug.DrawRay(detecteurObstacle.transform.position, (detecteurObstacle.transform.InverseTransformDirection(Vector3.forward)) * 0.5f, Color.blue);
-                        if (Physics.Raycast(detecteurObstacle.transform.position, detecteurObstacle.transform.InverseTransformDirection(Vector3.forward), out h, 0.5f) && h.transform != null)
-                        {
-
-                            float produitDirection = Vector3.Dot((Vector3.Cross(detecteurObstacle.forward, player.position)), detecteurObstacle.up);
-
-                            if (produitDirection > 0.0f)
-                            {
-                                // Droite
-                            }
-                            else if (produitDirection < 0.0f)
-                            {
-                                // Gauche
-                            }
-                            else // Si est droit devant ou derriere
-                            {
-
-                            }
-
-                        }
-                        else
-                        {
-
-                            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-
-                            if (mvmentPlayer.characterIsRunning == false && doitcourir == false)
-                            {
-                                this.transform.Translate(0, 0, Time.deltaTime * 1.8f);
-                                SetAnimation(isWalking: true);
-                            }
-                            else if (mvmentPlayer.characterIsRunning == true || doitcourir == true)
-                            {
-                                this.transform.Translate(0, 0, Time.deltaTime * 0.9f);
-                                doitcourir = true;
-                                SetAnimation(isRunning: true);
-                            }
-                        }
+                        doitcourir = true;
+                        SetAnimation(isRunning: true);
                     }
-
                 }
                 else
                 {
+                    cetAllié.isStopped = true;
                     doitcourir = false;
                     SetAnimation(isIdle: true);
                 }
@@ -175,6 +130,7 @@ public class AIally : MonoBehaviour
         }
         else if (allyHealthState.vie <= 0 ) // Si l'alliée n'a plus de vie
         {
+            cetAllié.isStopped = true;
             SetAnimation(isDead: true);
             estHS = true;
         }

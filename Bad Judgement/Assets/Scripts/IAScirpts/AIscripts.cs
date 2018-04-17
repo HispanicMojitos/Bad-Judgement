@@ -55,9 +55,7 @@ public class AIscripts : MonoBehaviour
     private float tempsAvantAcroupir = 0f;
     private float difficulteTempsReprendRonde = 10;
     private float delayAvntSeCouvrir = 1f;
-
-    private int actuelleCible;
-    private int nbreAlliés;
+    
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
     private int angleDevueMax = 20; // Angle de vue maximum de l'IA
@@ -105,8 +103,6 @@ public class AIscripts : MonoBehaviour
 
     void Start()
     {
-        actuelleCible = 0;
-        nbreAlliés = alliés.Length;
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
         vie = IA.vie; // On recupere la vie de l'IA via le script Target 
@@ -561,6 +557,7 @@ public class AIscripts : MonoBehaviour
         anim.SetBool("IsRunning", isRunning);
         anim.SetBool("IsAttackingCloser", isAttackingCloser);
         anim.SetBool("IsDead", isDead);
+        anim.SetBool("IsGettingUp", false);
 
     } // Cette methode permet ainsi de mettre en action l'animation souhaitée
     
