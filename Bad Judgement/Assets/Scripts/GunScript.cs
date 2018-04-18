@@ -140,33 +140,37 @@ public class GunScript : MonoBehaviour
             anim.SetBool("isShooting", true);
             anim.Play("Shoot");
             mag.currentMag--;
-            RaycastHit hit; //This is a varaible that strores info of what the ray hits
             Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
-                                                                                                  /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
-            if (Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit))
-            {
-                //Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
-                                               // We then say that we want to log (like a Console.Write();) what our ray hit
-                                               // We wrapped our code in an if statement because the return type of the Physics.Raycast is a boolean
-
-                Target target = hit.transform.GetComponent<Target>(); // This uses the other script we created for the target
-                                                                      // what it does is get the object with the component called Target and stores it in a variable
-                if (target != null) // if the target recieves the variable we want (it will be null if we hit something without the target component)
-                    target.TakeDamage(damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
-
-                if (hit.rigidbody != null) // if the object that we hit has a rigidbody
-                    hit.rigidbody.AddForce(-hit.normal * impactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
-
-                GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-
-                Destroy(impactGO, 0.5f);
-                // We use instantiate to create the object, we enter what we want to instantiate, where and in what direction, hit.normal is a flat surface that points directly in front, that way our effect will always be toward its source
-                // We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
-
-            }
+            ProduceRay(gunEnd);
             anim.SetBool("isShooting", false);
+        }
+    }
+
+    void ProduceRay(GameObject gunEnd)// shoots the ray
+    {
+        RaycastHit hit; //This is a varaible that strores info of what the ray hits
+        if (Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit))
+        {
+            //Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
+            // We then say that we want to log (like a Console.Write();) what our ray hit
+            // We wrapped our code in an if statement because the return type of the Physics.Raycast is a boolean
+
+            Target target = hit.transform.GetComponent<Target>(); // This uses the other script we created for the target
+                                                                  // what it does is get the object with the component called Target and stores it in a variable
+            if (target != null) // if the target recieves the variable we want (it will be null if we hit something without the target component)
+                target.TakeDamage(damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
+
+            if (hit.rigidbody != null) // if the object that we hit has a rigidbody
+                hit.rigidbody.AddForce(-hit.normal * impactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
+
+            GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+
+            Destroy(impactGO, 0.5f);
+            // We use instantiate to create the object, we enter what we want to instantiate, where and in what direction, hit.normal is a flat surface that points directly in front, that way our effect will always be toward its source
+            // We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
+
         }
     }
     #endregion
