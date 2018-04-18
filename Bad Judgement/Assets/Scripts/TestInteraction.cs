@@ -10,7 +10,7 @@ public class TestInteraction : MonoBehaviour
     [SerializeField] private AudioClip porteFerme;
     [SerializeField] private AudioClip openDoor;
     [SerializeField] private AudioClip closeDoor;
-
+    private bool vaDeplacerAllié;
 
     void Update()
     {
@@ -36,6 +36,12 @@ public class TestInteraction : MonoBehaviour
             }
         }
         else if (reloadImage.enabled == true) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
+
+        if(Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("Ally"))
+        {
+
+        }
+
 
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
