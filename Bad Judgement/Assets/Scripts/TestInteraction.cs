@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class TestInteraction : MonoBehaviour
 {
+    [SerializeField] private Image alliesInterraction;
     [SerializeField] private Image reloadImage;
     [SerializeField] private Image interactionImage;
     [SerializeField] private AudioClip porteFerme;
     [SerializeField] private AudioClip openDoor;
     [SerializeField] private AudioClip closeDoor;
+    [SerializeField] private GameObject visualisationCibleDeplacement;
     private bool vaDeplacerAllié;
 
     void Update()
@@ -37,11 +39,26 @@ public class TestInteraction : MonoBehaviour
         }
         else if (reloadImage.enabled == true) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
 
-        if(Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("Ally"))
+        if (Physics.Raycast(transform.position, direction, out hit, 6f) && hit.transform.CompareTag("Ally"))
         {
+            alliesInterraction.enabled = true;
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                vaDeplacerAllié = true;
+            }
 
         }
+        else alliesInterraction.enabled = false;
 
+        if (vaDeplacerAllié == true)
+        {
+            if (Physics.Raycast(transform.position, direction, out hit) && hit.transform.CompareTag("Ground"))
+            {
+                if (visualisationCibleDeplacement.activeSelf == false) visualisationCibleDeplacement.SetActive(true);
+                visualisationCibleDeplacement.transform.position = hit.point + new Vector3(0, 4f, 0);
+            }
+        }
 
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
