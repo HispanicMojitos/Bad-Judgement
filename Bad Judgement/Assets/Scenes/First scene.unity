@@ -60566,6 +60566,11 @@ Prefab:
       propertyPath: freeCamAuthorized
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114794521935057486, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: camChangeAuthorized
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
   m_IsPrefabParent: 0

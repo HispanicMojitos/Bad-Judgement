@@ -13,6 +13,9 @@ public class CamControl : MonoBehaviour
     [SerializeField] private float minVertical = 70.0F;
     [SerializeField] private float maxVertical = -55.0F; //Maximum head angle is 55 degrees. Modifiable here.
 
+    [SerializeField] private bool freeCamByDefault;
+    [SerializeField] private bool camChangeAuthorized;
+
     //[SerializeField] private float maxLeftRightFreeCamAngle = 70.0F; //Not used for now but it is going to be used 
 
     private Vector3 verticalEulerVector; //Vector to handle vertical rotation of the camera
@@ -29,6 +32,8 @@ public class CamControl : MonoBehaviour
     public static float verticalSensitivity { get; set; }
     public static float horizontalSensitivity { get; set; }
 
+    public static bool isMoveable { get; set; }
+
     #endregion
 
     #region Start and Update
@@ -36,8 +41,20 @@ public class CamControl : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        cam = normalCam; //Starting with the main cam which is the FPS one
-                           //As project I'd like to put a second cam which could be changed to TPS if we press a button
+        isMoveable = true;
+        //cam = normalCam; //Starting with the main cam which is the FPS one
+                         //As project I'd like to put a second cam which could be changed to TPS if we press a button
+
+        if (freeCamByDefault)
+        {
+            cam = freeCam;
+            isFreeCamActive = true;
+        }
+        else
+        {
+            cam = normalCam;
+            isFreeCamActive = false;
+        }
 
         //Initializing properties :
         isVerticalAxisInverted = false;
@@ -57,15 +74,15 @@ public class CamControl : MonoBehaviour
             float yGameAxis = Input.GetAxis("Mouse X"); //The horizontal (X) mouse axis matches with the ingame y rotation axis
             float xGameAxis = Input.GetAxis("Mouse Y"); //The vertical (Y) mouse axis matches with the ingame x rotation axis
 
-            if (yGameAxis != 0)
+            if (isMoveable)
             {
-                if (isFreeCamActive) MoveCamHoriz(yGameAxis); //Rotating the camera because of freecam mode
+                if (isFreeCamActive) MoveCamHorizIfFreeCam(yGameAxis); //Rotating the camera because of freecam mode
                 else MoveCamHoriz(yGameAxis); //Rotating the player on its Y-axis.
+
+                MoveCamVertically(xGameAxis); //Moving the camera vertically (X axis)
             }
 
-            MoveCamVertically(xGameAxis); //Moving the camera vertically (X axis)
-
-            if (Input.GetKeyDown(KeyCode.LeftAlt)) ChangeFreeCamOrNot();
+            if (Input.GetKeyDown(KeyCode.LeftAlt) && camChangeAuthorized) ChangeFreeCamOrNot();
             //Setting Camera to free if alt is pressed, reverting action by pressing a second time
         }
     }
@@ -96,10 +113,9 @@ public class CamControl : MonoBehaviour
     //WIP :
     private void MoveCamHorizIfFreeCam(float yGameAxis)
     {
-        this.cam.transform.localEulerAngles = horizontalEulerVector; //Refreshing camera horizontal rotation every frame
-
-        float horizontalRotation = yGameAxis * horizontalSensitivity; //Applying sensitivity
-        horizontalEulerVector.y += horizontalRotation; //Adding the mouse rotation to the actual rotation
+        yGameAxis *= horizontalSensitivity;
+        Vector3 freeCamHorizontalRotation = new Vector3 (0F, yGameAxis, 0F);
+        this.cam.transform.localEulerAngles += freeCamHorizontalRotation;
 
         //Clamping cam to a certain angle
         //if (verticalEulerVector.y >= maxLeftRightFreeCamAngle) verticalEulerVector.y = maxLeftRightFreeCamAngle;

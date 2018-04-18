@@ -93,10 +93,9 @@ public class OptionsSave
 
         var resol = (from line in userOptions where line.ToLower().Contains("resolution") select line); //String of option where resolution
         string strResolution = resol.ToArray()[0];
-
         int indexEqualSign = strResolution.IndexOf('='); //Getting the index of the character '='
-        strResolution = strResolution.Substring(indexEqualSign + 1); //Getting a new string with only the value of the setting
 
+        strResolution = strResolution.Substring(indexEqualSign + 1); //Getting a new string with only the value of the setting
         string[] res = strResolution.Split('x'); //Resolution width and height as strings
 
         resolution.width = int.Parse(res[0]);
@@ -108,12 +107,16 @@ public class OptionsSave
     public string GetValueOfSetting(string settingName)
     {
         var settingList = from line in userOptions where line.ToLower().Contains(settingName.ToLower()) select line;
-        string optionLine = settingList.ToArray()[0];
+        //Getting the line where there's the setting we sent as parameter
+        string optionLine = settingList.ToArray()[0]; //Getting the first (and only one) string in our LINQ query research 
+        int valueStringStartPos = (optionLine.IndexOf('=') + 1); //We get the index number of the '=' in our string 
+        string value = optionLine.Substring(valueStringStartPos); 
+        //We create a new string w/ what's after the '=' => It's actually the value of the setting
 
-        int valueStringStartPos = (optionLine.IndexOf('=') + 1);
-        string value = optionLine.Substring(valueStringStartPos);
-
-        return value;
+        return value; 
+        //We return the string of the value and that will be casted outside this method depending on which setting was supposed to be found.
+        //Example : If the setting value is supposed to be an integer, we'll Parse this outside the method because it could have also been a boolean parameter
+        //(And that needs another line of code) :) LINQ POWER BOYYYYYYYYYYS
     }
 
     #endregion
