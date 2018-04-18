@@ -58,6 +58,7 @@ public class TestInteraction : MonoBehaviour
                 if (visualisationCibleDeplacement.activeSelf == false) visualisationCibleDeplacement.SetActive(true);
                 visualisationCibleDeplacement.transform.position = hit.point + new Vector3(0, 4f, 0);
             }
+            else visualisationCibleDeplacement.SetActive(false);
         }
 
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
