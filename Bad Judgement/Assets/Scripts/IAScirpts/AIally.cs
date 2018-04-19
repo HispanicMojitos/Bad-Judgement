@@ -13,6 +13,7 @@ public class AIally : MonoBehaviour
     [SerializeField] private AudioClip cz805shoot;
     [SerializeField] private Transform head;
     [SerializeField] private List<Transform> enemies;
+    [SerializeField] private TestInteraction choixJoueur;
     private NavMeshAgent cetAllié;
     private Transform enemiActuel = null;
     private Movement mvmentPlayer;
@@ -25,7 +26,8 @@ public class AIally : MonoBehaviour
     private float tempsFinAttaque = 0f;
     private float tempsAvantAttaque = 0f;
     private float tempsDeTir = 0f;
-
+    private float delayAvntRejoindreJoueur;
+    private bool peutRejoindreJoueur = true;
     private bool doitcourir = false;
     [HideInInspector] public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
@@ -51,7 +53,7 @@ public class AIally : MonoBehaviour
 
             if (peutSuivreJoueur == true && ordreDeplacement == false)
             {
-                if (Vector3.Distance(this.transform.position, player.position) > MaxDistance) // PERMET DE SUIVRE LE JOUEUR
+                if (Vector3.Distance(this.transform.position, player.position) > MaxDistance  && peutRejoindreJoueur == true) // PERMET DE SUIVRE LE JOUEUR
                 {
                     cetAllié.isStopped = false;
                     cetAllié.SetDestination(player.position);
@@ -71,10 +73,32 @@ public class AIally : MonoBehaviour
                     cetAllié.isStopped = true;
                     doitcourir = false;
                     SetAnimation(isIdle: true);
+
+                    if (peutRejoindreJoueur == false)
+                    {
+                        delayAvntRejoindreJoueur += Time.deltaTime;
+                        if (delayAvntRejoindreJoueur > 10) peutRejoindreJoueur = true;
+                    }
                 }
             }
             else if (ordreDeplacement == true)
             {
+                if (Vector3.Distance(this.transform.position, (choixJoueur.emplacementCible.position - new Vector3(0, 4f, 0))) > 0.5) // Ici on fais marcher l'IA vers le point chosi
+                {
+                    cetAllié.isStopped = false;
+                    Debug.DrawRay(this.transform.position, (choixJoueur.emplacementCible.position - new Vector3(0, 4f, 0)) * 100, Color.green);
+                    SetAnimation(isRunning: true);
+                    cetAllié.SetDestination((choixJoueur.emplacementCible.position - new Vector3(0, 4f, 0)));  
+                }
+                else // Si l'IA a atteind son point a atteindre, elle va  ne plus bouger
+                {
+                    doitcourir = false;
+                    cetAllié.isStopped = true;
+                    ordreDeplacement = false;
+                    peutRejoindreJoueur = false;
+                    choixJoueur.visualisationCiblePosition.SetActive(false);
+                    SetAnimation(isIdle: true);
+                }
 
             }
 
@@ -140,6 +164,8 @@ public class AIally : MonoBehaviour
             estHS = true;
         }
     }
+    
+
 
     private void SetAnimation(bool isAimKneel = false, bool isKneel = false, bool kneeGrenad = false, bool isIdle = false, bool isAiming = false, bool isAttack = false, bool isWalking = false, bool isRunning = false, bool isAttackingCloser = false, bool isDead = false) // Utilisation de prametre nomé, a récuperer en argument nommer pour décider quelle animation sera jouée
     {

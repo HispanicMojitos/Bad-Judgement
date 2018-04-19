@@ -12,7 +12,7 @@ public class TestInteraction : MonoBehaviour
     [SerializeField] private AudioClip openDoor;
     [SerializeField] private AudioClip closeDoor;
     [SerializeField] private GameObject visualisationCibleDeplacement;
-    [SerializeField] private GameObject visualisationCiblePosition;
+    public GameObject visualisationCiblePosition;
     private bool vaDeplacerAllié = false;
     private bool deplacementAllié = false;
     [HideInInspector] public Transform emplacementCible;
@@ -46,9 +46,9 @@ public class TestInteraction : MonoBehaviour
                 }
             }
         }
-        else if (reloadImage.enabled == true) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
+        else if (reloadImage.enabled == true ) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
 
-        if (Physics.Raycast(transform.position, direction, out hit, 6f) && hit.transform.CompareTag("Ally"))
+        if (vaDeplacerAllié == false && Physics.Raycast(transform.position, direction, out hit, 6f) && hit.transform.CompareTag("Ally"))
         {
             alliesInterraction.enabled = true;
 

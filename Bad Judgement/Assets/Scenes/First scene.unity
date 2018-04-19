@@ -11692,6 +11692,12 @@ RectTransform:
   m_AnchoredPosition: {x: 73.6, y: 7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &421007095 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114222290436297468, guid: c85a0e6333cf2f14989aeb15944eb109,
+    type: 2}
+  m_PrefabInternal: {fileID: 2055521002}
+  m_Script: {fileID: 11500000, guid: afa27e7fdb0d04d45b034252326ff084, type: 3}
 --- !u!1 &422518740
 GameObject:
   m_ObjectHideFlags: 0
@@ -15988,6 +15994,7 @@ MonoBehaviour:
   head: {fileID: 687706105}
   enemies:
   - {fileID: 470085427}
+  choixJoueur: {fileID: 421007095}
   "allyEstR\xE9anim\xE9": 1
   estHS: 0
   ordreDeplacement: 0
