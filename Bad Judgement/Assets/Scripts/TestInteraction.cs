@@ -12,7 +12,16 @@ public class TestInteraction : MonoBehaviour
     [SerializeField] private AudioClip openDoor;
     [SerializeField] private AudioClip closeDoor;
     [SerializeField] private GameObject visualisationCibleDeplacement;
-    private bool vaDeplacerAllié;
+    [SerializeField] private GameObject visualisationCiblePosition;
+    private bool vaDeplacerAllié = false;
+    private bool deplacementAllié = false;
+    [HideInInspector] public Transform emplacementCible;
+    private Transform alliéChosi;
+
+    private void Start()
+    {
+        emplacementCible = visualisationCiblePosition.transform;
+    }
 
     void Update()
     {
@@ -43,22 +52,48 @@ public class TestInteraction : MonoBehaviour
         {
             alliesInterraction.enabled = true;
 
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.T)) // Ici on choisit l'allié a bouger
             {
                 vaDeplacerAllié = true;
+                alliéChosi = hit.transform;
             }
 
         }
-        else alliesInterraction.enabled = false;
+        else if (alliesInterraction.enabled == true) alliesInterraction.enabled = false;
 
         if (vaDeplacerAllié == true)
         {
-            if (Physics.Raycast(transform.position, direction, out hit) && hit.transform.CompareTag("Ground"))
+            if (Physics.Raycast(transform.position, direction, out hit) && hit.transform.CompareTag("Ground")) // Permet d'afficher zau sol l'emplacement souhaité ou envoyer l'allié
             {
+                alliesInterraction.enabled = true;
                 if (visualisationCibleDeplacement.activeSelf == false) visualisationCibleDeplacement.SetActive(true);
                 visualisationCibleDeplacement.transform.position = hit.point + new Vector3(0, 4f, 0);
+
+                if(Input.GetKeyDown(KeyCode.T)) // Permet De dire a l'allié de se placer a cet en placement
+                {
+                    vaDeplacerAllié = false;
+                    deplacementAllié = true;
+                    alliesInterraction.enabled = false;
+                    visualisationCibleDeplacement.SetActive(false);
+                    emplacementCible.position =  hit.point;
+                    alliéChosi.GetComponent<AIally>().ordreDeplacement = true;
+                }
             }
-            else visualisationCibleDeplacement.SetActive(false);
+            else
+            {
+                alliesInterraction.enabled = false;
+                visualisationCibleDeplacement.SetActive(false);
+            }
+        }
+        else if(deplacementAllié == true)
+        {
+            visualisationCiblePosition.transform.position = emplacementCible.transform.position + new Vector3(0, 4f, 0);
+            visualisationCiblePosition.SetActive(true);
+            deplacementAllié = false;
+        }
+        else if(visualisationCibleDeplacement.activeSelf == true || visualisationCiblePosition.activeSelf == true) // Permet d'enlever le visuel des emplacement lorsque on en a pas besoin
+        {
+            visualisationCibleDeplacement.SetActive(false);
         }
 
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))

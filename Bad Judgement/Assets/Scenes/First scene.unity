@@ -15990,6 +15990,7 @@ MonoBehaviour:
   - {fileID: 470085427}
   "allyEstR\xE9anim\xE9": 1
   estHS: 0
+  ordreDeplacement: 0
   "Alli\xE9PeutTirer": 1
 --- !u!54 &580732683
 Rigidbody:
@@ -29844,6 +29845,10 @@ Prefab:
     - target: {fileID: 4774276349189410, guid: 33d9a6d4df33a494bac6e549d888474a, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1698890888709334, guid: 33d9a6d4df33a494bac6e549d888474a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33d9a6d4df33a494bac6e549d888474a, type: 2}
@@ -58394,6 +58399,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1950113276 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1698890888709334, guid: 33d9a6d4df33a494bac6e549d888474a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1050508096}
 --- !u!1 &1954849983
 GameObject:
   m_ObjectHideFlags: 0
@@ -60743,6 +60753,15 @@ Prefab:
       propertyPath: alliesInterraction
       value: 
       objectReference: {fileID: 348265940}
+    - target: {fileID: 114222290436297468, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: visualisationCiblePosition
+      value: 
+      objectReference: {fileID: 1950113276}
+    - target: {fileID: 1860057454543834, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
   m_IsPrefabParent: 0

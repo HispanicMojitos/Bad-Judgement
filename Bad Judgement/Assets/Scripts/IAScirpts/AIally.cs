@@ -30,6 +30,7 @@ public class AIally : MonoBehaviour
     [HideInInspector] public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
     [HideInInspector] public bool estHS = false;
+    [HideInInspector] public bool ordreDeplacement = false;
 
 
     void Start()
@@ -42,13 +43,13 @@ public class AIally : MonoBehaviour
     {
         if (allyHealthState.vie != 0)
         {
-            Vector3 direction = player.position - this.transform.position;
+            Vector3 direction = player.position - this.transform.position; // Ici on récupere la position du joueur par rapport a l'allié
             direction.y = 0;
 
             RaycastHit h;
-
             Debug.DrawRay(head.transform.position, direction * 10,Color.red);
-            if (peutSuivreJoueur == true)
+
+            if (peutSuivreJoueur == true && ordreDeplacement == false)
             {
                 if (Vector3.Distance(this.transform.position, player.position) > MaxDistance) // PERMET DE SUIVRE LE JOUEUR
                 {
@@ -72,6 +73,10 @@ public class AIally : MonoBehaviour
                     SetAnimation(isIdle: true);
                 }
             }
+            else if (ordreDeplacement == true)
+            {
+
+            }
 
             tempsDelayChangerCible += Time.deltaTime;
             if (enemiActuel == null && tempsDelayChangerCible > 1) // Si l'allié n'as pas de cible, elle va en choisir une
@@ -83,7 +88,7 @@ public class AIally : MonoBehaviour
                 }
                 tempsDelayChangerCible = 0;
             }
-            else if (enemiActuel != null) // PERMER D'ATTAQUER LES CIBLES
+            else if (enemiActuel != null && ordreDeplacement == false) // PERMER D'ATTAQUER LES CIBLES
             {
                 Debug.DrawRay(head.transform.position, (enemiActuel.position - transform.position) * 100, Color.red);
                 if (Physics.Raycast(head.transform.position, (enemiActuel.position - transform.position) * 100, out h) && h.transform.position == enemiActuel.transform.position)
