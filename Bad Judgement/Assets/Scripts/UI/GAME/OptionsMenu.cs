@@ -16,7 +16,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private GameObject optionsMenu; //The menu itself
     [SerializeField] private GameObject optionsPanel; //The panel of the options menu
     [SerializeField] private Scrollbar navSlider; //Navigation up-down with the slider
-    private static float panelMinPosition = -135F;
+    private static float panelMinPosition =  135F;
     private static float panelMaxPosition = 145F;
 
     [SerializeField] private Dropdown resolutionDropdown;
