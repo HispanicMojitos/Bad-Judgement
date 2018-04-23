@@ -60822,22 +60822,32 @@ Prefab:
     - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
         type: 2}
       propertyPath: m_AABB.m_Center.z
-      value: -0.026953697
+      value: -0.05128479
       objectReference: {fileID: 0}
     - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
         type: 2}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.4730463
+      value: 0.5692234
       objectReference: {fileID: 0}
     - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
         type: 2}
       propertyPath: m_AABB.m_Center.y
-      value: 0.481709
+      value: 0.44779062
       objectReference: {fileID: 0}
     - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
         type: 2}
       propertyPath: m_AABB.m_Extent.y
-      value: 1.481709
+      value: 1.5156274
+      objectReference: {fileID: 0}
+    - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_AABB.m_Center.x
+      value: -0.021078587
+      objectReference: {fileID: 0}
+    - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.5210786
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114428025651103984, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
