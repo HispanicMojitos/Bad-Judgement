@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -6706,6 +6706,24 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 185169349}
+--- !u!1 &185970459 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: 8c2bfc16f8b732046853847f52e1a7a8, type: 3}
+  m_PrefabInternal: {fileID: 1507346712}
+--- !u!64 &185970462
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 185970459}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 8c2bfc16f8b732046853847f52e1a7a8, type: 3}
 --- !u!1 &190861172
 GameObject:
   m_ObjectHideFlags: 0
@@ -16036,7 +16054,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 1
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 200
@@ -60790,6 +60808,36 @@ Prefab:
         type: 2}
       propertyPath: m_CollisionDetection
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 136072197718561958, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_Height
+      value: 2.8226535
+      objectReference: {fileID: 0}
+    - target: {fileID: 136072197718561958, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 0.49268663
+      objectReference: {fileID: 0}
+    - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.026953697
+      objectReference: {fileID: 0}
+    - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.4730463
+      objectReference: {fileID: 0}
+    - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_AABB.m_Center.y
+      value: 0.481709
+      objectReference: {fileID: 0}
+    - target: {fileID: 137279110798172466, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_AABB.m_Extent.y
+      value: 1.481709
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114428025651103984, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
