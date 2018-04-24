@@ -77,7 +77,7 @@ public class Movement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         if (!UIScript.gameIsPaused)
         {
@@ -111,7 +111,7 @@ public class Movement : MonoBehaviour
             #region Ground Detection
 
             this.characterIsGrounded = this.GetIfCharacterIsGrounded();
-            
+
 
             #endregion
 
