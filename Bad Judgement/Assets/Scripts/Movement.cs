@@ -27,8 +27,6 @@ public class Movement : MonoBehaviour
     private float runMultiplier = 1.6F; //If the player wants to run, his forward speed will be multiplicated by 1.6
 
     private float jumpForce = 4.5F; //Force of the jump that the character will have
-    private float groundGravity = 0.1F;
-    private float defaultGravity = 12F;
 
     private float normalCrouchDeltaH = 0.6F;
     private float onTheKneesCrouchDeltaH = 0.35F; //The height the character will lose while crouching
@@ -125,25 +123,12 @@ public class Movement : MonoBehaviour
             //That method I created will call the good method in FatigueSys class to in/de-crease exhaust in function of what the character is doing
 
             #endregion
-
-            Gravity();
         }
     }
 
     #endregion
 
     #region Moving Methods
-
-    private void Gravity()
-    {
-        float gravity = 0F;
-
-        if (characterIsGrounded) gravity = groundGravity;
-        else gravity = defaultGravity;
-
-        Vector3 forceToApply = new Vector3(0F, -gravity, 0F);
-        playerRigidbody.AddRelativeForce(forceToApply, ForceMode.Acceleration);
-    }
 
     private void Jump()
     {
@@ -153,7 +138,7 @@ public class Movement : MonoBehaviour
 
         Vector3 jump = new Vector3(0F, jumpForce, 0F); //Making the jump by setting the velocity to the jump force
         //playerRigidbody.velocity += jump;
-        playerRigidbody.AddForce(jump, ForceMode.Impulse);
+        playerRigidbody.AddForce(jump, ForceMode.VelocityChange);
         this.characterCanJump = false; //Telling that the player may not jump
 
         //In the sounds part, there's the method that handles OnCollisionEnter event. I just added this.characterCanJump = true
