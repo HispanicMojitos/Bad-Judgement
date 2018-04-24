@@ -38,8 +38,13 @@ public class Target : MonoBehaviour
     void Die()
     {
         if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false && gameObject.CompareTag("Ally") == false) Destroy(gameObject, 10);
+<<<<<<< HEAD
         else if (gameObject.CompareTag("Player") == true) gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None; // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
         else if (gameObject.CompareTag("Ally") == true) gameObject.GetComponent<AIally>().estHS = true;/*Ajouter ici une methode pour la mort de l'IA alliée*/;
+=======
+        else if (gameObject.CompareTag("Player") == true) Destroy(gameObject);  // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
+        else if (gameObject.CompareTag("Ally") == true) ;
+>>>>>>> parent of de52a075... Minor fixes on script
     }
 
 }

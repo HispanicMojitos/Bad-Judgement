@@ -21,6 +21,7 @@ public class AIally : MonoBehaviour
 >>>>>>> parent of 18230916... IA can follow Player when there is no enemies around
     private Transform enemiActuel = null;
     private Movement mvmentPlayer;
+<<<<<<< HEAD
     
     private float degats = 0.5f;
     private float MaxDistance = 5;
@@ -32,6 +33,14 @@ public class AIally : MonoBehaviour
     private float tempsDeTir = 0f;
     private float delayAvntRejoindreJoueur;
     private bool peutRejoindreJoueur = true;
+=======
+
+    private float degats = 1f;
+    private float MaxDistance = 10;
+    private float vieActuelle;
+    private float tempsDelayChangerCible;
+
+>>>>>>> parent of de52a075... Minor fixes on script
     private bool doitcourir = false;
     [HideInInspector] public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
@@ -41,7 +50,11 @@ public class AIally : MonoBehaviour
 
     void Start()
     {
+<<<<<<< HEAD
         cetAllié = this.GetComponent<NavMeshAgent>();
+=======
+        vieActuelle = allyHealthState.vie;
+>>>>>>> parent of de52a075... Minor fixes on script
         mvmentPlayer = player.GetComponent<Movement>();
     }
 
@@ -58,7 +71,11 @@ public class AIally : MonoBehaviour
 >>>>>>> parent of 18230916... IA can follow Player when there is no enemies around
             Debug.DrawRay(head.transform.position, direction * 10,Color.red);
 
+<<<<<<< HEAD
             if (peutSuivreJoueur == true && ordreDeplacement == false)
+=======
+            if (Vector3.Distance(this.transform.position, player.position) > 5)
+>>>>>>> parent of de52a075... Minor fixes on script
             {
                 if (Vector3.Distance(this.transform.position, player.position) > MaxDistance  && peutRejoindreJoueur == true) // PERMET DE SUIVRE LE JOUEUR
                 {

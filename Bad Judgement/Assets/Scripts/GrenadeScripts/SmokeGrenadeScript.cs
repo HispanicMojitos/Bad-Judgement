@@ -14,6 +14,7 @@ public class SmokeGrenadeScript : MonoBehaviour
     private bool emmetFumee = false;
     private bool finFumee = false;
     private float delai = 5f;
+    private float tempsRafraichissement = - 5;
     private float vieDeLaGrenade; 
     
     private void Start()

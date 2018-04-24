@@ -59,7 +59,7 @@ public class AIscripts : MonoBehaviour
     private int[] PdPprocheDePdC; // Valeur entre [] => POINT DE CONTROLEE, valeur tout cours : POINT DE PATRUILLE le plus proche au point de controlle correspondant
     private int actuelPointDePatrouille = 0; // retourne le point actuel de patrouille
     private int angleDevueMax = 20; // Angle de vue maximum de l'IA
-    private float distanceDeVueMax = 100f; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
+    private int distanceDeVueMax = 50; // Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a suivre le joueur
     // A METTRE EN MODE FACILE private int distanceAttaque = 30;// Distance entre l'IA et le joueur a partir de laquelle l'IA va commencer a attaquer
     private int tempsGrenadeChoix = 4;
 
@@ -282,7 +282,11 @@ public class AIscripts : MonoBehaviour
                 tempsAvantDelayCoupDeCrosse = 0;
                 isblocking = false;
             }
+<<<<<<< HEAD
             else if ((((Vector3.Distance(Player.position, this.transform.position) < 100 ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
+=======
+            else if ((((Vector3.Distance(Player.position, this.transform.position) < 100f ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
+>>>>>>> parent of de52a075... Minor fixes on script
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
 
                 EtatCiblage();
