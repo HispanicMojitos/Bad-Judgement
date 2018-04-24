@@ -15,11 +15,7 @@ public class Target : MonoBehaviour
     {
         healthMax = health;
     }
-
-    private void Update()
-    {
-        
-    }
+    
 
     /// <summary> Permet d'enlever de la vie aux gameObject attaché aux script Target ( "amount" etant le nombre de point de vie enlevé lors de ce frame)</summary>
     public void TakeDamage(float amount)

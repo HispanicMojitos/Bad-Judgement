@@ -24,7 +24,7 @@ public class SmokeGrenadeScript : MonoBehaviour
         espaceFumée.enabled = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetButton("Fire1") && espaceFumée.enabled == true) espaceFumée.enabled = false;
         else if (espaceFumée.enabled == false && delai < 0f && !Input.GetButton("Fire1")) espaceFumée.enabled = true;

@@ -15,7 +15,7 @@ public class ExlosionScrit : MonoBehaviour { // CE SCRIPT PERMET DE JOUER LE SON
         gre = grenade.GetComponent<GrenadeScript>(); // On récupere l'etat de la grenade pour l'utiliser ensuite
     }
 	
-	void Update ()
+	void FixedUpdate ()
     {
         if (grenadeAudioSource.isPlaying == false && gre.aExplosé == true) // Si l'etat de la grenade est qu'elle a explosé, on joue le son
         {

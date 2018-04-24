@@ -41,7 +41,7 @@ public class AIally : MonoBehaviour
         mvmentPlayer = player.GetComponent<Movement>();
     }
 
-	void Update ()
+	void FixedUpdate ()
     {
         if (allyHealthState.vie != 0)
         {

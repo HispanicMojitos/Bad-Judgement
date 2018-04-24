@@ -23,7 +23,7 @@ public class TestInteraction : MonoBehaviour
         emplacementCible = visualisationCiblePosition.transform;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;

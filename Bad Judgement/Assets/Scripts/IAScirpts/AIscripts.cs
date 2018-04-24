@@ -33,8 +33,8 @@ public class AIscripts : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float cadenceDetir = 0.1f; // plus cadenceDetir est faible, plus l'IA va tirer rapidement
     private float degats = 1f; // Permet de regler les degats de l'IA
     [SerializeField] private float vitesseRotation = 0.2f; // Vitesse de rotation de l'IA
-    [SerializeField] [Range(0f, 10f)] private float vitesseMarche = 1.5f; // Vitesse de marche
-    [SerializeField] [Range(0f, 10f)] private float vitesseCourse = 4f; // Vitesse de marche
+    [SerializeField] [Range(0f, 30f)] private float vitesseMarche = 5f; // Vitesse de marche
+    [SerializeField] [Range(0f, 30f)] private float vitesseCourse = 15f; // Vitesse de marche
     private float tailleZonePointDepatrouille = 1f; // Taille des points de patrouille par lesquelle l'IA va prendre la route du prochain point de patrouille
     private float vie = 0f; //On initialise la vie de l'IA
     private float vieMax; // Recupere la vie max de l'IA pour des comparaison
@@ -122,7 +122,7 @@ public class AIscripts : MonoBehaviour
     }
 # endregion Awake & Start
 
-    void Update()
+    void FixedUpdate()
     {
         if (OptionsMenu.changeDifficultée == true)
             ChangementDeDifficulté();
@@ -282,7 +282,7 @@ public class AIscripts : MonoBehaviour
                 tempsAvantDelayCoupDeCrosse = 0;
                 isblocking = false;
             }
-            else if ((((Vector3.Distance(Player.position, this.transform.position) < 100 ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
+            else if ((((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
 
                 EtatCiblage();

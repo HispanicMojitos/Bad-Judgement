@@ -23,7 +23,7 @@ public class GrenadeScript : MonoBehaviour
         coll = GetComponent<CapsuleCollider>();
     }
 
-    void Update ()
+    void FixedUpdate ()
     {
         delai = delai - Time.deltaTime;
         if (delai < 3.7f) coll.isTrigger = false;

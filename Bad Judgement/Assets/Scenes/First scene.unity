@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -13281,8 +13281,8 @@ MonoBehaviour:
   - {fileID: 580732680}
   cadenceDetir: 0.045
   vitesseRotation: 3
-  vitesseMarche: 0.33
-  vitesseCourse: 0.84
+  vitesseMarche: 1.5
+  vitesseCourse: 4.5
   canSeePlayer: 1
   estMort: 0
   chercheCouverture: 0
@@ -38258,7 +38258,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: bdd7a03fd93bf2d4cb6babd63ceabee8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.79042065
+      value: -0.77
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: bdd7a03fd93bf2d4cb6babd63ceabee8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -60868,6 +60868,11 @@ Prefab:
     - target: {fileID: 54190834929035888, guid: c85a0e6333cf2f14989aeb15944eb109,
         type: 2}
       propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54190834929035888, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_Interpolate
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:

@@ -8,7 +8,7 @@ public class PlayerThrowGrenade : MonoBehaviour
     [SerializeField] private GameObject lanceurGrenade;
     public int nbrSmokeGrenade = 2;
 	
-	void Update ()
+	void FixedUpdate ()
     { 
         if (Input.GetKeyDown(KeyCode.G) && nbrSmokeGrenade > 0) // Si on appuie sur G et que le nombre de grenade que l'on transporte est supérieur a 0
         {
