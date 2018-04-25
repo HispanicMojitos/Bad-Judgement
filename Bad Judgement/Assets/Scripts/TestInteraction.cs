@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TestInteraction : MonoBehaviour
 {
+    [SerializeField] private Image CanShoot;
+    [SerializeField] private Image CannootShoot;
     [SerializeField] private Image alliesInterraction;
     [SerializeField] private Image reloadImage;
     [SerializeField] private Image interactionImage;
@@ -17,6 +19,7 @@ public class TestInteraction : MonoBehaviour
     private bool deplacementAllié = false;
     [HideInInspector] public Transform emplacementCible;
     private Transform alliéChosi;
+    [SerializeField] private List<Transform> alliés;
 
     private void Start()
     {
@@ -28,6 +31,26 @@ public class TestInteraction : MonoBehaviour
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;
         Debug.DrawLine(transform.position, direction * 3, Color.cyan); // Permet d'afficher le raycast
+
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            foreach (Transform al in alliés)
+            {
+                if (al.GetComponent<AIally>().autoriséATirer == true)
+                {
+                    al.GetComponent<AIally>().autoriséATirer = false;
+                    CanShoot.enabled = false;
+                    CannootShoot.enabled = true;
+                }
+                else if (al.GetComponent<AIally>().autoriséATirer == false)
+                {
+                    al.GetComponent<AIally>().autoriséATirer = true;
+                    CanShoot.enabled = true;
+                    CannootShoot.enabled = false;
+                }
+            }
+        }
+
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
         {
             reloadImage.enabled = true; // affiche l'image tant que l'on reste focalisé sur une arme

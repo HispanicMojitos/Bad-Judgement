@@ -12,6 +12,7 @@ public class UIScript : MonoBehaviour
     public AudioMixerSnapshot pause; // Permet de modifier de redefinir tout les son du jeux lorsqu'on est en pause
     public AudioMixerSnapshot enJeux; // Permet de modifier de redefinir tout les son du jeux lorsqu'on est en jeux
     public AudioMixerSnapshot repéré; // Permet de modifier de redefinir tout les son du jeux lorsqu'on est en jeux Et que le joueur est repéré
+    public AudioMixerSnapshot aPeuDeVie;
     #endregion Sound member 
 
     public static bool gameIsPaused { get; private set; }
@@ -106,8 +107,9 @@ public class UIScript : MonoBehaviour
 
         #region Sounds
 
-        if (ourPlayer.GetComponent<PlayerHealth>().estRepere == true) Sounds.transitionSound(repéré, 0.01f);
-        else if (ourPlayer.GetComponent<PlayerHealth>().estRepere == false) Sounds.transitionSound(enJeux, 0.01f);
+        if (ourPlayer.GetComponent<PlayerHealth>().estRepere == true && ourPlayer.GetComponent<PlayerHealth>().aPeuDeVie == false) Sounds.transitionSound(repéré, 0.01f);
+        else if (ourPlayer.GetComponent<PlayerHealth>().estRepere == false && ourPlayer.GetComponent<PlayerHealth>().aPeuDeVie == false) Sounds.transitionSound(enJeux, 0.01f);
+        else if ( ourPlayer.GetComponent<PlayerHealth>().aPeuDeVie == true) Sounds.transitionSound(aPeuDeVie, 0.01f);
         #endregion Sounds
 
         this.pauseMenu.SetActive(false);

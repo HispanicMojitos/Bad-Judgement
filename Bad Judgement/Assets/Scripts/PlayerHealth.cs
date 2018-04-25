@@ -11,7 +11,6 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private AudioMixerSnapshot enJeux;
     [SerializeField] private AudioClip[] bulletHits;
     [SerializeField] private AudioClip[] hurtSound;
-    [SerializeField] private AudioClip heartBeats;
     [SerializeField] private AudioClip HealBreath;
     [SerializeField] private AudioSource player;
     [SerializeField] private AudioSource moutPlayer;
@@ -31,27 +30,27 @@ public class PlayerHealth : MonoBehaviour
 	void Update ()
     {
         if(estRepere == true && aPeuDeVie == false) Sounds.transitionSound(Repéré, 0.01f);
-        else if(estRepere == false && aPeuDeVie == false) Sounds.transitionSound(enJeux, 0.5f);
-        else if (aPeuDeVie == true) Sounds.transitionSound(PeuDeVie, 0.3f);
+        else if(estRepere == false && aPeuDeVie == false) Sounds.transitionSound(enJeux, 1f);
+        else if (aPeuDeVie == true) Sounds.transitionSound(PeuDeVie, 3f);
 
         if (vie != this.gameObject.GetComponent<Target>().vie)
         {
             vie = this.gameObject.GetComponent<Target>().vie;
-            if (moutPlayer.clip == HealBreath) moutPlayer.Stop();
+            if (moutPlayer.clip == HealBreath) moutPlayer.clip = null;
             Sounds.bulletSound(player, bulletHits);
             Sounds.hurtHuman(moutPlayer, hurtSound,vie);
 
             delaiAvantRepos = 10f;
         }
 
-        if ( vie < this.gameObject.GetComponent<Target>().vieMax * 0.5f)
+        if ( vie < this.gameObject.GetComponent<Target>().vieMax * 0.5f && vie != 0)
         {
             delaiAvantRepos = delaiAvantRepos - Time.deltaTime;
             if(delaiAvantRepos < delaiEntreRecup) Repos();
             if (this.gameObject.GetComponent<Target>().vie <= (this.gameObject.GetComponent<Target>().vieMax * 0.2f))
             {
                 aPeuDeVie = true;
-                Sounds.BeatsOfHeart(player, heartBeats);
+                Sounds.BeatsOfHeart(player);
             }
         }
 

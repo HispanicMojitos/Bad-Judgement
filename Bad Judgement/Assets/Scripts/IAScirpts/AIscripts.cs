@@ -732,27 +732,27 @@ public class AIscripts : MonoBehaviour
         switch(Difficulté.difficultyLevelIndex)
         {
             case 0: // BABY
-                paramètreDifficultéIA(true,25,10,100,20,3,1,10);
+                paramètreDifficultéIA(true,25, 100, 10,20,3,1,10);
                 break;
 
             case 1: // EASY
-                paramètreDifficultéIA(true,40,20,100,15,6,1,8f);
+                paramètreDifficultéIA(true,40, 100, 20,15,6,1,8f);
                 break;
 
             case 2: // NORMAL
-                paramètreDifficultéIA(false,60,30,100,10,8,1,5f);
+                paramètreDifficultéIA(false,60, 100, 30,10,8,1,5f);
                 break;
 
             case 3: // Hard
-                paramètreDifficultéIA(false, 90,40,100,7.5f,10,2,4f);
+                paramètreDifficultéIA(false, 90, 100, 40,7.5f,10,2,4f);
                 break;
 
             case 4: // INFAMY
-                paramètreDifficultéIA(false,100,50,100,5,15,3,2f);
+                paramètreDifficultéIA(false,100, 100, 50,5,15,3,2f);
                 break;
 
             default: // Par defaut la difficulté sera mise sur Normal
-                paramètreDifficultéIA(false, 60, 30, 100, 10, 8, 1, 1f);
+                paramètreDifficultéIA(false, 60, 100, 30, 10, 8, 1, 1f);
                 break;
         }
         OptionsMenu.changeDifficultée = false;

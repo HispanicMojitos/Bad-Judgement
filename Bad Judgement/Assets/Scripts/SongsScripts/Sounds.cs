@@ -34,10 +34,13 @@ public static class Sounds
     /// <summary> Permet de jouer le son de rechargement (Coupe le son precedent de l'AK47)</summary>
     public static void AK47reload(AudioSource AK47, float volume = 1f)
     {
-        AK47.Stop();
-        if (AK47.clip != Resources.Load("Sounds/AK47sounds/Ak47Reload") as AudioClip) AK47.clip = Resources.Load("Sounds/AK47sounds/Ak47Reload") as AudioClip;
-        if(AK47.volume != volume) AK47.volume = volume;
-        AK47.Play();
+        if (AK47.clip != Resources.Load("Sounds/AK47sounds/Ak47Reload"))
+        {
+            AK47.Stop();
+             AK47.clip = Resources.Load("Sounds/AK47sounds/Ak47Reload") as AudioClip;
+            if (AK47.volume != volume) AK47.volume = volume;
+            AK47.Play();
+        }
     }
 
     #endregion AK47 Cz805
@@ -102,13 +105,13 @@ public static class Sounds
     #region human sound
 
     /// <summary> Joue le son d'un battement de coeur en 2D </summary>
-    public static void BeatsOfHeart(AudioSource coeur, AudioClip battements) 
+    public static void BeatsOfHeart(AudioSource coeur, float volume = 1f) 
     {
-        if ( !coeur.isPlaying)
+        if (!coeur.isPlaying)
         {
-            coeur.clip = battements;
-            coeur.spatialBlend = 0f;
-            coeur.volume = VolumeSon;
+            if (coeur.clip = Resources.Load("Sounds/Heartbeatsound") as AudioClip) coeur.clip = Resources.Load("Sounds/Heartbeatsound") as AudioClip;
+            if(coeur.spatialBlend != 0f) coeur.spatialBlend = 0f;
+            if(coeur.volume != volume) coeur.volume = volume;
             coeur.Play(); 
         }
     }
@@ -126,7 +129,7 @@ public static class Sounds
     }
 
     /// <summary> Joue le son des balles arrivant aux oreilles au hasard dans le tableau "bullet"</summary>
-    public static void  bulletSound(AudioSource corps, AudioClip[] bullet)
+    public static void  bulletSound(AudioSource corps, AudioClip[] bullet, float volume = 1)
     {
         int random = Random.Range(0,1); // Plus l'ecart est grand, moins le son de balle sera fréquent
         if( random == 0)
@@ -135,29 +138,30 @@ public static class Sounds
             {
                 int randomBullet = Random.Range(0, bullet.Length);
                 corps.clip = bullet[randomBullet];
-                corps.spatialBlend = 1f;
-                corps.volume = VolumeSon;
+                if(corps.spatialBlend != 1f) corps.spatialBlend = 1f;
+                if(corps.volume != volume) corps.volume = volume;
                 corps.Play();
             }
         }
     }
     /// <summary> Choisi au hasard quand jouer le son de douleur du personnage, et choisi au hasard le son de personnage choisi grace au tableau "hurt" </summary>
-    public static void hurtHuman(AudioSource mouth, AudioClip[] hurt, float vie)
+    public static void hurtHuman(AudioSource mouth, AudioClip[] hurt, float vie, float volume = 1)
     {
-        int random = Random.Range(0, 10); // Plus l'ecart est grand, moin le son de cris de douleur sera entendu
-        if (random == 2)
+        int random = Random.Range(0, 5); // Plus l'ecart est grand, moin le son de cris de douleur sera entendu
+        if (random == 1)
         {
             if (!mouth.isPlaying)
             {
                 int randomhirt = Random.Range(0, hurt.Length);
                 mouth.clip = hurt[randomhirt];
-                mouth.spatialBlend = 1f;
-                mouth.volume = VolumeSon;
+                if(mouth.spatialBlend != 1f) mouth.spatialBlend = 1f;
+                if(mouth.volume != volume) mouth.volume = volume;
                 mouth.Play();
             }
         }
     }
     #endregion human sound
+
     /// <summary>Permet de jouer une musique voulue grace à une source auditive initialisée </summary>
     public static void JouerMusique(AudioSource OrigineDuSon, AudioClip Musique)
     {

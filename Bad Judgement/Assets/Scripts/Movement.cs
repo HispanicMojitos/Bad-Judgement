@@ -8,8 +8,6 @@ public class Movement : MonoBehaviour
     #region Members
 
     #region Sounds members
-    [SerializeField] private AudioClip tombe;
-    [SerializeField] private AudioClip saute;
     [SerializeField] private AudioSource[] pieds = new AudioSource[2]; // Source pour les pruits de sauts
     [SerializeField] private AudioSource personnage;
     #endregion Sounds members

@@ -33,6 +33,7 @@ public class AIally : MonoBehaviour
     [HideInInspector] public bool estHS = false;
     [HideInInspector] public bool ordreDeplacement = false;
 
+    [HideInInspector] public bool autoriséATirer = true;
 
     void Start()
     {
@@ -117,12 +118,13 @@ public class AIally : MonoBehaviour
                 if (Physics.Raycast(head.transform.position, (enemiActuel.position - transform.position) * 100, out h) && h.transform.position == enemiActuel.transform.position)
                 {
                     peutSuivreJoueur = false;
+                    peutRejoindreJoueur = false;
                     direction = enemiActuel.position - this.transform.position;
 
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
 
                     SetAnimation(isAiming: true);
-                    if ((tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
+                    if (autoriséATirer == true && (tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
                     {
                         if (tempsDeTir > 0.05f) // permet de cadancer les tirs de l'IA
                         {
@@ -146,6 +148,7 @@ public class AIally : MonoBehaviour
                 {
                     SetAnimation(isAiming: true);
                     peutSuivreJoueur = false;
+                    peutRejoindreJoueur = false;
                 }
 
                 if (enemiActuel.GetComponent<AIscripts>().estMort == true) // Permet de faire changer de cible a l'alliée si la cible qu'elle avait est morte
