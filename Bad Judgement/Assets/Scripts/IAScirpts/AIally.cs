@@ -10,7 +10,6 @@ public class AIally : MonoBehaviour
     [SerializeField] private Target allyHealthState;
     [SerializeField] private Transform boucheCanon;
     [SerializeField] private AudioSource cz805;
-    [SerializeField] private AudioClip cz805shoot;
     [SerializeField] private Transform head;
     [SerializeField] private List<Transform> enemies;
     [SerializeField] private TestInteraction choixJoueur;
@@ -202,7 +201,7 @@ public class AIally : MonoBehaviour
                 if (joueur != null) // Si la cible du raycast a bien le script Target attaché
                     joueur.TakeDamage(reelDegats); // On fait subir des dommages au joueurs qui a le script Target attaché
 
-                Sounds.AK47shoot(cz805, cz805shoot); // permet de jouer le son de tir 
+                Sounds.Cz805shoot(cz805); // permet de jouer le son de tir 
             }
         }
     }

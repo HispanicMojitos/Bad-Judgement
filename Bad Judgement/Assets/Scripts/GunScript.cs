@@ -14,8 +14,6 @@ public class GunScript : MonoBehaviour
 
     #region Sounds members
     [SerializeField] private AudioSource AK47; // AK47 qui est la source de son propre son
-    [SerializeField] private AudioClip AK47shoot; // bruit de l'AK47 fait lors d'un seul tir
-    [SerializeField] private AudioClip AK47reload; // bruit de rechargement d'un AK47
     #endregion Sounds members
 
     #region Weapon variables
@@ -92,7 +90,7 @@ public class GunScript : MonoBehaviour
         {
             StartCoroutine(Reload());
             isReloading = false;
-            Sounds.AK47reload(AK47, AK47reload);
+            Sounds.AK47reload(AK47);
         }
         #endregion
 
@@ -140,7 +138,7 @@ public class GunScript : MonoBehaviour
             anim.SetBool("isShooting", true);
             anim.Play("Shoot");
             mag.currentMag--;
-            Sounds.AK47shoot(AK47, AK47shoot);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
+            Sounds.AK47shoot(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
             ProduceRay(gunEnd);

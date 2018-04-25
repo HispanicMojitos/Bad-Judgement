@@ -8,8 +8,6 @@ public class Movement : MonoBehaviour
     #region Members
 
     #region Sounds members
-    [SerializeField] private AudioClip sonCourse;
-    [SerializeField] private AudioClip sonDePas;
     [SerializeField] private AudioClip tombe;
     [SerializeField] private AudioClip saute;
     [SerializeField] private AudioSource[] pieds = new AudioSource[2]; // Source pour les pruits de sauts
@@ -144,7 +142,7 @@ public class Movement : MonoBehaviour
     private void Jump()
     {
         #region sound
-        Sounds.Jump(personnage, saute);
+        Sounds.Jump(personnage);
         #endregion sound
 
         Vector3 jump = new Vector3(0F, jumpForce, 0F); //Making the jump by setting the velocity to the jump force
@@ -181,7 +179,7 @@ public class Movement : MonoBehaviour
                 this.SetStateRun();
 
                 #region sound
-                Sounds.Marche(pieds, sonCourse, !this.characterCanJump);
+                Sounds.Marche(pieds, !this.characterCanJump, true);
                 #endregion sound
             }
             else this.SetStateWalk();
@@ -193,7 +191,7 @@ public class Movement : MonoBehaviour
             playerRigidbody.AddForce(deltaMove, ForceMode.VelocityChange); //Applying that force to the player. Multiplying by 50 (float) to get something strong enough.
 
             #region sound
-            if (!wantsToRun) Sounds.Marche(pieds, sonDePas, !this.characterCanJump);
+            if (!wantsToRun) Sounds.Marche(pieds, !this.characterCanJump, false);
             #endregion  
         }
         else this.SetStateIdle();

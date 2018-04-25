@@ -11,64 +11,77 @@ public static class Sounds
     private static float VolumeMusique = 1f;
     #endregion propriété && membres
 
-    #region AK47
+    #region AK47 Cz805
 
-    /// <summary>Joue le son d'une unique balle (Coupe le son precedent)</summary>
-    public static void AK47shoot(AudioSource AK47, AudioClip AK47shootSound, float volume = 0.3f)
+    /// <summary>Joue le son d'une unique balle d'AK47(Coupe le son precedent)</summary>
+    public static void AK47shoot(AudioSource AK47, float volume = 1f)
     { 
-         AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
-         AK47.clip = AK47shootSound; // defini le son qu'emet l'AK47
-         AK47.volume = VolumeSon; // defini le volume de l'AK47
-         AK47.Play();
-    }
-
-    /// <summary> Permet de jouer le son de rechargement (Coupe le son precedent de l'AK47)</summary>
-    public static void AK47reload(AudioSource AK47, AudioClip AK47reloadSound, float volume = 1f)
-    {
-        AK47.Stop();
-        AK47.clip = AK47reloadSound;
-        AK47.volume = VolumeSon;
+        AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
+        if(AK47.clip != Resources.Load("Sounds/AK47sounds/AK47shoot") as AudioClip) AK47.clip = Resources.Load("Sounds/AK47sounds/AK47shoot") as AudioClip;
+        if(AK47.volume != volume) AK47.volume = volume; // defini le volume de l'AK47
         AK47.Play();
     }
 
-    #endregion AK47
+    /// <summary>Joue le son d'une unique balle d'un CZ 805(Coupe le son precedent)</summary>
+    public static void Cz805shoot(AudioSource Cz805, float volume = 1f)
+    {
+        Cz805.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
+        if(Cz805.clip != Resources.Load("Sounds/cZ805/CZ805") as AudioClip) Cz805.clip = Resources.Load("Sounds/cZ805/CZ805") as AudioClip;
+        if(Cz805.volume != volume) Cz805.volume = volume; // defini le volume de l'AK47
+        Cz805.Play();
+    }
+
+    /// <summary> Permet de jouer le son de rechargement (Coupe le son precedent de l'AK47)</summary>
+    public static void AK47reload(AudioSource AK47, float volume = 1f)
+    {
+        AK47.Stop();
+        if (AK47.clip != Resources.Load("Sounds/AK47sounds/Ak47Reload") as AudioClip) AK47.clip = Resources.Load("Sounds/AK47sounds/Ak47Reload") as AudioClip;
+        if(AK47.volume != volume) AK47.volume = volume;
+        AK47.Play();
+    }
+
+    #endregion AK47 Cz805
 
     #region Movement
 
     /// <summary> permet de jouer le son de jump </summary>
-    public static void Jump(AudioSource piedPersonnage, AudioClip jumpSound)
+    public static void Jump(AudioSource piedPersonnage, float volume = 1)
     {
         if (!piedPersonnage.isPlaying)
         {
-            piedPersonnage.clip = jumpSound;
-            piedPersonnage.volume = VolumeSon;
+           if(piedPersonnage.clip != Resources.Load("Sounds/SoldierSoundsPack/jump") as AudioClip) piedPersonnage.clip = Resources.Load("Sounds/SoldierSoundsPack/jump") as AudioClip;
+           if(piedPersonnage.volume != volume)  piedPersonnage.volume = volume;
             piedPersonnage.Play();
         }
     }
 
-    public static void AtterissageApresJump(AudioSource personnage, AudioClip clipAtterrissage)
-    {
-        personnage.Stop();
-        personnage.clip = clipAtterrissage;
-        personnage.Play();
-    }
-
     static private int numeroPied = 0; // Variabes utilisée pour la méthode statique Marche
     /// <summary> Permet de jouer les sons de pas lorsqu'on marche OU cours (tout depends du clipAudio donné) </summary>
-    public static void Marche(AudioSource[] pieds,AudioClip sonDePas, bool canJump)
+    public static void Marche(AudioSource[] pieds, bool canJump,bool cours, float volume = 1f)
     {
         if (canJump == true)
         {
-            if (!pieds[numeroPied].isPlaying)
+            if (!pieds[numeroPied].isPlaying && cours == false)
             {
-                pieds[0].clip = sonDePas;
-                pieds[0].volume = VolumeSon;
-                pieds[1].clip = sonDePas;
-                pieds[1].volume = VolumeSon;
+                if(pieds[0].clip != Resources.Load("Sounds/SoldierSoundsPack/FootStep2") as AudioClip) pieds[0].clip = Resources.Load("Sounds/SoldierSoundsPack/FootStep2") as AudioClip;
+                if(pieds[0].volume != volume)  pieds[0].volume = volume;
+                if(pieds[1].clip = Resources.Load("Sounds/SoldierSoundsPack/FootStep2") as AudioClip) pieds[1].clip = Resources.Load("Sounds/SoldierSoundsPack/FootStep2") as AudioClip;
+                if(pieds[1].volume != volume) pieds[1].volume = volume;
                 if (numeroPied == 0) numeroPied = 1;
                 else if (numeroPied == 1) numeroPied = 0;
                 pieds[numeroPied].Play();
             }
+            else if(!pieds[numeroPied].isPlaying && cours == true)
+            {
+                if(pieds[0].clip != Resources.Load("Sounds/SoldierSoundsPack/RUN") as AudioClip) pieds[0].clip = Resources.Load("Sounds/SoldierSoundsPack/RUN") as AudioClip;
+                if (pieds[0].volume != volume) pieds[0].volume = volume;
+                if(pieds[1].clip != Resources.Load("Sounds/SoldierSoundsPack/RUN") as AudioClip) pieds[1].clip = Resources.Load("Sounds/SoldierSoundsPack/RUN") as AudioClip;
+                if (pieds[1].volume != volume) pieds[1].volume = volume;
+                if (numeroPied == 0) numeroPied = 1;
+                else if (numeroPied == 1) numeroPied = 0;
+                pieds[numeroPied].Play();
+            }
+          
         }
     }
     #endregion Movement

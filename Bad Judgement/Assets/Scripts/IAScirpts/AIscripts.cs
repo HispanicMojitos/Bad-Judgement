@@ -18,7 +18,6 @@ public class AIscripts : MonoBehaviour
     [SerializeField] private AudioClip[] soundDeath;
     [SerializeField] private AudioSource mouthHead;
     [SerializeField] private AudioSource M4A8Source; // Recupere la source des son du M4A8
-    [SerializeField] private AudioClip M4A8shoot;// Recupere le son du M4A8
     [SerializeField] private AudioClip grenadScream;
     [SerializeField] private Transform chercheurCouverture;
     [SerializeField] private Transform hand;
@@ -619,7 +618,8 @@ public class AIscripts : MonoBehaviour
                 if (joueur != null) // Si la cible du raycast a bien le script Target attaché
                     joueur.TakeDamage(reelDegats); // On fait subir des dommages au joueurs qui a le script Target attaché
 
-                Sounds.AK47shoot(M4A8Source, M4A8shoot); // permet de jouer le son de tir 
+                Sounds.AK47shoot(M4A8Source); // permet de jouer le son de tir 
+
             }
         }
     }
