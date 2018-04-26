@@ -144,6 +144,35 @@ public class AIally : MonoBehaviour
 
                     if (enemiActuel.GetComponent<AIscripts>().estMort == true) enemiActuel = null;
                 }
+                else if(Physics.Raycast((head.transform.position - new Vector3(0,0.7f,0)), ((enemiActuel.position - transform.position) - new Vector3(0, 0.7f, 0)) * 100, out h) && h.transform.position == enemiActuel.transform.position)
+                { // Si l'enemi est a croupi et que l'IA alliée sait lui tirer dessus
+                    peutSuivreJoueur = false;
+                    peutRejoindreJoueur = false;
+                    direction = (enemiActuel.position - this.transform.position) - new Vector3(0, 0.7f, 0);
+
+                    this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+
+                    SetAnimation(isAiming: true);
+                    if (autoriséATirer == true && (tempsAvantAttaque > tempsDebutAttaque) && (tempsAvantAttaque <= tempsFinAttaque)) //Permet de faire tirer des rafales a l'IA
+                    {
+                        if (tempsDeTir > 0.05f) // permet de cadancer les tirs de l'IA
+                        {
+                            SetAnimation(isAttack: true);
+                            AttackShoot(direction); // Permet de faire attaquer l'IA
+                            tempsDeTir = 0;
+                        }
+                        else tempsDeTir += Time.deltaTime; // le temps a attendre pour que l'IA pousse effectuer un autre tir augmonte
+                    }
+                    else if (tempsAvantAttaque > 1.2f)
+                    {
+                        tempsAvantAttaque = 0;
+                        tempsDebutAttaque = UnityEngine.Random.Range(0.3f, 0.7f);
+                        tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
+                    }
+                    tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
+
+                    if (enemiActuel.GetComponent<AIscripts>().estMort == true) enemiActuel = null;
+                }
                 else // ICI L'ALLIE VISE l4IA QUI SE CACHE OU UNE AUTRE IA QUI N'EST PAS CAHEE
                 {
                     SetAnimation(isAiming: true);
@@ -185,13 +214,28 @@ public class AIally : MonoBehaviour
 
     [HideInInspector] public bool AlliéPeutTirer = true;
     private int précision = 10; // Plus cette valeur est grande, plus l'IA est précise dans ses tirs
-    private void AttackShoot(Vector3 direction)
+    private void AttackShoot(Vector3 direction, bool cibleEstAGenoux = false)
     {
         if (AlliéPeutTirer == true)
         {
             RaycastHit hit; // permet de savoir si le raycaste se confronte a quelque chose
 
-            if (Physics.Raycast(boucheCanon.transform.position, direction, out hit)) // si le raycast est bien en direction du joueur et qu'il le touche bien
+            if (Physics.Raycast(boucheCanon.transform.position, direction, out hit) && cibleEstAGenoux == false) // si le raycast est bien en direction du joueur et qu'il le touche bien
+            {
+                float reelDegats;
+                int i = UnityEngine.Random.Range(0, précision); // Perme
+
+                if (i == 0) reelDegats = 0; // Permet de choisir le fait si ce tir la fera des degats ou pas au joueurs
+                else reelDegats = degats;
+
+                Target joueur = hit.transform.GetComponent<Target>(); // permet de recuperer le script de l'entité avec laquelle le 'hit' s'est rencontré
+
+                if (joueur != null) // Si la cible du raycast a bien le script Target attaché
+                    joueur.TakeDamage(reelDegats); // On fait subir des dommages au joueurs qui a le script Target attaché
+
+                Sounds.Cz805shoot(cz805); // permet de jouer le son de tir 
+            }
+            else if(cibleEstAGenoux == true && Physics.Raycast((boucheCanon.transform.position - new Vector3(0,0.5f,0)), direction, out hit))
             {
                 float reelDegats;
                 int i = UnityEngine.Random.Range(0, précision); // Perme
