@@ -24,7 +24,7 @@ public class AIscripts : MonoBehaviour
     public Transform Player; // Nous permet de comparer le joueur a l'intéligence artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
     [SerializeField] private Rigidbody rbPlayer;
-    [SerializeField] private static Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
+    [SerializeField] private Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
     private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
     [SerializeField] private Transform[] alliés;
 
