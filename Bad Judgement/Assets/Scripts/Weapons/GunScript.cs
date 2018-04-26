@@ -36,6 +36,7 @@ public class GunScript : MonoBehaviour
     [SerializeField] private int bulletsPerMag = 30;
     [SerializeField] private static int currentMag;
     [SerializeField] private KeyCode reloadKey = KeyCode.R;
+    int reloadHash;
     #endregion
 
     #endregion
@@ -44,7 +45,7 @@ public class GunScript : MonoBehaviour
     private static int magQty = 6;// number of mags you can have
     private Vector3 initialPosition;
     private bool _isReloading = false;
-    private int reloadTime = 3000;
+    private float reloadTime;
     private static Magazines mag;
 
     #endregion
@@ -88,9 +89,8 @@ public class GunScript : MonoBehaviour
         #region Reload Condition
         if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag<bulletsPerMag+1 && magQty!=0)
         {
-            StartCoroutine(Reload());
-            isReloading = false;
-            Sounds.AK47reload(AK47);
+            //StartCoroutine(Reload());
+            Reload();
         }
         #endregion
 
@@ -135,14 +135,11 @@ public class GunScript : MonoBehaviour
         // First we need to reference the camera
         if (mag.currentMag > 0 && !isReloading)
         {
-            anim.SetBool("isShooting", true);
-            anim.Play("Shoot");
             mag.currentMag--;
             Sounds.AK47shoot(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                                 /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
             ProduceRay(gunEnd);
-            anim.SetBool("isShooting", false);
         }
     }
 
@@ -181,13 +178,13 @@ public class GunScript : MonoBehaviour
     #endregion
 
     #region Reload Script
-    IEnumerator Reload()
+    void Reload()
     {
+        isReloading = true;
+        anim.SetTrigger("Reload");
+        Sounds.AK47reload(AK47);
         mag.Reload();
-        anim.SetBool("isReloading", true);
-        anim.Play("Reload");
-        anim.SetBool("isReloading", false);
-        yield return new WaitForSeconds(reloadTime);
+        isReloading = false;
     }
     #endregion
 

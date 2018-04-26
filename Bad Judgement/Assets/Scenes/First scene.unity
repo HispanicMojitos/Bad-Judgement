@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45294982, g: 0.50195, b: 0.5468821, a: 1}
+  m_IndirectSpecularColor: {r: 0.4529419, g: 0.5019886, b: 0.5468807, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -24875,9 +24875,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06b3dac077f5abf4daecff32c78112ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftIKHandTarget: {fileID: 0}
-  rightIKHandTarget: {fileID: 0}
-  IKWeight: 1
 --- !u!95 &836389862
 Animator:
   serializedVersion: 3
@@ -53114,6 +53111,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1669769483}
   m_Mesh: {fileID: 4300004, guid: 350ed46de03dc6e4faec8a285a8cc3e7, type: 3}
+--- !u!95 &1670426342 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95188607506125740, guid: c85a0e6333cf2f14989aeb15944eb109,
+    type: 2}
+  m_PrefabInternal: {fileID: 2055521002}
 --- !u!1 &1674849536
 GameObject:
   m_ObjectHideFlags: 0
@@ -64106,6 +64108,21 @@ Prefab:
       propertyPath: "alli\xE9s.Array.data[0]"
       value: 
       objectReference: {fileID: 580732680}
+    - target: {fileID: 114426777286740652, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 1670426342}
+    - target: {fileID: 95188607506125740, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: f8e627e95f7c94143a53ae6861d2de1d, type: 3}
+    - target: {fileID: 95188607506125740, guid: c85a0e6333cf2f14989aeb15944eb109,
+        type: 2}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114428025651103984, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c85a0e6333cf2f14989aeb15944eb109, type: 2}
