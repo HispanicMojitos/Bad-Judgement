@@ -47,6 +47,7 @@ public class GunScript : MonoBehaviour
     private bool _isReloading = false;
     private float reloadTime;
     private static Magazines mag;
+    private Camera cam;
 
     #endregion
 
@@ -77,6 +78,7 @@ public class GunScript : MonoBehaviour
     {
         initialPosition = transform.localPosition;
         mag = new Magazines(magQty, bulletsPerMag);
+        cam = GetComponentInParent<Camera>();
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -84,6 +86,7 @@ public class GunScript : MonoBehaviour
         #region Refresh values
         currentMag = mag.currentMag;
         magQty = mag.mags.Count;
+        LookAtScreen();
         #endregion
 
         #region Reload Condition
@@ -166,6 +169,20 @@ public class GunScript : MonoBehaviour
             // We use instantiate to create the object, we enter what we want to instantiate, where and in what direction, hit.normal is a flat surface that points directly in front, that way our effect will always be toward its source
             // We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
 
+        }
+    }
+
+    void LookAtScreen()
+    {
+        float screenX = Screen.width / 2;
+        float screenY = Screen.height / 2;
+        var direction = new Vector3(screenX, screenY);
+        RaycastHit hit;
+        Ray ray = cam.ScreenPointToRay(direction);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            transform.LookAt(hit.point);
         }
     }
     #endregion
