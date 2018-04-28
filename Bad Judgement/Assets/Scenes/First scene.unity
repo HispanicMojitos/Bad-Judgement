@@ -39,11 +39,7 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
 <<<<<<< HEAD
-<<<<<<< HEAD
   m_IndirectSpecularColor: {r: 0.28518087, g: 0.36291507, b: 0.43650058, a: 1}
-=======
-  m_IndirectSpecularColor: {r: 0.28802356, g: 0.3666227, b: 0.44123456, a: 1}
->>>>>>> a3326de2ddb02fc2c05f319389c2f855a1ee269e
 =======
   m_IndirectSpecularColor: {r: 0.28802356, g: 0.3666227, b: 0.44123456, a: 1}
 >>>>>>> a3326de2ddb02fc2c05f319389c2f855a1ee269e
@@ -20145,28 +20141,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
 <<<<<<< HEAD
-<<<<<<< HEAD
 --- !u!114 &662103102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 114695577728886776, guid: c85a0e6333cf2f14989aeb15944eb109,
     type: 2}
 =======
-=======
->>>>>>> a3326de2ddb02fc2c05f319389c2f855a1ee269e
 --- !u!114 &662103104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
-<<<<<<< HEAD
->>>>>>> a3326de2ddb02fc2c05f319389c2f855a1ee269e
-=======
 >>>>>>> a3326de2ddb02fc2c05f319389c2f855a1ee269e
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 662103096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<< HEAD
 <<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: acc1af200a919474ca4d7725f9110651, type: 3}
   m_Name: 
@@ -20203,11 +20192,6 @@ CapsuleCollider:
   m_Height: 2.8226535
   m_Direction: 1
   m_Center: {x: 0, y: 0.49268663, z: 0}
-=======
-  m_Script: {fileID: 11500000, guid: d66a7b4979f2dc24ab9cd455e139c61e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
->>>>>>> a3326de2ddb02fc2c05f319389c2f855a1ee269e
 =======
   m_Script: {fileID: 11500000, guid: d66a7b4979f2dc24ab9cd455e139c61e, type: 3}
   m_Name: 
