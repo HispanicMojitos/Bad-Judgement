@@ -92,8 +92,8 @@ public class GunScript : MonoBehaviour
         #region Reload Condition
         if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag<bulletsPerMag+1 && magQty!=0)
         {
-            StartCoroutine(Reload());
-            //Reload();
+            //StartCoroutine(Reload());
+            Reload();
         }
         #endregion
 
@@ -113,7 +113,7 @@ public class GunScript : MonoBehaviour
         #endregion
 
         #region Shooting Condition
-        if (Input.GetButton("Fire1") && !isReloading && Time.time >= nextTimeToFire && anim.GetCurrentAnimatorStateInfo(0).IsName("Reload")) // If the user presses the fire buttton
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload")) // If the user presses the fire buttton
         { // and if the time that has passed is greater than the rate of fire
             nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
             Shoot();
@@ -196,15 +196,10 @@ public class GunScript : MonoBehaviour
     #endregion
 
     #region Reload Script
-    IEnumerator Reload()
+    void Reload()
     {
         isReloading = true;
         anim.SetTrigger("Reload");
-        while (anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
-        {
-            //Wait every frame until animation has finished
-            yield return null;
-        }
         isReloading = false;
         Sounds.AK47reload(AK47);
         mag.Reload();
