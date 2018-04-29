@@ -22,7 +22,7 @@ public class TakeMoney : MonoBehaviour {
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;
 
-        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("Money") && Vector3.Distance(transform.position, hit.transform.position) < 10))
+        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("Money") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
             moneyText.enabled = true;
             moneyText.text = "Press F to take the money";
