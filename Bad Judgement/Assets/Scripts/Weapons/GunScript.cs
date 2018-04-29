@@ -48,6 +48,7 @@ public class GunScript : MonoBehaviour
     private float reloadTime;
     private static Magazines mag;
     private Camera cam;
+    private bool isAiming = false;
 
     #endregion
 
@@ -121,9 +122,10 @@ public class GunScript : MonoBehaviour
         #endregion
 
         #region Aiming condition
-        if (Input.GetButton("Fire2")) // WIP
+        if (Input.GetButtonDown("Fire2")) // WIP
         {
-            anim.SetTrigger("Aim");
+            isAiming = !isAiming;
+            anim.SetBool("Aiming", isAiming);
         }
         #endregion
     }
@@ -198,6 +200,8 @@ public class GunScript : MonoBehaviour
     #region Reload Script
     void Reload()
     {
+        isAiming = false;
+        anim.SetBool("Aiming", isAiming);
         isReloading = true;
         anim.SetTrigger("Reload");
         isReloading = false;
