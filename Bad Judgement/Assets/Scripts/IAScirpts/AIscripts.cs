@@ -415,7 +415,7 @@ public class AIscripts : MonoBehaviour
                         if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
                         {
                             StopPoursuite();
-                            Player.GetComponent<PlayerHealth>().estRepere = false;
+                            if(Player.GetComponent<PlayerHealth>()== true)Player.GetComponent<PlayerHealth>().estRepere = false;
                         }
                         else tempsAvantArreterPoursuite += Time.deltaTime;
                     }
