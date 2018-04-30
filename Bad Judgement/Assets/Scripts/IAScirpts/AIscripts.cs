@@ -257,6 +257,7 @@ public class AIscripts : MonoBehaviour
 
             if (Vector3.Distance(Player.position, this.transform.position) <= 1.5f && tempsAvantDelayCoupDeCrosse < 0.5f) // Si le joueur se trouve trop pres de l'IA il va l'attaquer au corp a corps !! (DU CATCH !!)
             {
+                if(reprendLaRonde == true) reprendLaRonde = false;
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f); // On garde le fait que l'IA regarde vers le joueur
                 SetAnimation(isAttackingCloser:true);
                 isblocking = true;
@@ -283,7 +284,7 @@ public class AIscripts : MonoBehaviour
             }
             else if ((((Vector3.Distance(Player.position, this.transform.position) < distanceDeVueMax ) && (angle < angleDevueMax || IsPatrolling == false)) || saitOuEstLeJoueur) && chercheCouverture == false && estCouvert == false)
             {// Si la distance entre le joueur  ET l'IA auquel on attache ce script est inférieur à la distance de vue max, ET que le joueur se trouve dans la région de l'espace situé dans l'angle de vue défini de l'IAalors on va faire quelquechose
-
+                if (reprendLaRonde == true) reprendLaRonde = false;
                 EtatCiblage();
 
                 tempsNouvelleDecision += Time.deltaTime; // Le temps avant une nouvelle décision de l'IA augmonte
@@ -338,7 +339,7 @@ public class AIscripts : MonoBehaviour
                     if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
                     {
                         StopPoursuite();
-                        Player.GetComponent<PlayerHealth>().estRepere = false;
+                        alliés[0].GetComponent<PlayerHealth>().estRepere = false;
                     } // arrete la poursuite de l'IA envers le joueur lorsque celui ci ne le voit plus pendant tout un temps
                     else tempsAvantArreterPoursuite += Time.deltaTime;
                 }
@@ -352,6 +353,7 @@ public class AIscripts : MonoBehaviour
             }
             else if (estCouvert == true) // Ici on a les differentes actions pour lesquelle l'IA est couvert
             {
+                if (reprendLaRonde == true) reprendLaRonde = false;
                 EtatCiblage();
 
                 tempsNouvelleDecision += Time.deltaTime;
@@ -415,7 +417,7 @@ public class AIscripts : MonoBehaviour
                         if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
                         {
                             StopPoursuite();
-                            if(Player.GetComponent<PlayerHealth>()== true)Player.GetComponent<PlayerHealth>().estRepere = false;
+                            alliés[0].GetComponent<PlayerHealth>().estRepere = false;
                         }
                         else tempsAvantArreterPoursuite += Time.deltaTime;
                     }
@@ -475,7 +477,7 @@ public class AIscripts : MonoBehaviour
                             if (tempsAvantArreterPoursuite > difficulteTempsReprendRonde)
                             {
                                 StopPoursuite();
-                                if(Player.GetComponent<PlayerHealth>() == true) Player.GetComponent<PlayerHealth>().estRepere = false;
+                                alliés[0].GetComponent<PlayerHealth>().estRepere = false;
                             }
                             else tempsAvantArreterPoursuite += Time.deltaTime;
                             SetAnimation(isKneel: true);
@@ -638,11 +640,11 @@ public class AIscripts : MonoBehaviour
 
             tempsActionGrenade = 0;
             aJeteGrenade = true;
-            GameObject clone = Instantiate(grenade, this.transform);
+            grenade.SetActive(true);
             Vector3 distance = this.transform.position - Player.transform.position;
             distance.y -= 15;
-            clone.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / Force), ForceMode.Impulse);
-            clone.transform.parent = null;
+            grenade.GetComponent<Rigidbody>().AddForce(-(distance) * (distance.magnitude / Force), ForceMode.Impulse);
+            grenade.transform.parent = null;
         }
 
     }
@@ -660,9 +662,7 @@ public class AIscripts : MonoBehaviour
         isAimingPlayer = false;
         canSeePlayer = true;
         estAGenoux = false;
-        changeDirection = false;
-        wantToAttack = false;
-        
+
         tempsAvantArreterPoursuite = 0;
     }
    
