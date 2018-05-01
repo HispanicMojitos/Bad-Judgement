@@ -71,7 +71,7 @@ public class TestInteraction : MonoBehaviour
         }
         else if (reloadImage.enabled == true ) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
 
-        if (vaDeplacerAllié == false && Physics.Raycast(transform.position, direction, out hit, 6f) && hit.transform.CompareTag("Ally"))
+        if (vaDeplacerAllié == false && Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Ally"))
         {
             alliesInterraction.enabled = true;
 

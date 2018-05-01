@@ -37,10 +37,14 @@ public class GrenadeScript : MonoBehaviour
 
     private void Explode()
     {
-        GameObject fumeeExplosion = Instantiate(effetExplosion, transform.position, transform.rotation); // On créé l'effet de particule d'explosion
-        Destroy(fumeeExplosion, 4f);
+       // GameObject fumeeExplosion = Instantiate(effetExplosion, transform.position, transform.rotation); // On créé l'effet de particule d'explosion
+        effetExplosion.SetActive(true);
+        effetExplosion.transform.position = this.transform.position;
+        effetExplosion.transform.rotation = this.transform.rotation;
+        Destroy(effetExplosion, 4f);
         collider = Physics.OverlapSphere(this.transform.position, rayonExplosion); // permet de recuperer tout les objet dans un rayon determiné
 
+        Grenade.SetActive(false);
         foreach (Collider objetProche in collider)
         {
             if (objetProche.GetComponent<Target>() != null)
@@ -50,7 +54,7 @@ public class GrenadeScript : MonoBehaviour
                else if (Vector3.Distance(objetProche.GetComponent<Target>().transform.position, this.gameObject.transform.position) <= 8) objetProche.GetComponent<Target>().TakeDamage(15);
             }
         } // On enleve de la vie a tout les objets en ayant, dans le rayon de l'explosion
-        Destroy(Grenade);// On detruit en fin la grenade
+        Destroy(Grenade,8);// On detruit en fin la grenade
     }
 
     

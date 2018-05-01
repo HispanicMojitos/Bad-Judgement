@@ -77,7 +77,11 @@ public class AIally : MonoBehaviour
                     if (peutRejoindreJoueur == false)
                     {
                         delayAvntRejoindreJoueur += Time.deltaTime;
-                        if (delayAvntRejoindreJoueur > 10) peutRejoindreJoueur = true;
+                        if (delayAvntRejoindreJoueur > 10)
+                        {
+                            peutRejoindreJoueur = true;
+                            delayAvntRejoindreJoueur = 0;
+                        }
                     }
                 }
             }
@@ -111,6 +115,7 @@ public class AIally : MonoBehaviour
                     if (enemiActuel != null) break;
                 }
                 tempsDelayChangerCible = 0;
+
             }
             else if (enemiActuel != null && ordreDeplacement == false) // PERMER D'ATTAQUER LES CIBLES
             {
@@ -173,7 +178,7 @@ public class AIally : MonoBehaviour
 
                     if (enemiActuel.GetComponent<AIscripts>().estMort == true) enemiActuel = null;
                 }
-                else // ICI L'ALLIE VISE l4IA QUI SE CACHE OU UNE AUTRE IA QUI N'EST PAS CAHEE
+                else // ICI L'ALLIE VISE l'IA QUI SE CACHE OU UNE AUTRE IA QUI N'EST PAS CACHEE
                 {
                     SetAnimation(isAiming: true);
                     peutSuivreJoueur = false;
@@ -184,6 +189,8 @@ public class AIally : MonoBehaviour
                 {
                     enemiActuel = null; 
                     peutSuivreJoueur = true;
+                    peutRejoindreJoueur = true;
+                    ordreDeplacement = false;
                 }
             }
             
