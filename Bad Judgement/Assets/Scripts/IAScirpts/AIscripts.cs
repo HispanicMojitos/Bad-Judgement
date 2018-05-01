@@ -151,7 +151,6 @@ public class AIscripts : MonoBehaviour
                 {
                     if ((!IsPausing) && chercheCouverture == false) SetAnimation(isWalking:true);// si il n'a pas a faire de pause, il continue son bonhome de chemin
                     else if (chercheCouverture == true && estCouvert == false) SetAnimation(isRunning:true);
-                    else if (estCouvert == true) SetAnimation(isKneel: true);
 
                     if (((actuelPointDePatrouille % nbrDePause == 0) && tempsPause >= 0) && chercheCouverture == false) // Permet de ne faire la pause qu'a un point de patrouille donné
                     {
@@ -202,7 +201,7 @@ public class AIscripts : MonoBehaviour
                         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), vitesseRotation * Time.deltaTime); // L'ia tourne en direction du point de patrouille actuel pour pouvoir se diriger ver celui ci
                         this.transform.Translate(0, 0, Time.deltaTime * vitesseCourse); // Donne une certaine vitesse a l'IA lorsqu'il marche
                     }
-                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.5f)
+                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.5f && chercheCouverture == true)
                     {
                         chercheCouverture = false;
                         if (wantToAttack == false) isAimingPlayer = false;

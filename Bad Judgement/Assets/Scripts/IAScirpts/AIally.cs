@@ -183,6 +183,9 @@ public class AIally : MonoBehaviour
                     SetAnimation(isAiming: true);
                     peutSuivreJoueur = false;
                     peutRejoindreJoueur = false;
+                    direction = enemiActuel.position - this.transform.position;
+
+                    this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                 }
 
                 if (enemiActuel.GetComponent<AIscripts>().estMort == true) // Permet de faire changer de cible a l'alliée si la cible qu'elle avait est morte
