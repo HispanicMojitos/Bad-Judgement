@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Equipment : MonoBehaviour
+public abstract class Equipment : MonoBehaviour
 {
-    protected new readonly string name;
+    protected new string name { get; private set; }
+    public Sprite uiSprite { get; private set; }
     
-    public Equipment(string name)
+    public Equipment(string name, Sprite uiSprite)
     {
         this.name = name;
+        this.uiSprite = uiSprite;
     }
+    
+
 }

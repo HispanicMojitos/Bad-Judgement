@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public class Knife : Equipment
 {
-    Damage damage; //Damage interface implementation class
-
-    public Knife(string name) : base(name)
+    public Knife(string name, Sprite uiSprite) : base(name, uiSprite)
     {
-       this.damage = new Damage(100F, 2F);
     }
+
+    #region Methods
+
+
+
+    #endregion
 }

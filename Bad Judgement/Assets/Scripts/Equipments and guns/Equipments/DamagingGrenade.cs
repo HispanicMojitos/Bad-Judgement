@@ -6,10 +6,17 @@ using UnityEngine;
 
 public class DamagingGrenade : Grenade
 {
-    Damage damage;
-
-    public DamagingGrenade(string name) : base(name)
+    public DamagingGrenade(string name, Sprite uiSprite, int amount) : base(name, uiSprite, amount)
     {
-        this.damage = new Damage(100F, 0F);
     }
+
+    #region Methods
+
+    protected override void ThrowGrenade(float force, Vector3 direction, Sprite effect)
+    {
+        base.ThrowGrenade(force, direction, effect);
+        //INSERT DAMAGE THINGS HERE
+    }
+
+    #endregion
 }

@@ -4,9 +4,25 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Grenade : Equipment
+public abstract class Grenade : Equipment
 {
-    public Grenade(string name) : base(name)
+    protected int amount { get; private set; } //This is the remaining amount of grenades
+
+    #region Ctor
+
+    public Grenade(string name, Sprite uiSprite, int amount) : base(name, uiSprite)
     {
     }
+
+    #endregion
+
+    #region Methods
+
+    //Overriden in children classes (damage or not damage)
+    protected virtual void ThrowGrenade(float force, Vector3 direction, Sprite effect)
+    {
+        //HERE
+    }
+
+    #endregion
 }
