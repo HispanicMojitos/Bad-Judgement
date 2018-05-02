@@ -133,6 +133,9 @@ public class GunScript : MonoBehaviour
     #region Methods
 
     #region Shoot Script
+	/// <summary>
+	/// Add Shoot() summary here
+	/// </summary>
     void Shoot() // to shoot, we will use raycasts. 
     {
         //muzzleFlash.Play();// Play the muzzle flash we create
