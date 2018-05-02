@@ -49,5 +49,5 @@ public class MainWeaponsClass : MonoBehaviour
 
 	}
 
-
+	// read the folder with the guns and search the values of our variables
 }
