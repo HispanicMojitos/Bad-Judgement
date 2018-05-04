@@ -29,13 +29,26 @@ public class TestInteraction : MonoBehaviour
         emplacementCible = visualisationCiblePosition.transform;
     }
 
+    bool DecisionAllyllyShoot = false;
+    bool DecisionRecuAmoOnGun = false;
+    bool DecisionOrdreAlly = false;
+    bool DecisionOrdreporte = false;
+    private void Update() // Ici on récupère tout les input  qui auron des incidences sur tout ce qui il y a dans le fixeUpdate
+    {
+        if (Input.GetKeyDown(KeyCode.O)) DecisionAllyllyShoot = true;
+        if (Input.GetKeyDown(KeyCode.R)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
+        if (Input.GetKeyDown(KeyCode.T)) DecisionOrdreAlly = true;
+        if (Input.GetKeyDown(KeyCode.E)) DecisionOrdreporte = true;
+
+    }
+
     void FixedUpdate()
     {
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;
         Debug.DrawLine(transform.position, direction * 3, Color.cyan); // Permet d'afficher le raycast
 
-        if(Input.GetKeyDown(KeyCode.O))
+        if(DecisionAllyllyShoot == true)
         {
             foreach (Transform al in alliés)
             {
@@ -52,12 +65,13 @@ public class TestInteraction : MonoBehaviour
                     CannootShoot.enabled = false;
                 }
             }
+            DecisionAllyllyShoot = false;
         }
 
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
         {
             reloadImage.enabled = true; // affiche l'image tant que l'on reste focalisé sur une arme
-            if (Input.GetKeyDown(KeyCode.R)) // Si on appuye sur la touche R
+            if (DecisionRecuAmoOnGun == true) // Si on appuye sur la touche R
             {
                 if (GunScript.Mag.mags.Count < 6)
                 {
@@ -70,6 +84,7 @@ public class TestInteraction : MonoBehaviour
                 {
                     Debug.Log("Max Mag count");
                 }
+                DecisionRecuAmoOnGun = false;
             }
         }
         else if (reloadImage.enabled == true ) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
@@ -78,12 +93,12 @@ public class TestInteraction : MonoBehaviour
         {
             alliesInterraction.enabled = true;
 
-            if (Input.GetKeyDown(KeyCode.T)) // Ici on choisit l'allié a bouger
+            if (DecisionOrdreAlly == true) // Ici on choisit l'allié a bouger
             {
                 vaDeplacerAllié = true;
                 alliéChosi = hit.transform;
+                DecisionOrdreAlly = false;
             }
-
         }
         else if (alliesInterraction.enabled == true) alliesInterraction.enabled = false;
 
@@ -95,7 +110,7 @@ public class TestInteraction : MonoBehaviour
                 if (visualisationCibleDeplacement.activeSelf == false) visualisationCibleDeplacement.SetActive(true);
                 visualisationCibleDeplacement.transform.position = hit.point + new Vector3(0, 4f, 0);
 
-                if(Input.GetKeyDown(KeyCode.T)) // Permet De dire a l'allié de se placer a cet en placement
+                if(DecisionOrdreAlly == true) // Permet De dire a l'allié de se placer a cet en placement
                 {
                     vaDeplacerAllié = false;
                     deplacementAllié = true;
@@ -103,6 +118,7 @@ public class TestInteraction : MonoBehaviour
                     visualisationCibleDeplacement.SetActive(false);
                     emplacementCible.position =  hit.point;
                     alliéChosi.GetComponent<AIally>().ordreDeplacement = true;
+                    DecisionOrdreAlly = false;
                 }
             }
             else
@@ -125,7 +141,7 @@ public class TestInteraction : MonoBehaviour
         if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
             interactionImage.enabled = true;
-            if (Input.GetKeyDown(KeyCode.E)) // Si on regarde une porte ET que l'on appuye sur E
+            if (DecisionOrdreporte == true) // Si on regarde une porte ET que l'on appuye sur E
             {
                 HingeJoint joint = hit.transform.GetComponent<HingeJoint>(); // Permet de récupérer le Hinge Joint
                 JointSpring jSpring = joint.spring;
@@ -150,12 +166,17 @@ public class TestInteraction : MonoBehaviour
                     joint.spring = jSpring;
                     joint.useSpring = true;
                 }
+                DecisionOrdreporte = false;
             }
         }
         else if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
             interactionImage.enabled = true; // Ici On joue le son d'une porte fermée
-            if (Input.GetKeyDown(KeyCode.E)) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), porteFerme);
+            if (DecisionOrdreporte == true)
+            {
+                Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), porteFerme);
+                DecisionOrdreporte = false;
+            }
         }
         else interactionImage.enabled = false; // On eleve l'image d'interacation GUI E si non besoin d'elle
 

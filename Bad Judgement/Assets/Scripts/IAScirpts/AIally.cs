@@ -41,7 +41,8 @@ public class AIally : MonoBehaviour
         mvmentPlayer = player.GetComponent<Movement>();
     }
 
-	void FixedUpdate ()
+
+    void FixedUpdate ()
     {
         if (allyHealthState.vie != 0)
         {
@@ -187,16 +188,17 @@ public class AIally : MonoBehaviour
 
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                 }
-
-                if (enemiActuel.GetComponent<AIscripts>().estMort == true) // Permet de faire changer de cible a l'alliée si la cible qu'elle avait est morte
-                {
-                    enemiActuel = null; 
-                    peutSuivreJoueur = true;
-                    peutRejoindreJoueur = true;
-                    ordreDeplacement = false;
-                }
             }
-            
+
+
+            if (enemiActuel.GetComponent<AIscripts>().estMort == true) // Permet de faire changer de cible a l'alliée si la cible qu'elle avait est morte
+            {
+                enemiActuel = null;
+                peutSuivreJoueur = true;
+                peutRejoindreJoueur = true;
+                ordreDeplacement = false;
+            }
+
         }
         else if (allyHealthState.vie <= 0 ) // Si l'alliée n'a plus de vie
         {
