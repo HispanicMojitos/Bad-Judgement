@@ -22,6 +22,15 @@ public static class Sounds
         AK47.Play();
     }
 
+    /// <summary>Joue le son d'une unique balle de CZ Pour le joueur(Coupe le son precedent)</summary>
+    public static void Cz805shootPlayer(AudioSource AK47, float volume = 1f)
+    {
+        AK47.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
+        if (AK47.clip != Resources.Load("Sounds/cZ805/Shoot (CZ 805)") as AudioClip) AK47.clip = Resources.Load("Sounds/cZ805/Shoot (CZ 805)") as AudioClip;
+        if (AK47.volume != volume) AK47.volume = volume; // defini le volume de l'AK47
+        AK47.Play();
+    }
+
     /// <summary>Joue le son d'une unique balle d'un CZ 805(Coupe le son precedent)</summary>
     public static void Cz805shoot(AudioSource Cz805, float volume = 1f)
     {
@@ -34,10 +43,10 @@ public static class Sounds
     /// <summary> Permet de jouer le son de rechargement (Coupe le son precedent de l'AK47)</summary>
     public static void AK47reload(AudioSource AK47, float volume = 1f)
     {
-        if (AK47.clip != Resources.Load("Sounds/AK47sounds/Ak47Reload"))
+        if (AK47.clip != Resources.Load("Sounds/cZ805/Reload2(CZ 805)"))
         {
             AK47.Stop();
-             AK47.clip = Resources.Load("Sounds/AK47sounds/Ak47Reload") as AudioClip;
+             AK47.clip = Resources.Load("Sounds/cZ805/Reload2(CZ 805)") as AudioClip;
             if (AK47.volume != volume) AK47.volume = volume;
             AK47.Play();
         }

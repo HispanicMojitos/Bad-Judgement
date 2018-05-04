@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class TestInteraction : MonoBehaviour
 {
+    [SerializeField] private Image Crosshair;
+    [SerializeField] private Image CrosshairAlly;
+    [SerializeField] private Image CrosshairEnemy;
     [SerializeField] private Image CanShoot;
     [SerializeField] private Image CannootShoot;
     [SerializeField] private Image alliesInterraction;
@@ -155,6 +158,18 @@ public class TestInteraction : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E)) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), porteFerme);
         }
         else interactionImage.enabled = false; // On eleve l'image d'interacation GUI E si non besoin d'elle
+
+        if (Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Ally")) ChooseCrosshair(defaultCross: false, enemyCross: false, allyCross: true);
+        else if (Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Enemy")) ChooseCrosshair( defaultCross:false, enemyCross:true, allyCross:false);
+        else if (Crosshair.enabled == false) ChooseCrosshair();
+
+    }
+
+    private void ChooseCrosshair(bool defaultCross = true, bool enemyCross = false, bool allyCross = false )
+    {
+        Crosshair.enabled = defaultCross;
+        CrosshairAlly.enabled = allyCross;
+        CrosshairEnemy.enabled = enemyCross;
     }
 
     IEnumerator Attend(RaycastHit h, bool souvre = true) // Permet de faire en sorte que l'on puisse plus pousser la porte apres un certain temps
