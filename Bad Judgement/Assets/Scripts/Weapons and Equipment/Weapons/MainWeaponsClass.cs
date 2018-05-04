@@ -49,6 +49,7 @@ public class MainWeaponsClass : MonoBehaviour
 	public MainWeaponsClass(string path)
 	{
         weapon = Resources.Load(path, typeof(GameObject)) as GameObject;
+
 	}
 
 	// read the folder with the guns and search the values of our variables
