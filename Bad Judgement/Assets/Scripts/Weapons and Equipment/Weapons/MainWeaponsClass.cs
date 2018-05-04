@@ -24,7 +24,6 @@ public class MainWeaponsClass : MonoBehaviour
 	private Camera cam;
 	private bool isAiming = false;
     private string path = "/Scripts/Weapons";
-    GameObject weapon;
 	#endregion
 
 	#region Weapon Sway
