@@ -36,13 +36,22 @@ public class TestInteraction : MonoBehaviour
     bool DecisionRecuAmoOnGun = false;
     bool DecisionOrdreAlly = false;
     bool DecisionOrdreporte = false;
+    bool DecisionHealAlly = false;
+    float temPsAvntHeal = 0;
     private void Update() // Ici on récupère tout les input  qui auron des incidences sur tout ce qui il y a dans le fixeUpdate Car si on met les InPut dans le fix UPdate, il y aura des INPUT LOSS !!
     {
         if (Input.GetKeyDown(KeyCode.O)) DecisionAllyllyShoot = true;
         if (Input.GetKeyDown(KeyCode.R)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
         if (Input.GetKeyDown(KeyCode.T)) DecisionOrdreAlly = true;
         if (Input.GetKeyDown(KeyCode.E)) DecisionOrdreporte = true;
-
+        if (Input.GetKey(KeyCode.H)) DecisionHealAlly = true;
+        else if (DecisionHealAlly == true)
+        {
+            DecisionHealAlly = false;
+            if(HealAnimationAlly.GetComponent<Image>() != null) HealAnimationAlly.GetComponent<Image>().enabled = false;
+            if(HealAnimationAlly.GetComponent<Animation>() != null) HealAnimationAlly.GetComponent<Animation>().enabled = false;
+            temPsAvntHeal = 0;
+        }
     }
 
     void FixedUpdate()
@@ -51,7 +60,31 @@ public class TestInteraction : MonoBehaviour
         RaycastHit hit;
         Debug.DrawLine(transform.position, direction * 3, Color.cyan); // Permet d'afficher le raycast
 
-        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) 
+        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("Ally")))
+        {
+            if (hit.transform.GetComponent<AIally>().estHS == true)
+            {
+                healAlly.enabled = true;
+                if (DecisionHealAlly == true && temPsAvntHeal < 10)
+                {
+                    HealAnimationAlly.GetComponent<Image>().enabled = true;
+                    HealAnimationAlly.GetComponent<Animator>().enabled = true;
+                    temPsAvntHeal += Time.deltaTime;
+                }
+                else if (temPsAvntHeal > 10)
+                {
+                    hit.transform.GetComponent<AIally>().PeutRevivre = true;
+                    HealAnimationAlly.GetComponent<Image>().enabled = false;
+                    HealAnimationAlly.GetComponent<Animator>().enabled = false;
+                }
+            }
+        }
+        else if (healAlly.enabled == true || HealAnimationAlly.GetComponent<Image>().enabled == true || HealAnimationAlly.GetComponent<Animator>().enabled == true)
+        {
+            healAlly.enabled = false;
+            HealAnimationAlly.GetComponent<Image>().enabled = false;
+            HealAnimationAlly.GetComponent<Animator>().enabled = false;
+        }
 
         if (DecisionAllyllyShoot == true)
         {
@@ -96,13 +129,16 @@ public class TestInteraction : MonoBehaviour
 
         if (vaDeplacerAllié == false && Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Ally"))
         {
-            alliesInterraction.enabled = true;
-
-            if (DecisionOrdreAlly == true) // Ici on choisit l'allié a bouger
+            if (hit.transform.GetComponent<AIally>().estHS == false)
             {
-                vaDeplacerAllié = true;
-                alliéChosi = hit.transform;
-                DecisionOrdreAlly = false;
+                alliesInterraction.enabled = true;
+
+                if (DecisionOrdreAlly == true) // Ici on choisit l'allié a bouger
+                {
+                    vaDeplacerAllié = true;
+                    alliéChosi = hit.transform;
+                    DecisionOrdreAlly = false;
+                }
             }
         }
         else if (alliesInterraction.enabled == true) alliesInterraction.enabled = false;

@@ -128,6 +128,7 @@ public class AIally : MonoBehaviour
                 {
                     peutSuivreJoueur = false;
                     peutRejoindreJoueur = false;
+                    cetAllié.isStopped = true;
                     direction = enemiActuel.position - this.transform.position;
 
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
@@ -157,6 +158,7 @@ public class AIally : MonoBehaviour
                 { // Si l'enemi est a croupi et que l'IA alliée sait lui tirer dessus
                     peutSuivreJoueur = false;
                     peutRejoindreJoueur = false;
+                    cetAllié.isStopped = true;
                     direction = (enemiActuel.position - this.transform.position) - new Vector3(0, 0.7f, 0);
 
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
@@ -187,6 +189,7 @@ public class AIally : MonoBehaviour
                     SetAnimation(isAiming: true);
                     peutSuivreJoueur = false;
                     peutRejoindreJoueur = false;
+                    cetAllié.isStopped = true;
                     direction = enemiActuel.position - this.transform.position;
 
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
@@ -194,16 +197,19 @@ public class AIally : MonoBehaviour
             }
 
 
-            if (enemiActuel.GetComponent<AIscripts>().estMort == true) // Permet de faire changer de cible a l'alliée si la cible qu'elle avait est morte
+            if (enemiActuel != null) // Permet de faire changer de cible a l'alliée si la cible qu'elle avait est morte
             {
-                enemiActuel = null;
-                peutSuivreJoueur = true;
-                peutRejoindreJoueur = true;
-                ordreDeplacement = false;
+                if (enemiActuel.GetComponent<AIscripts>().estMort == true)
+                {
+                    enemiActuel = null;
+                    peutSuivreJoueur = true;
+                    peutRejoindreJoueur = true;
+                    ordreDeplacement = false;
+                }
             }
 
         }
-        else if (allyHealthState.vie <= 0 && estHS == false ) // Si l'alliée n'a plus de vie
+        else if (allyHealthState.vie <= 0 && estHS == false && PeutRevivre == false) // Si l'alliée n'a plus de vie
         {
             cetAllié.isStopped = true;
             SetAnimation(isDead: true);
@@ -220,6 +226,7 @@ public class AIally : MonoBehaviour
                 temPsAvantEtreDebout = 0;
                 estHS = false;
                 this.GetComponent<Target>().GainHealth(this.GetComponent<Target>().vieMax/2);
+                PeutRevivre = false;
             }
              
         }

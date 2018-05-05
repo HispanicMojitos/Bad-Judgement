@@ -214,14 +214,14 @@ public class AIscripts : MonoBehaviour
                     IsPatrolling = false; // Si le joueur attaque l'IA, l'IA va venir l'attaquer
                     this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
 
-                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.5f)
+                    if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.1f)
                     {
                         chercheCouverture = false;
                         if (wantToAttack == false) isAimingPlayer = false;
                         estCouvert = true;
                         SetAnimation(isKneel: true);
                     }
-                    else if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 1f)
+                    else if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 1.5f)
                     {
                         chercheCouverture = false;
                         if (wantToAttack == false) isAimingPlayer = false;
@@ -534,8 +534,6 @@ public class AIscripts : MonoBehaviour
             Sounds.Death(mouthHead, soundDeath[0],playSoundOnce);
             estMort = true; // Permet d'éviter de se retrouver dans une boucle inutile
             
-            Destroy(this.GetComponent<Target>());
-            Destroy(this.GetComponent<AIscripts>());
         }
     }
     #endregion start & update
