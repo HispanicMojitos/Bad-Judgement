@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4528954, g: 0.57233304, b: 0.66427696, a: 1}
+  m_IndirectSpecularColor: {r: 0.4821064, g: 0.6090749, b: 0.7053669, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -9807,6 +9807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa27e7fdb0d04d45b034252326ff084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealAnimationAlly: {fileID: 1372646548}
   Crosshair: {fileID: 1969407892}
   CrosshairAlly: {fileID: 1151204558}
   CrosshairEnemy: {fileID: 359033942}
@@ -9815,6 +9816,7 @@ MonoBehaviour:
   alliesInterraction: {fileID: 348265940}
   reloadImage: {fileID: 2096716081}
   interactionImage: {fileID: 1674849538}
+  healAlly: {fileID: 1508574781}
   porteFerme: {fileID: 8300000, guid: 89ae3d3b526534442962d05a69c9dec4, type: 3}
   openDoor: {fileID: 8300000, guid: 7620b32e83059424593d74fb23def8cf, type: 3}
   closeDoor: {fileID: 8300000, guid: a228af3263128f7498acea2516d1b216, type: 3}
@@ -13024,6 +13026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c14da0a77bdc94f8b0c902ba9edc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mouth: {fileID: 813018144}
   anim: {fileID: 580732679}
   player: {fileID: 1530251610}
   allyHealthState: {fileID: 580732681}
@@ -13034,6 +13037,7 @@ MonoBehaviour:
   - {fileID: 470085427}
   - {fileID: 584317525}
   choixJoueur: {fileID: 421007095}
+  PeutRevivre: 0
   "allyEstR\xE9anim\xE9": 1
   estHS: 0
   ordreDeplacement: 0
@@ -17937,6 +17941,91 @@ CanvasRenderer:
 Transform:
   m_PrefabParentObject: {fileID: 400094, guid: bdd7a03fd93bf2d4cb6babd63ceabee8, type: 3}
   m_PrefabInternal: {fileID: 1307109893}
+--- !u!1 &813018141 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100004, guid: 8cf16dfd2d18b9b47a77514d8c8ea246, type: 3}
+  m_PrefabInternal: {fileID: 782686750}
+--- !u!82 &813018144
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 813018141}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243792250063644000, guid: 624c214c8e28fe84b81d30cd542209e3,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &813315723
 GameObject:
   m_ObjectHideFlags: 0
@@ -32016,7 +32105,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1372646548}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 240ed0a027d82384e9aa53ff54120b01, type: 2}
   m_CullingMode: 0

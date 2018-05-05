@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class AIally : MonoBehaviour
 {
+    [SerializeField] private AudioSource Mouth;
     [SerializeField] private Animator anim;
     [SerializeField] private Transform player;
     [SerializeField] private Target allyHealthState;
@@ -21,6 +22,7 @@ public class AIally : MonoBehaviour
     private float MaxDistance = 5;
     private float tempsDelayChangerCible = 0.05f;
 
+    private float temPsAvantEtreDebout = 0;
     private float tempsDebutAttaque = 0f;
     private float tempsFinAttaque = 0f;
     private float tempsAvantAttaque = 0f;
@@ -28,6 +30,7 @@ public class AIally : MonoBehaviour
     private float delayAvntRejoindreJoueur;
     private bool peutRejoindreJoueur = true;
     private bool doitcourir = false;
+    [HideInInspector] public bool PeutRevivre = false;
     [HideInInspector] public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
     [HideInInspector] public bool estHS = false;
@@ -200,17 +203,31 @@ public class AIally : MonoBehaviour
             }
 
         }
-        else if (allyHealthState.vie <= 0 ) // Si l'alliée n'a plus de vie
+        else if (allyHealthState.vie <= 0 && estHS == false ) // Si l'alliée n'a plus de vie
         {
             cetAllié.isStopped = true;
             SetAnimation(isDead: true);
             estHS = true;
+
+            Sounds.Death(Mouth,Resources.Load("Sounds/DeathSongs/Death Screams 1") as AudioClip,false);
+        }
+        else if (estHS == true && PeutRevivre == true && allyHealthState.vie <= 0)
+        {
+            SetAnimation(seRedresse: true);
+            temPsAvantEtreDebout += Time.deltaTime;
+            if(temPsAvantEtreDebout > 5f)
+            {
+                temPsAvantEtreDebout = 0;
+                estHS = false;
+                this.GetComponent<Target>().GainHealth(this.GetComponent<Target>().vieMax/2);
+            }
+             
         }
     }
     
 
 
-    private void SetAnimation(bool isAimKneel = false, bool isKneel = false, bool kneeGrenad = false, bool isIdle = false, bool isAiming = false, bool isAttack = false, bool isWalking = false, bool isRunning = false, bool isAttackingCloser = false, bool isDead = false) // Utilisation de prametre nomé, a récuperer en argument nommer pour décider quelle animation sera jouée
+    private void SetAnimation(bool isAimKneel = false, bool isKneel = false, bool kneeGrenad = false, bool isIdle = false, bool isAiming = false, bool isAttack = false, bool isWalking = false, bool isRunning = false, bool isAttackingCloser = false, bool isDead = false, bool seRedresse = false) // Utilisation de prametre nomé, a récuperer en argument nommer pour décider quelle animation sera jouée
     {
         anim.SetBool("IsAimKneel", isAimKneel);
         anim.SetBool("IsKneel", isKneel);
@@ -222,6 +239,7 @@ public class AIally : MonoBehaviour
         anim.SetBool("IsRunning", isRunning);
         anim.SetBool("IsAttackingCloser", isAttackingCloser);
         anim.SetBool("IsDead", isDead);
+        anim.SetBool("IsGettingUp", seRedresse);
     }
 
     [HideInInspector] public bool AlliéPeutTirer = true;

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TestInteraction : MonoBehaviour
 {
+    [SerializeField] private GameObject HealAnimationAlly;
     [SerializeField] private Image Crosshair;
     [SerializeField] private Image CrosshairAlly;
     [SerializeField] private Image CrosshairEnemy;
@@ -13,6 +14,7 @@ public class TestInteraction : MonoBehaviour
     [SerializeField] private Image alliesInterraction;
     [SerializeField] private Image reloadImage;
     [SerializeField] private Image interactionImage;
+    [SerializeField] private Image healAlly;
     [SerializeField] private AudioClip porteFerme;
     [SerializeField] private AudioClip openDoor;
     [SerializeField] private AudioClip closeDoor;
@@ -29,11 +31,12 @@ public class TestInteraction : MonoBehaviour
         emplacementCible = visualisationCiblePosition.transform;
     }
 
+    // Ici nous retrouvons les variables bool corresPondants aux InPut , que l'on va Utiliser dans le FixedUtPdate
     bool DecisionAllyllyShoot = false;
     bool DecisionRecuAmoOnGun = false;
     bool DecisionOrdreAlly = false;
     bool DecisionOrdreporte = false;
-    private void Update() // Ici on récupère tout les input  qui auron des incidences sur tout ce qui il y a dans le fixeUpdate
+    private void Update() // Ici on récupère tout les input  qui auron des incidences sur tout ce qui il y a dans le fixeUpdate Car si on met les InPut dans le fix UPdate, il y aura des INPUT LOSS !!
     {
         if (Input.GetKeyDown(KeyCode.O)) DecisionAllyllyShoot = true;
         if (Input.GetKeyDown(KeyCode.R)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
@@ -48,7 +51,9 @@ public class TestInteraction : MonoBehaviour
         RaycastHit hit;
         Debug.DrawLine(transform.position, direction * 3, Color.cyan); // Permet d'afficher le raycast
 
-        if(DecisionAllyllyShoot == true)
+        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) 
+
+        if (DecisionAllyllyShoot == true)
         {
             foreach (Transform al in alliés)
             {
