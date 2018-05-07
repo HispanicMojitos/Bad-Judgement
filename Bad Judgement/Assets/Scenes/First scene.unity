@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.286935, g: 0.36516923, b: 0.43942502, a: 1}
+  m_IndirectSpecularColor: {r: 0.28872737, g: 0.3674924, b: 0.4420273, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -11694,7 +11694,6 @@ MonoBehaviour:
   Player: {fileID: 1530251610}
   head: {fileID: 401119232}
   rbPlayer: {fileID: 1530251608}
-  anim: {fileID: 0}
   "alli\xE9s":
   - {fileID: 1530251610}
   - {fileID: 580732680}
@@ -11705,8 +11704,6 @@ MonoBehaviour:
   canSeePlayer: 1
   estMort: 0
   chercheCouverture: 0
-  estCouvert: 0
-  IsPatrolling: 1
   reprendLaRonde: 0
 --- !u!114 &470085429
 MonoBehaviour:
@@ -14008,7 +14005,6 @@ MonoBehaviour:
   Player: {fileID: 1530251610}
   head: {fileID: 1806365246}
   rbPlayer: {fileID: 1530251608}
-  anim: {fileID: 584317524}
   "alli\xE9s":
   - {fileID: 1530251610}
   - {fileID: 580732680}
@@ -14019,8 +14015,6 @@ MonoBehaviour:
   canSeePlayer: 1
   estMort: 0
   chercheCouverture: 0
-  estCouvert: 0
-  IsPatrolling: 1
   reprendLaRonde: 0
 --- !u!136 &584317521
 CapsuleCollider:
@@ -33613,8 +33607,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1367329992}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.952, y: 0.136, z: -0.132}
-  m_LocalScale: {x: 1, y: 0.9999991, z: 1.0000006}
+  m_LocalPosition: {x: 0.952, y: 0.181, z: -0.132}
+  m_LocalScale: {x: 1, y: 0.9999991, z: 1.2471788}
   m_Children: []
   m_Father: {fileID: 2076332016}
   m_RootOrder: 4
@@ -44158,7 +44152,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1806365245}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 584317525}
@@ -44223,7 +44217,8 @@ AudioSource:
   m_GameObject: {fileID: 1806365245}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243792250063644000, guid: 624c214c8e28fe84b81d30cd542209e3,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

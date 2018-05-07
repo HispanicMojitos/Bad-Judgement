@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIscripts : MonoBehaviour
+ class AIscripts : MonoBehaviour
 {
 
     #region membres
@@ -24,7 +24,7 @@ public class AIscripts : MonoBehaviour
     public Transform Player; // Nous permet de comparer le joueur a l'intéligence artificelle
     [SerializeField] private Transform head; // Permet de regler les angles de vue par rapport a la tête
     [SerializeField] private Rigidbody rbPlayer;
-    [SerializeField] private Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
+    private Animator anim; // Récupere les animations de l'IA, on met en static, cela permet de dupliquer l'IA avec ctr+D dans l'editeur de scene 
     private Target IA; // permet de récuperer le script Target attaché a l'IA auquel on attache ce script
     [SerializeField] private Transform[] alliés;
 
@@ -76,10 +76,10 @@ public class AIscripts : MonoBehaviour
     [HideInInspector] public bool chercheCouverture = false;
     private bool wantToAttack = false;
     private bool searchCover = false;
-    [HideInInspector] public bool estCouvert = false;
+    private bool estCouvert = false;
     private bool reversePatrouille = false; // Permet de savoir dans quel sens de la patrouille l'IA est
     private bool IsPausing = false; // reflete si l'IA doit prendre une pause
-    [HideInInspector]  public bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
+    private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
 
     [HideInInspector]public bool reprendLaRonde = false;
     #endregion membres
@@ -119,7 +119,19 @@ public class AIscripts : MonoBehaviour
         DeterminePointDePatrouilleProchePointDeCouverture(); // Permet de faire prendre connaissance de lIA des point de couverture les plus proches en fonction des points de patrouille
         VolonteEtat(); // On initialise la vonlonté de l'IA
     }
-# endregion Awake & Start
+    #endregion Awake & Start
+
+    private void Update()
+    {
+        if (Vector3.Distance(pointDeCouverture[CherchePointDeCouvertureProche()].transform.position, this.transform.position) <= 0.5f && chercheCouverture == true)
+        {
+            chercheCouverture = false;
+            if (wantToAttack == false) isAimingPlayer = false;
+            estCouvert = true;
+            SetAnimation(isKneel: true);
+        }
+    }
+
 
     void FixedUpdate()
     {
