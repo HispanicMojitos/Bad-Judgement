@@ -25,21 +25,22 @@ public class MainWeaponsClass : MonoBehaviour
 	private Camera cam;
 	private bool isAiming = false;
     private string path = "/Scripts/Weapons"; // this is not correct read contructor to see why
-	#endregion
 
-	#region Weapon Sway
-	private float amount;
-	private float smoothAmount;
-	private float maxAmount;
-	#endregion
+    #region Weapon Sway
+    private float amount;
+    private float smoothAmount;
+    private float maxAmount;
+    #endregion
 
-	#region Reload
-	private int bulletsPerMag;
-	private int currentMag;
-	private KeyCode reloadKey = KeyCode.R;
-	#endregion
+    #region Reload
+    private int bulletsPerMag;
+    private int currentMag;
+    private KeyCode reloadKey = KeyCode.R;
+    #endregion
 
-	/*
+    #endregion
+
+    /*
 	public MainWeaponsClass(GameObject weapon, GameObject gunEnd, AudioClip reloadSound,
 		AudioClip shootSound, Animator gunAnim, AudioSource gunAudioSource, GameObject impactEffect,
 		float gunSwayAmount, float gunSwaySmooth, float gunSwayMax, int bulletsPerMag,
@@ -47,7 +48,7 @@ public class MainWeaponsClass : MonoBehaviour
 	{
 
 	}*/
-	public MainWeaponsClass(string path, int magQty, int bulletsPerMag)
+    public MainWeaponsClass(string path, int magQty, int bulletsPerMag)
 	{
         weapon = Resources.Load(path, typeof(GameObject)) as GameObject; // this searches our weapon from the path inside a Resources folder
         initialPosition = transform.localPosition;
