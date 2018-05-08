@@ -22,12 +22,12 @@ public class FatigueSys
 
     public void Walking()
     {
-        fatigue = Mathf.Clamp((fatigue + (fatigueIncrease)) / 5f, 0.0f, maxFatigue);
+        fatigue = Mathf.Clamp((fatigue + (fatigueIncrease/2)), 0.0f, maxFatigue);
     }
 
     public void Jumping()
     {
-        fatigue += 50.0f;
+        fatigue += 250.0f;
     }
 
     public void crouchWalking()                                                        //Augmente la fatigue quand il avance accroupi
