@@ -12,6 +12,4 @@ public abstract class Equipment : MonoBehaviour
         this.name = name;
         this.uiSprite = uiSprite;
     }
-    
-
 }

@@ -58,7 +58,7 @@ public class ProtectionEquipment : Equipment
         float equipDamage = 0F;
         float realDamage = 0F;
         //Raw distance is actually the math formula to calculate 
-        float rawDistance = Mathf.Sqrt(Mathf.Pow(distanceToTarget.x, 2F) + Mathf.Pow(distanceToTarget.y, 2F) + Mathf.Pow(distanceToTarget.z, 2F));
+        float rawDistance = distanceToTarget.magnitude;
 
         if (rawDistance <= 5F) realDamage = rawDamage;
         else
@@ -67,6 +67,7 @@ public class ProtectionEquipment : Equipment
             realDamage = (rawDamage - ((rawDistance - 5F) * 5F));
             equipDamage = realDamage;
         }
+
         equipmentDuration -= equipDamage;
 
         return realDamage;

@@ -6,12 +6,19 @@ using UnityEngine;
 
 public abstract class Grenade : Equipment
 {
-    protected int amount { get; private set; } //This is the remaining amount of grenades
+    public int amount { get; private set; } //This is the remaining amount of grenades
+    public bool isDamageable { get { return this.GetType() == typeof(FragGrenade); } }
+
+    private GameObject grenade; //This is the actual grenade object that has to be thrown
 
     #region Ctor
 
-    public Grenade(string name, Sprite uiSprite, int amount) : base(name, uiSprite)
+    public Grenade(string name, Sprite uiSprite, int amount, GameObject prefab, Transform playerPos) : base(name, uiSprite)
     {
+        this.amount = amount;
+
+        grenade = Instantiate(prefab, playerPos);
+        grenade.transform.parent = null;
     }
 
     #endregion
@@ -19,9 +26,15 @@ public abstract class Grenade : Equipment
     #region Methods
 
     //Overriden in children classes (damage or not damage)
-    protected virtual void ThrowGrenade(float force, Vector3 direction, Sprite effect)
+    protected virtual void ThrowGrenade(Transform startPos) //+TRANSFORM (POS DEPART)
     {
-        //HERE
+        Vector3 direction = startPos.TransformDirection(Vector3.forward) * 10F; //Setting direction
+
+        var grenadeRb = grenade.GetComponent<Rigidbody>(); //Getting rigidbody to apply force later
+        grenadeRb.AddForce(direction, ForceMode.Impulse); //Applying impulse force to grenade
+
+        if(isDamageable)grenade.AddComponent<GrenadeExplode>(); //Adding explosion script
+        //else addingParticleEffect
     }
 
     #endregion
