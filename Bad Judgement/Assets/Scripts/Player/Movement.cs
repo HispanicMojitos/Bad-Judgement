@@ -72,6 +72,22 @@ public class Movement : MonoBehaviour
         //We send our animator to get a whole list of the animator's parameters. This will allow us to disable all the bools we don't need in only one line !
     }
 
+    private void Update()
+    {
+        #region Jump
+
+        //Checking for Jump :
+        //If player wants to jump AND that character can jump AND that character isn't crouched :
+        if (Input.GetButtonDown("Jump") && this.characterIsGrounded && !(characterIsCrouched))
+        {
+            Jump(); //Makes the character jump
+            characterIsJumping = true; //Setting the property for other scripts
+        }
+        else characterIsJumping = false; //Setting property for other scripts
+
+        #endregion
+    }
+
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -80,19 +96,6 @@ public class Movement : MonoBehaviour
             #region Ground Move
 
             if (characterIsGrounded) this.Move();
-
-            #endregion
-
-            #region Jump
-
-            //Checking for Jump :
-            //If player wants to jump AND that character can jump AND that character isn't crouched :
-            if (Input.GetButtonDown("Jump") && this.characterIsGrounded && !(characterIsCrouched))
-            {
-                Jump(); //Makes the character jump
-                characterIsJumping = true; //Setting the property for other scripts
-            }
-            else characterIsJumping = false; //Setting property for other scripts
 
             #endregion
 
