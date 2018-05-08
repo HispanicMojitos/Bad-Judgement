@@ -84,7 +84,7 @@ public class GunScript : MonoBehaviour
         cam = GetComponentInParent<Camera>();
     }
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         #region Refresh values
         currentMag = mag.currentMag;
