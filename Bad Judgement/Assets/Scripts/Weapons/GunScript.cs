@@ -89,7 +89,7 @@ public class GunScript : MonoBehaviour
         #region Refresh values
         currentMag = mag.currentMag;
         magQty = mag.mags.Count;
-        LookAtScreen();
+        //LookAtScreen();
         #endregion
 
         #region Reload Condition
