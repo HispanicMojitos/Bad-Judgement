@@ -116,10 +116,6 @@ public class CamControl : MonoBehaviour
         yGameAxis *= horizontalSensitivity;
         Vector3 freeCamHorizontalRotation = new Vector3 (0F, yGameAxis, 0F);
         this.cam.transform.localEulerAngles += freeCamHorizontalRotation;
-
-        //Clamping cam to a certain angle
-        //if (verticalEulerVector.y >= maxLeftRightFreeCamAngle) verticalEulerVector.y = maxLeftRightFreeCamAngle;
-        //if (verticalEulerVector.y <= -(maxLeftRightFreeCamAngle)) verticalEulerVector.y = -maxLeftRightFreeCamAngle;
     }
 
     private void ChangeFreeCamOrNot()

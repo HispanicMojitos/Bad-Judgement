@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Movement : MonoBehaviour
 {
-    #region Members
+     #region Members
 
     #region Sounds members
     [SerializeField] private AudioSource[] pieds = new AudioSource[2]; // Source pour les pruits de sauts
@@ -27,6 +27,7 @@ public class Movement : MonoBehaviour
 
     private bool wantsToRun; //To know is the character wants to run
     private bool characterCanJump; //Useful for the jump move
+    private static float leanAngle = 7F;
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
@@ -121,6 +122,12 @@ public class Movement : MonoBehaviour
 
             #endregion
 
+            #region Leaning
+
+            //Leaning();
+
+            #endregion
+
             Gravity();
         }
     }
@@ -207,6 +214,17 @@ public class Movement : MonoBehaviour
         this.playerCollider.center -= new Vector3(0F, (deltaHeight / 2), 0F);
 
         this.characterIsCrouched = InvertBool(characterIsCrouched);
+    }
+
+    private void Leaning()
+    {
+        Vector3 actualRot = playerRigidbody.transform.localEulerAngles;
+
+        if (Input.GetKey(KeyCode.E)) actualRot.z = -leanAngle;
+        else if (Input.GetKey(KeyCode.A)) actualRot.z = leanAngle;
+        else actualRot.z = 0F;
+
+        playerRigidbody.transform.localEulerAngles = actualRot;
     }
 
     #endregion
