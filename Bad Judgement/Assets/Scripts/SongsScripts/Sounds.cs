@@ -18,13 +18,7 @@ public static class Sounds
     public static void GunnShoot(AudioSource Gun, string nomDuGun, float volume = 1f)
     {
         Gun.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
-        switch (nomDuGun)
-        {
-            case "AK47":  if (Gun.clip != Resources.Load("Sounds/AK47sounds/AK47shoot") as AudioClip) Gun.clip = Resources.Load("Sounds/AK47sounds/AK47shoot") as AudioClip; break;
-            case "CZ805": if (Gun.clip != Resources.Load("Sounds/cZ805/Shoot (CZ 805)") as AudioClip) Gun.clip = Resources.Load("Sounds/cZ805/Shoot (CZ 805)") as AudioClip;  break;
-            case "": break;
-            default: throw new Exception("Le nom d'arme renseigné n'est pas valide et ne permet en aucun cas de recuperer un son lui convenant");
-        }
+        if (Gun.clip != Resources.Load("Sounds/Shoot/" + nomDuGun + "shoot") as AudioClip) Gun.clip = Resources.Load("Sounds/Shoot/" + nomDuGun + "shoot") as AudioClip; 
         if (Gun.volume != volume) Gun.volume = volume; // defini le volume de l'AK47
         Gun.Play();
     }

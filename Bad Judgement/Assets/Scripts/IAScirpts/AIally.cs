@@ -221,7 +221,7 @@ public class AIally : MonoBehaviour
         {
             SetAnimation(seRedresse: true);
             temPsAvantEtreDebout += Time.deltaTime;
-            if(temPsAvantEtreDebout > 2.5f)
+            if(temPsAvantEtreDebout > 2f)
             {
                 temPsAvantEtreDebout = 0;
                 estHS = false;
