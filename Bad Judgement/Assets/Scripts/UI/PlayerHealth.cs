@@ -24,16 +24,17 @@ public class PlayerHealth : MonoBehaviour
     private float delaiEntreRecup = 0f;
     #endregion membres
 
+    #region Start && Update
 
     void Start () {  vie = this.gameObject.GetComponent<Target>().vie;  }
 
 	void Update ()
     {
-        if(estRepere == true && aPeuDeVie == false) Sounds.transitionSound(Repéré, 0.01f);
+        if(estRepere == true && aPeuDeVie == false) Sounds.transitionSound(Repéré, 0.01f);   // Les if ici permette de s'occuper du maintient des transitions des musiques/son en fonction de l'etat du joueur et du jeu
         else if(estRepere == false && aPeuDeVie == false) Sounds.transitionSound(enJeux, 1f);
         else if (aPeuDeVie == true) Sounds.transitionSound(PeuDeVie, 3f);
 
-        if (vie != this.gameObject.GetComponent<Target>().vie)
+        if (vie != this.gameObject.GetComponent<Target>().vie) // Permet de jouer des bruits d'impact quand le joueur prenhd des degats
         {
             vie = this.gameObject.GetComponent<Target>().vie;
             if (moutPlayer.clip == HealBreath) moutPlayer.clip = null;
@@ -43,7 +44,7 @@ public class PlayerHealth : MonoBehaviour
             delaiAvantRepos = 10f;
         }
 
-        if ( vie < this.gameObject.GetComponent<Target>().vieMax * 0.5f && vie != 0)
+        if ( vie < this.gameObject.GetComponent<Target>().vieMax * 0.5f && vie != 0) // Si le joueur a moin de 50% de ses PV ET Qu'il ne recoit pas de degat, alors on va regenerer sa vie
         {
             delaiAvantRepos = delaiAvantRepos - Time.deltaTime;
             if(delaiAvantRepos < delaiEntreRecup) Repos();
@@ -53,10 +54,13 @@ public class PlayerHealth : MonoBehaviour
                 Sounds.BeatsOfHeart(player);
             }
         }
-
 	}
-    
-    private void Repos()
+
+    #endregion Start && Update
+
+
+    #region methodes
+    private void Repos()// Permet au joueur de se reposer et de récuperer de la vie
     {
         delaiEntreRecup -= 0.2f;
         this.gameObject.GetComponent<Target>().GainHealth(this.gameObject.GetComponent<Target>().vieMax * 0.01f);
@@ -80,4 +84,5 @@ public class PlayerHealth : MonoBehaviour
             player.Stop();
         }
     }
+    #endregion methodes
 }

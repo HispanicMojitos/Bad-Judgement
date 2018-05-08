@@ -55,7 +55,7 @@ public class AIally : MonoBehaviour
             RaycastHit h;
             Debug.DrawRay(head.transform.position, direction * 10,Color.red);
 
-            if (peutSuivreJoueur == true && ordreDeplacement == false)
+            if (peutSuivreJoueur == true && ordreDeplacement == false) // Ici l'iA va suivre le joueur de manière a le suivre mais de s'arreter si il se trouve trop près
             {
                 if (Vector3.Distance(this.transform.position, player.position) > MaxDistance  && peutRejoindreJoueur == true) // PERMET DE SUIVRE LE JOUEUR
                 {
@@ -72,7 +72,7 @@ public class AIally : MonoBehaviour
                         SetAnimation(isRunning: true);
                     }
                 }
-                else
+                else // PERMET D'ARRETER L'IA  lorsqu'il est trop pres du joueur
                 {
                     cetAllié.isStopped = true;
                     doitcourir = false;
@@ -217,11 +217,11 @@ public class AIally : MonoBehaviour
 
             Sounds.Death(Mouth,Resources.Load("Sounds/DeathSongs/Death Screams 1") as AudioClip,false);
         }
-        else if (estHS == true && PeutRevivre == true && allyHealthState.vie <= 0)
+        else if (estHS == true && PeutRevivre == true && allyHealthState.vie <= 0) // Ici on active le fait que l'allié Peut Revivre
         {
             SetAnimation(seRedresse: true);
             temPsAvantEtreDebout += Time.deltaTime;
-            if(temPsAvantEtreDebout > 5f)
+            if(temPsAvantEtreDebout > 2.5f)
             {
                 temPsAvantEtreDebout = 0;
                 estHS = false;

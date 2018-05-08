@@ -26,11 +26,11 @@ public class SmokeGrenadeScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetButton("Fire1") && espaceFumée.enabled == true) espaceFumée.enabled = false;
-        else if (espaceFumée.enabled == false && delai < 0f && !Input.GetButton("Fire1")) espaceFumée.enabled = true;
+        if (Input.GetButton("Fire1") && espaceFumée.enabled == true) espaceFumée.enabled = false; // Permet de tirer a travers la fumée 
+        else if (espaceFumée.enabled == false && delai < 0f && !Input.GetButton("Fire1")) espaceFumée.enabled = true; // Permet que la fumée sois comme un Obstacle Pour l'IA enemie et ne voit Pas le joueur
 
         delai = delai - Time.deltaTime;
-        if (((delai <= 0f) && (emmetFumee == false)) || ((vieGrenade.vie != vieDeLaGrenade) && emmetFumee == false))    Emmet();
+        if (((delai <= 0f) && (emmetFumee == false)) || ((vieGrenade.vie != vieDeLaGrenade) && emmetFumee == false))  Emmet();
         if (emmetFumee == true) effetFumée.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
         if(delai < -40 && finFumee == false) // Si la fumée est dissipée

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -12,6 +13,24 @@ public static class Sounds
     #endregion propriété && membres
 
     #region AK47 Cz805
+    #region soundForEveryGuns
+    /// <summary> FOR YA ANDREWS !!!! :  Permet de jouer le son souhaité, qu'importe sois l'arme !!! Gun est l'audioSource a renseigner, et nomDuGun est le nom du gun a rensigner (a voir dans la classe Sounds dans cette methode si les noms en string corresponden bien avec ceux récupéré</summary>
+    public static void GunnShoot(AudioSource Gun, string nomDuGun, float volume = 1f)
+    {
+        Gun.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
+        switch (nomDuGun)
+        {
+            case "AK47":  if (Gun.clip != Resources.Load("Sounds/AK47sounds/AK47shoot") as AudioClip) Gun.clip = Resources.Load("Sounds/AK47sounds/AK47shoot") as AudioClip; break;
+            case "CZ805": if (Gun.clip != Resources.Load("Sounds/cZ805/Shoot (CZ 805)") as AudioClip) Gun.clip = Resources.Load("Sounds/cZ805/Shoot (CZ 805)") as AudioClip;  break;
+            case "": break;
+            default: throw new Exception("Le nom d'arme renseigné n'est pas valide et ne permet en aucun cas de recuperer un son lui convenant");
+        }
+        if (Gun.volume != volume) Gun.volume = volume; // defini le volume de l'AK47
+        Gun.Play();
+    }
+
+
+    #endregion soundForEveryGuns
 
     /// <summary>Joue le son d'une unique balle d'AK47(Coupe le son precedent)</summary>
     public static void AK47shoot(AudioSource AK47, float volume = 1f)
@@ -140,12 +159,12 @@ public static class Sounds
     /// <summary> Joue le son des balles arrivant aux oreilles au hasard dans le tableau "bullet"</summary>
     public static void  bulletSound(AudioSource corps, AudioClip[] bullet, float volume = 1)
     {
-        int random = Random.Range(0,1); // Plus l'ecart est grand, moins le son de balle sera fréquent
+        int random = UnityEngine.Random.Range(0,1); // Plus l'ecart est grand, moins le son de balle sera fréquent
         if( random == 0)
         {
             if (!corps.isPlaying)
             {
-                int randomBullet = Random.Range(0, bullet.Length);
+                int randomBullet = UnityEngine.Random.Range(0, bullet.Length);
                 corps.clip = bullet[randomBullet];
                 if(corps.spatialBlend != 1f) corps.spatialBlend = 1f;
                 if(corps.volume != volume) corps.volume = volume;
@@ -156,12 +175,12 @@ public static class Sounds
     /// <summary> Choisi au hasard quand jouer le son de douleur du personnage, et choisi au hasard le son de personnage choisi grace au tableau "hurt" </summary>
     public static void hurtHuman(AudioSource mouth, AudioClip[] hurt, float vie, float volume = 1)
     {
-        int random = Random.Range(0, 5); // Plus l'ecart est grand, moin le son de cris de douleur sera entendu
+        int random = UnityEngine.Random.Range(0, 5); // Plus l'ecart est grand, moin le son de cris de douleur sera entendu
         if (random == 1)
         {
             if (!mouth.isPlaying)
             {
-                int randomhirt = Random.Range(0, hurt.Length);
+                int randomhirt = UnityEngine.Random.Range(0, hurt.Length);
                 mouth.clip = hurt[randomhirt];
                 if(mouth.spatialBlend != 1f) mouth.spatialBlend = 1f;
                 if(mouth.volume != volume) mouth.volume = volume;
@@ -170,6 +189,8 @@ public static class Sounds
         }
     }
     #endregion human sound
+
+    #region MusiqueDuJeux
 
     /// <summary>Permet de jouer une musique voulue grace à une source auditive initialisée </summary>
     public static void JouerMusique(AudioSource OrigineDuSon, AudioClip Musique)
@@ -183,6 +204,8 @@ public static class Sounds
         }
 
     }
+
+    #endregion MusiqueDuJeux
 
     #region Mixer
 
