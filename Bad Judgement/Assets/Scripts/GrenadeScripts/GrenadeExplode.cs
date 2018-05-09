@@ -27,7 +27,7 @@ public class GrenadeExplode : MonoBehaviour
 
             if(colTarget != null)
             {
-                float damage = Grenade.CalculateGrenadeDamage(this.transform.position, colTarget.transform.position);
+                float damage = FragGrenade.CalculateDamage(this.transform.position, colTarget.transform.position);
                 colTarget.TakeDamage(damage);
             }
         }
