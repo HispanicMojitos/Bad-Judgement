@@ -24,7 +24,10 @@ public class MainWeaponsClass : MonoBehaviour
 	private int magQty;
 	private Camera cam;
 	private bool isAiming = false;
+    private Vector3 initialPosition;
     private string path = "/Scripts/Weapons"; // this is not correct read contructor to see why
+    private AudioSource AK47;
+    private Animator anim;
 
     #region Weapon Sway
     private float amount;
@@ -36,8 +39,18 @@ public class MainWeaponsClass : MonoBehaviour
     private int bulletsPerMag;
     private int currentMag;
     private KeyCode reloadKey = KeyCode.R;
+    private Magazines mag;
+    private bool _isReloading;
     #endregion
 
+    #endregion
+
+    #region Properties
+    public bool isReloading
+    {
+        get { return _isReloading; }
+        set { _isReloading = value; }
+    }
     #endregion
 
     /*
@@ -51,9 +64,9 @@ public class MainWeaponsClass : MonoBehaviour
     public MainWeaponsClass(string path, int magQty, int bulletsPerMag)
 	{
         weapon = Resources.Load(path, typeof(GameObject)) as GameObject; // this searches our weapon from the path inside a Resources folder
-        initialPosition = transform.localPosition;
+        initialPosition = weapon.transform.localPosition;
         mag = new Magazines(magQty, bulletsPerMag);
-        cam = GetComponentInParent<Camera>();
+        cam = weapon.GetComponentInParent<Camera>();
     }
 
     // read the folder with the guns and search the values of our variables
@@ -145,9 +158,9 @@ public class MainWeaponsClass : MonoBehaviour
     {
         isAiming = false;
         anim.SetBool("Aiming", isAiming);
-        isReloading = true;
+        _isReloading = true;
         gunAnim.SetTrigger("Reload");
-        isReloading = false;
+        _isReloading = false;
         //Sounds.AK47reload(AK47);
         mag.Reload();
     }
