@@ -9,25 +9,25 @@ using System.IO;
 
 public class MainWeaponsClass : MonoBehaviour
 {
-	#region Variables
-	private GameObject impactEffect;
+    #region Variables
+    private Object[] weaponResources;
+    private GameObject impactEffect;
 	private GameObject weapon;
 	private GameObject gunEnd;
 	private AudioClip reloadSound;
 	private AudioClip shootSound;
 	private AudioSource gunAudioSource;
-	private Animator gunAnim;
-	private float damage;
+    private AudioSource AK47;
+    private Animator anim;
+    private Camera cam;
+    private float damage;
 	private float impactForce;
 	private float fireRate;
 	private float nextTimeToFire = 0f;
-	private int magQty;
-	private Camera cam;
+	private static int magQty;
 	private bool isAiming = false;
     private Vector3 initialPosition;
-    private string path = "/Scripts/Weapons"; // this is not correct read contructor to see why
-    private AudioSource AK47;
-    private Animator anim;
+    private string path = "/ParticleEffects"; // this is not correct read contructor to see why
 
     #region Weapon Sway
     private float amount;
@@ -37,9 +37,9 @@ public class MainWeaponsClass : MonoBehaviour
 
     #region Reload
     private int bulletsPerMag;
-    private int currentMag;
+    private static int currentMag;
     private KeyCode reloadKey = KeyCode.R;
-    private Magazines mag;
+    private static Magazines mag;
     private bool _isReloading;
     #endregion
 
@@ -51,6 +51,21 @@ public class MainWeaponsClass : MonoBehaviour
         get { return _isReloading; }
         set { _isReloading = value; }
     }
+    public static int CurrentMag
+    {
+        get { return currentMag; }
+        set { currentMag = value; }
+    }
+    public static int MagQty
+    {
+        get { return magQty; }
+        set { magQty = value; }
+    }
+    public static Magazines Mag
+    {
+        get { return mag; }
+        set { mag = value; }
+    }
     #endregion
 
     /*
@@ -61,12 +76,40 @@ public class MainWeaponsClass : MonoBehaviour
 	{
 
 	}*/
-    public MainWeaponsClass(string path, int magQty, int bulletsPerMag)
+    /// <summary>
+    /// Instance of this class must have the wepon name found in resources folder
+    /// </summary>
+    /// <param name="magQty"></param>
+    /// <param name="bulletsPerMag"></param>
+    /// <param name="damage"></param>
+    /// <param name="impactForce"></param>
+    /// <param name="fireRate"></param>
+    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate)
 	{
-        weapon = Resources.Load(path, typeof(GameObject)) as GameObject; // this searches our weapon from the path inside a Resources folder
+        /*
+        weapon = (GameObject)weaponResources.Where(x => x.name == this.name).SingleOrDefault();
+        impactEffect = (GameObject)weaponResources.Where(x => x.name == "impactEffect").SingleOrDefault();
+        gunEnd = (GameObject)weaponResources.Where(x => x.name == "gunEnd").SingleOrDefault();
+        weapon = Resources.Load(string.Format("Weapons/{}", this.name), typeof(GameObject)) as GameObject; // this searches our weapon from the path inside a Resources folde
+        impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
+        gunEnd = Resources.Load(string.Format("Weapon/{}/gunEnd", this.name), typeof(GameObject)) as GameObject;
+        reloadSound = Resources.Load(string.Format("Weapons/{}/reloadSound", name), typeof(AudioClip)) as AudioClip;
+        */
+        // this was very pretty but I'm gonna use a prefab XD
+        weaponResources = Resources.LoadAll(string.Format("Weapons/{}", this.name), typeof(AudioClip));
+        reloadSound = (AudioClip)weaponResources.Where(x => x.name == "reloadSound").SingleOrDefault();
+        shootSound = (AudioClip)weaponResources.Where(x => x.name == "shootSound").SingleOrDefault();
+        weapon = Resources.Load(string.Format("Weapons/{}", this.name), typeof(GameObject)) as GameObject;
+        impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
+        gunEnd = weapon.transform.Find("gunEnd").gameObject;
+        gunAudioSource = weapon.GetComponent<AudioSource>();
+        anim = weapon.GetComponent<Animator>();
+        cam = weapon.GetComponentInParent<Camera>();
+        this.damage = damage;
+        this.impactForce = impactForce;
         initialPosition = weapon.transform.localPosition;
         mag = new Magazines(magQty, bulletsPerMag);
-        cam = weapon.GetComponentInParent<Camera>();
+
     }
 
     // read the folder with the guns and search the values of our variables
@@ -149,20 +192,23 @@ public class MainWeaponsClass : MonoBehaviour
     public void AimDownSight() //WIP
     { // this should edit the recoil values and play anim
         isAiming = !isAiming;
-        gunAnim.SetBool("IsAiming", isAiming);
+        anim.SetBool("IsAiming", isAiming);
     }
     #endregion
 
     #region Reload
     public void Reload()
     {
-        isAiming = false;
-        anim.SetBool("Aiming", isAiming);
-        _isReloading = true;
-        gunAnim.SetTrigger("Reload");
-        _isReloading = false;
-        //Sounds.AK47reload(AK47);
-        mag.Reload();
+        if (magQty != 0)
+        {
+            isAiming = false;
+            anim.SetBool("Aiming", isAiming);
+            _isReloading = true;
+            anim.SetTrigger("Reload");
+            _isReloading = false;
+            //Sounds.AK47reload(AK47);
+            mag.Reload();
+        }
     }
     #endregion
 

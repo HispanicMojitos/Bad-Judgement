@@ -202,13 +202,18 @@ public class GunScript : MonoBehaviour
     #region Reload Script
     void Reload()
     {
-        isAiming = false;
-        anim.SetBool("Aiming", isAiming);
-        isReloading = true;
-        anim.SetTrigger("Reload");
-        isReloading = false;
-        Sounds.AK47reload(AK47);
-        mag.Reload();
+        if (magQty != 0)
+        {
+            isAiming = false;
+            anim.SetBool("Aiming", isAiming);
+            isReloading = true;
+
+            anim.SetTrigger("Reload");
+            Sounds.AK47reload(AK47);
+
+            isReloading = false;
+            mag.Reload();
+        }
     }
     #endregion
 
