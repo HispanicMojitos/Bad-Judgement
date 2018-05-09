@@ -68,14 +68,6 @@ public class MainWeaponsClass : MonoBehaviour
     }
     #endregion
 
-    /*
-	public MainWeaponsClass(GameObject weapon, GameObject gunEnd, AudioClip reloadSound,
-		AudioClip shootSound, Animator gunAnim, AudioSource gunAudioSource, GameObject impactEffect,
-		float gunSwayAmount, float gunSwaySmooth, float gunSwayMax, int bulletsPerMag,
-		float damage, float impactForce, float fireRate, int magQty)
-	{
-
-	}*/
     /// <summary>
     /// Instance of this class must have the wepon name found in resources folder
     /// </summary>
@@ -86,16 +78,7 @@ public class MainWeaponsClass : MonoBehaviour
     /// <param name="fireRate"></param>
     public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate)
 	{
-        /*
-        weapon = (GameObject)weaponResources.Where(x => x.name == this.name).SingleOrDefault();
-        impactEffect = (GameObject)weaponResources.Where(x => x.name == "impactEffect").SingleOrDefault();
-        gunEnd = (GameObject)weaponResources.Where(x => x.name == "gunEnd").SingleOrDefault();
-        weapon = Resources.Load(string.Format("Weapons/{}", this.name), typeof(GameObject)) as GameObject; // this searches our weapon from the path inside a Resources folde
-        impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
-        gunEnd = Resources.Load(string.Format("Weapon/{}/gunEnd", this.name), typeof(GameObject)) as GameObject;
-        reloadSound = Resources.Load(string.Format("Weapons/{}/reloadSound", name), typeof(AudioClip)) as AudioClip;
-        */
-        // this was very pretty but I'm gonna use a prefab XD
+
         weaponResources = Resources.LoadAll(string.Format("Weapons/{}", this.name), typeof(AudioClip));
         reloadSound = (AudioClip)weaponResources.Where(x => x.name == "reloadSound").SingleOrDefault();
         shootSound = (AudioClip)weaponResources.Where(x => x.name == "shootSound").SingleOrDefault();

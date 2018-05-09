@@ -155,7 +155,7 @@ public class GunScript : MonoBehaviour
         }
     }
 
-    void ProduceRay(GameObject gunEnd,RaycastHit hit)// shoots the ray
+    void ProduceRay(GameObject gunEnd, RaycastHit hit)// shoots the ray
     {
             //Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
             // We then say that we want to log (like a Console.Write();) what our ray hit
