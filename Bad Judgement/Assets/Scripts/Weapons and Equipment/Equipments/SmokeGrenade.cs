@@ -12,7 +12,7 @@ public class SmokeGrenade : Grenade
 
     #region Methods
 
-    protected override void ThrowGrenade(Transform startPos)
+    public override void ThrowGrenade(Transform startPos)
     {
         base.ThrowGrenade(startPos);
     }

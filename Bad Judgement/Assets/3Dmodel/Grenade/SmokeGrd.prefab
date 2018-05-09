@@ -22,9 +22,12 @@ GameObject:
   - component: {fileID: 54879481549009534}
   - component: {fileID: 136498864741984192}
   - component: {fileID: 82163863875858232}
+  - component: {fileID: 114337748504044214}
+  - component: {fileID: 114729216223404406}
+  - component: {fileID: 135476428368850518}
   - component: {fileID: 65849883922496946}
   m_Layer: 0
-  m_Name: SmokeGrenade 1 1 1
+  m_Name: SmokeGrd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,6 +259,46 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114337748504044214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1174695243871352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f69a9eef34ae54891c9ba4c6220cc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSmoke: {fileID: 82163863875858232}
+  soundSmoke: {fileID: 8300000, guid: 50b49cd6dbc2aff43b0666eaf5265851, type: 3}
+  "effetFum\xE9e": {fileID: 1272450639579650}
+  smokeGrenade: {fileID: 1174695243871352}
+  "espaceFum\xE9e": {fileID: 135476428368850518}
+--- !u!114 &114729216223404406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1174695243871352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14000c01fd37dc949b5a3c58bce9d28d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+--- !u!135 &135476428368850518
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1174695243871352}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 11988.397
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136498864741984192
 CapsuleCollider:
   m_ObjectHideFlags: 1

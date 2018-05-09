@@ -20,18 +20,24 @@ public class GrenadeExplode : MonoBehaviour
     private void OnExplodeTime(object sender, ElapsedEventArgs e)
     {
         var touchedColliders = Physics.OverlapSphere(this.transform.position, explosionRadius);
+        //Getting all colliders hit by the grenade
+
+        //HAVE TO ACTIVATE PARTICLES HERE 
 
         foreach(var collider in touchedColliders)
         {
-            var colTarget = collider.GetComponent<Target>();
-
+            var colTarget = collider.GetComponent<Target>(); 
+            //If the touched collider has is a Target
             if(colTarget != null)
             {
                 float damage = FragGrenade.CalculateDamage(this.transform.position, colTarget.transform.position);
-                colTarget.TakeDamage(damage);
+                colTarget.TakeDamage(damage); 
+                //Sending damage in function of the distance (calculated in FragGrenade class) to the collider
+                if (collider.tag == "Player") collider.GetComponent<PlayerLoadout>().protection.GrenadeHit(damage);
+                //If it is the player, his protection will be damaged by a grenade
             }
         }
 
-        Destroy(this, 1.5F);
+        Destroy(this, 1.5F); //Destroying grenade 
     }
 }

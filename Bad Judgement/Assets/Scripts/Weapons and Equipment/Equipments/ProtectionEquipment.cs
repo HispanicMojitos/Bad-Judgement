@@ -38,7 +38,7 @@ public class ProtectionEquipment : Equipment
         float equipDamage = 0F;
         //If our equipment has durability, we apply damage to equipment. If not, there will be no damage
 
-        if (equipmentDuration != 0) equipDamage = ((protectionCoefficient / 100F) * rawDamage);
+        if (equipmentDuration != 0) equipDamage = ((protectionCoefficient/ 100F) * rawDamage);
         else return rawDamage; 
         //Calculating damage applied TO THE EQUIPMENT
 
@@ -53,24 +53,11 @@ public class ProtectionEquipment : Equipment
         return realDamage;
     }
 
-    public float GrenadeHit(float rawDamage, Vector3 distanceToTarget)
+    public void GrenadeHit(float damage)
     {
-        float equipDamage = 0F;
-        float realDamage = 0F;
-        //Raw distance is actually the math formula to calculate 
-        float rawDistance = distanceToTarget.magnitude;
-
-        if (rawDistance <= 5F) realDamage = rawDamage;
-        else
-        {
-            //WIP :
-            realDamage = (rawDamage - ((rawDistance - 5F) * 5F));
-            equipDamage = realDamage;
-        }
-
+        float equipDamage = damage / 2.5F;
         equipmentDuration -= equipDamage;
-
-        return realDamage;
+        //Equipment takes damage from grenade but DOES NOT PROTECT from explosion
     }
 
     #endregion

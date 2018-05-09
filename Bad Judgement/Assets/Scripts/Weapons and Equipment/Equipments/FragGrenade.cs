@@ -12,9 +12,10 @@ public class FragGrenade : Grenade
 
     #region Surcharges lancers
 
-    protected override void ThrowGrenade(Transform startPos)
+    public override void ThrowGrenade(Transform startPos)
     {
         base.ThrowGrenade(startPos);
+        this.grenade.AddComponent<GrenadeExplode>();
     }
 
     public static float CalculateDamage(Vector3 grenadePos, Vector3 targetPos)
@@ -22,7 +23,9 @@ public class FragGrenade : Grenade
         float damage = 0F;
         float distGrenadeTarget = Vector3.Distance(grenadePos, targetPos);
 
-        //INSERT MAGICAL EASY PEASY MATH FORMULA HERE
+        if (distGrenadeTarget <= 4F) damage = 100F;
+        else damage = 100F - (distGrenadeTarget * 7F);
+        //Formula to calculate damage of a grenade
 
         return damage;
     }
