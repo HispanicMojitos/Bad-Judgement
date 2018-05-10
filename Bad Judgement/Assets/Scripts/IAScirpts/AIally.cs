@@ -37,9 +37,10 @@ public class AIally : MonoBehaviour
     [HideInInspector] public bool ordreDeplacement = false;
 
     [HideInInspector] public bool autoriséATirer = true;
-
+    private GameObject MuzzleFlash;
     void Start()
     {
+        MuzzleFlash = Resources.Load("Particules/MuzzleFlash") as GameObject;
         cetAllié = this.GetComponent<NavMeshAgent>();
         mvmentPlayer = player.GetComponent<Movement>();
     }
@@ -269,6 +270,9 @@ public class AIally : MonoBehaviour
 
                 if (joueur != null) // Si la cible du raycast a bien le script Target attaché
                     joueur.TakeDamage(reelDegats); // On fait subir des dommages au joueurs qui a le script Target attaché
+                
+                GameObject FireEffect = Instantiate(MuzzleFlash, boucheCanon.transform) as GameObject;
+                Destroy(FireEffect, 1);
 
                 Sounds.Cz805shoot(cz805); // permet de jouer le son de tir 
             }
@@ -284,6 +288,9 @@ public class AIally : MonoBehaviour
 
                 if (joueur != null) // Si la cible du raycast a bien le script Target attaché
                     joueur.TakeDamage(reelDegats); // On fait subir des dommages au joueurs qui a le script Target attaché
+                
+                GameObject FireEffect = Instantiate(MuzzleFlash, boucheCanon.transform) as GameObject;
+                Destroy(FireEffect, 1);
 
                 Sounds.Cz805shoot(cz805); // permet de jouer le son de tir 
             }

@@ -102,6 +102,7 @@ using UnityEngine;
 
     void Start()
     {
+        MuzzleFlash = Resources.Load("Particules/MuzzleFlash") as GameObject;
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
         vie = IA.vie; // On recupere la vie de l'IA via le script Target 
@@ -608,6 +609,7 @@ using UnityEngine;
     }
 
     private int précision = 5; // Plus cette valeur est grande, plus l'IA est précise dans ses tirs
+    private GameObject MuzzleFlash; 
     private void AttackShoot(Vector3 direction)
     {
         if (canSeePlayer == true)
@@ -627,7 +629,10 @@ using UnityEngine;
                 if (joueur != null) // Si la cible du raycast a bien le script Target attaché
                     joueur.TakeDamage(reelDegats); // On fait subir des dommages au joueurs qui a le script Target attaché
 
+                GameObject FireEffect = Instantiate(MuzzleFlash,boucheCanon.transform) as GameObject;
+
                 Sounds.AK47shoot(M4A8Source); // permet de jouer le son de tir 
+                Destroy(FireEffect, 1);
 
             }
         }
