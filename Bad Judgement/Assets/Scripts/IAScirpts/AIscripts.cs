@@ -102,7 +102,7 @@ using UnityEngine;
 
     void Start()
     {
-        MuzzleFlash = Resources.Load("Particules/MuzzleFlash") as GameObject;
+        MuzzleFlash = Resources.Load("ParticleEffects/MuzzleFlash") as GameObject;
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
         vie = IA.vie; // On recupere la vie de l'IA via le script Target 

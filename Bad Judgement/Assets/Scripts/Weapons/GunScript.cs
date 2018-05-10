@@ -26,6 +26,7 @@ public class GunScript : MonoBehaviour
     [SerializeField] private Animator anim;
     //public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
     [SerializeField] private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world 
+    [SerializeField] private GameObject muzzleFlash;
     #endregion
 
     #region Gun Sway
@@ -149,7 +150,9 @@ public class GunScript : MonoBehaviour
         {
             mag.currentMag--;
             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
-                                                /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
+                                            /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
+            GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
+            Destroy(muzlFlash, 1.3f);
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
             ProduceRay(gunEnd, hit);
         }
