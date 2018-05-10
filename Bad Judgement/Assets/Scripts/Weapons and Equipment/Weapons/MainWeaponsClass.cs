@@ -97,7 +97,6 @@ public class MainWeaponsClass : MonoBehaviour
         mag = new Magazines(magQty, bulletsPerMag);
         this.spawnPos = spawnPos;
     }
-
     // read the folder with the guns and search the values of our variables
     // "/" is the assets folder
     // I really like this font, everyone should use the Monaco font
@@ -142,7 +141,6 @@ public class MainWeaponsClass : MonoBehaviour
         {
             mag.currentMag--;
             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
-                                            /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
             ProduceRay(gunEnd, hit);
         }
