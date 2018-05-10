@@ -157,7 +157,11 @@ public class GunScript : MonoBehaviour
             ProduceRay(gunEnd, hit);
         }
     }
-
+    /// <summary>
+    /// Produces ray and deals damage if the Target Component is found.
+    /// </summary>
+    /// <param name="gunEnd"></param>
+    /// <param name="hit"></param>
     void ProduceRay(GameObject gunEnd, RaycastHit hit)// shoots the ray
     {
             //Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
@@ -205,7 +209,7 @@ public class GunScript : MonoBehaviour
     #region Reload Script
     void Reload()
     {
-        if (magQty != 0)
+        if (magQty != 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
         {
             isAiming = false;
             anim.SetBool("Aiming", isAiming);

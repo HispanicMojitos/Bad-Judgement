@@ -28,6 +28,7 @@ public class MainWeaponsClass : MonoBehaviour
 	private bool isAiming = false;
     private Vector3 initialPosition;
     private string path = "/ParticleEffects"; // this is not correct read contructor to see why
+    private Transform spawnPos;
 
     #region Weapon Sway
     private float amount;
@@ -69,14 +70,14 @@ public class MainWeaponsClass : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// Instance of this class must have the wepon name found in resources folder
+    /// Instance of this class must have the wepon name found in resources folder.
     /// </summary>
     /// <param name="magQty"></param>
     /// <param name="bulletsPerMag"></param>
     /// <param name="damage"></param>
     /// <param name="impactForce"></param>
     /// <param name="fireRate"></param>
-    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate)
+    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Transform spawnPos)
 	{
 
         weaponResources = Resources.LoadAll(string.Format("Weapons/{}", this.name), typeof(AudioClip));
@@ -84,15 +85,17 @@ public class MainWeaponsClass : MonoBehaviour
         shootSound = (AudioClip)weaponResources.Where(x => x.name == "shootSound").SingleOrDefault();
         weapon = Resources.Load(string.Format("Weapons/{}", this.name), typeof(GameObject)) as GameObject;
         impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
+
         gunEnd = weapon.transform.Find("gunEnd").gameObject;
         gunAudioSource = weapon.GetComponent<AudioSource>();
         anim = weapon.GetComponent<Animator>();
         cam = weapon.GetComponentInParent<Camera>();
+
         this.damage = damage;
         this.impactForce = impactForce;
         initialPosition = weapon.transform.localPosition;
         mag = new Magazines(magQty, bulletsPerMag);
-
+        this.spawnPos = spawnPos;
     }
 
     // read the folder with the guns and search the values of our variables
@@ -103,7 +106,7 @@ public class MainWeaponsClass : MonoBehaviour
 
     #region Weapon Sway
     /// <summary>
-    /// This should be inside your Update method
+    /// This should be inside your Update method.
     /// </summary>
     public void WeaponSway()
     {
@@ -192,6 +195,16 @@ public class MainWeaponsClass : MonoBehaviour
             //Sounds.AK47reload(AK47);
             mag.Reload();
         }
+    }
+    #endregion
+
+    #region SpawnWeapon
+    /// <summary>
+    /// Creates an instance of the weapon object.
+    /// </summary>
+    public void SpawnWeapon()
+    {
+        weapon = Instantiate(weapon, spawnPos);
     }
     #endregion
 
