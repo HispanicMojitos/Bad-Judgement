@@ -522,7 +522,7 @@ using UnityEngine;
                         SetAnimation(kneeGrenad: true);
                         tempsKneelDecision = 0;
                         tempsScreamgrenade += Time.deltaTime;
-                        if (!mouthHead.isPlaying && tempsScreamgrenade < 1.3f)
+                        if (!mouthHead.isPlaying && tempsScreamgrenade < 1f)
                         {
                             mouthHead.clip = grenadScream;
                             mouthHead.Play();
@@ -744,23 +744,23 @@ using UnityEngine;
         switch(Difficulté.difficultyLevelIndex)
         {
             case 0: // BABY
-                paramètreDifficultéIA(true,25, 100, 10,20,3,1,10);
+                paramètreDifficultéIA(true,25, 100, 30,20,3,1,10);
                 break;
 
             case 1: // EASY
-                paramètreDifficultéIA(true,40, 100, 20,15,6,1,8f);
+                paramètreDifficultéIA(true,40, 100, 60,15,6,1,8f);
                 break;
 
             case 2: // NORMAL
-                paramètreDifficultéIA(false,60, 100, 30,10,8,1,5f);
+                paramètreDifficultéIA(false,60, 100, 100,10,8,1,5f);
                 break;
 
             case 3: // Hard
-                paramètreDifficultéIA(false, 90, 100, 40,7.5f,10,2,4f);
+                paramètreDifficultéIA(false, 90, 100, 300,7.5f,10,2,4f);
                 break;
 
             case 4: // INFAMY
-                paramètreDifficultéIA(false,100, 100, 50,5,15,3,2f);
+                paramètreDifficultéIA(false,100, 100, 600,5,15,3,2f);
                 break;
 
             default: // Par defaut la difficulté sera mise sur Normal

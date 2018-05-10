@@ -23,7 +23,7 @@ public class GrenadeScript : MonoBehaviour
         coll = GetComponent<CapsuleCollider>();
     }
 
-    void FixedUpdate ()
+    void Update ()
     {
         delai = delai - Time.deltaTime;
         if (delai < 3.7f) coll.isTrigger = false;
@@ -44,7 +44,6 @@ public class GrenadeScript : MonoBehaviour
         Destroy(effetExplosion, 4f);
         collider = Physics.OverlapSphere(this.transform.position, rayonExplosion); // permet de recuperer tout les objet dans un rayon determiné
 
-        Grenade.SetActive(false);
         foreach (Collider objetProche in collider)
         {
             if (objetProche.GetComponent<Target>() != null)
@@ -54,7 +53,10 @@ public class GrenadeScript : MonoBehaviour
                else if (Vector3.Distance(objetProche.GetComponent<Target>().transform.position, this.gameObject.transform.position) <= 8) objetProche.GetComponent<Target>().TakeDamage(15);
             }
         } // On enleve de la vie a tout les objets en ayant, dans le rayon de l'explosion
-        Destroy(Grenade,8);// On detruit en fin la grenade
+        
+        Grenade.SetActive(false);
+
+        Destroy(Grenade,5);// On detruit en fin la grenade
     }
 
     
