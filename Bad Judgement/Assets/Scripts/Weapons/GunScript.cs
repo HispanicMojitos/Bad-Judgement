@@ -145,16 +145,27 @@ public class GunScript : MonoBehaviour
         // An invisible ray shot from the camera to the forward direction
         // If the object is hit, we do some damage, if not, then nothing happens
         // First we need to reference the camera
-        RaycastHit hit; 
-        if (mag.currentMag > 0 && !isReloading && Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit) && hit.transform.CompareTag("Ally") == false) // PErmet ainsi d'empecher le jouer de tirer sur son allié
+        RaycastHit hit;
+
+        if (( mag.currentMag > 0  && Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit) && !isReloading && (hit.transform.CompareTag("Ally") == false)) ) // PErmet ainsi d'empecher le jouer de tirer sur son allié
         {
             mag.currentMag--;
             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                             /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
+              
             GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
             Destroy(muzlFlash, 1.3f);
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
+
+
             ProduceRay(gunEnd, hit);
+        }
+        else // Ici si on tire dans le vdie, on tirra quand même, et même si on tire sur l'allié, il ne recevra pas de degat !
+        {
+             mag.currentMag--;
+             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
+             GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
+             Destroy(muzlFlash, 1.3f);
         }
     }
     /// <summary>
