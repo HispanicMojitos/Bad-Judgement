@@ -185,7 +185,7 @@ public class MainWeaponsClass : MonoBehaviour
     #region Reload
     public void Reload()
     {
-        if (magQty != 0)
+        if (magQty != 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
         {
             isAiming = false;
             anim.SetBool("Aiming", isAiming);
