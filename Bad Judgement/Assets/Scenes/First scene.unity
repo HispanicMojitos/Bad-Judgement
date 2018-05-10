@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.46778333, g: 0.5910239, b: 0.68506604, a: 1}
+  m_IndirectSpecularColor: {r: 0.35570297, g: 0.45148265, b: 0.5328541, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -3831,6 +3831,25 @@ Prefab:
       propertyPath: effetExplosion
       value: 
       objectReference: {fileID: 732249809}
+    - target: {fileID: 1957949177213926, guid: e17e8219c6202b445936b8b283c1f0e0, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114089577494333626, guid: e17e8219c6202b445936b8b283c1f0e0,
+        type: 2}
+      propertyPath: bruitExlosion
+      value: 
+      objectReference: {fileID: 1734012030}
+    - target: {fileID: 114089577494333626, guid: e17e8219c6202b445936b8b283c1f0e0,
+        type: 2}
+      propertyPath: Grenade
+      value: 
+      objectReference: {fileID: 410702891}
+    - target: {fileID: 114089577494333626, guid: e17e8219c6202b445936b8b283c1f0e0,
+        type: 2}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 410702895}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e17e8219c6202b445936b8b283c1f0e0, type: 2}
   m_IsPrefabParent: 0
@@ -6416,6 +6435,21 @@ Prefab:
       propertyPath: effetExplosion
       value: 
       objectReference: {fileID: 1880336314}
+    - target: {fileID: 114089577494333626, guid: e17e8219c6202b445936b8b283c1f0e0,
+        type: 2}
+      propertyPath: bruitExlosion
+      value: 
+      objectReference: {fileID: 212407097}
+    - target: {fileID: 114089577494333626, guid: e17e8219c6202b445936b8b283c1f0e0,
+        type: 2}
+      propertyPath: Grenade
+      value: 
+      objectReference: {fileID: 217082419}
+    - target: {fileID: 114089577494333626, guid: e17e8219c6202b445936b8b283c1f0e0,
+        type: 2}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 217082423}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e17e8219c6202b445936b8b283c1f0e0, type: 2}
   m_IsPrefabParent: 0
@@ -6699,6 +6733,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 211737489}
+--- !u!4 &212407097 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4029826542379678, guid: e17e8219c6202b445936b8b283c1f0e0,
+    type: 2}
+  m_PrefabInternal: {fileID: 193508628}
 --- !u!1 &214926749
 GameObject:
   m_ObjectHideFlags: 0
@@ -6818,6 +6857,11 @@ CanvasRenderer:
 --- !u!1 &217082419 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1337821864753896, guid: e17e8219c6202b445936b8b283c1f0e0,
+    type: 2}
+  m_PrefabInternal: {fileID: 193508628}
+--- !u!136 &217082423 stripped
+CapsuleCollider:
+  m_PrefabParentObject: {fileID: 136379692274507882, guid: e17e8219c6202b445936b8b283c1f0e0,
     type: 2}
   m_PrefabInternal: {fileID: 193508628}
 --- !u!1 &217435043
@@ -11471,6 +11515,11 @@ GameObject:
 --- !u!4 &410702892 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4713735965043652, guid: e17e8219c6202b445936b8b283c1f0e0,
+    type: 2}
+  m_PrefabInternal: {fileID: 107181860}
+--- !u!136 &410702895 stripped
+CapsuleCollider:
+  m_PrefabParentObject: {fileID: 136379692274507882, guid: e17e8219c6202b445936b8b283c1f0e0,
     type: 2}
   m_PrefabInternal: {fileID: 107181860}
 --- !u!1 &410898198
@@ -47616,6 +47665,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1730055035}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1734012030 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4029826542379678, guid: e17e8219c6202b445936b8b283c1f0e0,
+    type: 2}
+  m_PrefabInternal: {fileID: 107181860}
 --- !u!1 &1735923010
 GameObject:
   m_ObjectHideFlags: 0
