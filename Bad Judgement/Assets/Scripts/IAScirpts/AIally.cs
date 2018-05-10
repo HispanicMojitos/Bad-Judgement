@@ -40,7 +40,7 @@ public class AIally : MonoBehaviour
     private GameObject MuzzleFlash;
     void Start()
     {
-        MuzzleFlash = Resources.Load("Particules/MuzzleFlash") as GameObject;
+        MuzzleFlash = Resources.Load("ParticleEffects/MuzzleFlash") as GameObject;
         cetAllié = this.GetComponent<NavMeshAgent>();
         mvmentPlayer = player.GetComponent<Movement>();
     }
