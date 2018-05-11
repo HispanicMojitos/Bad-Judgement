@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingTestForward : MonoBehaviour {
-
+    #region Members
     public GameObject moveForward;
     public GameObject moveBacward;
     public GameObject moveLeft;
@@ -13,11 +13,15 @@ public class MovingTestForward : MonoBehaviour {
     public GameObject lookUp;
     public GameObject lookDown;
     public GameObject continueOne;
+    public GameObject fireTest;
+    public GameObject reloadTest;
+    public GameObject Interaction;
+    public GameObject Kill;
 
     public int collision = 0;                     // will permit to know which command to ask      
     public float vision;
     public float view;
-
+    #endregion
     void Start ()
     {                                                   //set the texts invisible
         moveForward.SetActive(false);
@@ -29,6 +33,10 @@ public class MovingTestForward : MonoBehaviour {
         lookRight.SetActive(false);
         lookUp.SetActive(false);
         continueOne.SetActive(false);
+        fireTest.SetActive(false);
+        reloadTest.SetActive(false);
+        Interaction.SetActive(false);
+        Kill.SetActive(false);
     }
     void OnTriggerEnter(Collider other)                     // do when entering trigger
     {
@@ -96,7 +104,31 @@ public class MovingTestForward : MonoBehaviour {
             continueOne.SetActive(true);
         }
     }
-    void Update () {
-		
-	}
+    void Indoor()
+    {
+        if (this.gameObject.GetComponent<Open_Close_Door>().entry == true)
+        {
+            fireTest.SetActive(true);
+            if (Input.GetButton("Mouse 0"))
+            {
+                fireTest.SetActive(false);
+                reloadTest.SetActive(true);
+                if (Input.GetKey(KeyCode.R))
+                {
+                    reloadTest.SetActive(false);
+                    Interaction.SetActive(true);
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                        if (this.gameObject.GetComponent<Open_Close_Door>().open == true)
+                        {
+                            Interaction.SetActive(false);
+                            Kill.SetActive(true);
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
 }

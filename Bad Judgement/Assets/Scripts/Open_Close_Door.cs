@@ -9,8 +9,8 @@ public class Open_Close_Door : MonoBehaviour {
 
 	}
     #region Variables
-    bool open;
-    bool entry;
+    public bool open { get; private set; }
+    public bool entry { get; private set; }
     #endregion
 
     #region DistanceMethods
