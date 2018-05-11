@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FragGrenade : Grenade
 {
-    public FragGrenade(string name, Sprite uiSprite, int amount, GameObject prefab, Transform playerPos) : base(name, uiSprite, amount, prefab, playerPos)
+    public FragGrenade(string name, int amount, Transform playerPos) : base(name, amount, playerPos)
     {
+        this.grenade = Resources.Load("Grenades/Frag", typeof(GameObject)) as GameObject;
+        this.uiSprite = Resources.LoadAll<Sprite>("Grenades/Orange theme spritesheet 1")[5];
     }
 
     #region Surcharges lancers
 
-    public override void ThrowGrenade(Transform startPos)
+    public override void ThrowGrenade()
     {
-        base.ThrowGrenade(startPos);
+        base.ThrowGrenade();
         this.grenade.AddComponent<GrenadeExplode>();
     }
 

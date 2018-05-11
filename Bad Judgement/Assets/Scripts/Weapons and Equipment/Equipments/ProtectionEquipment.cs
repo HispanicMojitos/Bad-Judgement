@@ -15,7 +15,7 @@ public class ProtectionEquipment : Equipment
         get { return (equipmentDuration == 0) ; }
     }
 
-    public ProtectionEquipment(string name, Sprite uiSprite, float protectionCoefficient, float maxDuration) : base(name, uiSprite)
+    public ProtectionEquipment(string name, float protectionCoefficient, float maxDuration) : base(name)
     {
         maxDuration = Mathf.Clamp(maxDuration, 0F, 100F); //Checking if duration is not out of limits
 

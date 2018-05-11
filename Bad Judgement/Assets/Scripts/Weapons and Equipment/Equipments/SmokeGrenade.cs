@@ -6,15 +6,18 @@ using UnityEngine;
 
 public class SmokeGrenade : Grenade
 {
-    public SmokeGrenade(string name, Sprite uiSprite, int amount, GameObject prefab, Transform playerPos) : base(name, uiSprite, amount, prefab, playerPos)
+    public SmokeGrenade(string name, int amount, Transform playerPos) : base(name, amount, playerPos)
     {
+        this.grenade = Resources.Load("Grenades/Smoke", typeof(GameObject)) as GameObject;
+        this.uiSprite = Resources.LoadAll<Sprite>("Grenades/Orange theme spritesheet 1")[17];
     }
 
     #region Methods
 
-    public override void ThrowGrenade(Transform startPos)
+    public override void ThrowGrenade()
     {
-        base.ThrowGrenade(startPos);
+        base.ThrowGrenade();
+        //HERE WAIT FOR EFFECTS
     }
 
     #endregion

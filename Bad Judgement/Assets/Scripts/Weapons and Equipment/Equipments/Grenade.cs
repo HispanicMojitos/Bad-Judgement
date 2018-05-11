@@ -10,15 +10,14 @@ public abstract class Grenade : Equipment
     public bool isDamageable { get { return this.GetType() == typeof(FragGrenade); } }
 
     protected GameObject grenade; //This is the actual grenade object that has to be thrown
+    protected Transform player;
 
     #region Ctor
 
-    public Grenade(string name, Sprite uiSprite, int amount, GameObject prefab, Transform playerPos) : base(name, uiSprite)
+    public Grenade(string name, int amount, Transform playerPos) : base(name)
     {
         this.amount = amount;
-
-        grenade = Instantiate(prefab, playerPos);
-        grenade.transform.parent = null;
+        this.player = playerPos;
     }
 
     #endregion
@@ -26,21 +25,18 @@ public abstract class Grenade : Equipment
     #region Methods
 
     //Overriden in children classes (damage or not damage)
-    public virtual void ThrowGrenade(Transform startPos) //+TRANSFORM (POS DEPART)
+    public virtual void ThrowGrenade()
     {
-        Vector3 direction = startPos.TransformDirection(Vector3.forward) * 10F; //Setting direction
+        Vector3 direction = player.TransformDirection(Vector3.forward) * 10F; //Setting direction
 
         var grenadeRb = grenade.GetComponent<Rigidbody>(); //Getting rigidbody to apply force later
         grenadeRb.AddForce(direction, ForceMode.Impulse); //Applying impulse force to grenade
-
-        //else addingParticleEffect
     }
 
-    public void TurnVisible(bool isVisible)
+    public void SwitchingToGrenade()
     {
-        this.grenade.SetActive(isVisible);
+        Instantiate(grenade, null);
     }
-
 
     #endregion
 }

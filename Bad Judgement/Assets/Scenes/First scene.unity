@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.49873292, g: 0.6297082, b: 0.72866374, a: 1}
+  m_IndirectSpecularColor: {r: 0.47858953, g: 0.60443157, b: 0.70021313, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -42817,6 +42817,9 @@ MonoBehaviour:
   exhaustText: {fileID: 157257284}
   exhaustSlider: {fileID: 1782146431}
   ammoText: {fileID: 1012635704}
+  primaryGunBg: {fileID: 896827418}
+  secondaryGunBg: {fileID: 862050748}
+  equipmentBg: {fileID: 1475049840}
 --- !u!114 &1509518034
 MonoBehaviour:
   m_ObjectHideFlags: 0

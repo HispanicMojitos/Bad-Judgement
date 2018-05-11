@@ -29,6 +29,10 @@ public class UIScript : MonoBehaviour
 
     [SerializeField] private Text ammoText;
 
+    [SerializeField] private Image primaryGunBg;
+    [SerializeField] private Image secondaryGunBg;
+    [SerializeField] private Image equipmentBg;
+
     #endregion
 
     #region Start & Update
@@ -54,6 +58,8 @@ public class UIScript : MonoBehaviour
                 if (gameIsPaused && !OptionsMenu.optionMenuIsActive) Resume(); 
                 else Pause();
             }
+
+            UpdateCurrentEquipment();
         }
     }
 
@@ -94,6 +100,23 @@ public class UIScript : MonoBehaviour
 
         this.exhaustSlider.value = exhaustPercentage;
         this.exhaustText.text = exhaustPercentage.ToString();
+    }
+
+    private void UpdateCurrentEquipment()
+    {
+        int selectedEquipment = ourPlayer.GetComponent<PlayerLoadout>().selectedItem;
+        //Alpha 180 = High || Alpha 75 = Low = 0.29F
+
+        Color lowAlpha = new Color(1f, 1f, 1f, 0.29f);
+        Color highAlpha = new Color(1f, 1f, 1f, 0.705f);
+
+        primaryGunBg.color = lowAlpha;
+        secondaryGunBg.color = lowAlpha;
+        equipmentBg.color = lowAlpha;
+
+        if (selectedEquipment == 0) primaryGunBg.color = highAlpha;
+        else if (selectedEquipment == 1) secondaryGunBg.color = highAlpha;
+        else equipmentBg.color = highAlpha;
     }
 
     #endregion

@@ -6,15 +6,17 @@ using UnityEngine;
 
 public class FlashGrenade : Grenade
 {
-    public FlashGrenade(string name, Sprite uiSprite, int amount, GameObject prefab, Transform playerPos) : base(name, uiSprite, amount, prefab, playerPos)
+    public FlashGrenade(string name, int amount, Transform playerPos) : base(name, amount, playerPos)
     {
+
     }
 
     #region Methods
 
-    public override void ThrowGrenade(Transform startPos)
+    public override void ThrowGrenade()
     {
-        base.ThrowGrenade(startPos);
+        base.ThrowGrenade();
+        //HERE WAIT FOR EFFECTS
     }
 
     #endregion

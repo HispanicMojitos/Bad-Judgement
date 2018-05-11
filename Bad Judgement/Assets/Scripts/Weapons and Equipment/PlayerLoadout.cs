@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerLoadout : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PlayerLoadout : MonoBehaviour
     public ProtectionEquipment protection { get; private set; }
 
     public int selectedItem { get; private set; }
-    public int maxSelectedItem { get; private set; }
+    public static int maxSelectedItem = 4;
   
     private void Start()
     {
@@ -19,7 +20,7 @@ public class PlayerLoadout : MonoBehaviour
     {
         if(!UIScript.gameIsPaused)
         {
-            
+            EquipmentSelection();
         }
     }
 
@@ -37,6 +38,31 @@ public class PlayerLoadout : MonoBehaviour
         {
             if (selectedItem < maxSelectedItem) selectedItem++;
         }     
+    }
+
+    private void OnLeftClick()
+    {
+        switch (selectedItem)
+        {
+            case 0:
+                //Primary gun shot
+                break;
+            case 1:
+                //Secondary gun shot
+                break;
+            case 2:
+                //1st equip "shot"
+                break;
+            case 3:
+                //2nd equip "shot"
+                break;
+            case 4: //This is the last possible case
+                //3rd equip "shot"
+                break;
+            default:
+                throw new System.Exception("Impossible to use a non-existent equipment !");
+                break;
+        }
     }
 
     #endregion
