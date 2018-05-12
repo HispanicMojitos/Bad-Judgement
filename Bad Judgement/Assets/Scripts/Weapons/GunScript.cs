@@ -1,5 +1,5 @@
 ﻿
-using System;
+//using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,10 +48,19 @@ public class GunScript : MonoBehaviour
     private static int magQty = 6;// number of mags you can have
     private Vector3 initialPosition;
     private bool _isReloading = false;
+    private static bool _isShooting = false;
     private float reloadTime;
     private static Magazines mag;
     private Camera cam;
     private bool isAiming = false;
+
+
+    #region Recoil
+    private float xKick = 0f;
+    private float yKick = 0f;
+    private float kickForce = 0.8f;
+    private Vector3 initialRotation;
+    #endregion
 
     #endregion
 
@@ -60,6 +69,11 @@ public class GunScript : MonoBehaviour
     {
         get { return _isReloading; }
         set { _isReloading = value; }
+    }
+    public static bool isShooting
+    {
+        get { return _isShooting; }
+        set { _isShooting = value; }
     }
     public static int CurrentMag
     {
@@ -81,6 +95,7 @@ public class GunScript : MonoBehaviour
     void Start()
     {
         initialPosition = transform.localPosition;
+        initialRotation = transform.localEulerAngles;
         mag = new Magazines(magQty, bulletsPerMag);
         cam = GetComponentInParent<Camera>();
     }
@@ -122,6 +137,11 @@ public class GunScript : MonoBehaviour
             nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
             Shoot();
         }
+        else
+        {
+            _isReloading = false;
+            //cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(0,0), kickForce * Time.deltaTime);
+        }
         #endregion
 
         #region Aiming condition
@@ -149,6 +169,7 @@ public class GunScript : MonoBehaviour
 
         if ((mag.currentMag > 0 && Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit) && !isReloading)) // PErmet ainsi d'empecher le jouer de tirer sur son allié
         {
+            _isShooting = true;
             mag.currentMag--;
             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
                                             /// /!\ A enlever lors de la demonstration du jeux, ce bout de code n'est utile que pour aider a se retrouver avec le raycast
@@ -213,6 +234,13 @@ public class GunScript : MonoBehaviour
             isReloading = false;
             mag.Reload();
         }
+    }
+    #endregion
+
+    #region Recoil Script
+    public void Recoil()
+    {
+
     }
     #endregion
 

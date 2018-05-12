@@ -21,8 +21,14 @@ public class CamControl : MonoBehaviour
     private Vector3 verticalEulerVector; //Vector to handle vertical rotation of the camera
     private Vector3 horizontalEulerVector; //Vector to handle the horizontal rotation of the camera (IF FREE CAMERA MODE ACTIVE)
 
+    // Recoil
+    private float xKick = 0f;
+    private float yKick = 0f;
+    private float kickForce = 0.8f;
+    // Recoil
+
     #endregion
-    
+
     #region Properties
 
     public static bool isVerticalAxisInverted { get; set; } //For you LERUTH
@@ -69,6 +75,17 @@ public class CamControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GunScript.isShooting)
+        {
+            if (xKick != 1f)
+            {
+                xKick += 0.1f;
+                yKick += 0.00001f;
+            }
+            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(-xKick, Random.Range(-yKick, yKick)), kickForce * Time.deltaTime);
+        }
+        else cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(0, 0), kickForce * Time.deltaTime);
+
         if (!UIScript.gameIsPaused)
         {
             float yGameAxis = Input.GetAxis("Mouse X"); //The horizontal (X) mouse axis matches with the ingame y rotation axis
