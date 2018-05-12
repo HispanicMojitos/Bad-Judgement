@@ -234,6 +234,7 @@ public class OptionsMenu : MonoBehaviour
     public void InvertMouseYAxis(bool state)
     {
         CamControl.isVerticalAxisInverted = state;
+        VanCamControl.isYAxisInverted = state;
         optionsFile.ModifySetting("invert mouse y axis", state.ToString());
     }
 
@@ -241,6 +242,7 @@ public class OptionsMenu : MonoBehaviour
     {
         //Slider has a value between 1 and 10
         CamControl.horizontalSensitivity = value;
+        VanCamControl.horizontalSensitivity = value;
         horizontalSensitivityText.text = value.ToString();
         optionsFile.ModifySetting("horizontal sensitivity", value.ToString());
     }
@@ -249,6 +251,7 @@ public class OptionsMenu : MonoBehaviour
     {
         //Slider has a value between 1 & 10
         CamControl.verticalSensitivity = value;
+        VanCamControl.verticalSensitivity = value;
         verticalSensitivityText.text = value.ToString();
         optionsFile.ModifySetting("vertical sensitivity", value.ToString());
     }
