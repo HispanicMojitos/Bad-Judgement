@@ -7,6 +7,7 @@ public class MovingTestForward : MonoBehaviour {
 
     [SerializeField] private GameObject player;
     private Movement playerMove;
+    private TestInteraction playerInteract;
    
     public GameObject moveForward;
     public GameObject moveBacward;
@@ -44,7 +45,7 @@ public class MovingTestForward : MonoBehaviour {
 
 
         playerMove = player.GetComponent<Movement>();
-        
+        playerInteract = player.GetComponentInChildren<TestInteraction>();
     }
     void TestOutdoor()
     {
@@ -96,6 +97,7 @@ public class MovingTestForward : MonoBehaviour {
         {
             lookLeft.SetActive(false);
             continueOne.SetActive(true);
+            collision = 8;
         }
 
     }
@@ -107,8 +109,29 @@ public class MovingTestForward : MonoBehaviour {
     
     void Indoor()
     {
-        
-
+        if (playerInteract.isInteractionImageOn == true && collision == 8)
+        {
+            continueOne.SetActive(false);
+            fireTest.SetActive(true);
+            collision ++;
+        }
+        if (collision == 9 && Input.GetButton("Mouse0"))
+        {
+            fireTest.SetActive(false);
+            reloadTest.SetActive(true);
+            collision++;
+        }
+        if (collision == 10 && Input.GetKey(KeyCode.R))
+        {
+            reloadTest.SetActive(false);
+            Interaction.SetActive(true);
+            collision++;
+        }
+        if (collision == 11 && Input.GetKey(KeyCode.E))
+        {
+            Interaction.SetActive(false);
+            Kill.SetActive(true);
+        }
 
     }
 }
