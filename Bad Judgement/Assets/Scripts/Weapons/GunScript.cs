@@ -53,6 +53,7 @@ public class GunScript : MonoBehaviour
     private static Magazines mag;
     private Camera cam;
     private bool isAiming = false;
+    private Vector3 velocity = Vector3.zero;
 
 
     #region Recoil
@@ -127,7 +128,7 @@ public class GunScript : MonoBehaviour
         movementY = Mathf.Clamp(movementY, -maxAmount, maxAmount);
         // this limits the amount of rotation
         Vector3 finalPositon = new Vector3(movementX, movementY, 0);
-        transform.localPosition = Vector3.Lerp(transform.localPosition, finalPositon + initialPosition, Time.deltaTime * smoothAmount);
+        transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPositon + initialPosition, ref velocity, Time.deltaTime * smoothAmount);
         // this interpolates the initial position with the final position
         #endregion
 
