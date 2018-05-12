@@ -80,10 +80,10 @@ public class MainWeaponsClass : MonoBehaviour
     public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Transform spawnPos)
 	{
 
-        weaponResources = Resources.LoadAll(string.Format("Weapons/{}", this.name), typeof(AudioClip));
+        weaponResources = Resources.LoadAll(string.Format("Weapons/{0}", this.name), typeof(AudioClip));
         reloadSound = (AudioClip)weaponResources.Where(x => x.name == "reloadSound").SingleOrDefault();
         shootSound = (AudioClip)weaponResources.Where(x => x.name == "shootSound").SingleOrDefault();
-        weapon = Resources.Load(string.Format("Weapons/{}", this.name), typeof(GameObject)) as GameObject;
+        weapon = Resources.Load(string.Format("Weapons/{0}", this.name), typeof(GameObject)) as GameObject;
         impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
 
         gunEnd = weapon.transform.Find("gunEnd").gameObject;
