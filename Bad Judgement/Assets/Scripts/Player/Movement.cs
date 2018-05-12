@@ -57,6 +57,11 @@ public class Movement : MonoBehaviour
     public float playerExhaust { get { return this.fatigue.fatigue; } }
     public float playerMaxExhaust { get { return this.fatigue.maxFatigue; } }
 
+    public bool characterMovingFwd { get; private set; }
+    public bool characterMovingBwd { get; private set; }
+    public bool charactermovingLeft { get; private set; }
+    public bool characterMovingRight { get; private set; }
+
     #endregion
 
     #region Start and Update
@@ -172,9 +177,31 @@ public class Movement : MonoBehaviour
         {
             bool wantsToRun = Input.GetKey(KeyCode.LeftShift); //Checking if player pressed Lshift (means that he wants to run)
 
-            if (targetSpeed.z > 0) targetSpeed.z *= forwardSpeed; //If going forward multiplying by forward speed
-            else targetSpeed.z *= backwardSpeed; //If going backwards, multiplying by backwards speed that is lower than forward one
+            if (targetSpeed.z > 0)
+            {
+                targetSpeed.z *= forwardSpeed;
+                this.characterMovingFwd = true;
+                this.characterMovingBwd = false;
+
+            }//If going forward multiplying by forward speed
+            else
+            {
+                targetSpeed.z *= backwardSpeed;
+                this.characterMovingBwd = true;
+                this.characterMovingFwd = false;
+            }//If going backwards, multiplying by backwards speed that is lower than forward one
+
             targetSpeed.x *= sideSpeed; //Assigning speeds to each component of the moving Vector
+            if(targetSpeed.x > 0)
+            {
+                this.characterMovingRight = true;
+                this.charactermovingLeft = false;
+            }
+            else
+            {
+                this.charactermovingLeft = true;
+                this.characterMovingRight = false;
+            }
 
             targetSpeed = transform.TransformDirection(targetSpeed); //Doing a transformDirection to be able to turn the axes
             //Have to keep this after applying speeds so that we don't have speeds/direction problems
@@ -280,6 +307,11 @@ public class Movement : MonoBehaviour
         this.characterIsRunning = false;
         this.characterIsWalking = false;
         this.characterIsMoving = false;
+
+        this.characterMovingBwd = false;
+        this.characterMovingFwd = false;
+        this.characterMovingRight = false;
+        this.charactermovingLeft = false;
     }
 
     private void InitState()
