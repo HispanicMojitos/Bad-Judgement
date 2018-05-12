@@ -194,13 +194,13 @@ public class Movement : MonoBehaviour
             targetSpeed.x *= sideSpeed; //Assigning speeds to each component of the moving Vector
             if(targetSpeed.x > 0)
             {
-                this.characterMovingRight = false;
-                this.charactermovingLeft = true; 
+                this.characterMovingRight = true;
+                this.charactermovingLeft = false;
             }
             else
             {
-                this.charactermovingLeft = false;
-                this.characterMovingRight = true;
+                this.charactermovingLeft = true;
+                this.characterMovingRight = false;
             }
 
             targetSpeed = transform.TransformDirection(targetSpeed); //Doing a transformDirection to be able to turn the axes
