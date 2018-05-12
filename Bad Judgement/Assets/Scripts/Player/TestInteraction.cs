@@ -226,7 +226,10 @@ public class TestInteraction : MonoBehaviour
         else if (Crosshair.enabled == false) ChooseCrosshair();
 
     }
-
+    public bool isInteractionImageOn
+    {
+        get { return this.interactionImage.IsActive(); }
+    }
     private void ChooseCrosshair(bool defaultCross = true, bool enemyCross = false, bool allyCross = false )
     {
         Crosshair.enabled = defaultCross;
