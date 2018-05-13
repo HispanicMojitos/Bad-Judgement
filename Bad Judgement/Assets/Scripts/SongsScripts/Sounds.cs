@@ -219,4 +219,17 @@ public static class Sounds
     }
 
     #endregion Mixer
+
+    #region Radio
+    /// <summary> radio est l'audiosource a retransmettre, name est le nom du clip a remettre dans le dossier Radio</summary>
+    public static void RadioVoice(AudioSource radio, string name, float volume = 1f)
+    {
+        if (!radio.isPlaying)
+        {
+            if (radio.clip = Resources.Load("Sounds/Radio/" + name) as AudioClip) radio.clip = Resources.Load("Sounds/Radio/" + name) as AudioClip;
+            if (radio.volume != volume) radio.volume = volume;
+            radio.Play();
+        }
+    }
+    #endregion Radio
 }
