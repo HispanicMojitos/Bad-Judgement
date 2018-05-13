@@ -10,8 +10,9 @@ using System.IO;
 public class MainWeaponsClass : MonoBehaviour
 {
     #region Variables
-    private Object[] weaponResources;
+    private AudioClip[] weaponResources;
     private GameObject impactEffect;
+    private GameObject muzzleFlash;
 	private GameObject weapon;
 	private GameObject gunEnd;
 	private AudioClip reloadSound;
@@ -27,7 +28,8 @@ public class MainWeaponsClass : MonoBehaviour
 	private static int magQty;
 	private bool isAiming = false;
     private string path = "/ParticleEffects"; // this is not correct read contructor to see why
-    private Transform spawnPos;
+    private Vector3 spawnPos;
+    private string name;
 
     #region Reload
     private int bulletsPerMag;
@@ -60,7 +62,7 @@ public class MainWeaponsClass : MonoBehaviour
         get { return mag; }
         set { mag = value; }
     }
-    public Transform SpawnPos
+    public Vector3 SpawnPos
     {
         get { return spawnPos; }
         private set { spawnPos = value; }
@@ -69,6 +71,11 @@ public class MainWeaponsClass : MonoBehaviour
     {
         get { return (int)fireRate; }
         private set { fireRate = value; }
+    }
+    public string Name
+    {
+        get { return name; }
+        private set { name = value; }
     }
     #endregion
 
@@ -80,24 +87,32 @@ public class MainWeaponsClass : MonoBehaviour
     /// <param name="damage"></param>
     /// <param name="impactForce"></param>
     /// <param name="fireRate"></param>
-    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Transform spawnPos)
+    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Vector3 spawnPos, string name)
 	{
+        try
+        {
+            weaponResources = Resources.LoadAll(string.Format("Weapons/{0}", name), typeof(AudioClip)) as AudioClip[];
+            reloadSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ReloadSound", name)).SingleOrDefault();
+            shootSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ShootSound", name)).SingleOrDefault();
+            weapon = Resources.Load(string.Format("Weapons/{0}/{1}", name, name), typeof(GameObject)) as GameObject;
+            impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
+            muzzleFlash = Resources.Load("ParticleEffects/MuzzleFlash", typeof(GameObject)) as GameObject;
 
-        weaponResources = Resources.LoadAll(string.Format("Weapons/{0}", this.name), typeof(AudioClip));
-        reloadSound = (AudioClip)weaponResources.Where(x => x.name == "reloadSound").SingleOrDefault();
-        shootSound = (AudioClip)weaponResources.Where(x => x.name == "shootSound").SingleOrDefault();
-        weapon = Resources.Load(string.Format("Weapons/{0}/", this.name), typeof(GameObject)) as GameObject;
-        impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
+            gunEnd = weapon.transform.Find("GunEnd").gameObject;
+            gunAudioSource = weapon.GetComponent<AudioSource>();
+            anim = weapon.GetComponent<Animator>();
+            cam = weapon.GetComponentInParent<Camera>();
 
-        gunEnd = weapon.transform.Find("GunEnd").gameObject;
-        gunAudioSource = weapon.GetComponent<AudioSource>();
-        anim = weapon.GetComponent<Animator>();
-        cam = weapon.GetComponentInParent<Camera>();
-
-        this.damage = damage;
-        this.impactForce = impactForce;
-        mag = new Magazines(magQty, bulletsPerMag);
-        this.spawnPos = spawnPos;
+            this.damage = damage;
+            this.impactForce = impactForce;
+            this.name = name;
+            mag = new Magazines(magQty, bulletsPerMag);
+            this.spawnPos = spawnPos;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.Log(ex);
+        }
     }
     // read the folder with the guns and search the values of our variables
     // "/" is the assets folder
@@ -123,6 +138,8 @@ public class MainWeaponsClass : MonoBehaviour
         if (mag.currentMag > 0 && !_isReloading && Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit) && hit.transform.CompareTag("Ally") == false) // PErmet ainsi d'empecher le jouer de tirer sur son allié
         {
             mag.currentMag--;
+            GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
+            Destroy(muzlFlash, 1.3f);
             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
             ProduceRay(gunEnd, hit);

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Threading;
 
 public class VanCamControl : MonoBehaviour
 {
@@ -22,7 +24,8 @@ public class VanCamControl : MonoBehaviour
 
     private Animator anim;
 
-    bool canMoveCam = true;
+    public static bool isSeating { get; private set; }
+    private static bool canMoveCam;
 
     private void Start()
     {
@@ -31,6 +34,8 @@ public class VanCamControl : MonoBehaviour
         verticalSensitivity = 5F;
         actualVerticalEulerAngles = Vector3.zero;
         anim = this.GetComponentInParent<Animator>();
+        isSeating = true;
+        canMoveCam = true;
     }
 
     private void Update()
@@ -62,11 +67,13 @@ public class VanCamControl : MonoBehaviour
         this.mainCam.transform.localPosition = Vector3.zero;
         actualVerticalEulerAngles = Vector3.zero;
         anim.Play("VanCam");
+        isSeating = false;
     }
 
     private void SwitchToFreeView()
     {
         anim.Play("VanCanReverse");
+        isSeating = true;
         canMoveCam = true;
     }
 
