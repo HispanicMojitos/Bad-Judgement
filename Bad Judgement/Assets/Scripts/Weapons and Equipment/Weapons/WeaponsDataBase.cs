@@ -23,7 +23,7 @@ public class WeaponsDataBase
         var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile); // Deserialized the objects and put it 
         // in an array
 
-        weaponsList = new List<MainWeaponsClass>(jsonDataArray); // Put its stuff inside a list for better querying 
+        weaponsList = jsonDataArray.ToList(); // Put its stuff inside a list for better querying 
         // and adding new weapons
         if (!weaponsList.Exists(x => x.name == w.name)) weaponsList.Add(w); // If the weapon doesn't already exist
         jsonDataArray = weaponsList.ToArray();
