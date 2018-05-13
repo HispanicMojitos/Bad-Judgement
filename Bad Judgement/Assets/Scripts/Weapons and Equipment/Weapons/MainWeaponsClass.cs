@@ -81,14 +81,14 @@ public class MainWeaponsClass : MonoBehaviour
     /// <param name="damage"></param>
     /// <param name="impactForce"></param>
     /// <param name="fireRate"></param>
-    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Vector3 spawnPos)
+    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Vector3 spawnPos, string name)
 	{
         try
         {
-            weaponResources = Resources.LoadAll(string.Format("Weapons/{0}", this.name), typeof(AudioClip)) as AudioClip[];
-            reloadSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ReloadSound", this.name)).SingleOrDefault();
-            shootSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ShootSound", this.name)).SingleOrDefault();
-            weapon = Resources.Load(string.Format("Weapons/{0}/{1}", this.name, this.name), typeof(GameObject)) as GameObject;
+            weaponResources = Resources.LoadAll(string.Format("Weapons/{0}", name), typeof(AudioClip)) as AudioClip[];
+            reloadSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ReloadSound", name)).SingleOrDefault();
+            shootSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ShootSound", name)).SingleOrDefault();
+            weapon = Resources.Load(string.Format("Weapons/{0}/{1}", name, name), typeof(GameObject)) as GameObject;
             impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
             muzzleFlash = Resources.Load("ParticleEffects/MuzzleFlash", typeof(GameObject)) as GameObject;
 
