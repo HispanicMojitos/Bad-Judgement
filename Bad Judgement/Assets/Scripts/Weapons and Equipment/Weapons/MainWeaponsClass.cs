@@ -83,10 +83,10 @@ public class MainWeaponsClass : MonoBehaviour
         weaponResources = Resources.LoadAll(string.Format("Weapons/{0}", this.name), typeof(AudioClip));
         reloadSound = (AudioClip)weaponResources.Where(x => x.name == "reloadSound").SingleOrDefault();
         shootSound = (AudioClip)weaponResources.Where(x => x.name == "shootSound").SingleOrDefault();
-        weapon = Resources.Load(string.Format("Weapons/{0}", this.name), typeof(GameObject)) as GameObject;
+        weapon = Resources.Load(string.Format("Weapons/{0}/", this.name), typeof(GameObject)) as GameObject;
         impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
 
-        gunEnd = weapon.transform.Find("gunEnd").gameObject;
+        gunEnd = weapon.transform.Find("GunEnd").gameObject;
         gunAudioSource = weapon.GetComponent<AudioSource>();
         anim = weapon.GetComponent<Animator>();
         cam = weapon.GetComponentInParent<Camera>();
