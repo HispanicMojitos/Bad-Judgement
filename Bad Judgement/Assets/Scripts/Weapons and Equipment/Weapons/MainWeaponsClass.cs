@@ -7,7 +7,8 @@ using System.Threading;
 using System.IO;
 //using Newtonsoft.Json;
 
-public class MainWeaponsClass : MonoBehaviour
+[System.Serializable] // you need this to be able to serialize into json stuff
+public class MainWeaponsClass
 {
     #region Variables
     private AudioClip[] weaponResources;
@@ -75,8 +76,9 @@ public class MainWeaponsClass : MonoBehaviour
     public string Name
     {
         get { return newName; }
-        private set { newName = value; }
+        //private set { newName = value; }
     }
+
     #endregion
 
 
@@ -98,19 +100,20 @@ public class MainWeaponsClass : MonoBehaviour
 
         Debug.Log("lololo");
         weapon = Resources.Load<GameObject>(string.Format(@"Weapons\{0}\{1}", newName, newName));
-            impactEffect = Resources.Load(@"ParticleEffects\ImpactEffect", typeof(GameObject)) as GameObject;
-            muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
+        impactEffect = Resources.Load(@"ParticleEffects\ImpactEffect", typeof(GameObject)) as GameObject;
+        muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
 
-            //gunEnd = weapon.transform.Find("GunEnd").gameObject;
-            //gunAudioSource = weapon.GetComponent<AudioSource>();
-            //anim = weapon.GetComponent<Animator>();
-            //cam = weapon.GetComponentInParent<Camera>();
+        //gunEnd = weapon.transform.Find("GunEnd").gameObject;
+        //gunAudioSource = weapon.GetComponent<AudioSource>();
+        //anim = weapon.GetComponent<Animator>();
+        //cam = weapon.GetComponentInParent<Camera>();
 
-            this.damage = damage;
-            this.impactForce = impactForce;
-            this.newName = newName;
-            mag = new Magazines(magQty, bulletsPerMag);
-            this.spawnPos = spawnPos;
+        this.damage = damage;
+        this.fireRate = fireRate;
+        this.impactForce = impactForce;
+        this.newName = newName;
+        mag = new Magazines(magQty, bulletsPerMag);
+        this.spawnPos = spawnPos;
        // }
       //  catch (System.Exception ex)
        // {
@@ -141,8 +144,8 @@ public class MainWeaponsClass : MonoBehaviour
         if (mag.currentMag > 0 && !_isReloading && Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit) && hit.transform.CompareTag("Ally") == false) // PErmet ainsi d'empecher le jouer de tirer sur son allié
         {
             mag.currentMag--;
-            GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
-            Destroy(muzlFlash, 1.3f);
+            //GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
+            //Destroy(muzlFlash, 1.3f);
             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
             Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
             ProduceRay(gunEnd, hit);
@@ -162,14 +165,26 @@ public class MainWeaponsClass : MonoBehaviour
         if (hit.rigidbody != null) // if the object that we hit has a rigidbody
             hit.rigidbody.AddForce(-hit.normal * impactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
 
-        GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        //GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
 
-        Destroy(impactGO, 0.5f);
+        //Destroy(impactGO, 0.5f);
         // We use instantiate to create the object, we enter what we want to instantiate, where and in what direction, hit.normal is a flat surface that points directly in front, that way our effect will always be toward its source
         // We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
 
     }
     #endregion
+
+    public void LoadAssets()
+    {
+        AudioClip[] array = Resources.LoadAll<AudioClip>(string.Format("Weapons/{0}", newName));
+        reloadSound = array.Where(x => x.name == string.Format("{0}Reload", newName)).SingleOrDefault();
+        shootSound = array.Where(x => x.name == string.Format("{0}Shoot", newName)).SingleOrDefault();
+
+        Debug.Log("lololo");
+        weapon = Resources.Load<GameObject>(string.Format(@"Weapons\{0}\{1}", newName, newName));
+        impactEffect = Resources.Load(@"ParticleEffects\ImpactEffect", typeof(GameObject)) as GameObject;
+        muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
+    }
 
     #region ADS
     /// <summary>
@@ -208,7 +223,7 @@ public class MainWeaponsClass : MonoBehaviour
         public Magazines(int magNum, int bulletsPMag)
         {
             for (int i = 0; i < magNum; i++) _mags.Enqueue(bulletsPMag);
-            crtMag = _mags.Dequeue();
+            if( _mags.Count > 0) crtMag = _mags.Dequeue();
         }
 
         public void Reload()
