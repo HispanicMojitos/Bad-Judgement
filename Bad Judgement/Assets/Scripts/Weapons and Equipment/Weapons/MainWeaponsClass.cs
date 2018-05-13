@@ -29,7 +29,7 @@ public class MainWeaponsClass : MonoBehaviour
 	private bool isAiming = false;
     private string path = "/ParticleEffects"; // this is not correct read contructor to see why
     private Vector3 spawnPos;
-    private string name;
+    private string newName;
 
     #region Reload
     private int bulletsPerMag;
@@ -74,10 +74,11 @@ public class MainWeaponsClass : MonoBehaviour
     }
     public string Name
     {
-        get { return name; }
-        private set { name = value; }
+        get { return newName; }
+        private set { newName = value; }
     }
     #endregion
+
 
     /// <summary>
     /// Instance of this class must have the wepon name found in resources folder.
@@ -87,32 +88,34 @@ public class MainWeaponsClass : MonoBehaviour
     /// <param name="damage"></param>
     /// <param name="impactForce"></param>
     /// <param name="fireRate"></param>
-    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Vector3 spawnPos, string name)
+    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Vector3 spawnPos, string newName)
 	{
-        try
-        {
-            weaponResources = Resources.LoadAll(string.Format("Weapons/{0}", name), typeof(AudioClip)) as AudioClip[];
-            reloadSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ReloadSound", name)).SingleOrDefault();
-            shootSound = (AudioClip)weaponResources.Where(x => x.name == string.Format("{0}ShootSound", name)).SingleOrDefault();
-            weapon = Resources.Load(string.Format("Weapons/{0}/{1}", name, name), typeof(GameObject)) as GameObject;
-            impactEffect = Resources.Load("ParticleEffects/ImpactEffect", typeof(GameObject)) as GameObject;
-            muzzleFlash = Resources.Load("ParticleEffects/MuzzleFlash", typeof(GameObject)) as GameObject;
+        // try
+        // {
+        AudioClip[] array = Resources.LoadAll<AudioClip>(string.Format("Weapons/{0}", newName));
+        reloadSound = array.Where(x => x.name == string.Format("{0}Reload", newName)).SingleOrDefault();
+        shootSound = array.Where(x => x.name == string.Format("{0}Shoot", newName)).SingleOrDefault();
 
-            gunEnd = weapon.transform.Find("GunEnd").gameObject;
-            gunAudioSource = weapon.GetComponent<AudioSource>();
-            anim = weapon.GetComponent<Animator>();
-            cam = weapon.GetComponentInParent<Camera>();
+        Debug.Log("lololo");
+        weapon = Resources.Load<GameObject>(string.Format(@"Weapons\{0}\{1}", newName, newName));
+            impactEffect = Resources.Load(@"ParticleEffects\ImpactEffect", typeof(GameObject)) as GameObject;
+            muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
+
+            //gunEnd = weapon.transform.Find("GunEnd").gameObject;
+            //gunAudioSource = weapon.GetComponent<AudioSource>();
+            //anim = weapon.GetComponent<Animator>();
+            //cam = weapon.GetComponentInParent<Camera>();
 
             this.damage = damage;
             this.impactForce = impactForce;
-            this.name = name;
+            this.newName = newName;
             mag = new Magazines(magQty, bulletsPerMag);
             this.spawnPos = spawnPos;
-        }
-        catch (System.Exception ex)
-        {
-            Debug.Log(ex);
-        }
+       // }
+      //  catch (System.Exception ex)
+       // {
+       //     Debug.Log(ex);
+        //}
     }
     // read the folder with the guns and search the values of our variables
     // "/" is the assets folder

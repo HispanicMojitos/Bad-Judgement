@@ -20,15 +20,25 @@ public class WeaponsDataBase
     {
         if (!File.Exists(db)) File.Create(db); 
         string jsonFile = File.ReadAllText(db); // Read the database
-        var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile); // Deserialized the objects and put it 
-        // in an array
+        if (jsonFile == null || jsonFile == "")
+        {
+            weaponsList.Add(w);
+            var jsonDataArray1 = weaponsList.ToArray();
+            var tmpJson1 = JsonConvert.SerializeObject(jsonDataArray1, Formatting.Indented); // Serialize into the json file
+            File.WriteAllText(db, tmpJson1);
+        }
+        else
+        {
+            var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile); // Deserialized the objects and put it 
+                                                                                             // in an array
 
-        weaponsList = jsonDataArray.ToList(); // Put its stuff inside a list for better querying 
-        // and adding new weapons
-        if (!weaponsList.Exists(x => x.Name == w.Name)) weaponsList.Add(w); // If the weapon doesn't already exist
-        jsonDataArray = weaponsList.ToArray();
-        var tmpJson = JsonConvert.SerializeObject(jsonDataArray, Formatting.Indented); // Serialize into the json file
-        File.WriteAllText(db, tmpJson); // Write into the actual file
+            weaponsList = jsonDataArray.ToList(); // Put its stuff inside a list for better querying 
+                                                  // and adding new weapons
+            if (!weaponsList.Exists(x => x.Name == w.Name)) weaponsList.Add(w); // If the weapon doesn't already exist
+            jsonDataArray = weaponsList.ToArray();
+            var tmpJson = JsonConvert.SerializeObject(jsonDataArray, Formatting.Indented); // Serialize into the json file
+            File.WriteAllText(db, tmpJson); // Write into the actual file
+        }
     }
 
     /// <summary>

@@ -24,6 +24,11 @@ public class ChooseLoadout
 
     #endregion
 
+    void Awake()
+    {
+        Debug.Log("Name: " + CZ805.name);
+    }
+
     public ChooseLoadout()
     {
         weaponsDb = new WeaponsDataBase();
