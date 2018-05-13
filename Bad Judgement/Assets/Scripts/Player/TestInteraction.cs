@@ -25,22 +25,38 @@ public class TestInteraction : MonoBehaviour
     [HideInInspector] public Transform emplacementCible;
     private Transform alliéChosi;
     [SerializeField] private List<Transform> alliés;
-
+    private AudioSource radioPlayer;
     private void Start()
     {
+        radioPlayer = GameObject.Find("RadioPlayer").GetComponent<AudioSource>();// PERMET DE RECUPERER UN OBJET DANS LA SCENE EN FONCTION DE SON NOM
         emplacementCible = visualisationCiblePosition.transform;
     }
 
     // Ici nous retrouvons les variables bool corresPondants aux InPut , que l'on va Utiliser dans le FixedUtPdate
-    bool DecisionAllyllyShoot = false;
-    bool DecisionRecuAmoOnGun = false;
-    bool DecisionOrdreAlly = false;
-    bool DecisionOrdreporte = false;
-    bool DecisionHealAlly = false;
-    float temPsAvntHeal = 0;
+    private bool DecisionAllyllyShoot = false;
+    private bool DecisionRecuAmoOnGun = false;
+    private bool DecisionOrdreAlly = false;
+    private bool DecisionOrdreporte = false;
+    private bool DecisionHealAlly = false;
+
+    private float temPsAvntHeal = 0;
+    private float DelayAvantImageCanShoot = 0;
+    bool canPushButtonO = false;
+
     private void Update() // Ici on récupère tout les input  qui auron des incidences sur tout ce qui il y a dans le fixeUpdate Car si on met les InPut dans le fix UPdate, il y aura des INPUT LOSS !!
     {
-        if (Input.GetKeyDown(KeyCode.O)) DecisionAllyllyShoot = true;
+        if (DelayAvantImageCanShoot < 1.2f)
+        {
+            DelayAvantImageCanShoot += Time.deltaTime;
+
+        }
+        else if (canPushButtonO == false) canPushButtonO = true; // Permet de ne pas spammer le bouton O 
+        if (Input.GetKeyDown(KeyCode.O) && canPushButtonO == true)
+        {
+            canPushButtonO = false;
+            DelayAvantImageCanShoot = 0;
+            DecisionAllyllyShoot = true;
+        }
         if (Input.GetKeyDown(KeyCode.R)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
         if (Input.GetKeyDown(KeyCode.T)) DecisionOrdreAlly = true;
         if (Input.GetKeyDown(KeyCode.E)) DecisionOrdreporte = true;
@@ -92,12 +108,14 @@ public class TestInteraction : MonoBehaviour
             {
                 if (al.GetComponent<AIally>().autoriséATirer == true)
                 {
+                    Sounds.RadioVoice(radioPlayer, "CeaseFire");
                     al.GetComponent<AIally>().autoriséATirer = false;
                     CanShoot.enabled = false;
                     CannootShoot.enabled = true;
                 }
                 else if (al.GetComponent<AIally>().autoriséATirer == false)
                 {
+                    Sounds.RadioVoice(radioPlayer, "OpenFire");
                     al.GetComponent<AIally>().autoriséATirer = true;
                     CanShoot.enabled = true;
                     CannootShoot.enabled = false;
@@ -157,8 +175,9 @@ public class TestInteraction : MonoBehaviour
                     deplacementAllié = true;
                     alliesInterraction.enabled = false;
                     visualisationCibleDeplacement.SetActive(false);
-                    emplacementCible.position =  hit.point;
+                    emplacementCible.position = hit.point;
                     alliéChosi.GetComponent<AIally>().ordreDeplacement = true;
+                    Sounds.RadioVoice(radioPlayer, "MoveOverThere");
                     DecisionOrdreAlly = false;
                 }
             }

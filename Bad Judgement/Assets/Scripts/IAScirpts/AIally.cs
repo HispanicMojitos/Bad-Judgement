@@ -15,7 +15,7 @@ public class AIally : MonoBehaviour
     [SerializeField] private List<Transform> enemies;
     [SerializeField] private TestInteraction choixJoueur;
     private NavMeshAgent cetAllié;
-    private Transform enemiActuel = null;
+    [HideInInspector] public Transform enemiActuel = null;
     private Movement mvmentPlayer;
     
     private float degats = 0.5f;
@@ -30,6 +30,7 @@ public class AIally : MonoBehaviour
     private float delayAvntRejoindreJoueur;
     private bool peutRejoindreJoueur = true;
     private bool doitcourir = false;
+    [HideInInspector] public  bool doitChoisirCible = false;
     [HideInInspector] public bool PeutRevivre = false;
     [HideInInspector] public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
@@ -107,16 +108,22 @@ public class AIally : MonoBehaviour
                     peutRejoindreJoueur = false;
                     choixJoueur.visualisationCiblePosition.SetActive(false);
                     SetAnimation(isIdle: true);
+                    Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "InPosition");
                 }
 
             }
 
             tempsDelayChangerCible += Time.deltaTime;
-            if (enemiActuel == null && tempsDelayChangerCible > 1) // Si l'allié n'as pas de cible, elle va en choisir une
+            if ((enemiActuel == null && tempsDelayChangerCible > 1) || doitChoisirCible == true) // Si l'allié n'as pas de cible, elle va en choisir une
             {
                 foreach (Transform cible in enemies)
                 {
-                    if (Physics.Raycast(head.transform.position, (cible.transform.position - transform.position) * 100, out h) && h.transform.position == cible.transform.position &&  cible.GetComponent<AIscripts>().estMort == false) enemiActuel = cible;
+                    if (Physics.Raycast(head.transform.position, (cible.transform.position - transform.position) * 100, out h) && h.transform.position == cible.transform.position && cible.GetComponent<AIscripts>().estMort == false)
+                    {
+                        enemiActuel = cible;
+                        Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyContact");
+                        doitChoisirCible = false;
+                    }
                     if (enemiActuel != null) break;
                 }
                 tempsDelayChangerCible = 0;

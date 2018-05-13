@@ -249,8 +249,13 @@ using UnityEngine;
                         {
                             if (a.GetComponent<AIally>() != null && a.GetComponent<AIally>().estHS == false)
                             {
+                                a.GetComponent<AIally>().doitChoisirCible = true;
+                                a.GetComponent<AIally>().enemiActuel = this.transform;
                                 Player = a;
-                                if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position) break;
+                                if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -536,6 +541,7 @@ using UnityEngine;
         }
         else if (estMort == false) // Si l'IA meurt il faut jouer sa mort, faire en sorte que l'arme se perde, jouer le bruit de la mrt, etc...
         {
+            Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyDown");
             SetAnimation(isDead: true);
             M4A8.GetComponent<Rigidbody>().isKinematic = false;
             M4A8.GetComponent<Rigidbody>().useGravity = true;
@@ -548,9 +554,19 @@ using UnityEngine;
             estMort = true; // Permet d'éviter de se retrouver dans une boucle inutile
             
         }
+        if(estMort == true && radioSound == false)
+        {
+            tempsDelay += Time.deltaTime;
+            if(tempsDelay > 1)
+            {
+                radioSound = true;
+                Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyDown");
+            }
+        }
     }
     #endregion start & update
-
+    private float tempsDelay = 0f;
+    private bool radioSound = false;
     #region method
     private void SetAnimation(bool isAimKneel = false  ,bool isKneel = false  ,bool kneeGrenad = false  ,bool isIdle = false  ,bool isAiming = false  ,bool isAttack = false  ,bool isWalking = false  ,bool isRunning = false  ,bool isAttackingCloser = false  ,bool isDead = false) // Utilisation de prametre nomé, a récuperer en argument nommer pour décider quelle animation sera jouée
     {
