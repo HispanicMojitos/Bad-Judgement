@@ -10,8 +10,8 @@ public class ChooseLoadout
 {
     WeaponsDataBase weaponsDb;
 
-    public List<PrimaryWeapon> allPrimaryWeapons { get; private set; }
-    public List<SecondaryWeapon> allSecondaryWeapons { get; private set; }
+    public List<MainWeaponsClass> allPrimaryWeapons { get; private set; }
+    public List<MainWeaponsClass> allSecondaryWeapons { get; private set; }
 
     #region Chosen things
 
@@ -31,8 +31,8 @@ public class ChooseLoadout
     public int maxCredits { get; private set; }
     public int credits { get; private set; }
 
-    public PrimaryWeapon chosenPrimaryWeapon { get; private set; }
-    public SecondaryWeapon chosenSecondaryWeapon { get; private set; }
+    public MainWeaponsClass chosenPrimaryWeapon { get; private set; }
+    public MainWeaponsClass chosenSecondaryWeapon { get; private set; }
 
     #endregion
 
@@ -49,8 +49,14 @@ public class ChooseLoadout
         actualPrimaryWeaponSelected = 0;
         actualSecondaryWeaponSelected = 0;
 
+        actualPrimaryWeaponDisplayed = 0;
+        actualSecondaryWeaponDisplayed = 0;
+
         maxCredits = 5;
         credits = 5;
+
+        isChoosingPrimary = true;
+        isChoosingSecondary = false;
     }
 
     #region Methods
