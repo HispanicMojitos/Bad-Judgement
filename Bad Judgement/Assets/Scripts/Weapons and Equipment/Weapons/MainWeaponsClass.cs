@@ -29,6 +29,7 @@ public class MainWeaponsClass : MonoBehaviour
 	private bool isAiming = false;
     private string path = "/ParticleEffects"; // this is not correct read contructor to see why
     private Vector3 spawnPos;
+    private string name;
 
     #region Reload
     private int bulletsPerMag;
@@ -71,6 +72,11 @@ public class MainWeaponsClass : MonoBehaviour
         get { return (int)fireRate; }
         private set { fireRate = value; }
     }
+    public string Name
+    {
+        get { return name; }
+        private set { name = value; }
+    }
     #endregion
 
     /// <summary>
@@ -99,6 +105,7 @@ public class MainWeaponsClass : MonoBehaviour
 
             this.damage = damage;
             this.impactForce = impactForce;
+            this.name = name;
             mag = new Magazines(magQty, bulletsPerMag);
             this.spawnPos = spawnPos;
         }

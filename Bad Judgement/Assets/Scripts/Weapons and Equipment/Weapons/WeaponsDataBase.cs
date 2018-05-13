@@ -25,7 +25,7 @@ public class WeaponsDataBase
 
         weaponsList = jsonDataArray.ToList(); // Put its stuff inside a list for better querying 
         // and adding new weapons
-        if (!weaponsList.Exists(x => x.name == w.name)) weaponsList.Add(w); // If the weapon doesn't already exist
+        if (!weaponsList.Exists(x => x.Name == w.Name)) weaponsList.Add(w); // If the weapon doesn't already exist
         jsonDataArray = weaponsList.ToArray();
         var tmpJson = JsonConvert.SerializeObject(jsonDataArray, Formatting.Indented); // Serialize into the json file
         File.WriteAllText(db, tmpJson); // Write into the actual file
