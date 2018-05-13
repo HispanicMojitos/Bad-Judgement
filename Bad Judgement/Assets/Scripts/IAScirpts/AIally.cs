@@ -30,7 +30,6 @@ public class AIally : MonoBehaviour
     private float delayAvntRejoindreJoueur;
     private bool peutRejoindreJoueur = true;
     private bool doitcourir = false;
-    [HideInInspector] public  bool doitChoisirCible = false;
     [HideInInspector] public bool PeutRevivre = false;
     [HideInInspector] public bool allyEstRéanimé = false;
     private bool peutSuivreJoueur = true;
@@ -114,7 +113,7 @@ public class AIally : MonoBehaviour
             }
 
             tempsDelayChangerCible += Time.deltaTime;
-            if ((enemiActuel == null && tempsDelayChangerCible > 1) || doitChoisirCible == true) // Si l'allié n'as pas de cible, elle va en choisir une
+            if ((enemiActuel == null && tempsDelayChangerCible > 1) ) // Si l'allié n'as pas de cible, elle va en choisir une
             {
                 foreach (Transform cible in enemies)
                 {
@@ -122,7 +121,6 @@ public class AIally : MonoBehaviour
                     {
                         enemiActuel = cible;
                         Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyContact");
-                        doitChoisirCible = false;
                     }
                     if (enemiActuel != null) break;
                 }
@@ -227,14 +225,18 @@ public class AIally : MonoBehaviour
         }
         else if (estHS == true && PeutRevivre == true && allyHealthState.vie <= 0) // Ici on active le fait que l'allié Peut Revivre
         {
+            
             SetAnimation(seRedresse: true);
             temPsAvantEtreDebout += Time.deltaTime;
             if(temPsAvantEtreDebout > 2f)
             {
+                SetAnimation(seRedresse: true);
                 temPsAvantEtreDebout = 0;
                 estHS = false;
                 this.GetComponent<Target>().GainHealth(this.GetComponent<Target>().vieMax/2);
                 PeutRevivre = false;
+                cetAllié.isStopped = false;
+                Sounds.RadioVoice(Mouth, "ThankYou");
             }
              
         }
