@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2907292, g: 0.37009293, b: 0.44522882, a: 1}
+  m_IndirectSpecularColor: {r: 0.29122734, g: 0.37074128, b: 0.44617522, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -13166,7 +13166,6 @@ MonoBehaviour:
   - {fileID: 584317525}
   choixJoueur: {fileID: 421007095}
   enemiActuel: {fileID: 0}
-  doitChoisirCible: 0
   PeutRevivre: 0
   "allyEstR\xE9anim\xE9": 1
   estHS: 0
@@ -15693,7 +15692,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0.263
+      value: 0.251
       inSlope: 0
       outSlope: 0
       tangentMode: 0

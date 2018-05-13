@@ -249,8 +249,6 @@ using UnityEngine;
                         {
                             if (a.GetComponent<AIally>() != null && a.GetComponent<AIally>().estHS == false)
                             {
-                                a.GetComponent<AIally>().doitChoisirCible = true;
-                                a.GetComponent<AIally>().enemiActuel = this.transform;
                                 Player = a;
                                 if (Physics.Raycast(head.transform.position, Player.position - this.transform.position, out h) && h.transform.position == Player.position)
                                 {
@@ -560,7 +558,6 @@ using UnityEngine;
             if(tempsDelay > 1)
             {
                 radioSound = true;
-                Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyDown");
             }
         }
     }

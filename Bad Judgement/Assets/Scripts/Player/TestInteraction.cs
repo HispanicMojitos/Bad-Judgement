@@ -65,7 +65,11 @@ public class TestInteraction : MonoBehaviour
         {
             DecisionHealAlly = false;
             if(HealAnimationAlly.GetComponent<Image>() != null) HealAnimationAlly.GetComponent<Image>().enabled = false;
-            if(HealAnimationAlly.GetComponent<Animation>() != null) HealAnimationAlly.GetComponent<Animation>().enabled = false;
+            if (HealAnimationAlly.GetComponent<Animation>() != null)
+            {
+                HealAnimationAlly.GetComponent<Animation>().enabled = false;
+                HealAnimationAlly.GetComponent<Animation>()["New Animation"].time = 0; // Permet de redefenir le temps d'une animation selectionnée
+            }
             temPsAvntHeal = 0;
         }
     }
@@ -81,13 +85,13 @@ public class TestInteraction : MonoBehaviour
             if (hit.transform.GetComponent<AIally>().estHS == true)
             {
                 healAlly.enabled = true;
-                if (DecisionHealAlly == true && temPsAvntHeal < 10)
+                if (DecisionHealAlly == true && temPsAvntHeal < 11)
                 {
                     HealAnimationAlly.GetComponent<Image>().enabled = true;
                     HealAnimationAlly.GetComponent<Animator>().enabled = true;
                     temPsAvntHeal += Time.deltaTime;
                 }
-                else if (temPsAvntHeal > 10)
+                else if (temPsAvntHeal > 11)
                 {
                     hit.transform.GetComponent<AIally>().PeutRevivre = true;
                     HealAnimationAlly.GetComponent<Image>().enabled = false;
