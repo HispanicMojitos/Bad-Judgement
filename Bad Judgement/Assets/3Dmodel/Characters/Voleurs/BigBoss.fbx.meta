@@ -1,0 +1,248 @@
+fileFormatVersion: 2
+guid: 1b39bb2d33a526346848896bcd0cadd8
+timeCreated: 1526213339
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: BigBoss
+    100004: BigBoss.001
+    100006: Camera
+    100008: Lamp
+    100010: mixamorig:Head
+    100012: mixamorig:HeadTop_End
+    100014: mixamorig:Hips
+    100016: mixamorig:LeftArm
+    100018: mixamorig:LeftFoot
+    100020: mixamorig:LeftForeArm
+    100022: mixamorig:LeftHand
+    100024: mixamorig:LeftHandIndex1
+    100026: mixamorig:LeftHandIndex2
+    100028: mixamorig:LeftHandIndex3
+    100030: mixamorig:LeftHandIndex4
+    100032: mixamorig:LeftHandThumb1
+    100034: mixamorig:LeftHandThumb2
+    100036: mixamorig:LeftHandThumb3
+    100038: mixamorig:LeftHandThumb4
+    100040: mixamorig:LeftLeg
+    100042: mixamorig:LeftShoulder
+    100044: mixamorig:LeftToe_End
+    100046: mixamorig:LeftToeBase
+    100048: mixamorig:LeftUpLeg
+    100050: mixamorig:Neck
+    100052: mixamorig:RightArm
+    100054: mixamorig:RightFoot
+    100056: mixamorig:RightForeArm
+    100058: mixamorig:RightHand
+    100060: mixamorig:RightHandIndex1
+    100062: mixamorig:RightHandIndex2
+    100064: mixamorig:RightHandIndex3
+    100066: mixamorig:RightHandIndex4
+    100068: mixamorig:RightHandThumb1
+    100070: mixamorig:RightHandThumb2
+    100072: mixamorig:RightHandThumb3
+    100074: mixamorig:RightHandThumb4
+    100076: mixamorig:RightLeg
+    100078: mixamorig:RightShoulder
+    100080: mixamorig:RightToe_End
+    100082: mixamorig:RightToeBase
+    100084: mixamorig:RightUpLeg
+    100086: mixamorig:Spine
+    100088: mixamorig:Spine1
+    100090: mixamorig:Spine2
+    400000: //RootNode
+    400002: BigBoss
+    400004: BigBoss.001
+    400006: Camera
+    400008: Lamp
+    400010: mixamorig:Head
+    400012: mixamorig:HeadTop_End
+    400014: mixamorig:Hips
+    400016: mixamorig:LeftArm
+    400018: mixamorig:LeftFoot
+    400020: mixamorig:LeftForeArm
+    400022: mixamorig:LeftHand
+    400024: mixamorig:LeftHandIndex1
+    400026: mixamorig:LeftHandIndex2
+    400028: mixamorig:LeftHandIndex3
+    400030: mixamorig:LeftHandIndex4
+    400032: mixamorig:LeftHandThumb1
+    400034: mixamorig:LeftHandThumb2
+    400036: mixamorig:LeftHandThumb3
+    400038: mixamorig:LeftHandThumb4
+    400040: mixamorig:LeftLeg
+    400042: mixamorig:LeftShoulder
+    400044: mixamorig:LeftToe_End
+    400046: mixamorig:LeftToeBase
+    400048: mixamorig:LeftUpLeg
+    400050: mixamorig:Neck
+    400052: mixamorig:RightArm
+    400054: mixamorig:RightFoot
+    400056: mixamorig:RightForeArm
+    400058: mixamorig:RightHand
+    400060: mixamorig:RightHandIndex1
+    400062: mixamorig:RightHandIndex2
+    400064: mixamorig:RightHandIndex3
+    400066: mixamorig:RightHandIndex4
+    400068: mixamorig:RightHandThumb1
+    400070: mixamorig:RightHandThumb2
+    400072: mixamorig:RightHandThumb3
+    400074: mixamorig:RightHandThumb4
+    400076: mixamorig:RightLeg
+    400078: mixamorig:RightShoulder
+    400080: mixamorig:RightToe_End
+    400082: mixamorig:RightToeBase
+    400084: mixamorig:RightUpLeg
+    400086: mixamorig:Spine
+    400088: mixamorig:Spine1
+    400090: mixamorig:Spine2
+    2000000: Camera
+    2100000: torsoYCG
+    2100002: armYCG
+    2100004: canteenYCG
+    2100006: walkman
+    2100008: bdgeYCGa
+    2100010: faceYCG
+    2100012: eyeYCG
+    2100014: patchYCG
+    2100016: hairYCGa
+    2100018: gunYCG
+    2300000: BigBoss
+    3300000: BigBoss
+    4300000: BigBoss.001
+    4300002: BigBoss
+    7400000: mixamo.com
+    9500000: //RootNode
+    10800000: Lamp
+    13700000: BigBoss.001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: armYCG
+    second: {fileID: 2100000, guid: fa5969f4794664a41a3c2eeb6b624e7b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bdgeYCGa
+    second: {fileID: 2100000, guid: 1169ce22b8cce244aac5fb550482d6cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: canteenYCG
+    second: {fileID: 2100000, guid: c61b1f3eacdae33429f8ec3d69e7ef80, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyeYCG
+    second: {fileID: 2100000, guid: d4a76ce6387863041849301bbdef3f93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: faceYCG
+    second: {fileID: 2100000, guid: 1fccf4f2faaf91b4f8aea90689bf629d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gunYCG
+    second: {fileID: 2100000, guid: 05ad670bbd59da145a1627fc3c7b08a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hairYCGa
+    second: {fileID: 2100000, guid: 59e070e84e50ef54890845b03de51ea8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: patchYCG
+    second: {fileID: 2100000, guid: c148d6cb4c6db0b418e3d2b3350061fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: torsoYCG
+    second: {fileID: 2100000, guid: fbf66cd76b6d67c4795cb7f9febcc76e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: walkman
+    second: {fileID: 2100000, guid: 474dab76d5f3d7241b00d13abb6c78bb, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
