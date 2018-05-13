@@ -29,12 +29,6 @@ public class GunScript : MonoBehaviour
     [SerializeField] private GameObject muzzleFlash;
     #endregion
 
-    #region Gun Sway
-    [SerializeField] private float amount;
-    [SerializeField] private float smoothAmount;
-    [SerializeField] private float maxAmount;
-    #endregion
-
     #region Reload
     [SerializeField] private int bulletsPerMag = 30;
     [SerializeField] private static int currentMag;
@@ -46,7 +40,6 @@ public class GunScript : MonoBehaviour
 
     private float nextTimeToFire = 0f;
     private static int magQty = 6;// number of mags you can have
-    private Vector3 initialPosition;
     private bool _isReloading = false;
     private static bool _isShooting = false;
     private float reloadTime;
@@ -95,7 +88,6 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
-        initialPosition = transform.localPosition;
         initialRotation = transform.localEulerAngles;
         mag = new Magazines(magQty, bulletsPerMag);
         cam = GetComponentInParent<Camera>();
@@ -115,21 +107,6 @@ public class GunScript : MonoBehaviour
             //StartCoroutine(Reload());
             Reload();
         }
-        #endregion
-
-        #region Weapon Sway
-        // Sounds.AK47shoot(AK47, AK47shoot); // ANDREWS !! si tu met la methode pour jouer le son ici, tu remarquera que le son joue a l'infini et qu'il est cadencé (a la cadence que j'ai mise)
-        float movementX = -Input.GetAxis("Mouse X") * amount;
-        float movementY = -Input.GetAxis("Mouse Y") * amount;
-        // -maxAmount is the amount of movement to the left side
-        // maxAmount is the amount of movement to the right side
-        movementX = Mathf.Clamp(movementX, -maxAmount, maxAmount);
-        // original value, min value, max value
-        movementY = Mathf.Clamp(movementY, -maxAmount, maxAmount);
-        // this limits the amount of rotation
-        Vector3 finalPositon = new Vector3(movementX, movementY, 0);
-        transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPositon + initialPosition, ref velocity, Time.deltaTime * smoothAmount);
-        // this interpolates the initial position with the final position
         #endregion
 
         #region Shooting Condition
