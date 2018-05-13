@@ -43,8 +43,6 @@ public class VanUIScript : MonoBehaviour
             KToEquipText.gameObject.SetActive(false);
             panelMainPC.SetActive(true);
         }
-
-
     }
 
     #endregion
