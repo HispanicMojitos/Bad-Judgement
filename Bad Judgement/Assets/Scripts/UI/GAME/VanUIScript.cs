@@ -9,16 +9,19 @@ public class VanUIScript : MonoBehaviour
     [SerializeField]private GameObject panelMainPC;
     [SerializeField]private GameObject program;
 
+    private bool isPrimaryPanel;
+    private bool isSecondaryPanel;
+
     #region Program Objects
 
     [SerializeField] private GameObject equipmentChoicePanel;
     [SerializeField] private GameObject weaponsChoicePanel;
+    [SerializeField] private Button playButton;
+    [SerializeField] private Text creditsText;
 
-    private static bool weaponChoiceIsPrimary = true;
-    private static int weaponNumberShowed = 0;
     #endregion
 
-    #region Loadout Objects
+    #region Loadout_Objects
 
     ChooseLoadout loadout;
 
@@ -29,6 +32,7 @@ public class VanUIScript : MonoBehaviour
     void Start()
     {
         loadout = new ChooseLoadout();
+        loadout.Init();
     }
 
     void Update()
@@ -42,6 +46,14 @@ public class VanUIScript : MonoBehaviour
         {
             KToEquipText.gameObject.SetActive(false);
             panelMainPC.SetActive(true);
+
+            if(program.activeSelf)
+            {
+                creditsText.text = string.Format("Credits : {0} / {1}", loadout.credits, loadout.maxCredits);
+
+                if (loadout.chosenPrimaryWeapon != null && loadout.chosenSecondaryWeapon != null) playButton.interactable = true;
+                else playButton.interactable = false;
+            }
         }
     }
 
@@ -68,14 +80,23 @@ public class VanUIScript : MonoBehaviour
 
     public void OnEquipWeaponPress()
     {
-        if (weaponChoiceIsPrimary)
-        {
-            
-        }
-        else
-        {
+        loadout.SelectThatWeapon();
+    }
 
-        }
+    public void ShowNextWeapon()
+    {
+        loadout.NextWeapon();
+    }
+    
+    public void ShowPreviousWeapon()
+    {
+        loadout.PreviousWeapon();
+    }
+
+    public void OnPlayButtonPressed()
+    {
+        loadout.Save();
+        //Load scene
     }
 
     #endregion
