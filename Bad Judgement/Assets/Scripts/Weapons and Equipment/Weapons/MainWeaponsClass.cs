@@ -26,15 +26,8 @@ public class MainWeaponsClass : MonoBehaviour
 	private float nextTimeToFire = 0f;
 	private static int magQty;
 	private bool isAiming = false;
-    private Vector3 initialPosition;
     private string path = "/ParticleEffects"; // this is not correct read contructor to see why
     private Transform spawnPos;
-
-    #region Weapon Sway
-    private float amount;
-    private float smoothAmount;
-    private float maxAmount;
-    #endregion
 
     #region Reload
     private int bulletsPerMag;
@@ -47,7 +40,7 @@ public class MainWeaponsClass : MonoBehaviour
     #endregion
 
     #region Properties
-    public bool isReloading
+    public bool IsReloading
     {
         get { return _isReloading; }
         set { _isReloading = value; }
@@ -66,6 +59,16 @@ public class MainWeaponsClass : MonoBehaviour
     {
         get { return mag; }
         set { mag = value; }
+    }
+    public Transform SpawnPos
+    {
+        get { return spawnPos; }
+        private set { spawnPos = value; }
+    }
+    public int FireRate
+    {
+        get { return (int)fireRate; }
+        private set { fireRate = value; }
     }
     #endregion
 
@@ -93,7 +96,6 @@ public class MainWeaponsClass : MonoBehaviour
 
         this.damage = damage;
         this.impactForce = impactForce;
-        initialPosition = weapon.transform.localPosition;
         mag = new Magazines(magQty, bulletsPerMag);
         this.spawnPos = spawnPos;
     }
@@ -103,25 +105,6 @@ public class MainWeaponsClass : MonoBehaviour
 
     #region Methods
 
-    #region Weapon Sway
-    /// <summary>
-    /// This should be inside your Update method.
-    /// </summary>
-    public void WeaponSway()
-    {
-        float movementX = -Input.GetAxis("Mouse X") * amount;
-        float movementY = -Input.GetAxis("Mouse Y") * amount;
-        // -maxAmount is the amount of movement to the left side
-        // maxAmount is the amount of movement to the right side
-        movementX = Mathf.Clamp(movementX, -maxAmount, maxAmount);
-        // original value, min value, max value
-        movementY = Mathf.Clamp(movementY, -maxAmount, maxAmount);
-        // this limits the amount of rotation
-        Vector3 finalPositon = new Vector3(movementX, movementY, 0);
-        transform.localPosition = Vector3.Lerp(transform.localPosition, finalPositon + initialPosition, Time.deltaTime * smoothAmount);
-        // this interpolates the initial position with the final position
-    }
-    #endregion
 
     #region Shoot
     /// <summary>
@@ -137,7 +120,7 @@ public class MainWeaponsClass : MonoBehaviour
         // If the object is hit, we do some damage, if not, then nothing happens
         // First we need to reference the camera
         RaycastHit hit;
-        if (mag.currentMag > 0 && !isReloading && Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit) && hit.transform.CompareTag("Ally") == false) // PErmet ainsi d'empecher le jouer de tirer sur son allié
+        if (mag.currentMag > 0 && !_isReloading && Physics.Raycast(gunEnd.transform.position, gunEnd.transform.forward, out hit) && hit.transform.CompareTag("Ally") == false) // PErmet ainsi d'empecher le jouer de tirer sur son allié
         {
             mag.currentMag--;
             Sounds.Cz805shootPlayer(AK47);  //  Joue le son !! A metre l'AK47 comme AudioSource et AK47shoot comme AudioClip
@@ -177,32 +160,6 @@ public class MainWeaponsClass : MonoBehaviour
     { // this should edit the recoil values and play anim
         isAiming = !isAiming;
         anim.SetBool("IsAiming", isAiming);
-    }
-    #endregion
-
-    #region Reload
-    public void Reload()
-    {
-        if (magQty != 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
-        {
-            isAiming = false;
-            anim.SetBool("Aiming", isAiming);
-            _isReloading = true;
-            anim.SetTrigger("Reload");
-            _isReloading = false;
-            //Sounds.AK47reload(AK47);
-            mag.Reload();
-        }
-    }
-    #endregion
-
-    #region SpawnWeapon
-    /// <summary>
-    /// Creates an instance of the weapon object.
-    /// </summary>
-    public void SpawnWeapon()
-    {
-        weapon = Instantiate(weapon, spawnPos);
     }
     #endregion
 
