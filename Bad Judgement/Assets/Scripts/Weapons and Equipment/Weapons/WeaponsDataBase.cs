@@ -9,97 +9,90 @@ using System.Linq;
 public class WeaponsDataBase
 {
     List<MainWeaponsClass> weaponsList = new List<MainWeaponsClass>();
-    string db = "WeaponsDB.json";
+    string primaryDb = "PrimaryWeapons.json";
+    string secondaryDb = "SecondaryWeapons.json";
 
     public WeaponsDataBase()
     {
-        if(!File.Exists(db))File.Create(db).Dispose();
+        if (!File.Exists(primaryDb)) File.Create(primaryDb).Dispose();
+        if (!File.Exists(secondaryDb)) File.Create(secondaryDb).Dispose();
     }
 
-    public void SaveInside(MainWeaponsClass w)
+    public void Save(PrimaryWeapon w)
     {
-        if (!File.Exists(db)) File.Create(db).Dispose();
-        string jsonFile = File.ReadAllText(db); // Read the database
+        if (!File.Exists(primaryDb)) File.Create(primaryDb).Dispose();
+        List<PrimaryWeapon> primaries = new List<PrimaryWeapon>();
+        string jsonFile = File.ReadAllText(primaryDb); // Read the database
         if (jsonFile == null || jsonFile == "")
         {
-            weaponsList.Add(w);
-            var jsonDataArray = weaponsList.ToArray();
-            Debug.Log(jsonDataArray[0]);
+            primaries.Add(w);
+            var jsonDataArray = primaries.ToArray();
+            primaries.ForEach(x => Debug.Log(x.GetType()));
             var tmpJson = JsonConvert.SerializeObject(jsonDataArray, Formatting.Indented); // Serialize into the json file
-            File.WriteAllText(db, tmpJson);
+            File.WriteAllText(primaryDb, tmpJson);
         }
         else
         {
-            var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile); // Deserialized the objects and put it in an array
-            weaponsList = jsonDataArray.ToList(); // Put its stuff inside a list for better querying and adding new weapons
-            if (!weaponsList.Exists(x => x.Name == w.Name) && (w.Name != null || w.Name != "" || w.Name != string.Empty))
+            var jsonDataArray = JsonConvert.DeserializeObject<PrimaryWeapon[]>(jsonFile); // Deserialized the objects and put it in an array
+            primaries = jsonDataArray.ToList(); // Put its stuff inside a list for better querying and adding new weapons
+            if (weaponsList.Exists(x => x.Name != w.Name))
             {
-                weaponsList.Add(w); // If the weapon doesn't already exist
-                jsonDataArray = weaponsList.ToArray();
+                primaries.Add(w); // If the weapon doesn't already exist
+                jsonDataArray = primaries.ToArray();
                 var tmpJson = JsonConvert.SerializeObject(jsonDataArray, Formatting.Indented); // Serialize into the json file
-                File.WriteAllText(db, tmpJson); // Write into the actual file
+                File.WriteAllText(primaryDb, tmpJson); // Write into the actual file
             }
         }
     }
-    
-    /// <summary>
-    /// Returns every weapon inside of the database
-    /// </summary>
-    /// <returns></returns>
-    public List<MainWeaponsClass> Load()
+
+    public void Save(SecondaryWeapon w)
     {
-        if (File.Exists(db))
+        if (!File.Exists(secondaryDb)) File.Create(secondaryDb).Dispose();
+        List<SecondaryWeapon> secondaries = new List<SecondaryWeapon>();
+        string jsonFile = File.ReadAllText(secondaryDb); // Read the database
+        if (jsonFile == null || jsonFile == "")
         {
-            string jsonFile = File.ReadAllText(db);
-            if (jsonFile != null)
+            secondaries.Add(w);
+            var jsonDataArray = secondaries.ToArray();
+            secondaries.ForEach(x => Debug.Log(x.GetType()));
+            var tmpJson = JsonConvert.SerializeObject(jsonDataArray, Formatting.Indented); // Serialize into the json file
+            File.WriteAllText(secondaryDb, tmpJson);
+        }
+        else
+        {
+            var jsonDataArray = JsonConvert.DeserializeObject<SecondaryWeapon[]>(jsonFile); // Deserialized the objects and put it in an array
+            secondaries = jsonDataArray.ToList(); // Put its stuff inside a list for better querying and adding new weapons
+            if (weaponsList.Exists(x => x.Name != w.Name))
             {
-                var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile);
-                weaponsList = new List<MainWeaponsClass>(jsonDataArray);
-                return weaponsList;
+                secondaries.Add(w); // If the weapon doesn't already exist
+                jsonDataArray = secondaries.ToArray();
+                var tmpJson = JsonConvert.SerializeObject(jsonDataArray, Formatting.Indented); // Serialize into the json file
+                File.WriteAllText(secondaryDb, tmpJson); // Write into the actual file
             }
-            else throw new Exception("Database is empty.");
         }
-        else throw new Exception("Weapons Database does not exist, please try saving something first.");
     }
-    /// <summary>
-    /// Return specific weapon
-    /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    public MainWeaponsClass LoadSpecific(string name)
+ 
+    public List<PrimaryWeapon> LoadPrimary()
     {
-        string jsonFile = File.ReadAllText(db);
+        string jsonFile = File.ReadAllText(primaryDb);
         if (jsonFile != null)
         {
-            var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile);
-            weaponsList = new List<MainWeaponsClass>(jsonDataArray);
-            var weapon = weaponsList.Where(x => x.Name == name).SingleOrDefault();
-            if (weapon != null) return weapon;
-            else throw new Exception("This weapon doesn't exist.");
-        }
-        else throw new Exception("File is empty, please try saving some weapons into the database first.");
-    }
-    
-    public List<MainWeaponsClass> LoadPrimary()
-    {
-        string jsonFile = File.ReadAllText(db);
-        if (jsonFile != null)
-        {
-            var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile);
-            var primaryList = jsonDataArray.Select(x => x).Where(x => x is PrimaryWeapon).ToList();
+            var jsonDataArray = JsonConvert.DeserializeObject<PrimaryWeapon[]>(jsonFile);
+            var primaryList = jsonDataArray.ToList();
+            primaryList.ForEach(x => Debug.Log(x.GetType()));
             if (primaryList != null) return primaryList;
             else throw new Exception("There are no primary weapons in this database.");
         }
         else throw new Exception("File is empty, please try saving some weapons into the database first.");
     }
     
-    public List<MainWeaponsClass> LoadSecondary()
+    public List<SecondaryWeapon> LoadSecondary()
     {
-        string jsonFile = File.ReadAllText(db);
+        string jsonFile = File.ReadAllText(secondaryDb);
         if (jsonFile != null)
         {
-            var jsonDataArray = JsonConvert.DeserializeObject<MainWeaponsClass[]>(jsonFile);
-			var secondaryList = jsonDataArray.Select(x => x).Where(x => x is SecondaryWeapon).ToList();
+            var jsonDataArray = JsonConvert.DeserializeObject<SecondaryWeapon[]>(jsonFile);
+			var secondaryList = jsonDataArray.ToList();
 			if (secondaryList != null) return secondaryList;
             else throw new Exception("There are no secondary weapons in this database.");
         }

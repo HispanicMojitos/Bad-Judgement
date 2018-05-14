@@ -10,8 +10,8 @@ public class ChooseLoadout
 {
     WeaponsDataBase weaponsDb;
 
-    public List<MainWeaponsClass> allPrimaryWeapons { get; private set; }
-    public List<MainWeaponsClass> allSecondaryWeapons { get; private set; }
+    public List<PrimaryWeapon> allPrimaryWeapons { get; private set; }
+    public List<SecondaryWeapon> allSecondaryWeapons { get; private set; }
 
     #region Chosen things
 
@@ -48,7 +48,7 @@ public class ChooseLoadout
     {
         weaponsDb = new WeaponsDataBase();
 
-        weaponsDb.SaveInside(CZ805);
+        weaponsDb.Save(CZ805);
         allPrimaryWeapons = weaponsDb.LoadPrimary();
         //allSecondaryWeapons = weaponsDb.LoadSecondary();
 
