@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class ProtectionEquipment : Equipment
 {
-    protected float equipmentDuration { get; private set; }
-    protected float protectionCoefficient { get; set; }
-    protected float maxDuration { get; private set; }
+    public float equipmentDuration { get; private set; }
+    public float protectionCoefficient { get; set; }
+    public float maxDuration { get; private set; }
 
     public bool isDestroyed
     {
@@ -23,6 +23,8 @@ public class ProtectionEquipment : Equipment
         this.equipmentDuration = maxDuration; //At the beginning, our equipment is full durability
 
         this.protectionCoefficient = protectionCoefficient;
+
+        this.uiSprite = null;
     }
 
     #region Methods

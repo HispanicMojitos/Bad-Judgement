@@ -18,6 +18,7 @@ public class ChooseLoadout
     public static readonly string directoryPath = "Loadout";
     public static readonly string primaryWeaponPath = @"Loadout\primaryWp.json";
     public static readonly string secondaryWeaponPath = @"Loadout\secondaryWp.json";
+    public static readonly string equipmentPath = @"Loadout\equipment.txt";
 
     public int actualPrimaryWeaponSelected { get; private set; }
     public int actualSecondaryWeaponSelected { get; private set; }
@@ -33,6 +34,11 @@ public class ChooseLoadout
 
     public MainWeaponsClass chosenPrimaryWeapon { get; private set; }
     public MainWeaponsClass chosenSecondaryWeapon { get; private set; }
+    public int amountFlashGrenade { get; private set; } 
+    public int amountSmokeGrenade { get; private set; }
+    public int amountFragGrenade { get; private set; }
+    public bool helmetSelected { get; private set; }
+    public bool vestSelected { get; private set; }
 
     #endregion
 
@@ -57,6 +63,12 @@ public class ChooseLoadout
 
         isChoosingPrimary = true;
         isChoosingSecondary = false;
+
+        amountFlashGrenade = 0;
+        amountFragGrenade = 0;
+        amountSmokeGrenade = 0;
+        helmetSelected = false;
+        vestSelected = false;
     }
 
     #region Methods
@@ -66,6 +78,8 @@ public class ChooseLoadout
         if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
         if (!File.Exists(primaryWeaponPath)) File.Create(primaryWeaponPath);
         if (!File.Exists(secondaryWeaponPath)) File.Create(secondaryWeaponPath);
+        if (File.Exists(equipmentPath)) File.Delete(equipmentPath);
+        File.Create(equipmentPath);
     }
 
     public void NextWeapon()
@@ -98,13 +112,115 @@ public class ChooseLoadout
     {
         if (isChoosingPrimary)
         {
-            chosenPrimaryWeapon = allPrimaryWeapons[actualPrimaryWeaponDisplayed];
-            actualPrimaryWeaponSelected = actualPrimaryWeaponDisplayed;
+            if (credits > 0)
+            {
+                if (chosenPrimaryWeapon == null) credits--;
+                chosenPrimaryWeapon = allPrimaryWeapons[0];
+                actualPrimaryWeaponSelected = 0;
+            }
         }
         else
         {
-            chosenSecondaryWeapon = allSecondaryWeapons[actualSecondaryWeaponDisplayed];
-            actualSecondaryWeaponSelected = actualSecondaryWeaponDisplayed;
+            if (credits > 0)
+            {
+                if (chosenSecondaryWeapon == null) credits--;
+                chosenSecondaryWeapon = allSecondaryWeapons[actualSecondaryWeaponDisplayed];
+                actualSecondaryWeaponSelected = actualSecondaryWeaponDisplayed;
+            }
+        };
+    }
+
+    public void AddGrenade(string grenadeType)
+    {
+        if (credits > 0)
+        {
+            switch (grenadeType)
+            {
+                case "smoke":
+                    amountSmokeGrenade++;
+                    break;
+                case "frag":
+                    amountFragGrenade++;
+                    break;
+                case "flash":
+                    amountFlashGrenade++;
+                    break;
+                default:
+                    throw new Exception("(A prendre en considération que si t'es développeur) Ntm c'est pas la bonne string que t'as mis pour la grenade enculé");
+                    break;
+            }
+
+            credits--;
+        }
+    }
+
+    public void RemoveGrenade(string grenadeType)
+    {
+        bool hasToAddCredits = false;
+
+        switch (grenadeType)
+        {
+            case "smoke":
+                if (amountSmokeGrenade > 0)
+                {
+                    amountSmokeGrenade--;
+                    hasToAddCredits = true;
+                }
+                break;
+            case "frag":
+                if (amountFragGrenade > 0)
+                {
+                    amountFragGrenade--;
+                    hasToAddCredits = true;
+                }
+                break;
+            case "flash":
+                if (amountFlashGrenade > 0)
+                {
+                    amountFlashGrenade--;
+                    hasToAddCredits = true;
+                }
+                break;
+            default:
+                throw new Exception("Ntm le type de grenade n'existe pas");
+                break;
+        }
+
+        if (hasToAddCredits) credits++;
+    }
+
+    public void SelectOrUnSelectProtection(bool value, string protectionType)
+    {
+        if (value)
+        {
+            if (protectionType == "helmet")
+            {
+                helmetSelected = true;
+                credits--;
+            }
+            else if (protectionType == "vest")
+            {
+                vestSelected = true;
+                credits--;
+            }
+            else throw new Exception("Ntm tu t'es trompé dans ta string");
+        }
+        else
+        {
+            if(credits < maxCredits)
+            {
+                if (protectionType == "helmet")
+                {
+                    helmetSelected = false;
+                    credits++;
+                }
+                else if (protectionType == "vest")
+                {
+                    vestSelected = false;
+                    credits++;
+                }
+                else throw new Exception("Ntm ptn tu t'es trompé de string u nub");
+            }
         }
     }
 
@@ -112,9 +228,21 @@ public class ChooseLoadout
     {
         var tempPrimaryJson = JsonConvert.SerializeObject(chosenPrimaryWeapon, Formatting.Indented);
         var tempSecondaryJson = JsonConvert.SerializeObject(chosenSecondaryWeapon, Formatting.Indented);
+        var equipmentLines = GetEquipmentTextFileContent();
 
         File.WriteAllText(primaryWeaponPath, tempPrimaryJson);
         File.WriteAllText(secondaryWeaponPath, tempSecondaryJson);
+        File.WriteAllLines(equipmentPath, equipmentLines.ToArray());
+    }
+    
+    private List<string> GetEquipmentTextFileContent()
+    {
+        var lines = new List<string>();
+
+        lines.Add(string.Format("helmet={0}", helmetSelected.ToString()));
+        lines.Add(string.Format("vest={0}", vestSelected.ToString()));
+
+        return lines;
     }
 
     #endregion
