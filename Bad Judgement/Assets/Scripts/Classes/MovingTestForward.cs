@@ -216,7 +216,7 @@ public class MovingTestForward : MonoBehaviour {
         if (collision == 20 && Input.GetKey(KeyCode.A))
         {
             leanLeft.SetActive(false);
-            Teleport.toVan();
+            Teleport.toMainMenu();
         }
 
     }

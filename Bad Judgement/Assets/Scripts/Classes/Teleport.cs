@@ -17,6 +17,11 @@ public static class Teleport
         SceneManager.LoadScene("First scene", LoadSceneMode.Single);
     }
 
+    public static void toMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
+    }
+
     
 
    
