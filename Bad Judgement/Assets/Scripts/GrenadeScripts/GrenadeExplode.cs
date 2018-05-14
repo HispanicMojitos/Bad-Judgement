@@ -31,9 +31,13 @@ public class GrenadeExplode : MonoBehaviour
             if(colTarget != null)
             {
                 float damage = FragGrenade.CalculateDamage(this.transform.position, colTarget.transform.position);
-                colTarget.TakeDamage(damage); 
+                colTarget.TakeDamage(damage);
                 //Sending damage in function of the distance (calculated in FragGrenade class) to the collider
-                if (collider.tag == "Player") collider.GetComponent<PlayerLoadout>().protection.GrenadeHit(damage);
+                if (collider.tag == "Player")
+                {
+                    var playerCol = collider.GetComponent<PlayerLoadout>();
+                    foreach (var protection in playerCol.protection) protection.GrenadeHit(damage);
+                }
                 //If it is the player, his protection will be damaged by a grenade
             }
         }

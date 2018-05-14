@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerLoadout : MonoBehaviour
 {
     public List<Grenade> grenades { get; private set; }
-    public ProtectionEquipment protection { get; private set; }
+    public List<ProtectionEquipment> protection { get; private set; }
 
     public int selectedItem { get; private set; }
     public static int maxSelectedItem = 4;
@@ -63,6 +63,19 @@ public class PlayerLoadout : MonoBehaviour
                 throw new System.Exception("Impossible to use a non-existent equipment !");
                 break;
         }
+    }
+
+    public int returnTotalProtectionDuration()
+    {
+        int totalDuration = 0;
+
+        if (this.protection != null)
+        {
+            foreach (var protectionItem in this.protection) totalDuration += Mathf.RoundToInt(protectionItem.equipmentDuration);
+            totalDuration /= this.protection.Count;
+        }
+
+        return totalDuration;
     }
 
     #endregion

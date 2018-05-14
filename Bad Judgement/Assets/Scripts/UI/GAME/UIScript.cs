@@ -33,6 +33,10 @@ public class UIScript : MonoBehaviour
     [SerializeField] private Image secondaryGunBg;
     [SerializeField] private Image equipmentBg;
 
+    [SerializeField] private Text protectionText;
+    [SerializeField] private Slider protectionSlider;
+    private PlayerLoadout currentLoadout;
+
     #endregion
 
     #region Start & Update
@@ -60,6 +64,8 @@ public class UIScript : MonoBehaviour
             }
 
             UpdateCurrentEquipment();
+
+            //UpdateProtection();
         }
     }
 
@@ -117,6 +123,13 @@ public class UIScript : MonoBehaviour
         if (selectedEquipment == 0) primaryGunBg.color = highAlpha;
         else if (selectedEquipment == 1) secondaryGunBg.color = highAlpha;
         else equipmentBg.color = highAlpha;
+    }
+
+    private void UpdateProtection()
+    {
+        var totalProtection = currentLoadout.returnTotalProtectionDuration();
+        this.protectionText.text = totalProtection.ToString();
+        this.protectionSlider.value = totalProtection / 100f;
     }
 
     #endregion
