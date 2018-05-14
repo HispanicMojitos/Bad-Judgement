@@ -3,34 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Teleport : MonoBehaviour {
+public static class Teleport
+{
 
-    [SerializeField] private GameObject Grenada;
+    public static void toVan()
+    {
+        SceneManager.LoadScene("Van", LoadSceneMode.Single);
 
-    private MovingTestForward Grenade;
+    }
+
+    public static void toTuto()
+    {
+        SceneManager.LoadScene("First scene", LoadSceneMode.Single);
+    }
+
+    
 
    
 	
-	void Start ()
-    {
-        Grenade = Grenada.GetComponent<MovingTestForward>();
-	}
 	
-	
-	void Update ()
-    {
-        teleportToVan();
-	}
-    void teleportToVan()
-    {
-        if (Grenade.leanLeft.activeInHierarchy == false && Grenade.collision == 20)
-        {
-            SceneManager.LoadScene("Van",LoadSceneMode.Single);
-        }
-    }
-
-    void teleportToMissionOne()
-    {
-        SceneManager.LoadScene("Mission 1", LoadSceneMode.Single);
-    }
 }
