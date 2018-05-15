@@ -161,7 +161,7 @@ public class UIScript : MonoBehaviour
 
     public void OnQuitButtonPressed()
     {
-
+        Teleport.toMainMenu();
     }
 
     private void Pause()
