@@ -82,6 +82,10 @@ using UnityEngine;
     private bool IsPatrolling = true; // Permet de savoir quand l'enemi poursuit l'iA 
 
     [HideInInspector]public bool reprendLaRonde = false;
+
+    [SerializeField] private bool EnemySwat = false;
+
+    AudioSource radio;
     #endregion membres
 
     #region membres pour difficultes
@@ -96,12 +100,17 @@ using UnityEngine;
     void Awake()
     {
         M4A8.transform.SetParent(hand); // On positionne l'arme dans la main de L'IA et on la maintient dans des rotation est position convenable des le début
-        M4A8.transform.localPosition = new Vector3(0.287f, -0.046f, 0.008f);
-        M4A8.transform.localRotation = Quaternion.Euler(-18.928f, -95.132f, 85.29f);
+        if (EnemySwat == false)
+        {
+            M4A8.transform.localPosition = new Vector3(0.287f, -0.046f, 0.008f);
+            M4A8.transform.localRotation = Quaternion.Euler(-18.928f, -95.132f, 85.29f);
+        }
+
     }
 
     void Start()
     {
+        radio = GameObject.Find("RadioPlayer").GetComponent<AudioSource>();
         MuzzleFlash = Resources.Load("ParticleEffects/MuzzleFlash") as GameObject;
         anim = GetComponent<Animator>(); // On récupere les animations dés que le jeux commence
         IA = GetComponent<Target>(); // On récupere les donnée du script Target attaché a la même IA que Ce script-ci
@@ -539,7 +548,7 @@ using UnityEngine;
         }
         else if (estMort == false) // Si l'IA meurt il faut jouer sa mort, faire en sorte que l'arme se perde, jouer le bruit de la mrt, etc...
         {
-            Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyDown");
+            Sounds.RadioVoice(radio, "EnemyDown");
             SetAnimation(isDead: true);
             M4A8.GetComponent<Rigidbody>().isKinematic = false;
             M4A8.GetComponent<Rigidbody>().useGravity = true;

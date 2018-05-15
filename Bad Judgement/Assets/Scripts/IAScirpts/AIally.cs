@@ -117,12 +117,15 @@ public class AIally : MonoBehaviour
             {
                 foreach (Transform cible in enemies)
                 {
-                    if (Physics.Raycast(head.transform.position, (cible.transform.position - transform.position) * 100, out h) && h.transform.position == cible.transform.position && cible.GetComponent<AIscripts>().estMort == false)
+                    if (cible != null)
                     {
-                        enemiActuel = cible;
-                        Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyContact");
+                        if (Physics.Raycast(head.transform.position, (cible.transform.position - transform.position) * 100, out h) && h.transform.position == cible.transform.position)
+                        {
+                            enemiActuel = cible;
+                            Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyContact");
+                        }
+                        if (enemiActuel != null) break;
                     }
-                    if (enemiActuel != null) break;
                 }
                 tempsDelayChangerCible = 0;
 
@@ -187,8 +190,7 @@ public class AIally : MonoBehaviour
                         tempsFinAttaque = UnityEngine.Random.Range(1f, 1.3f);
                     }
                     tempsAvantAttaque += Time.deltaTime; // Incréméente le temps avant la prochaine rafale de balle
-
-                    if (enemiActuel.GetComponent<AIscripts>().estMort == true) enemiActuel = null;
+                    
                 }
                 else // ICI L'ALLIE VISE l'IA QUI SE CACHE OU UNE AUTRE IA QUI N'EST PAS CACHEE
                 {
@@ -211,6 +213,8 @@ public class AIally : MonoBehaviour
                     peutSuivreJoueur = true;
                     peutRejoindreJoueur = true;
                     ordreDeplacement = false;
+
+                    Sounds.RadioVoice(GameObject.Find("RadioPlayer").GetComponent<AudioSource>(), "EnemyDown");
                 }
             }
 
