@@ -95,40 +95,43 @@ public class GunScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region Refresh values
-        currentMag = mag.currentMag;
-        magQty = mag.mags.Count;
-        //LookAtScreen();
-        #endregion
-
-        #region Reload Condition
-        if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag<bulletsPerMag+1 && magQty!=0)
+        if (!UIScript.gameIsPaused)
         {
-            //StartCoroutine(Reload());
-            Reload();
-        }
-        #endregion
+            #region Refresh values
+            currentMag = mag.currentMag;
+            magQty = mag.mags.Count;
+            //LookAtScreen();
+            #endregion
 
-        #region Shooting Condition
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload")) // If the user presses the fire buttton
-        { // and if the time that has passed is greater than the rate of fire
-            nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
-            Shoot();
-        }
-        else
-        {
-            _isReloading = false;
-            //cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(0,0), kickForce * Time.deltaTime);
-        }
-        #endregion
+            #region Reload Condition
+            if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag < bulletsPerMag + 1 && magQty != 0)
+            {
+                //StartCoroutine(Reload());
+                Reload();
+            }
+            #endregion
 
-        #region Aiming condition
-        if (Input.GetButtonDown("Fire2")) // WIP
-        {
-            isAiming = !isAiming;
-            anim.SetBool("Aiming", isAiming);
+            #region Shooting Condition
+            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload")) // If the user presses the fire buttton
+            { // and if the time that has passed is greater than the rate of fire
+                nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
+                Shoot();
+            }
+            else
+            {
+                _isReloading = false;
+                //cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(0,0), kickForce * Time.deltaTime);
+            }
+            #endregion
+
+            #region Aiming condition
+            if (Input.GetButtonDown("Fire2")) // WIP
+            {
+                isAiming = !isAiming;
+                anim.SetBool("Aiming", isAiming);
+            }
+            #endregion 
         }
-        #endregion
     }
 
     #region Methods
