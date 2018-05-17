@@ -22,7 +22,7 @@ public class FatigueSys
 
     public void Walking()
     {
-        fatigue = Mathf.Clamp((fatigue + (fatigueIncrease/2)), 0.0f, maxFatigue);
+        fatigue = Mathf.Clamp((fatigue - (fatigueIncrease/2)), 0.0f, maxFatigue);
     }
 
     public void Jumping()
