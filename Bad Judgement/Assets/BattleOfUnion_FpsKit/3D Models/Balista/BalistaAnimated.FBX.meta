@@ -1,0 +1,770 @@
+fileFormatVersion: 2
+guid: 4aaa4de5beeabf447ba50b0292546ab6
+timeCreated: 18446744011573954816
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: arm_mesh_nosleve
+    100002: //RootNode
+    100004: Boly.000
+    100006: Boly.001
+    100008: Boly.004
+    100010: Camera-target
+    100012: Dummy001
+    100014: FP Camera
+    100016: Gun
+    100018: l-forearm
+    100020: l-forearm-twist
+    100022: l-ik
+    100024: l-index-low
+    100026: l-index-mid
+    100028: l-index-tip
+    100030: l-middle-low
+    100032: l-middle-mid
+    100034: l-middle-tip
+    100036: l-pinky-low
+    100038: l-pinky-mid
+    100040: l-pinky-tip
+    100042: l-ring-low
+    100044: l-ring-mid
+    100046: l-ring-tip
+    100048: l-thumb-low
+    100050: l-thumb-mid
+    100052: l-thumb-tip
+    100054: l-upperarm
+    100056: l-upperarm-movement
+    100058: L_Wrist_Controller
+    100060: lwrist
+    100062: r-forearm
+    100064: r-forearm-twist
+    100066: r-ik
+    100068: r-index-low
+    100070: r-index-mid
+    100072: r-index-tip
+    100074: r-middle-low
+    100076: r-middle-mid
+    100078: r-middle-tip
+    100080: r-pinky-low
+    100082: r-pinky-mid
+    100084: r-pinky-tip
+    100086: r-ring-low
+    100088: r-ring-mid
+    100090: r-ring-tip
+    100092: r-rist
+    100094: r-thumb-low
+    100096: r-thumb-mid
+    100098: r-thumb-tip
+    100100: r-upperarm
+    100102: r-upperarm-movement
+    100104: R_Wrist_Controller
+    100106: sleves
+    100108: top-sleve
+    400000: arm_mesh_nosleve
+    400002: //RootNode
+    400004: Boly.000
+    400006: Boly.001
+    400008: Boly.004
+    400010: Camera-target
+    400012: Dummy001
+    400014: FP Camera
+    400016: Gun
+    400018: l-forearm
+    400020: l-forearm-twist
+    400022: l-ik
+    400024: l-index-low
+    400026: l-index-mid
+    400028: l-index-tip
+    400030: l-middle-low
+    400032: l-middle-mid
+    400034: l-middle-tip
+    400036: l-pinky-low
+    400038: l-pinky-mid
+    400040: l-pinky-tip
+    400042: l-ring-low
+    400044: l-ring-mid
+    400046: l-ring-tip
+    400048: l-thumb-low
+    400050: l-thumb-mid
+    400052: l-thumb-tip
+    400054: l-upperarm
+    400056: l-upperarm-movement
+    400058: L_Wrist_Controller
+    400060: lwrist
+    400062: r-forearm
+    400064: r-forearm-twist
+    400066: r-ik
+    400068: r-index-low
+    400070: r-index-mid
+    400072: r-index-tip
+    400074: r-middle-low
+    400076: r-middle-mid
+    400078: r-middle-tip
+    400080: r-pinky-low
+    400082: r-pinky-mid
+    400084: r-pinky-tip
+    400086: r-ring-low
+    400088: r-ring-mid
+    400090: r-ring-tip
+    400092: r-rist
+    400094: r-thumb-low
+    400096: r-thumb-mid
+    400098: r-thumb-tip
+    400100: r-upperarm
+    400102: r-upperarm-movement
+    400104: R_Wrist_Controller
+    400106: sleves
+    400108: top-sleve
+    2300000: Boly.000
+    2300002: Boly.001
+    2300004: Boly.004
+    3300000: Boly.000
+    3300002: Boly.001
+    3300004: Boly.004
+    4300000: top-sleve
+    4300002: sleves
+    4300004: arm_mesh_nosleve
+    4300006: Boly.001
+    4300008: Boly.000
+    4300010: Boly.004
+    7400000: TakeIn
+    7400002: Reload
+    7400004: Fire
+    7400006: TakeOn
+    7400008: TakeOut
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: arm_mesh_nosleve
+    13700002: sleves
+    13700004: top-sleve
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0
+    animationPositionError: 0
+    animationScaleError: 0
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: TakeIn
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: arm_mesh_nosleve
+        weight: 1
+      - path: Camera-target
+        weight: 1
+      - path: Dummy001
+        weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Boly.000
+        weight: 1
+      - path: Dummy001/Gun/Boly.001
+        weight: 1
+      - path: Dummy001/Gun/Boly.004
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller/r-ik
+        weight: 1
+      - path: FP Camera
+        weight: 1
+      - path: l-upperarm-movement
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/l-forearm-twist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid/l-index-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid/l-middle-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid/l-pinky-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid/l-ring-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid/l-thumb-tip
+        weight: 1
+      - path: L_Wrist_Controller
+        weight: 1
+      - path: L_Wrist_Controller/l-ik
+        weight: 1
+      - path: r-upperarm-movement
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-forearm-twist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid/r-index-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid/r-middle-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid/r-pinky-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid/r-ring-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid/r-thumb-tip
+        weight: 1
+      - path: sleves
+        weight: 1
+      - path: top-sleve
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Reload
+      takeName: Take 001
+      firstFrame: 30
+      lastFrame: 170
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: arm_mesh_nosleve
+        weight: 1
+      - path: Camera-target
+        weight: 1
+      - path: Dummy001
+        weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Boly.000
+        weight: 1
+      - path: Dummy001/Gun/Boly.001
+        weight: 1
+      - path: Dummy001/Gun/Boly.004
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller/r-ik
+        weight: 1
+      - path: FP Camera
+        weight: 1
+      - path: l-upperarm-movement
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/l-forearm-twist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid/l-index-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid/l-middle-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid/l-pinky-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid/l-ring-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid/l-thumb-tip
+        weight: 1
+      - path: L_Wrist_Controller
+        weight: 1
+      - path: L_Wrist_Controller/l-ik
+        weight: 1
+      - path: r-upperarm-movement
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-forearm-twist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid/r-index-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid/r-middle-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid/r-pinky-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid/r-ring-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid/r-thumb-tip
+        weight: 1
+      - path: sleves
+        weight: 1
+      - path: top-sleve
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fire
+      takeName: Take 001
+      firstFrame: 180
+      lastFrame: 250
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: arm_mesh_nosleve
+        weight: 1
+      - path: Camera-target
+        weight: 1
+      - path: Dummy001
+        weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Boly.000
+        weight: 1
+      - path: Dummy001/Gun/Boly.001
+        weight: 1
+      - path: Dummy001/Gun/Boly.004
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller/r-ik
+        weight: 1
+      - path: FP Camera
+        weight: 1
+      - path: l-upperarm-movement
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/l-forearm-twist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid/l-index-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid/l-middle-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid/l-pinky-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid/l-ring-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid/l-thumb-tip
+        weight: 1
+      - path: L_Wrist_Controller
+        weight: 1
+      - path: L_Wrist_Controller/l-ik
+        weight: 1
+      - path: r-upperarm-movement
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-forearm-twist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid/r-index-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid/r-middle-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid/r-pinky-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid/r-ring-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid/r-thumb-tip
+        weight: 1
+      - path: sleves
+        weight: 1
+      - path: top-sleve
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TakeOut
+      takeName: Take 001
+      firstFrame: 270
+      lastFrame: 285
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: arm_mesh_nosleve
+        weight: 1
+      - path: Camera-target
+        weight: 1
+      - path: Dummy001
+        weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Boly.000
+        weight: 1
+      - path: Dummy001/Gun/Boly.001
+        weight: 1
+      - path: Dummy001/Gun/Boly.004
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller
+        weight: 1
+      - path: Dummy001/R_Wrist_Controller/r-ik
+        weight: 1
+      - path: FP Camera
+        weight: 1
+      - path: l-upperarm-movement
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/l-forearm-twist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid/l-index-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid/l-middle-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid/l-pinky-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid/l-ring-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid/l-thumb-tip
+        weight: 1
+      - path: L_Wrist_Controller
+        weight: 1
+      - path: L_Wrist_Controller/l-ik
+        weight: 1
+      - path: r-upperarm-movement
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-forearm-twist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid/r-index-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid/r-middle-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid/r-pinky-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid/r-ring-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid/r-thumb-tip
+        weight: 1
+      - path: sleves
+        weight: 1
+      - path: top-sleve
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
