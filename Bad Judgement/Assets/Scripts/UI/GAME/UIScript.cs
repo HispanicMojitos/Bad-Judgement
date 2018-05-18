@@ -47,6 +47,8 @@ public class UIScript : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        currentLoadout = ourPlayer.GetComponent<PlayerLoadout>();
     }
 
     void Update()
@@ -65,7 +67,7 @@ public class UIScript : MonoBehaviour
 
             UpdateCurrentEquipment();
 
-            //UpdateProtection();
+            UpdateProtection();
         }
     }
 

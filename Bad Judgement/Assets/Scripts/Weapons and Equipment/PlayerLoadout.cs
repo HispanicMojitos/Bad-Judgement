@@ -14,6 +14,11 @@ public class PlayerLoadout : MonoBehaviour
     private void Start()
     {
         selectedItem = 0;
+
+        protection = new List<ProtectionEquipment>();
+
+        if (EquipmentDB.HasHelmet()) protection.Add(new ProtectionEquipment("helmet", 25f, 100f));
+        if (EquipmentDB.HasVest()) protection.Add(new ProtectionEquipment("vest", 75f, 100f));
     }
 
     private void Update()
