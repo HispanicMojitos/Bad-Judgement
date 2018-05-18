@@ -17,9 +17,12 @@ public class FatigueSys
 
     public void Running()
     {
-        fatigue = Mathf.Clamp(fatigue + (fatigueIncrease), 0.0f, maxFatigue); //Rajoute de la fatigue en l'empechant de descendre en dessous de 0 et au dessus de 1000        
+        fatigue = Mathf.Clamp(fatigue + (fatigueIncrease * 2), 0.0f, maxFatigue); //Rajoute de la fatigue en l'empechant de descendre en dessous de 0 et au dessus de 1000        
     }
-
+    public void exhaustRun()
+    {
+        fatigue = Mathf.Clamp(fatigue + (fatigueIncrease), 0.0f, maxFatigue);
+    }
     public void Walking()
     {
         fatigue = Mathf.Clamp((fatigue - (fatigueDecrease)), 0.0f, maxFatigue);
@@ -27,7 +30,7 @@ public class FatigueSys
 
     public void Jumping()
     {
-        fatigue += 250.0f;
+        fatigue += 30.0f;
     }
 
     public void crouchWalking()                                                        //Augmente la fatigue quand il avance accroupi
@@ -37,7 +40,7 @@ public class FatigueSys
 
     public void Throw()                                                                //Fatigue sur le lancer de grenade
     {
-        fatigue += 100.0f;
+        fatigue += 10.0f;
     }
 
     public void Crouched()                                                             //Diminue la fatigue quand accroupi
