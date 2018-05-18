@@ -35,6 +35,8 @@ public class UIScript : MonoBehaviour
 
     [SerializeField] private Text protectionText;
     [SerializeField] private Slider protectionSlider;
+    //[SerializeField] private Slider protectionCoeffSlider;
+    //[SerializeField] private Text protectionCoeffText;
     private PlayerLoadout currentLoadout;
 
     #endregion
@@ -129,9 +131,13 @@ public class UIScript : MonoBehaviour
 
     private void UpdateProtection()
     {
-        var totalProtection = currentLoadout.returnTotalProtectionDuration();
+        var totalProtection = currentLoadout.ReturnTotalProtectionDuration();
         this.protectionText.text = totalProtection.ToString();
         this.protectionSlider.value = totalProtection / 100f;
+
+        //var totalProtectionCoefficient = currentLoadout.ReturnProtectionCoefficient();
+        //this.protectionCoeffText.text = totalProtectionCoefficient.ToString();
+        //this.protectionCoeffSlider.value = totalProtectionCoefficient / 100F;
     }
 
     #endregion

@@ -70,7 +70,7 @@ public class PlayerLoadout : MonoBehaviour
         }
     }
 
-    public int returnTotalProtectionDuration()
+    public int ReturnTotalProtectionDuration()
     {
         int totalDuration = 0;
 
@@ -83,5 +83,12 @@ public class PlayerLoadout : MonoBehaviour
         return totalDuration;
     }
 
+    public int ReturnProtectionCoefficient()
+    {
+        float totalCoeff = 0;
+        foreach (var prot in protection) totalCoeff += prot.protectionCoefficient;
+
+        return Mathf.RoundToInt(totalCoeff);
+    }
     #endregion
 }
