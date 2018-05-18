@@ -1,16 +1,94 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System.IO;
 using Newtonsoft.Json;
+using System;
 
-public class EquipmentDB
+[Serializable]
+public static class EquipmentDB
 {
-    private static string path = @"UserData\Loadout.bjg";
-    private static string directoryPath = @"UserData";
+    #region File Paths
 
-    #region Methods
+    public static readonly string directoryPath = "Loadout";
+    public static readonly string primaryWeaponPath = @"Loadout\primaryWp.json";
+    public static readonly string secondaryWeaponPath = @"Loadout\secondaryWp.json";
+    public static readonly string equipmentPath = @"Loadout\equipment.txt";
+    
+    public static List<string> equipmentList;
 
+    #endregion
 
+    static EquipmentDB()
+    {
+        GetEquipment(); //EquipmentList Init
+    }
+
+    #region Private Methods
+
+    private static void GetEquipment()
+    {
+        equipmentList = File.ReadAllLines(equipmentPath).ToList();
+    }
+
+    private static string GetValueOfItem(string line)
+    {
+        int indexOfEqualSign = line.IndexOf('=');
+        var value = line.Substring(indexOfEqualSign + 1);
+
+        return value;
+    }
+
+    #endregion
+
+    #region Public methods
+
+    public static int GetGrdNumber(string grdType)
+    {
+        string line = equipmentList.SingleOrDefault(x => x.ToLower().Contains(grdType.ToLower()));
+        int nb = 0;
+
+        int.TryParse(GetValueOfItem(line), out nb);
+
+        return nb;
+    }
+    
+    public static bool HasVest()
+    {
+        string line = equipmentList.SingleOrDefault(x => x.ToLower().Contains("vest"));
+        bool hasVest = false;
+
+        bool.TryParse(GetValueOfItem(line), out hasVest);
+
+        return hasVest;
+    }
+
+    public static bool HasHelmet()
+    {
+        string line = equipmentList.SingleOrDefault(x => x.ToLower().Contains("helmet"));
+        bool hasHelmet = false;
+
+        bool.TryParse(GetValueOfItem(line), out hasHelmet);
+
+        return hasHelmet;
+    }
+
+    public static MainWeaponsClass GetPrimaryWp()
+    {
+        string wpJson = File.ReadAllText(primaryWeaponPath);
+        var primaryWp = JsonConvert.DeserializeObject<MainWeaponsClass>(wpJson);
+
+        return primaryWp;
+    }
+
+    public static MainWeaponsClass GetSecondaryWp()
+    {
+        string wpJson = File.ReadAllText(secondaryWeaponPath);
+        var secondaryWp = JsonConvert.DeserializeObject<MainWeaponsClass>(wpJson);
+
+        return secondaryWp;
+    }
 
     #endregion
 }

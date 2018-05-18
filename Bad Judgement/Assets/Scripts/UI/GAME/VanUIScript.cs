@@ -126,7 +126,7 @@ public class VanUIScript : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         loadout.Save();
-        //Loadscene
+        //Teleport.toMissionOne();
     }
     
     public void AddSmoke() { loadout.AddGrenade("smoke"); }

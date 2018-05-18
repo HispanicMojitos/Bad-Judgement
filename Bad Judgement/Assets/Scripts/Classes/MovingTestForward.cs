@@ -13,6 +13,7 @@ public class MovingTestForward : MonoBehaviour {
     private TestInteraction playerInteract;
     private Target enemyKill;
     private AIally Ally;
+    private TakeMoney moneyCount;
 
     public GameObject moveForward;
     public GameObject moveBacward;
@@ -25,8 +26,10 @@ public class MovingTestForward : MonoBehaviour {
     public GameObject continueOne;
     public GameObject fireTest;
     public GameObject reloadTest;
+    public GameObject weaponSelection;
     public GameObject Interaction;
     public GameObject Kill;
+    public GameObject weaponTake;
     public GameObject Run;
     public GameObject Jump;
     public GameObject AllyHeal;
@@ -35,11 +38,14 @@ public class MovingTestForward : MonoBehaviour {
     public GameObject Grenada;
     public GameObject leanLeft;
     public GameObject leanRight;
+    public GameObject continueTwo;
+    public GameObject onRight;
 
 
     public int collision = 0;                     // will permit to know which command to ask      
     public float vision;
     public float view;
+    public float scroll;
     #endregion
 
     #region Start&Update
@@ -66,12 +72,17 @@ public class MovingTestForward : MonoBehaviour {
         Grenada.SetActive(false);
         leanLeft.SetActive(false);
         leanRight.SetActive(false);
-
+        weaponSelection.SetActive(false);
+        weaponTake.SetActive(false);
+        continueTwo.SetActive(false);
+        onRight.SetActive(false);
 
         playerMove = player.GetComponent<Movement>();
         playerInteract = player.GetComponentInChildren<TestInteraction>();
+        moneyCount = player.GetComponentInChildren<TakeMoney>();
         enemyKill = enemy.GetComponent<Target>();
         Ally = IA.GetComponent<AIally>();
+       
     }
     void Update()
     {
@@ -153,6 +164,7 @@ public class MovingTestForward : MonoBehaviour {
     #region Indoor
     void Indoor()
     {
+        scroll = Input.GetAxis("Mouse ScrollWheell");
         if (playerInteract.isInteractionImageOn == true && collision == 10)
         {
             continueOne.SetActive(false);
@@ -168,57 +180,87 @@ public class MovingTestForward : MonoBehaviour {
         if (collision == 12 && Input.GetKey(KeyCode.R))
         {
             reloadTest.SetActive(false);
+            weaponSelection.SetActive(true);
+            collision++;
+        }
+        if (collision == 13 && scroll < 0)
+        {
+            weaponSelection.SetActive(false);
             Interaction.SetActive(true);
             collision++;
         }
-        if (collision == 13 && Input.GetKey(KeyCode.E))
+        if (collision == 14 && Input.GetKey(KeyCode.F))
         {
             Interaction.SetActive(false);
             Kill.SetActive(true);
             collision++;
         }
-        if (enemyKill.vie <=0 && collision == 14)
+        if (enemyKill.vie <=0 && collision == 15)
         {
             Kill.SetActive(false);
+            weaponTake.SetActive(true);
+            collision++;
+        }
+        if (collision == 16 && Input.GetKey(KeyCode.F))
+        {
+            weaponTake.SetActive(false);
             AllyOrder.SetActive(true);
             collision++;
         }
-        if (Ally.ordreDeplacement == true && Input.GetKey(KeyCode.T) && collision == 15)
+        if (Ally.ordreDeplacement == true && Input.GetKey(KeyCode.T) && collision == 17)
         {
             AllyOrder.SetActive(false);
             ExecAlly.SetActive(true);
             collision++;
         }
-        if (Ally.estHS == true && collision == 16)
+        if (Ally.estHS == true && collision == 18)
         {
             ExecAlly.SetActive(false);
             AllyHeal.SetActive(true);
             collision++;
         }
-        if (Input.GetKeyUp(KeyCode.H) && collision == 17)
+        if (Input.GetKeyUp(KeyCode.H) && collision == 19)
         {
             AllyHeal.SetActive(false);
             Grenada.SetActive(true);
             collision++;
         }
-        if (collision == 18 && Input.GetKey(KeyCode.G))
+        if (collision == 20 && Input.GetKey(KeyCode.G))
         {
             Grenada.SetActive(false);
             leanRight.SetActive(true);
             collision++;
         }
-        if (collision == 19 && Input.GetKey(KeyCode.E))
+        if (collision == 21 && Input.GetKey(KeyCode.E))
         {
             leanRight.SetActive(false);
             leanLeft.SetActive(true);
             collision++;
         }
-        if (collision == 20 && Input.GetKey(KeyCode.A))
+        if (collision == 22 && Input.GetKey(KeyCode.A))
         {
             leanLeft.SetActive(false);
-            Teleport.toMainMenu();
+            continueTwo.SetActive(true);
+            collision++;
         }
-
+        if (collision == 23 && playerInteract.isInteractionImageOn == true)
+        {
+            continueTwo.SetActive(false);
+            onRight.SetActive(true);
+            collision++;
+        }
+        if (collision == 24 && moneyCount.moneyText == true)
+        {
+            onRight.SetActive(false);
+            if(moneyCount.moneyCount == 3)
+            {
+                collision++;
+            }
+        }
+        if (collision == 25)
+        {
+            Teleport.toVan();
+        }
     }
     #endregion
 }

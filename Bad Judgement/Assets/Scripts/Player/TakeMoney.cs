@@ -8,6 +8,7 @@ public class TakeMoney : MonoBehaviour {
     // Use this for initialization
 
     public Text moneyText;
+    public int moneyCount;
 
     void Start()
     {
@@ -31,6 +32,7 @@ public class TakeMoney : MonoBehaviour {
             {
                 Destroy(hit.transform.gameObject);
                 moneyText.enabled = false;
+                moneyCount++;
             }
         }
         else if (moneyText.enabled == true) moneyText.enabled = false;
