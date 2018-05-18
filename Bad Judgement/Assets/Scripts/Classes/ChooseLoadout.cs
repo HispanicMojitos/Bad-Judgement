@@ -18,7 +18,7 @@ public class ChooseLoadout
     public static readonly string directoryPath = "Loadout";
     public static readonly string primaryWeaponPath = @"Loadout\primaryWp.json";
     public static readonly string secondaryWeaponPath = @"Loadout\secondaryWp.json";
-    public static readonly string equipmentPath = @"Loadout\equipment.txt";
+    public static readonly string equipmentPath = @"Loadout\equipment.bjg";
 
     public int actualPrimaryWeaponSelected { get; private set; }
     public int actualSecondaryWeaponSelected { get; private set; }
@@ -50,10 +50,6 @@ public class ChooseLoadout
 
         weaponsDb.Save(CZ805);
         allPrimaryWeapons = weaponsDb.LoadPrimary();
-		Debug.Log("CZ805 name is: " + CZ805.Name);
-		Debug.Log("List item is: " + allPrimaryWeapons[0].Name);
-		//allPrimaryWeapons.ForEach(x => Debug.Log(x.Name));
-        //allSecondaryWeapons = weaponsDb.LoadSecondary();
 
         actualPrimaryWeaponSelected = 0;
         actualSecondaryWeaponSelected = 0;
@@ -244,6 +240,9 @@ public class ChooseLoadout
 
         lines.Add(string.Format("helmet={0}", helmetSelected.ToString()));
         lines.Add(string.Format("vest={0}", vestSelected.ToString()));
+        lines.Add(string.Format("smoke={0}", amountSmokeGrenade.ToString()));
+        lines.Add(string.Format("flash={0}", amountFlashGrenade.ToString()));
+        lines.Add(string.Format("frag={0}", amountFragGrenade.ToString()));
 
         return lines;
     }
