@@ -95,7 +95,7 @@ public class UIScript : MonoBehaviour
 
         if (healthPercentage < 0) healthPercentage = 0;
         //Setting text and slider values depending on the health value :
-        this.healthText.text = healthPercentage.ToString();
+        this.healthText.text = (Mathf.RoundToInt(healthPercentage)).ToString();
         this.healthSlider.value = healthPercentage;
     }
 
