@@ -11,7 +11,10 @@ public static class Teleport
         SceneManager.LoadScene("Van", LoadSceneMode.Single);
 
     }
-
+    public static void toMissionOne()
+    {
+        SceneManager.LoadScene("Mission 1", LoadSceneMode.Single);
+    }
     public static void toTuto()
     {
         SceneManager.LoadScene("First scene", LoadSceneMode.Single);
