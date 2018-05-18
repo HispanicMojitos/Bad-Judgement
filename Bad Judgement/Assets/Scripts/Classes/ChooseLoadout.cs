@@ -10,8 +10,8 @@ public class ChooseLoadout
 {
     WeaponsDataBase weaponsDb;
 
-    public List<PrimaryWeapon> allPrimaryWeapons { get; private set; }
-    public List<SecondaryWeapon> allSecondaryWeapons { get; private set; }
+    public List<MainWeaponsClass> allPrimaryWeapons { get; private set; }
+    public List<MainWeaponsClass> allSecondaryWeapons { get; private set; }
 
     #region Chosen things
 
@@ -50,6 +50,9 @@ public class ChooseLoadout
 
         weaponsDb.Save(CZ805);
         allPrimaryWeapons = weaponsDb.LoadPrimary();
+		Debug.Log("CZ805 name is: " + CZ805.Name);
+		Debug.Log("List item is: " + allPrimaryWeapons[0].Name);
+		//allPrimaryWeapons.ForEach(x => Debug.Log(x.Name));
         //allSecondaryWeapons = weaponsDb.LoadSecondary();
 
         actualPrimaryWeaponSelected = 0;

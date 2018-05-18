@@ -22,18 +22,21 @@ public class MainWeaponsClass
     private AudioSource AK47;
     private Animator anim;
     private Camera cam;
-    private float damage;
-	private float impactForce;
-	private float fireRate;
 	private float nextTimeToFire = 0f;
 	private static int magQty;
 	private bool isAiming = false;
     private string path = "/ParticleEffects"; // this is not correct read contructor to see why
-    private Vector3 spawnPos;
-    private string newName;
 
-    #region Reload
-    private int bulletsPerMag;
+	//Public Variables (Becuase Unity doesn't support getters and setters in serialized objects)
+	public string Name;
+	public float Damage;
+	public int FireRate;
+	public float ImpactForce;
+	public Vector3 SpawnPos;
+
+
+	#region Reload
+	private int bulletsPerMag;
     private static int currentMag;
     private KeyCode reloadKey = KeyCode.R;
     private static Magazines mag;
@@ -42,7 +45,7 @@ public class MainWeaponsClass
 
     #endregion
 
-    #region Properties
+/*    #region Properties
     public bool IsReloading
     {
         get { return _isReloading; }
@@ -79,7 +82,7 @@ public class MainWeaponsClass
         //private set { newName = value; }
     }
 
-    #endregion
+    #endregion*/
 
 
     /// <summary>
@@ -90,7 +93,7 @@ public class MainWeaponsClass
     /// <param name="damage"></param>
     /// <param name="impactForce"></param>
     /// <param name="fireRate"></param>
-    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, float fireRate, Vector3 spawnPos, string newName)
+    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, int fireRate, Vector3 spawnPos, string newName)
 	{
         // try
         // {
@@ -108,12 +111,12 @@ public class MainWeaponsClass
         //anim = weapon.GetComponent<Animator>();
         //cam = weapon.GetComponentInParent<Camera>();
 
-        this.damage = damage;
-        this.fireRate = fireRate;
-        this.impactForce = impactForce;
-        this.newName = newName;
+        this.Damage = damage;
+        this.FireRate = fireRate;
+        this.ImpactForce = impactForce;
+        this.Name = newName;
         mag = new Magazines(magQty, bulletsPerMag);
-        this.spawnPos = spawnPos;
+        this.SpawnPos = spawnPos;
        // }
       //  catch (System.Exception ex)
        // {
@@ -160,10 +163,10 @@ public class MainWeaponsClass
         Target target = hit.transform.GetComponent<Target>(); // This uses the other script we created for the target
                                                               // what it does is get the object with the component called Target and stores it in a variable
         if (target != null) // if the target recieves the variable we want (it will be null if we hit something without the target component)
-            target.TakeDamage(damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
+            target.TakeDamage(Damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
 
         if (hit.rigidbody != null) // if the object that we hit has a rigidbody
-            hit.rigidbody.AddForce(-hit.normal * impactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
+            hit.rigidbody.AddForce(-hit.normal * ImpactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
 
         //GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
 
@@ -176,12 +179,12 @@ public class MainWeaponsClass
 
     public void LoadAssets()
     {
-        AudioClip[] array = Resources.LoadAll<AudioClip>(string.Format("Weapons/{0}", newName));
-        reloadSound = array.Where(x => x.name == string.Format("{0}Reload", newName)).SingleOrDefault();
-        shootSound = array.Where(x => x.name == string.Format("{0}Shoot", newName)).SingleOrDefault();
+        AudioClip[] array = Resources.LoadAll<AudioClip>(string.Format("Weapons/{0}", Name));
+        reloadSound = array.Where(x => x.name == string.Format("{0}Reload", Name)).SingleOrDefault();
+        shootSound = array.Where(x => x.name == string.Format("{0}Shoot", Name)).SingleOrDefault();
 
         Debug.Log("lololo");
-        weapon = Resources.Load<GameObject>(string.Format(@"Weapons\{0}\{1}", newName, newName));
+        weapon = Resources.Load<GameObject>(string.Format(@"Weapons\{0}\{1}", Name, Name));
         impactEffect = Resources.Load(@"ParticleEffects\ImpactEffect", typeof(GameObject)) as GameObject;
         muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
     }
