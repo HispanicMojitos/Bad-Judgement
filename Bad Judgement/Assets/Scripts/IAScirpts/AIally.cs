@@ -48,7 +48,7 @@ public class AIally : MonoBehaviour
 
     void FixedUpdate ()
     {
-        if (allyHealthState.vie != 0)
+        if (allyHealthState.vie > 0)
         {
             Vector3 direction = player.position - this.transform.position; // Ici on récupere la position du joueur par rapport a l'allié
             direction.y = 0;
@@ -237,6 +237,7 @@ public class AIally : MonoBehaviour
                 SetAnimation(seRedresse: true);
                 temPsAvantEtreDebout = 0;
                 estHS = false;
+                for( ; this.GetComponent<Target>().vie <= 0;) this.GetComponent<Target>().GainHealth(1);
                 this.GetComponent<Target>().GainHealth(this.GetComponent<Target>().vieMax/2);
                 PeutRevivre = false;
                 cetAllié.isStopped = false;

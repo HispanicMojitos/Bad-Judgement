@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TestInteraction : MonoBehaviour
@@ -26,8 +27,16 @@ public class TestInteraction : MonoBehaviour
     private Transform alliéChosi;
     [SerializeField] private List<Transform> alliés;
     private AudioSource radioPlayer;
+
+    private int raycastLongeurInteractions;
+
+    private Scene sceneMission1;
+    
     private void Start()
     {
+        sceneMission1 = SceneManager.GetActiveScene();
+        if (sceneMission1.name == "Mission 1") raycastLongeurInteractions = 5;
+        else raycastLongeurInteractions = 3;
         radioPlayer = GameObject.Find("RadioPlayer").GetComponent<AudioSource>();// PERMET DE RECUPERER UN OBJET DANS LA SCENE EN FONCTION DE SON NOM
         emplacementCible = visualisationCiblePosition.transform;
     }
@@ -78,9 +87,9 @@ public class TestInteraction : MonoBehaviour
     {
         Vector3 direction = transform.TransformDirection(Vector3.forward) * 100;
         RaycastHit hit;
-        Debug.DrawLine(transform.position, direction * 3, Color.cyan); // Permet d'afficher le raycast
+        Debug.DrawLine(transform.position, direction * raycastLongeurInteractions, Color.cyan); // Permet d'afficher le raycast
 
-        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("Ally")))
+        if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("Ally")))
         {
             if (hit.transform.GetComponent<AIally>().estHS == true)
             {
@@ -128,7 +137,7 @@ public class TestInteraction : MonoBehaviour
             DecisionAllyllyShoot = false;
         }
 
-        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < 3)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
+        if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("gun") && Vector3.Distance(transform.position, hit.transform.position) < raycastLongeurInteractions)) // Si la distance entre l'arme et le jouer est inférieur à 3, ainsi que le joueur regarde bien l'arme
         {
             reloadImage.enabled = true; // affiche l'image tant que l'on reste focalisé sur une arme
             if (DecisionRecuAmoOnGun == true) // Si on appuye sur la touche R
@@ -202,7 +211,7 @@ public class TestInteraction : MonoBehaviour
             visualisationCibleDeplacement.SetActive(false);
         }
 
-        if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
+        if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
             interactionImage.enabled = true;
             if (DecisionOrdreporte == true) // Si on regarde une porte ET que l'on appuye sur E
@@ -233,7 +242,7 @@ public class TestInteraction : MonoBehaviour
                 DecisionOrdreporte = false;
             }
         }
-        else if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < 3))
+        else if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < 3))
         {
             interactionImage.enabled = true; // Ici On joue le son d'une porte fermée
             if (DecisionOrdreporte == true)
