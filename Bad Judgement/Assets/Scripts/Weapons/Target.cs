@@ -20,6 +20,18 @@ public class Target : MonoBehaviour
     /// <summary> Permet d'enlever de la vie aux gameObject attaché aux script Target ( "amount" etant le nombre de point de vie enlevé lors de ce frame)</summary>
     public void TakeDamage(float amount)
     {
+        var playerProtection = GetComponent<PlayerLoadout>();
+        if (playerProtection != null)
+        {
+            float totalRealDmg = 0f;
+            if (playerProtection.selectedItem < 2)
+            {
+                foreach (var prot in playerProtection.protection) totalRealDmg += prot.GunHit(amount);
+            }
+
+            amount = totalRealDmg / playerProtection.protection.Count;
+        }
+
         if (health <= 0f) Die();
         else health -= amount;
     }

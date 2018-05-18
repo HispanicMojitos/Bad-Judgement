@@ -35,6 +35,8 @@ public class UIScript : MonoBehaviour
 
     [SerializeField] private Text protectionText;
     [SerializeField] private Slider protectionSlider;
+    //[SerializeField] private Slider protectionCoeffSlider;
+    //[SerializeField] private Text protectionCoeffText;
     private PlayerLoadout currentLoadout;
 
     #endregion
@@ -47,6 +49,8 @@ public class UIScript : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        currentLoadout = ourPlayer.GetComponent<PlayerLoadout>();
     }
 
     void Update()
@@ -65,7 +69,7 @@ public class UIScript : MonoBehaviour
 
             UpdateCurrentEquipment();
 
-            //UpdateProtection();
+            UpdateProtection();
         }
     }
 
@@ -93,7 +97,7 @@ public class UIScript : MonoBehaviour
 
         if (healthPercentage < 0) healthPercentage = 0;
         //Setting text and slider values depending on the health value :
-        this.healthText.text = healthPercentage.ToString();
+        this.healthText.text = (Mathf.RoundToInt(healthPercentage)).ToString();
         this.healthSlider.value = healthPercentage;
     }
 
@@ -127,9 +131,13 @@ public class UIScript : MonoBehaviour
 
     private void UpdateProtection()
     {
-        var totalProtection = currentLoadout.returnTotalProtectionDuration();
+        var totalProtection = currentLoadout.ReturnTotalProtectionDuration();
         this.protectionText.text = totalProtection.ToString();
         this.protectionSlider.value = totalProtection / 100f;
+
+        //var totalProtectionCoefficient = currentLoadout.ReturnProtectionCoefficient();
+        //this.protectionCoeffText.text = totalProtectionCoefficient.ToString();
+        //this.protectionCoeffSlider.value = totalProtectionCoefficient / 100F;
     }
 
     #endregion

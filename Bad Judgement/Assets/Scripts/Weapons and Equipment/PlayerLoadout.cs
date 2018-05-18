@@ -14,6 +14,11 @@ public class PlayerLoadout : MonoBehaviour
     private void Start()
     {
         selectedItem = 0;
+
+        protection = new List<ProtectionEquipment>();
+
+        if (EquipmentDB.HasHelmet()) protection.Add(new ProtectionEquipment("helmet", 25f, 100f));
+        if (EquipmentDB.HasVest()) protection.Add(new ProtectionEquipment("vest", 75f, 100f));
     }
 
     private void Update()
@@ -65,7 +70,7 @@ public class PlayerLoadout : MonoBehaviour
         }
     }
 
-    public int returnTotalProtectionDuration()
+    public int ReturnTotalProtectionDuration()
     {
         int totalDuration = 0;
 
@@ -78,5 +83,12 @@ public class PlayerLoadout : MonoBehaviour
         return totalDuration;
     }
 
+    public int ReturnProtectionCoefficient()
+    {
+        float totalCoeff = 0;
+        foreach (var prot in protection) totalCoeff += prot.protectionCoefficient;
+
+        return Mathf.RoundToInt(totalCoeff);
+    }
     #endregion
 }

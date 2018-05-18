@@ -51,7 +51,6 @@ public class WeaponsDataBase
         if (jsonFile != null)
         {
 			weaponsDic = JsonConvert.DeserializeObject<Dictionary<string, List<MainWeaponsClass>>>(jsonFile);
-            weaponsDic["Primary"].ForEach(x => Debug.Log(x.GetType()));
             if (weaponsDic["Primary"] != null) return weaponsDic["Primary"];
             else throw new Exception("There are no primary weapons in this database.");
         }

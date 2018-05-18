@@ -14,7 +14,7 @@ public static class EquipmentDB
     public static readonly string directoryPath = "Loadout";
     public static readonly string primaryWeaponPath = @"Loadout\primaryWp.json";
     public static readonly string secondaryWeaponPath = @"Loadout\secondaryWp.json";
-    public static readonly string equipmentPath = @"Loadout\equipment.txt";
+    public static readonly string equipmentPath = @"Loadout\equipment.bjg";
     
     public static List<string> equipmentList;
 
