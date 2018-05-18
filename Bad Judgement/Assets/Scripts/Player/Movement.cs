@@ -25,7 +25,6 @@ public class Movement : MonoBehaviour
     private float normalCrouchDeltaH = 0.6F;
     private float onTheKneesCrouchDeltaH = 0.35F; //The height the character will lose while crouching
 
-    private bool wantsToRun; //To know is the character wants to run
     private bool characterCanJump; //Useful for the jump move
     private static float leanAngle = 7F;
 
@@ -61,6 +60,8 @@ public class Movement : MonoBehaviour
     public bool characterMovingBwd { get; private set; }
     public bool charactermovingLeft { get; private set; }
     public bool characterMovingRight { get; private set; }
+
+    public bool wantsToRun { get; private set; } //To know is the character wants to run
 
     #endregion
 
@@ -175,7 +176,7 @@ public class Movement : MonoBehaviour
 
         if (targetSpeed.x != 0 || targetSpeed.z != 0)
         {
-            bool wantsToRun = Input.GetKey(KeyCode.LeftShift); //Checking if player pressed Lshift (means that he wants to run)
+            wantsToRun = Input.GetKey(KeyCode.LeftShift); //Checking if player pressed Lshift (means that he wants to run)
 
             if (targetSpeed.z > 0)
             {
@@ -211,13 +212,15 @@ public class Movement : MonoBehaviour
                 targetSpeed.x *= runMultiplier;
                 targetSpeed.z *= runMultiplier;
 
+
                 this.SetStateRun();
 
                 #region sound
                 Sounds.Marche(pieds, !this.characterCanJump, true);
                 #endregion sound
             }
-            else this.SetStateWalk();
+            else if (wantsToRun) this.SetStateWalk(true);
+            else this.SetStateWalk(false);
 
             Vector3 deltaMove = targetSpeed - currentVelocity;
 
@@ -294,12 +297,15 @@ public class Movement : MonoBehaviour
         this.characterIsWalking = false;
     }
 
-    private void SetStateWalk()
+    private void SetStateWalk(bool triesToRun)
     {
         this.characterIsMoving = true;
         this.characterIsWalking = true;
 
         this.characterIsRunning = false;
+        
+        if (triesToRun) wantsToRun = true;
+        else wantsToRun = false;
     }
 
     private void SetStateIdle()
@@ -337,6 +343,7 @@ public class Movement : MonoBehaviour
         else
         {
             if (characterIsRunning) fatigue.Running();
+            else if (characterIsWalking && wantsToRun) fatigue.exhaustRun();
             else if (characterIsWalking) fatigue.Walking();
             else fatigue.Idle();
         }

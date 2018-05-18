@@ -30,7 +30,7 @@ public class FatigueSys
 
     public void Jumping()
     {
-        fatigue += 30.0f;
+        fatigue += 60.0f;
     }
 
     public void crouchWalking()                                                        //Augmente la fatigue quand il avance accroupi
