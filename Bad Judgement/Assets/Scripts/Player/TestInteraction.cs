@@ -66,9 +66,9 @@ public class TestInteraction : MonoBehaviour
             DelayAvantImageCanShoot = 0;
             DecisionAllyllyShoot = true;
         }
-        if (Input.GetKeyDown(KeyCode.R)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
+        if (Input.GetKeyDown(KeyCode.F)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
         if (Input.GetKeyDown(KeyCode.T)) DecisionOrdreAlly = true;
-        if (Input.GetKeyDown(KeyCode.E)) DecisionOrdreporte = true;
+        if (Input.GetKeyDown(KeyCode.F)) DecisionOrdreporte = true;
         if (Input.GetKey(KeyCode.H)) DecisionHealAlly = true;
         else if (DecisionHealAlly == true)
         {

@@ -36,6 +36,12 @@ public class Target : MonoBehaviour
         else health -= amount;
     }
 
+    public void Headshot()
+    {
+        health = 0f;
+        Die();
+    }
+
     /// <summary> Permet de faire regagner de la vie au gameObjec ("HP" etant le nombre de vie que regagnera cet objet lors de ce frame, ne peut pas depasser la vieMax initialisée)</summary>
     public void GainHealth(float HP)
     {
@@ -47,7 +53,7 @@ public class Target : MonoBehaviour
     {
         if (gameObject != null && gameObject.GetComponent<SmokeGrenadeScript>() == null && gameObject.CompareTag("Player") == false && gameObject.CompareTag("Ally") == false) Destroy(gameObject, 10);
         else if (gameObject.CompareTag("Player") == true) gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None; // AJouter la méthode pour faire tomber l'IA, fait toi plaisir Thomas hahaha ;D
-        else if (gameObject.CompareTag("Ally") == true) gameObject.GetComponent<AIally>().estHS = true;/*Ajouter ici une methode pour la mort de l'IA alliée*/;
+        else if (gameObject.CompareTag("Ally") == true) gameObject.GetComponent<AIally>().estHS = true;/*Ajouter ici une methode pour la mort de l'IA alliée*/
     }
 
 }
