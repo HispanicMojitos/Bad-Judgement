@@ -4,7 +4,25 @@ timeCreated: 1521817157
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: Cylinder_003
+    100002: //RootNode
+    100004: Plane
+    400000: Cylinder_003
+    400002: //RootNode
+    400004: Plane
+    2100000: Material
+    2100002: third_mat_005
+    2100004: main_mat_005
+    2100006: second_mat_005
+    2300000: Cylinder_003
+    2300002: Plane
+    3300000: Cylinder_003
+    3300002: Plane
+    4300000: Plane
+    4300002: Cylinder_003
+    7400000: Default Take
+    9500000: //RootNode
   externalObjects: {}
   materials:
     importMaterials: 1

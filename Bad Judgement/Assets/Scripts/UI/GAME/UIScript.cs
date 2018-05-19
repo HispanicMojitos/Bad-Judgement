@@ -43,6 +43,7 @@ public class UIScript : MonoBehaviour
     [SerializeField] private Slider protectionCoeffSlider;
     [SerializeField] private Text protectionCoeffText;
     private PlayerLoadout currentLoadout;
+    private int selectedEquipment;
 
     #endregion
 
@@ -56,12 +57,15 @@ public class UIScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         currentLoadout = ourPlayer.GetComponent<PlayerLoadout>();
+        InitEquipmentUI();
     }
 
     void Update()
     {
         if(this.ourPlayer != null) //If the player object hasn't been destroyed
         {
+            selectedEquipment = currentLoadout.selectedItem;
+
             UpdateAmmoQty();
             UpdatePlayerHealth();
             UpdatePlayerExhaust();
@@ -80,6 +84,11 @@ public class UIScript : MonoBehaviour
     #endregion
 
     #region Méthodes de classe
+
+    private void InitEquipmentUI()
+    {
+        if (PlayerLoadout.maxSelectedItem <= 1) equipmentBg.gameObject.SetActive(false);
+    }
 
     private void UpdateAmmoQty()
     {
@@ -118,7 +127,6 @@ public class UIScript : MonoBehaviour
 
     private void UpdateCurrentEquipment()
     {
-        int selectedEquipment = ourPlayer.GetComponent<PlayerLoadout>().selectedItem;
         //Alpha 180 = High || Alpha 75 = Low = 0.29F
 
         Color lowAlpha = new Color(1f, 1f, 1f, 0.29f);
@@ -143,7 +151,7 @@ public class UIScript : MonoBehaviour
             secondaryGunBg.color = highAlpha;
             secondaryGun.color = highAlpha;
         }
-        else
+        else if(equipmentBg.IsActive())
         {
             equipmentBg.color = highAlpha;
 

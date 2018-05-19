@@ -67,6 +67,12 @@ public class VanCamControl : MonoBehaviour
         this.mainCam.transform.localPosition = Vector3.zero;
         actualVerticalEulerAngles = Vector3.zero;
         anim.Play("VanCam");
+        StartCoroutine(WaitEndAnim());
+    }
+
+    IEnumerator WaitEndAnim()
+    {
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
         isSeating = false;
     }
 

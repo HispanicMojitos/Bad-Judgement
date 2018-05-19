@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.UI;
 
 public class PlayerLoadout : MonoBehaviour
@@ -11,7 +12,7 @@ public class PlayerLoadout : MonoBehaviour
     public List<ProtectionEquipment> protection { get; private set; }
 
     public int selectedItem { get; private set; }
-    public static int maxSelectedItem = 4;
+    public static int maxSelectedItem { get; private set; }
 
     public int nbSmoke { get; private set; }
     public int nbFrag { get; private set; }
@@ -20,6 +21,7 @@ public class PlayerLoadout : MonoBehaviour
     private void Start()
     {
         selectedItem = 0;
+        maxSelectedItem = GetHowMuchGrdTypes();
         
         protection = new List<ProtectionEquipment>();
         grenades = new List<Grenade>();
@@ -41,10 +43,26 @@ public class PlayerLoadout : MonoBehaviour
         if(!UIScript.gameIsPaused)
         {
             EquipmentSelection();
+            Debug.Log(selectedItem);
+            if (Input.GetKeyDown(KeyCode.Mouse0)) ; //OnLeftClick();
         }
     }
 
     #region Equipment
+
+    private int GetHowMuchGrdTypes()
+    {
+        int counter = 1;
+
+        if (grenades != null)
+        {
+            if (grenades.Exists(g => g.GetType() == typeof(FlashGrenade))) counter++;
+            if (grenades.Exists(g => g.GetType() == typeof(SmokeGrenade))) counter++;
+            if (grenades.Exists(g => g.GetType() == typeof(FragGrenade))) counter++; 
+        }
+
+        return counter;
+    }
 
     private void EquipmentSelection()
     {
@@ -91,7 +109,7 @@ public class PlayerLoadout : MonoBehaviour
     {
         int totalDuration = 0;
 
-        if (this.protection != null)
+        if (this.protection.Count != 0)
         {
             foreach (var protectionItem in this.protection) totalDuration += Mathf.RoundToInt(protectionItem.equipmentDuration);
             totalDuration /= this.protection.Count;
@@ -103,7 +121,7 @@ public class PlayerLoadout : MonoBehaviour
     public int ReturnProtectionCoefficient()
     {
         float totalCoeff = 0;
-        foreach (var prot in protection) totalCoeff += prot.protectionCoefficient;
+        if( protection != null) foreach (var prot in protection) totalCoeff += prot.protectionCoefficient;
 
         return Mathf.RoundToInt(totalCoeff);
     }
