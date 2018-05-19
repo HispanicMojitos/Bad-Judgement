@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3646459, g: 0.46269852, b: 0.5448037, a: 1}
+  m_IndirectSpecularColor: {r: 0.2911715, g: 0.37066984, b: 0.44592202, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -46903,9 +46903,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c307572e47ced864f941b5ffbf824a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 0.6
-  smoothAmount: 1
-  maxAmount: 2.5
+  amount: 0.02
+  smoothAmount: 10
+  maxAmount: 0.038
+  aimAmount: 0.003
+  aimSmoothAmount: 15
+  aimMaxAmount: 0.0035
 --- !u!1 &1372646548
 GameObject:
   m_ObjectHideFlags: 0
@@ -61750,14 +61753,14 @@ MonoBehaviour:
   AK47: {fileID: 1932534037}
   damage: 10
   impactForce: 30
-  fireRate: 700
+  fireRate: 950
   gunEnd: {fileID: 220061285}
   anim: {fileID: 1860085668}
   impactEffect: {fileID: 1617700753897852, guid: 2fc51477906b5d44b93e53cc25b2d012,
     type: 2}
   muzzleFlash: {fileID: 1862505694230116, guid: 350550f34052ab4459b6d262b4b7a5d7,
     type: 2}
-  bulletsPerMag: 30
+  bulletsPerMag: 20
   reloadKey: 114
 --- !u!1 &1861010274
 GameObject:
