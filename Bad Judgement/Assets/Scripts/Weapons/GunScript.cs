@@ -91,6 +91,7 @@ public class GunScript : MonoBehaviour
         initialRotation = transform.localEulerAngles;
         mag = new Magazines(magQty, bulletsPerMag);
         cam = GetComponentInParent<Camera>();
+        anim.SetTrigger("TakeIn");
     }
     // Update is called once per frame
     void Update()
@@ -207,13 +208,16 @@ public class GunScript : MonoBehaviour
         {
             isAiming = false;
             anim.SetBool("Aiming", isAiming);
-            isReloading = true;
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Aim"))
+            {
+                isReloading = true;
 
-            anim.SetTrigger("Reload");
-            Sounds.AK47reload(AK47);
+                anim.SetTrigger("Reload");
+                Sounds.AK47reload(AK47);
 
-            isReloading = false;
-            mag.Reload();
+                isReloading = false;
+                mag.Reload();
+            }
         }
     }
     #endregion
