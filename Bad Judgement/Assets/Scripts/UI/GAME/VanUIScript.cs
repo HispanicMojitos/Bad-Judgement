@@ -126,7 +126,7 @@ public class VanUIScript : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         loadout.Save();
-        Teleport.toTuto();
+        Teleport.ToTuto();
         //Teleport.toMissionOne();
     }
     

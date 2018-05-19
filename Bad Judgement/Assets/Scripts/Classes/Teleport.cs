@@ -6,21 +6,21 @@ using UnityEngine.SceneManagement;
 public static class Teleport
 {
 
-    public static void toVan()
+    public static void ToVan()
     {
         SceneManager.LoadScene("Van", LoadSceneMode.Single);
 
     }
-    public static void toMissionOne()
+    public static void ToMissionOne()
     {
         SceneManager.LoadScene("Mission 1", LoadSceneMode.Single);
     }
-    public static void toTuto()
+    public static void ToTuto()
     {
         SceneManager.LoadScene("First scene", LoadSceneMode.Single);
     }
 
-    public static void toMainMenu()
+    public static void ToMainMenu()
     {
         SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
     }

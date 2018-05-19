@@ -99,7 +99,7 @@ public class MainWeaponsClass
         // {
         AudioClip[] array = Resources.LoadAll<AudioClip>(string.Format("Weapons/{0}", newName));
         reloadSound = array.Where(x => x.name == string.Format("{0}Reload", newName)).SingleOrDefault();
-        shootSound = array.Where(x => x.name == string.Format("{0}Shoot", newName)).SingleOrDefault();
+        shootSound = array.Where(x => x.name == string.Format("{0}Shoot", newName)).SingleOrDefault(); 
 
         weapon = Resources.Load<GameObject>(string.Format(@"Weapons\{0}\{1}", newName, newName));
         impactEffect = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;

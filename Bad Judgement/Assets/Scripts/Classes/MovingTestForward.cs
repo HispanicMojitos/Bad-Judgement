@@ -259,7 +259,7 @@ public class MovingTestForward : MonoBehaviour {
         }
         if (collision == 25)
         {
-            Teleport.toVan();
+            Teleport.ToVan();
         }
     }
     #endregion

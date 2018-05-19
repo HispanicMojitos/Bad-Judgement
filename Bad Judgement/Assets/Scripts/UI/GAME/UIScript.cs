@@ -169,7 +169,7 @@ public class UIScript : MonoBehaviour
 
     public void OnQuitButtonPressed()
     {
-        Teleport.toMainMenu();
+        Teleport.ToMainMenu();
     }
 
     private void Pause()
