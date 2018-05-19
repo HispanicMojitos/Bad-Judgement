@@ -15,18 +15,18 @@ public class GunScript : MonoBehaviour
     #region Serialized Fields
 
     #region Sounds members
-    [SerializeField] private AudioSource AK47; // AK47 qui est la source de son propre son
+    private AudioSource AK47; // AK47 qui est la source de son propre son
     #endregion Sounds members
 
     #region Weapon variables
     [SerializeField] private float damage = 10f; // First we declare our needed variables
     [SerializeField] private float impactForce = 30f;
     [SerializeField] private float fireRate = 15f;
-    [SerializeField] private GameObject gunEnd; // camera reference
-    [SerializeField] private Animator anim;
+    private GameObject gunEnd; // camera reference
+    private Animator anim;
     //public ParticleSystem muzzleFlash; // this will search for the muzzle flash particle system we'll add
-    [SerializeField] private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world 
-    [SerializeField] private GameObject muzzleFlash;
+    private GameObject impactEffect; // So this one is also a particle effect but we want to reference it as an object so that we can place it inside our game world 
+    private GameObject muzzleFlash;
     #endregion
 
     #region Reload
@@ -96,7 +96,12 @@ public class GunScript : MonoBehaviour
         initialRotation = transform.localEulerAngles;
         mag = new Magazines(magQty, bulletsPerMag);
         cam = GetComponentInParent<Camera>();
+        gunEnd = transform.Find("GunEnd").gameObject;
+        anim = transform.GetComponent<Animator>();
+        AK47 = transform.GetComponentInChildren<AudioSource>();
         anim.SetTrigger("TakeIn");
+        impactEffect = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;
+        muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
     }
     // Update is called once per frame
     void Update()

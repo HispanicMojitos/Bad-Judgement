@@ -102,7 +102,7 @@ public class MainWeaponsClass
         shootSound = array.Where(x => x.name == string.Format("{0}Shoot", newName)).SingleOrDefault();
 
         weapon = Resources.Load<GameObject>(string.Format(@"Weapons\{0}\{1}", newName, newName));
-        impactEffect = Resources.Load(@"ParticleEffects\ImpactEffect", typeof(GameObject)) as GameObject;
+        impactEffect = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;
         muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
 
         //gunEnd = weapon.transform.Find("GunEnd").gameObject;

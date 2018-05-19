@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.28823367, g: 0.36685356, b: 0.4412737, a: 1}
+  m_IndirectSpecularColor: {r: 0.2849542, g: 0.36261982, b: 0.43615925, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -5256,11 +5256,6 @@ GameObject:
 Transform:
   m_PrefabParentObject: {fileID: 400064, guid: e3f40eb788a27d74290e787c82fe7bf5, type: 3}
   m_PrefabInternal: {fileID: 1310580317}
---- !u!95 &139718588 stripped
-Animator:
-  m_PrefabParentObject: {fileID: 9500000, guid: e3f40eb788a27d74290e787c82fe7bf5,
-    type: 3}
-  m_PrefabInternal: {fileID: 1310580317}
 --- !u!114 &139718589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5272,16 +5267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c18c17b319cbd144a66e2bc6e591684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AK47: {fileID: 288505018}
   damage: 10
   impactForce: 30
   fireRate: 700
-  gunEnd: {fileID: 81087576}
-  anim: {fileID: 139718588}
-  impactEffect: {fileID: 1617700753897852, guid: 2fc51477906b5d44b93e53cc25b2d012,
-    type: 2}
-  muzzleFlash: {fileID: 1862505694230116, guid: 350550f34052ab4459b6d262b4b7a5d7,
-    type: 2}
   bulletsPerMag: 30
   reloadKey: 114
 --- !u!1 &142536572
@@ -57562,7 +57550,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
