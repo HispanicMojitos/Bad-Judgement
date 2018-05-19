@@ -181,24 +181,28 @@ public class GunScript : MonoBehaviour
     /// <param name="hit"></param>
     void ProduceRay(GameObject gunEnd, RaycastHit hit)// shoots the ray
     {
-            //Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
-            // We then say that we want to log (like a Console.Write();) what our ray hit
-            // We wrapped our code in an if statement because the return type of the Physics.Raycast is a boolean
+        //Debug.Log(hit.transform.name); // So this is how to shoot a ray, Physics.Raycast asks for starting postion which is the camera, where to shoot it (forward from the camera) and what to gather (hit)
+        // We then say that we want to log (like a Console.Write();) what our ray hit
+        // We wrapped our code in an if statement because the return type of the Physics.Raycast is a boolean
 
-            Target target = hit.transform.GetComponent<Target>(); // This uses the other script we created for the target
-                                                                  // what it does is get the object with the component called Target and stores it in a variable
-            if (target != null) // if the target recieves the variable we want (it will be null if we hit something without the target component)
-                target.TakeDamage(damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
+        Target target = hit.transform.GetComponent<Target>(); // This uses the other script we created for the target
+                                                              // what it does is get the object with the component called Target and stores it in a variable
+        if (target != null) // if the target recieves the variable we want (it will be null if we hit something without the target component)
+        {
+            var dist = hit.collider.bounds.max.y - hit.point.y;
 
-            if (hit.rigidbody != null) // if the object that we hit has a rigidbody
-                hit.rigidbody.AddForce(-hit.normal * impactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
+            if (target.tag != "player" && dist < (.16f * hit.collider.bounds.max.y)) target.Headshot();
+            else target.TakeDamage(damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
+        }
 
-            GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        if (hit.rigidbody != null) // if the object that we hit has a rigidbody
+            hit.rigidbody.AddForce(-hit.normal * impactForce); // we apply a force to it (the addforce is negative so that it goes away from us)
 
-            Destroy(impactGO, 0.5f);
-            // We use instantiate to create the object, we enter what we want to instantiate, where and in what direction, hit.normal is a flat surface that points directly in front, that way our effect will always be toward its source
-            // We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
-            
+        GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+
+        Destroy(impactGO, 0.5f);
+        // We use instantiate to create the object, we enter what we want to instantiate, where and in what direction, hit.normal is a flat surface that points directly in front, that way our effect will always be toward its source
+        // We also destroy the object 1 second after the created of it, that way we won't have millions of objects on our scene
     }
 
 
