@@ -31,7 +31,7 @@ public class TestInteraction : MonoBehaviour
     private int raycastLongeurInteractions;
 
     private Scene sceneMission1;
-    
+
     private void Start()
     {
         sceneMission1 = SceneManager.GetActiveScene();
@@ -66,14 +66,14 @@ public class TestInteraction : MonoBehaviour
             DelayAvantImageCanShoot = 0;
             DecisionAllyllyShoot = true;
         }
-        if (Input.GetKeyDown(KeyCode.F)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
+        if (Input.GetKeyDown(KeyCode.R)) DecisionRecuAmoOnGun = true; else if (DecisionRecuAmoOnGun == true) DecisionRecuAmoOnGun = false;
         if (Input.GetKeyDown(KeyCode.T)) DecisionOrdreAlly = true;
-        if (Input.GetKeyDown(KeyCode.F)) DecisionOrdreporte = true;
+        if (Input.GetKeyDown(KeyCode.E)) DecisionOrdreporte = true;
         if (Input.GetKey(KeyCode.H)) DecisionHealAlly = true;
         else if (DecisionHealAlly == true)
         {
             DecisionHealAlly = false;
-            if(HealAnimationAlly.GetComponent<Image>() != null) HealAnimationAlly.GetComponent<Image>().enabled = false;
+            if (HealAnimationAlly.GetComponent<Image>() != null) HealAnimationAlly.GetComponent<Image>().enabled = false;
             if (HealAnimationAlly.GetComponent<Animation>() != null)
             {
                 HealAnimationAlly.GetComponent<Animation>().enabled = false;
@@ -156,7 +156,7 @@ public class TestInteraction : MonoBehaviour
                 DecisionRecuAmoOnGun = false;
             }
         }
-        else if (reloadImage.enabled == true ) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
+        else if (reloadImage.enabled == true) reloadImage.enabled = false; // Permet d'empecher l'image de se réafficher par la suite sans qu'on l'ai demandé !!
 
         if (vaDeplacerAllié == false && Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Ally"))
         {
@@ -182,7 +182,7 @@ public class TestInteraction : MonoBehaviour
                 if (visualisationCibleDeplacement.activeSelf == false) visualisationCibleDeplacement.SetActive(true);
                 visualisationCibleDeplacement.transform.position = hit.point + new Vector3(0, 4f, 0);
 
-                if(DecisionOrdreAlly == true) // Permet De dire a l'allié de se placer a cet en placement
+                if (DecisionOrdreAlly == true) // Permet De dire a l'allié de se placer a cet en placement
                 {
                     vaDeplacerAllié = false;
                     deplacementAllié = true;
@@ -200,18 +200,18 @@ public class TestInteraction : MonoBehaviour
                 visualisationCibleDeplacement.SetActive(false);
             }
         }
-        else if(deplacementAllié == true)
+        else if (deplacementAllié == true)
         {
             visualisationCiblePosition.transform.position = emplacementCible.transform.position + new Vector3(0, 4f, 0);
             visualisationCiblePosition.SetActive(true);
             deplacementAllié = false;
         }
-        else if(visualisationCibleDeplacement.activeSelf == true || visualisationCiblePosition.activeSelf == true) // Permet d'enlever le visuel des emplacement lorsque on en a pas besoin
+        else if (visualisationCibleDeplacement.activeSelf == true || visualisationCiblePosition.activeSelf == true) // Permet d'enlever le visuel des emplacement lorsque on en a pas besoin
         {
             visualisationCibleDeplacement.SetActive(false);
         }
 
-        if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("porte") && Vector3.Distance(transform.position, hit.transform.position) < 3))
+        if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.tag.Contains("porte") && Vector3.Distance(transform.position, hit.transform.position) < raycastLongeurInteractions))
         {
             interactionImage.enabled = true;
             if (DecisionOrdreporte == true) // Si on regarde une porte ET que l'on appuye sur E
@@ -227,22 +227,23 @@ public class TestInteraction : MonoBehaviour
                     jSpring.targetPosition = -90; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
                     joint.spring = jSpring;
                     joint.useSpring = true;
-                    Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
+                    if (hit.transform.tag.Contains("Verre")) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), Resources.Load("Sounds/Door/OpenGlassDoor") as AudioClip);
+                    else Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
                 }
                 else if (jSpring.targetPosition == -90) // Si la porte est ouverte, on la ferme
                 {
                     hit.rigidbody.isKinematic = false;
-                    StartCoroutine(Attend(hit,false));
+                    StartCoroutine(Attend(hit, false));
                     jSpring.spring = 150;
                     jSpring.damper = 30;
-                    jSpring.targetPosition = 3; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
+                    jSpring.targetPosition = 0; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
                     joint.spring = jSpring;
                     joint.useSpring = true;
                 }
                 DecisionOrdreporte = false;
             }
         }
-        else if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < 3))
+        else if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < raycastLongeurInteractions))
         {
             interactionImage.enabled = true; // Ici On joue le son d'une porte fermée
             if (DecisionOrdreporte == true)
@@ -254,7 +255,7 @@ public class TestInteraction : MonoBehaviour
         else interactionImage.enabled = false; // On eleve l'image d'interacation GUI E si non besoin d'elle
 
         if (Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Ally")) ChooseCrosshair(defaultCross: false, enemyCross: false, allyCross: true);
-        else if (Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Enemy")) ChooseCrosshair( defaultCross:false, enemyCross:true, allyCross:false);
+        else if (Physics.Raycast(transform.position, direction, out hit, 50f) && hit.transform.CompareTag("Enemy")) ChooseCrosshair(defaultCross: false, enemyCross: true, allyCross: false);
         else if (Crosshair.enabled == false) ChooseCrosshair();
 
     }
@@ -262,7 +263,7 @@ public class TestInteraction : MonoBehaviour
     {
         get { return this.interactionImage.IsActive(); }
     }
-    private void ChooseCrosshair(bool defaultCross = true, bool enemyCross = false, bool allyCross = false )
+    private void ChooseCrosshair(bool defaultCross = true, bool enemyCross = false, bool allyCross = false)
     {
         Crosshair.enabled = defaultCross;
         CrosshairAlly.enabled = allyCross;
@@ -287,7 +288,8 @@ public class TestInteraction : MonoBehaviour
                 if (h.rigidbody.velocity.magnitude < vel)
                 {
                     h.transform.GetComponent<AudioSource>().time = 0.5f;
-                    Sounds.PlayDoorSond(h.transform.GetComponent<AudioSource>(), closeDoor);
+                    if (h.transform.tag.Contains("Verre")) Sounds.PlayDoorSond(h.transform.GetComponent<AudioSource>(), Resources.Load("Sounds/Door/ClosenGlassDoor") as AudioClip);
+                    else Sounds.PlayDoorSond(h.transform.GetComponent<AudioSource>(), closeDoor);
                     h.rigidbody.isKinematic = true; // Permet de fair que l'on puisse pas bouger une porte lorsqu'elle est fermée
                     h.transform.GetComponent<AudioSource>().time = 0f;
                 }
