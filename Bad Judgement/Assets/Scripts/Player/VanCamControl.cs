@@ -72,7 +72,7 @@ public class VanCamControl : MonoBehaviour
 
     IEnumerator WaitEndAnim()
     {
-        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length + 0.5F);
         isSeating = false;
     }
 
