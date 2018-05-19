@@ -21,7 +21,7 @@ public class Target : MonoBehaviour
     public void TakeDamage(float amount)
     {
         var playerProtection = GetComponent<PlayerLoadout>();
-        if (playerProtection != null)
+        if (playerProtection != null && playerProtection.protection.Count != 0)
         {
             float totalRealDmg = 0f;
             if (playerProtection.selectedItem < 2)
@@ -32,7 +32,11 @@ public class Target : MonoBehaviour
             amount = totalRealDmg / playerProtection.protection.Count;
         }
 
-        if (health <= 0f) Die();
+        if (health <= 0f)
+        {
+            Die();
+            health = 0f;
+        }
         else health -= amount;
     }
 
