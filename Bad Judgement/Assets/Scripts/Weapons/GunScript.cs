@@ -45,7 +45,7 @@ public class GunScript : MonoBehaviour
     private float reloadTime;
     private static Magazines mag;
     private Camera cam;
-    private bool isAiming = false;
+    private static bool isAiming = false;
     private Vector3 velocity = Vector3.zero;
 
 
@@ -83,6 +83,11 @@ public class GunScript : MonoBehaviour
     {
         get { return mag; }
         set { mag = value; }
+    }
+    public static bool IsAiming
+    {
+        get { return isAiming; }
+        set { IsAiming = value; }
     }
     #endregion
 
@@ -206,10 +211,9 @@ public class GunScript : MonoBehaviour
     {
         if (magQty != 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
         {
-            isAiming = false;
-            anim.SetBool("Aiming", isAiming);
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Aim"))
-            {
+            //isAiming = false;
+            //anim.SetBool("Aiming", isAiming);
+
                 isReloading = true;
 
                 anim.SetTrigger("Reload");
@@ -217,7 +221,6 @@ public class GunScript : MonoBehaviour
 
                 isReloading = false;
                 mag.Reload();
-            }
         }
     }
     #endregion
