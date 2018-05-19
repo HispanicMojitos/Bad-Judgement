@@ -1,136 +1,141 @@
 fileFormatVersion: 2
-guid: 57705e67df01f934c97f202d9adba4f7
+guid: 9cc1591698d2bbc4184fea443db0698d
 timeCreated: 18446744011573954816
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Aim
-    100002: Aim_001
-    100004: Aim_002
-    100006: Aim_003
-    100008: arm_mesh_nosleve
-    100010: Camera-target
-    100012: Dummy001
-    100014: FP Camera
-    100016: Gun
-    100018: l-forearm
-    100020: l-forearm-twist
-    100022: l-ik
-    100024: l-index-low
-    100026: l-index-mid
-    100028: l-index-tip
-    100030: l-middle-low
-    100032: l-middle-mid
-    100034: l-middle-tip
-    100036: l-pinky-low
-    100038: l-pinky-mid
-    100040: l-pinky-tip
-    100042: l-ring-low
-    100044: l-ring-mid
-    100046: l-ring-tip
-    100048: l-thumb-low
-    100050: l-thumb-mid
-    100052: l-thumb-tip
-    100054: l-upperarm
-    100056: l-upperarm-movement
-    100058: L_Wrist_Controller
-    100060: lwrist
-    100062: r-forearm
-    100064: r-forearm-twist
-    100066: r-ik
-    100068: r-index-low
-    100070: r-index-mid
-    100072: r-index-tip
-    100074: r-middle-low
-    100076: r-middle-mid
-    100078: r-middle-tip
-    100080: r-pinky-low
-    100082: r-pinky-mid
-    100084: r-pinky-tip
-    100086: r-ring-low
-    100088: r-ring-mid
-    100090: r-ring-tip
-    100092: r-rist
-    100094: r-thumb-low
-    100096: r-thumb-mid
-    100098: r-thumb-tip
-    100100: r-upperarm
-    100102: r-upperarm-movement
-    100104: R_Wrist_Controller
-    100106: //RootNode
+    100000: arm_mesh_nosleve
+    100002: Body
+    100004: Bolt
+    100006: Bolt2
+    100008: Camera-target
+    100010: Dummy001
+    100012: FP Camera
+    100014: Gun
+    100016: l-forearm
+    100018: l-forearm-twist
+    100020: l-ik
+    100022: l-index-low
+    100024: l-index-mid
+    100026: l-index-tip
+    100028: l-middle-low
+    100030: l-middle-mid
+    100032: l-middle-tip
+    100034: l-pinky-low
+    100036: l-pinky-mid
+    100038: l-pinky-tip
+    100040: l-ring-low
+    100042: l-ring-mid
+    100044: l-ring-tip
+    100046: l-thumb-low
+    100048: l-thumb-mid
+    100050: l-thumb-tip
+    100052: l-upperarm
+    100054: l-upperarm-movement
+    100056: L_Wrist_Controller
+    100058: lwrist
+    100060: //RootNode
+    100062: Mag
+    100064: r-forearm
+    100066: r-forearm-twist
+    100068: r-ik
+    100070: r-index-low
+    100072: r-index-mid
+    100074: r-index-tip
+    100076: r-middle-low
+    100078: r-middle-mid
+    100080: r-middle-tip
+    100082: r-pinky-low
+    100084: r-pinky-mid
+    100086: r-pinky-tip
+    100088: r-ring-low
+    100090: r-ring-mid
+    100092: r-ring-tip
+    100094: r-rist
+    100096: r-thumb-low
+    100098: r-thumb-mid
+    100100: r-thumb-tip
+    100102: r-upperarm
+    100104: r-upperarm-movement
+    100106: R_Wrist_Controller
     100108: sleves
     100110: top-sleve
-    400000: Aim
-    400002: Aim_001
-    400004: Aim_002
-    400006: Aim_003
-    400008: arm_mesh_nosleve
-    400010: Camera-target
-    400012: Dummy001
-    400014: FP Camera
-    400016: Gun
-    400018: l-forearm
-    400020: l-forearm-twist
-    400022: l-ik
-    400024: l-index-low
-    400026: l-index-mid
-    400028: l-index-tip
-    400030: l-middle-low
-    400032: l-middle-mid
-    400034: l-middle-tip
-    400036: l-pinky-low
-    400038: l-pinky-mid
-    400040: l-pinky-tip
-    400042: l-ring-low
-    400044: l-ring-mid
-    400046: l-ring-tip
-    400048: l-thumb-low
-    400050: l-thumb-mid
-    400052: l-thumb-tip
-    400054: l-upperarm
-    400056: l-upperarm-movement
-    400058: L_Wrist_Controller
-    400060: lwrist
-    400062: r-forearm
-    400064: r-forearm-twist
-    400066: r-ik
-    400068: r-index-low
-    400070: r-index-mid
-    400072: r-index-tip
-    400074: r-middle-low
-    400076: r-middle-mid
-    400078: r-middle-tip
-    400080: r-pinky-low
-    400082: r-pinky-mid
-    400084: r-pinky-tip
-    400086: r-ring-low
-    400088: r-ring-mid
-    400090: r-ring-tip
-    400092: r-rist
-    400094: r-thumb-low
-    400096: r-thumb-mid
-    400098: r-thumb-tip
-    400100: r-upperarm
-    400102: r-upperarm-movement
-    400104: R_Wrist_Controller
-    400106: //RootNode
+    100112: Trigger
+    400000: arm_mesh_nosleve
+    400002: Body
+    400004: Bolt
+    400006: Bolt2
+    400008: Camera-target
+    400010: Dummy001
+    400012: FP Camera
+    400014: Gun
+    400016: l-forearm
+    400018: l-forearm-twist
+    400020: l-ik
+    400022: l-index-low
+    400024: l-index-mid
+    400026: l-index-tip
+    400028: l-middle-low
+    400030: l-middle-mid
+    400032: l-middle-tip
+    400034: l-pinky-low
+    400036: l-pinky-mid
+    400038: l-pinky-tip
+    400040: l-ring-low
+    400042: l-ring-mid
+    400044: l-ring-tip
+    400046: l-thumb-low
+    400048: l-thumb-mid
+    400050: l-thumb-tip
+    400052: l-upperarm
+    400054: l-upperarm-movement
+    400056: L_Wrist_Controller
+    400058: lwrist
+    400060: //RootNode
+    400062: Mag
+    400064: r-forearm
+    400066: r-forearm-twist
+    400068: r-ik
+    400070: r-index-low
+    400072: r-index-mid
+    400074: r-index-tip
+    400076: r-middle-low
+    400078: r-middle-mid
+    400080: r-middle-tip
+    400082: r-pinky-low
+    400084: r-pinky-mid
+    400086: r-pinky-tip
+    400088: r-ring-low
+    400090: r-ring-mid
+    400092: r-ring-tip
+    400094: r-rist
+    400096: r-thumb-low
+    400098: r-thumb-mid
+    400100: r-thumb-tip
+    400102: r-upperarm
+    400104: r-upperarm-movement
+    400106: R_Wrist_Controller
     400108: sleves
     400110: top-sleve
-    2300000: Aim
-    2300002: Aim_001
-    2300004: Aim_002
-    2300006: Aim_003
-    3300000: Aim
-    3300002: Aim_001
-    3300004: Aim_002
-    3300006: Aim_003
+    400112: Trigger
+    2300000: Body
+    2300002: Bolt
+    2300004: Bolt2
+    2300006: Mag
+    2300008: Trigger
+    3300000: Body
+    3300002: Bolt
+    3300004: Bolt2
+    3300006: Mag
+    3300008: Trigger
     4300000: top-sleve
     4300002: sleves
     4300004: arm_mesh_nosleve
-    4300006: Aim_003
-    4300008: Aim_002
-    4300010: Aim_001
-    4300012: Aim
+    4300006: Body
+    4300008: Mag
+    4300010: Bolt
+    4300012: Bolt2
+    4300014: Trigger
     7400000: TakeIn
     7400002: Reload
     7400004: Fire
@@ -140,7 +145,37 @@ ModelImporter:
     13700000: arm_mesh_nosleve
     13700002: sleves
     13700004: top-sleve
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 02 - Default
+    second: {fileID: 2100000, guid: 6432f23c2113db94a983ebb87d446841, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #1'
+    second: {fileID: 2100000, guid: 1fb291fcf7bdb8d4b9b2d2eae1561188, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #2'
+    second: {fileID: 2100000, guid: 1fb291fcf7bdb8d4b9b2d2eae1561188, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 0ffee6d566f441c47b054da95a618d24, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: arm-full sleve
+    second: {fileID: 2100000, guid: f10cd5c94f93d3c42ad44427fa609967, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: unnamed
+    second: {fileID: 2100000, guid: c674d2fb24866b14088cebc5449e3f1b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -158,11 +193,11 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    importAnimatedCustomProperties: 0
-    animationCompression: 1
-    animationRotationError: 0
-    animationPositionError: 0
-    animationScaleError: 0
+    importAnimatedCustomProperties: 1
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
@@ -171,7 +206,7 @@ ModelImporter:
       name: TakeIn
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 25
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -200,21 +235,23 @@ ModelImporter:
         weight: 1
       - path: Dummy001
         weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Body
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt2
+        weight: 1
+      - path: Dummy001/Gun/Body/Mag
+        weight: 1
+      - path: Dummy001/Gun/Body/Trigger
+        weight: 1
       - path: Dummy001/R_Wrist_Controller
         weight: 1
       - path: Dummy001/R_Wrist_Controller/r-ik
         weight: 1
       - path: FP Camera
-        weight: 1
-      - path: Gun
-        weight: 1
-      - path: Gun/Aim
-        weight: 1
-      - path: Gun/Aim_001
-        weight: 1
-      - path: Gun/Aim_002
-        weight: 1
-      - path: Gun/Aim_003
         weight: 1
       - path: l-upperarm-movement
         weight: 1
@@ -310,8 +347,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Reload
       takeName: Take 001
-      firstFrame: 30
-      lastFrame: 120
+      firstFrame: 40
+      lastFrame: 110
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -340,21 +377,23 @@ ModelImporter:
         weight: 1
       - path: Dummy001
         weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Body
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt2
+        weight: 1
+      - path: Dummy001/Gun/Body/Mag
+        weight: 1
+      - path: Dummy001/Gun/Body/Trigger
+        weight: 1
       - path: Dummy001/R_Wrist_Controller
         weight: 1
       - path: Dummy001/R_Wrist_Controller/r-ik
         weight: 1
       - path: FP Camera
-        weight: 1
-      - path: Gun
-        weight: 1
-      - path: Gun/Aim
-        weight: 1
-      - path: Gun/Aim_001
-        weight: 1
-      - path: Gun/Aim_002
-        weight: 1
-      - path: Gun/Aim_003
         weight: 1
       - path: l-upperarm-movement
         weight: 1
@@ -450,8 +489,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Fire
       takeName: Take 001
-      firstFrame: 130
-      lastFrame: 140
+      firstFrame: 120
+      lastFrame: 129
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -480,21 +519,23 @@ ModelImporter:
         weight: 1
       - path: Dummy001
         weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Body
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt2
+        weight: 1
+      - path: Dummy001/Gun/Body/Mag
+        weight: 1
+      - path: Dummy001/Gun/Body/Trigger
+        weight: 1
       - path: Dummy001/R_Wrist_Controller
         weight: 1
       - path: Dummy001/R_Wrist_Controller/r-ik
         weight: 1
       - path: FP Camera
-        weight: 1
-      - path: Gun
-        weight: 1
-      - path: Gun/Aim
-        weight: 1
-      - path: Gun/Aim_001
-        weight: 1
-      - path: Gun/Aim_002
-        weight: 1
-      - path: Gun/Aim_003
         weight: 1
       - path: l-upperarm-movement
         weight: 1
@@ -590,8 +631,8 @@ ModelImporter:
     - serializedVersion: 16
       name: TakeOut
       takeName: Take 001
-      firstFrame: 150
-      lastFrame: 175
+      firstFrame: 130
+      lastFrame: 160
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -620,21 +661,23 @@ ModelImporter:
         weight: 1
       - path: Dummy001
         weight: 1
+      - path: Dummy001/Gun
+        weight: 1
+      - path: Dummy001/Gun/Body
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt
+        weight: 1
+      - path: Dummy001/Gun/Body/Bolt2
+        weight: 1
+      - path: Dummy001/Gun/Body/Mag
+        weight: 1
+      - path: Dummy001/Gun/Body/Trigger
+        weight: 1
       - path: Dummy001/R_Wrist_Controller
         weight: 1
       - path: Dummy001/R_Wrist_Controller/r-ik
         weight: 1
       - path: FP Camera
-        weight: 1
-      - path: Gun
-        weight: 1
-      - path: Gun/Aim
-        weight: 1
-      - path: Gun/Aim_001
-        weight: 1
-      - path: Gun/Aim_002
-        weight: 1
-      - path: Gun/Aim_003
         weight: 1
       - path: l-upperarm-movement
         weight: 1
@@ -731,13 +774,13 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 0.01
-    meshCompression: 3
+    meshCompression: 0
     addColliders: 0
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
-    swapUVChannels: 1
+    swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
@@ -753,7 +796,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 1
-    tangentImportMode: 1
+    tangentImportMode: 4
     normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
@@ -771,10 +814,10 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
