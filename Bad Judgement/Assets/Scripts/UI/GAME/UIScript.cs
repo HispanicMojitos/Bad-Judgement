@@ -32,6 +32,11 @@ public class UIScript : MonoBehaviour
     [SerializeField] private Image primaryGunBg;
     [SerializeField] private Image secondaryGunBg;
     [SerializeField] private Image equipmentBg;
+    [SerializeField] private Image primaryGun;
+    [SerializeField] private Image secondaryGun;
+    [SerializeField] private Image equip1;
+    [SerializeField] private Image equip2;
+    [SerializeField] private Image equip3;
 
     [SerializeField] private Text protectionText;
     [SerializeField] private Slider protectionSlider;
@@ -68,7 +73,6 @@ public class UIScript : MonoBehaviour
             }
 
             UpdateCurrentEquipment();
-
             UpdateProtection();
         }
     }
@@ -121,12 +125,33 @@ public class UIScript : MonoBehaviour
         Color highAlpha = new Color(1f, 1f, 1f, 0.705f);
 
         primaryGunBg.color = lowAlpha;
+        primaryGun.color = lowAlpha;
         secondaryGunBg.color = lowAlpha;
+        secondaryGun.color = lowAlpha;
         equipmentBg.color = lowAlpha;
+        equip1.color = lowAlpha;
+        equip2.color = lowAlpha;
+        equip3.color = lowAlpha;
+        Debug.Log(primaryGun.name);
 
-        if (selectedEquipment == 0) primaryGunBg.color = highAlpha;
-        else if (selectedEquipment == 1) secondaryGunBg.color = highAlpha;
-        else equipmentBg.color = highAlpha;
+        if (selectedEquipment == 0)
+        {
+            primaryGunBg.color = highAlpha;
+            primaryGun.color = highAlpha;
+        }
+        else if (selectedEquipment == 1)
+        {
+            secondaryGunBg.color = highAlpha;
+            secondaryGun.color = highAlpha;
+        }
+        else
+        {
+            equipmentBg.color = highAlpha;
+
+            if (selectedEquipment == 2) equip1.color = highAlpha;
+            else if (selectedEquipment == 3) equip2.color = highAlpha;
+            else equip3.color = highAlpha;
+        }
     }
 
     private void UpdateProtection()
