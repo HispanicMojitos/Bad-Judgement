@@ -40,7 +40,7 @@ public class ProtectionEquipment : Equipment
         float equipDamage = 0F;
         //If our equipment has durability, we apply damage to equipment. If not, there will be no damage
 
-        if (equipmentDuration != 0) equipDamage = ((protectionCoefficient/ 100F) * rawDamage);
+        if (Mathf.RoundToInt(equipmentDuration) != 0) equipDamage = ((protectionCoefficient/ 100F) * rawDamage);
         else return rawDamage; 
         //Calculating damage applied TO THE EQUIPMENT
 
