@@ -132,7 +132,6 @@ public class UIScript : MonoBehaviour
         equip1.color = lowAlpha;
         equip2.color = lowAlpha;
         equip3.color = lowAlpha;
-        Debug.Log(primaryGun.name);
 
         if (selectedEquipment == 0)
         {
