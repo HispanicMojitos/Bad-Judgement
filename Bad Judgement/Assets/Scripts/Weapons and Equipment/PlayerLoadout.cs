@@ -52,7 +52,8 @@ public class PlayerLoadout : MonoBehaviour
 
         if (mouseScrollInput > 0)
         {
-            if(selectedItem > 0) selectedItem--;
+            if (selectedItem > 0) selectedItem--;
+            else selectedItem = maxSelectedItem;
         }
         else if (mouseScrollInput < 0)
         {

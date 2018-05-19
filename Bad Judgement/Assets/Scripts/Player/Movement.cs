@@ -26,7 +26,8 @@ public class Movement : MonoBehaviour
     private float onTheKneesCrouchDeltaH = 0.35F; //The height the character will lose while crouching
 
     private bool characterCanJump; //Useful for the jump move
-    private static float leanAngle = 7F;
+    private static float leftLeanAngle = 5F;
+    private static float rightLeanAngle = -7F;
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
@@ -50,6 +51,7 @@ public class Movement : MonoBehaviour
     public bool characterIsCrouched { get; private set; } //Working
     /// <summary>Was character on the ground during last frame ?</summary>
     public bool characterIsGrounded { get; private set; } //Working
+    public bool characterIsLeaning { get; private set; }
 
     //Those allows to get player's exhaust and allows creating percentage w/ Max. exhaust (designed for UI) :
 
@@ -85,7 +87,7 @@ public class Movement : MonoBehaviour
 
         //Checking for Jump :
         //If player wants to jump AND that character can jump AND that character isn't crouched :
-        if (Input.GetButtonDown("Jump") && this.characterIsGrounded && !(characterIsCrouched))
+        if (Input.GetButtonDown("Jump") && this.characterIsGrounded && !(characterIsCrouched) && !characterIsLeaning)
         {
             Jump(); //Makes the character jump
             characterIsJumping = true; //Setting the property for other scripts
@@ -130,7 +132,7 @@ public class Movement : MonoBehaviour
 
             #region Leaning
 
-            //Leaning();
+            Leaning();
 
             #endregion
 
@@ -250,9 +252,25 @@ public class Movement : MonoBehaviour
     {
         Vector3 actualRot = playerRigidbody.transform.localEulerAngles;
 
-        if (Input.GetKey(KeyCode.E)) actualRot.z = -leanAngle;
-        else if (Input.GetKey(KeyCode.A)) actualRot.z = leanAngle;
-        else actualRot.z = 0F;
+        if (characterIsGrounded)
+        {
+            if (Input.GetKey(KeyCode.E) && !Input.GetKey(KeyCode.A))
+            {
+                actualRot.z = rightLeanAngle;
+                characterIsLeaning = true;
+            }
+            else if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.E))
+            {
+                actualRot.z = leftLeanAngle;
+                characterIsLeaning = true;
+            }
+            else
+            {
+                actualRot.z = 0F;
+                actualRot.x = 0F;
+                characterIsLeaning = false;
+            } 
+        }
 
         playerRigidbody.transform.localEulerAngles = actualRot;
     }
