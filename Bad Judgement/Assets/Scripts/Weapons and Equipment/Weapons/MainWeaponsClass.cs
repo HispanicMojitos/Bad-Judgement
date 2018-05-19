@@ -124,7 +124,7 @@ public class MainWeaponsClass
     }
     // read the folder with the guns and search the values of our variables
     // "/" is the assets folder
-    // I really like this font, everyone should use the Monaco font
+    // I really like this font, everyone should use the FiraCode Retina font
 
     #region Methods
 
