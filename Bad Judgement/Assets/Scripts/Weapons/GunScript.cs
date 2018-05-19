@@ -115,7 +115,7 @@ public class GunScript : MonoBehaviour
             #endregion
 
             #region Reload Condition
-            if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag < bulletsPerMag + 1 && magQty != 0)
+            if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag < bulletsPerMag + 1 && magQty != 0 && !Input.GetButton("Fire1"))
             {
                 //StartCoroutine(Reload());
                 Reload();
@@ -172,6 +172,7 @@ public class GunScript : MonoBehaviour
                 Debug.DrawLine(gunEnd.transform.position, gunEnd.transform.forward * 500, Color.red); // Ici Debug.Drawlin permet de montrer le raycast, d'abord on entre l'origine du ray, apres on lui met sa fait (notemment ici a 500 unité), et on peut ensuite lui entrer une Couleur
                 ProduceRay(gunEnd, hit);
             }
+            anim.CrossFadeInFixedTime("Fire", 0.1f);
         }
     }
     /// <summary>
@@ -225,11 +226,11 @@ public class GunScript : MonoBehaviour
 
                 isReloading = true;
 
-                anim.SetTrigger("Reload");
                 Sounds.AK47reload(AK47);
 
                 isReloading = false;
                 mag.Reload();
+            anim.CrossFade("Reload", 0.1f);
         }
     }
     #endregion
