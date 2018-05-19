@@ -7,10 +7,11 @@ using UnityEngine.UI;
 
 public class FragGrenade : Grenade
 {
-    public FragGrenade(string name, int amount, Transform playerPos) : base(name, amount, playerPos)
+    public FragGrenade(string name, Transform playerPos) : base(name, playerPos)
     {
-        this.grenade = Resources.Load("Grenades/Frag", typeof(GameObject)) as GameObject;
+        this.grenadePrefab = Resources.Load("Grenades/Frag", typeof(GameObject)) as GameObject;
         this.uiSprite = Resources.LoadAll<Sprite>("Grenades/Orange theme spritesheet 1")[5];
+        InstanciateGrenades();
     }
 
     #region Surcharges lancers
@@ -18,7 +19,7 @@ public class FragGrenade : Grenade
     public override void ThrowGrenade()
     {
         base.ThrowGrenade();
-        this.grenade.AddComponent<GrenadeExplode>();
+        this.grenadePrefab.AddComponent<GrenadeExplode>();
     }
 
     public static float CalculateDamage(Vector3 grenadePos, Vector3 targetPos)

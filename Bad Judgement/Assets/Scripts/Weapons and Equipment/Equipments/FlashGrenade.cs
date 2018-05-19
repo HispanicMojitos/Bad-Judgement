@@ -6,10 +6,11 @@ using UnityEngine;
 
 public class FlashGrenade : Grenade
 {
-    public FlashGrenade(string name, int amount, Transform playerPos) : base(name, amount, playerPos)
+    public FlashGrenade(string name, Transform playerPos) : base(name, playerPos)
     {
-        this.grenade = Resources.Load("Grenades/Flash", typeof(GameObject)) as GameObject;
+        this.grenadePrefab = Resources.Load("Grenades/Flash", typeof(GameObject)) as GameObject;
         this.uiSprite = Resources.LoadAll<Sprite>("Grenades/Orange theme spritesheet 1")[14];
+        InstanciateGrenades();
     }
 
     #region Methods

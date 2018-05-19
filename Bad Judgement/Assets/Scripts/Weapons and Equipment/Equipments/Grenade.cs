@@ -6,18 +6,23 @@ using UnityEngine;
 
 public abstract class Grenade : Equipment
 {
-    public int amount { get; private set; } //This is the remaining amount of grenades
     public bool isDamageable { get { return this.GetType() == typeof(FragGrenade); } }
 
-    protected GameObject grenade; //This is the actual grenade object that has to be thrown
+    protected GameObject grenadePrefab; //This is the actual grenade object that has to be thrown
+    protected GameObject realGrenade;
     protected Transform player;
 
     #region Ctor
 
-    public Grenade(string name, int amount, Transform playerPos) : base(name)
+    public Grenade(string name, Transform playerPos) : base(name)
     {
-        this.amount = amount;
         this.player = playerPos;
+    }
+
+    public void InstanciateGrenades()
+    {
+        realGrenade = Instantiate(grenadePrefab, player.position, new Quaternion(0f, 0f, 0f, 0f), player);
+        realGrenade.gameObject.SetActive(false);
     }
 
     #endregion
@@ -29,13 +34,8 @@ public abstract class Grenade : Equipment
     {
         Vector3 direction = player.TransformDirection(Vector3.forward) * 10F; //Setting direction
 
-        var grenadeRb = grenade.GetComponent<Rigidbody>(); //Getting rigidbody to apply force later
+        var grenadeRb = grenadePrefab.GetComponent<Rigidbody>(); //Getting rigidbody to apply force later
         grenadeRb.AddForce(direction, ForceMode.Impulse); //Applying impulse force to grenade
-    }
-
-    public void SwitchingToGrenade()
-    {
-        Instantiate(grenade, null);
     }
 
     #endregion

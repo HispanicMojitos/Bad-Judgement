@@ -5,20 +5,35 @@ using UnityEngine.UI;
 
 public class PlayerLoadout : MonoBehaviour
 {
+    [SerializeField] private Transform playerHand;
+
     public List<Grenade> grenades { get; private set; }
     public List<ProtectionEquipment> protection { get; private set; }
 
     public int selectedItem { get; private set; }
     public static int maxSelectedItem = 4;
+
+    public int nbSmoke { get; private set; }
+    public int nbFrag { get; private set; }
+    public int nbFlash { get; private set; }
   
     private void Start()
     {
         selectedItem = 0;
-
+        
         protection = new List<ProtectionEquipment>();
+        grenades = new List<Grenade>();
 
         if (EquipmentDB.HasHelmet()) protection.Add(new ProtectionEquipment("helmet", 25f, 100f));
         if (EquipmentDB.HasVest()) protection.Add(new ProtectionEquipment("vest", 75f, 100f));
+
+        nbSmoke = EquipmentDB.GetGrdNumber("smoke");
+        nbFlash = EquipmentDB.GetGrdNumber("flash");
+        nbFrag = EquipmentDB.GetGrdNumber("frag");
+
+        for (int i = 0; i < nbSmoke; i++) grenades.Add(new SmokeGrenade("smoke", playerHand));
+        for (int i = 0; i < nbFlash; i++) grenades.Add(new FlashGrenade("flash", playerHand));
+        for (int i = 0; i < nbFrag; i++) grenades.Add(new FragGrenade("frag", playerHand));
     }
 
     private void Update()
@@ -42,6 +57,7 @@ public class PlayerLoadout : MonoBehaviour
         else if (mouseScrollInput < 0)
         {
             if (selectedItem < maxSelectedItem) selectedItem++;
+            else selectedItem = 0;
         }     
     }
 
@@ -90,5 +106,6 @@ public class PlayerLoadout : MonoBehaviour
 
         return Mathf.RoundToInt(totalCoeff);
     }
+
     #endregion
 }
