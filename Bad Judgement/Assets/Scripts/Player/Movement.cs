@@ -281,7 +281,7 @@ public class Movement : MonoBehaviour
     private bool GetIfCharacterIsGrounded()
     {
         //If the player is on the ground 
-        if (Physics.Raycast(this.groundDetection.transform.position, this.groundDetection.transform.forward, out this.groundRay, 0.3F))
+        if (Physics.Raycast(this.groundDetection.transform.position, this.groundDetection.transform.forward, out this.groundRay, .5F))
         {
             if (this.groundRay.collider.tag == "Ground") return true;
         }
