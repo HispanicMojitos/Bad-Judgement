@@ -15,10 +15,12 @@ public class ChooseLoadout
 
     #region Chosen things
 
-    public static readonly string directoryPath = "Loadout";
-    public static readonly string primaryWeaponPath = @"Loadout\primaryWp.json";
-    public static readonly string secondaryWeaponPath = @"Loadout\secondaryWp.json";
-    public static readonly string equipmentPath = @"Loadout\equipment.bjg";
+    public static readonly string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    public static readonly string directoryPath = string.Format(@"{0}\BadJudgement", documentsPath);
+    public static readonly string loadoutPath = string.Format(@"{0}\Loadout", directoryPath);
+    public static readonly string primaryWeaponPath = string.Format(@"{0}\primaryWp.json", loadoutPath);
+    public static readonly string secondaryWeaponPath = string.Format(@"{0}\secondaryWp.json", loadoutPath);
+    public static readonly string equipmentPath = string.Format(@"{0}\equipment.bjg", loadoutPath);
 
     public int actualPrimaryWeaponSelected { get; private set; }
     public int actualSecondaryWeaponSelected { get; private set; }
@@ -74,7 +76,9 @@ public class ChooseLoadout
 
     public void Init()
     {
+        Debug.Log(directoryPath);
         if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+        if (!Directory.Exists(loadoutPath)) Directory.CreateDirectory(loadoutPath);
         if (!File.Exists(primaryWeaponPath)) File.Create(primaryWeaponPath);
         if (!File.Exists(secondaryWeaponPath)) File.Create(secondaryWeaponPath);
         if (File.Exists(equipmentPath)) File.Delete(equipmentPath);
