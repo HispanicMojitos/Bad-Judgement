@@ -6,7 +6,7 @@ public class Inaccuracy : MonoBehaviour
 {
 
     private Vector3 initialPosition;
-    [SerializeField] private float recoil;
+    [SerializeField] private float spread;
     private GameObject weapon;
     WeaponHandler handler;
     // Use this for initialization
@@ -25,10 +25,10 @@ public class Inaccuracy : MonoBehaviour
         {
             if (GunScript.IsAiming)
             {
-                weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-recoil / 20f, recoil / 20f), Random.Range(-recoil / 40f, recoil / 40f)) + weapon.transform.position, 100f);
+                weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-spread / 20f, spread / 20f), Random.Range(-spread / 40f, spread / 40f)) + weapon.transform.position, 100f);
             }
             else
-            weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-recoil / 3f, recoil / 3f), Random.Range(-recoil / 10f, recoil / 10f)) + weapon.transform.position, 20f);
+            weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-spread / 3f, spread / 3f), Random.Range(-spread / 10f, spread / 10f)) + weapon.transform.position, 20f);
         }
         else
         {
