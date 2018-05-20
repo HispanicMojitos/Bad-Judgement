@@ -12,6 +12,7 @@ public class WeaponHandler : MonoBehaviour {
     private GameObject currentWeaponGO;
     private GameObject impactEffect;
     private GameObject muzzleFlash;
+    private GameObject[] particles;
 
     private MainWeaponsClass currentWeapon;
 
@@ -27,13 +28,18 @@ public class WeaponHandler : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        impactEffect = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;
-        muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
+        LoadCurrentWeaponAssets();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
 	}
+
+    public void LoadCurrentWeaponAssets()
+    {
+        particles = currentWeapon.LoadParticles();
+        impactEffect = particles.Where(x => x.name.ToUpper() == "HITSPARKS").SingleOrDefault();
+        muzzleFlash = particles.Where(x => x.name.ToUpper() == "IMPACTEFFECT").SingleOrDefault();
+    }
 }
