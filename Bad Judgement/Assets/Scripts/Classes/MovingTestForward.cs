@@ -40,6 +40,7 @@ public class MovingTestForward : MonoBehaviour {
     public GameObject leanRight;
     public GameObject continueTwo;
     public GameObject onRight;
+    public GameObject Aim;
 
 
     public int collision = 0;                     // will permit to know which command to ask      
@@ -76,6 +77,7 @@ public class MovingTestForward : MonoBehaviour {
         weaponTake.SetActive(false);
         continueTwo.SetActive(false);
         onRight.SetActive(false);
+        Aim.SetActive(false);
 
         playerMove = player.GetComponent<Movement>();
         playerInteract = player.GetComponentInChildren<TestInteraction>();
@@ -174,82 +176,88 @@ public class MovingTestForward : MonoBehaviour {
         if (collision == 11 && Input.GetButton("Fire1"))
         {
             fireTest.SetActive(false);
+            Aim.SetActive(true);
+            collision++;
+        }
+        if (collision == 12 && Input.GetButton("Fire2"))
+        {
+            Aim.SetActive(false);
             reloadTest.SetActive(true);
             collision++;
         }
-        if (collision == 12 && Input.GetKey(KeyCode.R))
+        if (collision == 13 && Input.GetKey(KeyCode.R))
         {
             reloadTest.SetActive(false);
             weaponSelection.SetActive(true);
             collision++;
         }
-        if (collision == 13 && scroll < 0)
+        if (collision == 14 && scroll < 0)
         {
             weaponSelection.SetActive(false);
             Interaction.SetActive(true);
             collision++;
         }
-        if (collision == 14 && Input.GetKey(KeyCode.F))
+        if (collision == 15 && Input.GetKey(KeyCode.F) && playerInteract.decisionPorte == true)
         {
             Interaction.SetActive(false);
             Kill.SetActive(true);
             collision++;
         }
-        if (enemyKill.vie <=0 && collision == 15)
+        if (enemyKill.vie <=0 && collision == 16)
         {
             Kill.SetActive(false);
             weaponTake.SetActive(true);
             collision++;
         }
-        if (collision == 16 && Input.GetKey(KeyCode.F))
+        if (collision == 17 && Input.GetKey(KeyCode.F))
         {
             weaponTake.SetActive(false);
             AllyOrder.SetActive(true);
             collision++;
         }
-        if (Ally.ordreDeplacement == true && Input.GetKey(KeyCode.T) && collision == 17)
+        if (Ally.ordreDeplacement == true && Input.GetKey(KeyCode.T) && collision == 18)
         {
             AllyOrder.SetActive(false);
             ExecAlly.SetActive(true);
             collision++;
         }
-        if (Ally.estHS == true && collision == 18)
+        if (Ally.estHS == true && collision == 19)
         {
             ExecAlly.SetActive(false);
             AllyHeal.SetActive(true);
             collision++;
         }
-        if (Input.GetKeyUp(KeyCode.H) && collision == 19)
+        if (Input.GetKeyUp(KeyCode.H) && collision == 20)
         {
             AllyHeal.SetActive(false);
             Grenada.SetActive(true);
             collision++;
         }
-        if (collision == 20 && Input.GetKey(KeyCode.G))
+        if (collision == 21 && Input.GetKey(KeyCode.G))
         {
             Grenada.SetActive(false);
             leanRight.SetActive(true);
             collision++;
         }
-        if (collision == 21 && Input.GetKey(KeyCode.E))
+        if (collision == 22 && Input.GetKey(KeyCode.E))
         {
             leanRight.SetActive(false);
             leanLeft.SetActive(true);
             collision++;
         }
-        if (collision == 22 && Input.GetKey(KeyCode.A))
+        if (collision == 23 && Input.GetKey(KeyCode.A))
         {
             leanLeft.SetActive(false);
             continueTwo.SetActive(true);
             collision++;
         }
-        if (collision == 23 && playerInteract.isInteractionImageOn == true)
+        if (collision == 24 && playerInteract.isInteractionImageOn == true)
         {
             continueTwo.SetActive(false);
             onRight.SetActive(true);
             collision++;
         }
-        if (collision == 24 && moneyCount.moneyText == true)
+        if (collision == 25 && moneyCount.moneyText == true)
         {
             onRight.SetActive(false);
             if(moneyCount.moneyCount == 3)
@@ -257,7 +265,7 @@ public class MovingTestForward : MonoBehaviour {
                 collision++;
             }
         }
-        if (collision == 25)
+        if (collision == 26)
         {
             Teleport.ToVan();
         }

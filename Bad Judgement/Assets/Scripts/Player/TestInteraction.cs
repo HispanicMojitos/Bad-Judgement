@@ -48,6 +48,8 @@ public class TestInteraction : MonoBehaviour
     private bool DecisionOrdreporte = false;
     private bool DecisionHealAlly = false;
 
+    public bool decisionPorte { get; private set; }
+
     private float temPsAvntHeal = 0;
     private float DelayAvantImageCanShoot = 0;
     bool canPushButtonO = false;
@@ -216,6 +218,8 @@ public class TestInteraction : MonoBehaviour
             interactionImage.enabled = true;
             if (DecisionOrdreporte == true) // Si on regarde une porte ET que l'on appuye sur E
             {
+                decisionPorte = true;
+
                 HingeJoint joint = hit.transform.GetComponent<HingeJoint>(); // Permet de récupérer le Hinge Joint
 
                 if (joint != null)
