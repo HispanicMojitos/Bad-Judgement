@@ -205,7 +205,16 @@ public class UIScript : MonoBehaviour
     private void UpdateCrosshair()
     {
         if (GunScript.IsAiming) foreach (var x in crosshair) x.gameObject.SetActive(false);
-        else foreach (var x in crosshair) x.gameObject.SetActive(true);
+        else
+        {
+            StartCoroutine(WaitForCrosshair());
+        }
+    }
+
+    IEnumerator WaitForCrosshair()
+    {
+        yield return new WaitForSeconds(0.25F);
+        foreach (var x in crosshair) x.gameObject.SetActive(true);
     }
 
     #endregion
