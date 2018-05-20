@@ -51,7 +51,14 @@ public class WeaponHandler : MonoBehaviour {
     private AudioSource secondaryAS;
     private AudioSource currentAS;
 
+    #endregion
 
+    #region Properties
+    public bool IsAiming
+    {
+        get { return isAiming; }
+        set { IsAiming = value; }
+    }
     #endregion
 
     // Use this for initialization
