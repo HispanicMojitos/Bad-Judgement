@@ -44,7 +44,7 @@ public class ChooseLoadout
 
     #endregion
 
-    PrimaryWeapon CZ805 = new PrimaryWeapon(6, 30, 35f, 1f, 600, new Vector3(0.03565392F, -0.40402F, 0.5512002F), "CZ805");
+    PrimaryWeapon CZ805 = new PrimaryWeapon(6, 30, 35f, 1f, 600, 3.45f, new Vector3(0.03565392F, -0.40402F, 0.5512002F), "CZ805");
 
     public ChooseLoadout()
     {

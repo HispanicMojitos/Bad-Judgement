@@ -18,6 +18,7 @@ public class MainWeaponsClass
     public string Name;
     public float Damage;
     public int FireRate;
+    public float Spread;
     public float ImpactForce;
     public Vector3 SpawnPos;
     public Magazines mag;
@@ -31,10 +32,11 @@ public class MainWeaponsClass
     /// <param name="damage"></param>
     /// <param name="impactForce"></param>
     /// <param name="fireRate"></param>
-    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, int fireRate, Vector3 spawnPos, string newName)
+    public MainWeaponsClass(int magQty, int bulletsPerMag, float damage, float impactForce, int fireRate, float spread, Vector3 spawnPos, string newName)
     {
         this.Damage = damage;
         this.FireRate = fireRate;
+        this.Spread = spread;
         this.ImpactForce = impactForce;
         this.Name = newName;
         this.SpawnPos = spawnPos;
