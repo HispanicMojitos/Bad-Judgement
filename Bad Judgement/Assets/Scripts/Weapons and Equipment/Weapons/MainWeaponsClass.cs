@@ -13,18 +13,6 @@ public class MainWeaponsClass
     private AudioClip[] weaponResources;
     private GameObject impactEffect;
     private GameObject muzzleFlash;
-    private GameObject weapon;
-    private GameObject gunEnd;
-    private AudioClip reloadSound;
-    private AudioClip shootSound;
-    private AudioSource gunAudioSource;
-    private AudioSource AK47;
-    private Animator anim;
-    private Camera cam;
-    private float nextTimeToFire = 0f;
-    private static int magQty;
-    private bool isAiming = false;
-    private string path = "/ParticleEffects"; // this is not correct read contructor to see why
 
     //Public Variables (Becuase Unity doesn't support getters and setters in serialized objects)
     public string Name;
@@ -32,7 +20,7 @@ public class MainWeaponsClass
     public int FireRate;
     public float ImpactForce;
     public Vector3 SpawnPos;
-    public int MagQty;
+    public Magazines mag;
     public int BulletsPerMag;
 
     /// <summary>
@@ -50,8 +38,8 @@ public class MainWeaponsClass
         this.ImpactForce = impactForce;
         this.Name = newName;
         this.SpawnPos = spawnPos;
-        this.MagQty = magQty;
         this.BulletsPerMag = bulletsPerMag;
+        mag = new Magazines(magQty, bulletsPerMag);
     }
     // read the folder with the guns and search the values of our variables
     // "/" is the assets folder
@@ -78,4 +66,53 @@ public class MainWeaponsClass
 
         return particles;
     }
+
+    #region Mags
+    public class Magazines
+    {
+        private Queue<int> _mags = new Queue<int>();
+        private int crtMag;
+
+        public Queue<int> mags
+        {
+            get { return _mags; }
+            set { _mags = value; }
+        }
+
+        public int currentMag
+        {
+            get { return crtMag; }
+            set { crtMag = value; }
+        }
+
+        public Magazines(int magNum, int bulletsPMag)
+        {
+            for (int i = 0; i < magNum; i++) _mags.Enqueue(bulletsPMag);
+            crtMag = _mags.Dequeue();
+        }
+
+        public void Reload()
+        {
+            if (_mags.Count > 1)
+            {
+                switch (crtMag)
+                {
+                    case 0:
+                        crtMag = _mags.Dequeue();
+                        //GunScript.MagQty--;
+                        break;
+                    case 1:
+                        crtMag = _mags.Dequeue() + 1;
+                        //GunScript.MagQty--;
+                        break;
+                    default:
+                        crtMag--;
+                        _mags.Enqueue(crtMag);
+                        crtMag = _mags.Dequeue() + 1;
+                        break;
+                }
+            }
+        }
+    }
+    #endregion
 }
