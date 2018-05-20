@@ -33,10 +33,13 @@ public abstract class Grenade : Equipment
     public virtual void ThrowGrenade()
     {
         Vector3 direction = player.TransformDirection(Vector3.forward) * 10F; //Setting direction
-
-        var grenadeRb = grenadePrefab.GetComponent<Rigidbody>(); //Getting rigidbody to apply force later
+        realGrenade.transform.SetParent(null);
+        var grenadeRb = realGrenade.GetComponent<Rigidbody>();
         grenadeRb.AddForce(direction, ForceMode.Impulse); //Applying impulse force to grenade
     }
+
+    public void ActivateGrd() { realGrenade.SetActive(true); }
+    public void DeactivateGrd() { realGrenade.SetActive(false); }
 
     #endregion
 }
