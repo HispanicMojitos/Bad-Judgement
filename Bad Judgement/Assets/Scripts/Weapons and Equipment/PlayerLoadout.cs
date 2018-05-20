@@ -23,6 +23,8 @@ public class PlayerLoadout : MonoBehaviour
     public int nbFrag { get; private set; }
     public int nbFlash { get; private set; }
 
+    public int nbGrd { get; private set; }
+
     public string[] grdTable { get; private set; }
 
     public int? indexSelectedGrd { get; private set; }
@@ -30,7 +32,8 @@ public class PlayerLoadout : MonoBehaviour
     private void Start()
     {
         selectedItem = 0;
-        
+
+        weapons = new MainWeaponsClass[] { null, null };
         protection = new List<ProtectionEquipment>();
         grenades = new List<Grenade>();
 
@@ -44,8 +47,8 @@ public class PlayerLoadout : MonoBehaviour
     {
         if(!UIScript.gameIsPaused)
         {
+            if (Input.GetKeyDown(KeyCode.Mouse0)) OnLeftClick();
             EquipmentSelection();
-            if(Input.GetKeyDown(KeyCode.Mouse0)) OnLeftClick();
         }
     }
 
@@ -91,6 +94,8 @@ public class PlayerLoadout : MonoBehaviour
                 counterOfSlot++;
             }
         }
+
+        nbGrd = counterOfSlot + 1;
     }
 
     private int GetHowMuchGrdTypes()
@@ -115,14 +120,14 @@ public class PlayerLoadout : MonoBehaviour
         {
             if (selectedItem > 0) selectedItem--;
             else selectedItem = maxSelectedItem;
-            ActiveItemHandling();
         }
         else if (mouseScrollInput < 0)
         {
             if (selectedItem < maxSelectedItem) selectedItem++;
             else selectedItem = 0;
-            ActiveItemHandling();
         }
+
+        ActiveItemHandling();
     }
 
     private void ActiveItemHandling()
@@ -131,10 +136,16 @@ public class PlayerLoadout : MonoBehaviour
 
         if(selectedItem < 2)
         {
-            if (selectedItem == 0) ; //ActivatePrimary
-            else;//ActivateSecondary
+            if (selectedItem == 0)
+            {
 
-            foreach (var grd in grenades) grd.DeactivateGrd();
+            }//ActivatePrimary
+            else
+            {
+
+            }//ActivateSecondary
+
+            foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();
         }
         else
         {
@@ -142,48 +153,38 @@ public class PlayerLoadout : MonoBehaviour
 
             //DeactivatePrimary
             //DeactivateSecondary
-
-            if (indexSelectedGrd != null) grenades[(int)indexSelectedGrd].ActivateGrd();
-            foreach (var grd in grenades) if (grd != grenades[(int)indexSelectedGrd]) grd.DeactivateGrd();
+            Debug.Log(indexSelectedGrd);
+            if (indexSelectedGrd >= 0)
+            {
+                grenades[(int)indexSelectedGrd].ActivateGrd();
+                var toDeact = grenades.Where(g => g.GetType() != grenades[(int)indexSelectedGrd].GetType() && g.throwable);
+                foreach (var grenade in toDeact) grenade.DeactivateGrd();
+            }
         }
     }
 
     private void OnLeftClick()
     {
-            switch (selectedItem)
-            {
-                case 0:
-                    Debug.Log("Tir principal");
-                    //Primary gun shot
-                    break;
-                case 1:
-                    Debug.Log("Tir second");
-                    //Secondary gun shot
-                    break;
-                //case 2:
-                //    if (indexSelectedItem != null)
-                //    {
-                //        grenades[(int)indexSelectedItem].ThrowGrenade();
-                //        grenades
-                //    }
-                //    Debug.Log("Throw 1st equip");
-                //    //1st equip "shot"
-                //    break;
-                //case 3:
-                //    if (indexSelectedItem != null) grenades[(int)indexSelectedItem].ThrowGrenade();
-                //    Debug.Log("Throw 2nd equip");
-                //    //2nd equip "shot"
-                //    break;
-                //case 4: //This is the last possible case
-                //    if (indexSelectedItem != null) grenades[(int)indexSelectedItem].ThrowGrenade();
-                //    Debug.Log("Throw 3rd equip");
-                //    //3rd equip "shot"
-                //    break;
-                default:
-                    if (indexSelectedGrd != null) grenades[(int)indexSelectedGrd].ThrowGrenade();
+        switch (selectedItem)
+        {
+            case 0:
+                Debug.Log("Tir principal");
+                //Primary gun shot
+                break;
+            case 1:
+                Debug.Log("Tir second");
+                //Secondary gun shot
+                break;
+            default:
+                if (indexSelectedGrd != null && grenades[(int)indexSelectedGrd].throwable)
+                {
+                    grenades[(int)indexSelectedGrd].ThrowGrenade();
+                    grenades[(int)indexSelectedGrd].throwable = false;
+                    nbGrd--;
                     Debug.Log("Throw grd");
-                    break;
-            } 
+                }
+                break;
+        }
     }
 
     public int ReturnTotalProtectionDuration()
@@ -215,7 +216,7 @@ public class PlayerLoadout : MonoBehaviour
     {
         int equipmentNumber = selectedItem - 2; //The first equipment is the number 2 slot, but we want to use it as indexes (0, 1, 2) for an array of length 3
 
-        var grd = grenades.FindIndex(g => g.name == grdTable[equipmentNumber]);
+        var grd = grenades.FindIndex(g => g.name == grdTable[equipmentNumber] && g.throwable);
 
         return grd;
     }

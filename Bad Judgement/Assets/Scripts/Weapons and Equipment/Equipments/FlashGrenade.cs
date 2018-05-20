@@ -11,6 +11,9 @@ public class FlashGrenade : Grenade
         this.grenadePrefab = Resources.Load("Grenades/Flash", typeof(GameObject)) as GameObject;
         this.uiSprite = Resources.Load<Sprite>("Grenades/flashUI");
         InstanciateGrenades();
+        this.grdRb = realGrenade.GetComponent<Rigidbody>();
+        grdRb.useGravity = false;
+        grdRb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     #region Methods

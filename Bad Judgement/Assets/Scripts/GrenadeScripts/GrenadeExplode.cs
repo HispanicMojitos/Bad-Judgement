@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Timers;
 using UnityEngine;
 
 public class GrenadeExplode : MonoBehaviour
 {
-    private Timer grenadeTimer;
-
     private static float explosionRadius = 12F;
 
     private void Start()
     {
-        grenadeTimer = new Timer(5000); //Needs 5 seconds before exploding
-        grenadeTimer.Elapsed += OnExplodeTime;
-        grenadeTimer.Start();
+        StartCoroutine(ExplodeTime());
     }
 
-    private void OnExplodeTime(object sender, ElapsedEventArgs e)
+    IEnumerator ExplodeTime()
     {
+        yield return new WaitForSeconds(5);
+
         var touchedColliders = Physics.OverlapSphere(this.transform.position, explosionRadius);
         //Getting all colliders hit by the grenade
 

@@ -7,16 +7,19 @@ using UnityEngine;
 public abstract class Grenade : Equipment
 {
     public bool isDamageable { get { return this.GetType() == typeof(FragGrenade); } }
+    public bool throwable { get; set; }
 
     protected GameObject grenadePrefab; //This is the actual grenade object that has to be thrown
     protected GameObject realGrenade;
     protected Transform player;
+    protected Rigidbody grdRb;
 
     #region Ctor
 
     public Grenade(string name, Transform playerPos) : base(name)
     {
         this.player = playerPos;
+        throwable = true;
     }
 
     public void InstanciateGrenades()
@@ -32,10 +35,13 @@ public abstract class Grenade : Equipment
     //Overriden in children classes (damage or not damage)
     public virtual void ThrowGrenade()
     {
-        Vector3 direction = player.TransformDirection(Vector3.forward) * 10F; //Setting direction
-        realGrenade.transform.SetParent(null);
+        Vector3 direction = player.TransformDirection(Vector3.forward); //Setting direction
+        
         var grenadeRb = realGrenade.GetComponent<Rigidbody>();
-        grenadeRb.AddForce(direction, ForceMode.Impulse); //Applying impulse force to grenade
+        grenadeRb.constraints = RigidbodyConstraints.None;
+        grenadeRb.AddForce(direction * 0.7F, ForceMode.Impulse); //Applying impulse force to grenade
+        grenadeRb.useGravity = true;
+        realGrenade.transform.SetParent(null);
     }
 
     public void ActivateGrd() { realGrenade.SetActive(true); }

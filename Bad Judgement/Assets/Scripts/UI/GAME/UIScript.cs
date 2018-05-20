@@ -184,9 +184,9 @@ public class UIScript : MonoBehaviour
             else equip3.color = highAlpha;
         }
         
-        equip1Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[0]).ToString();
-        equip2Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[1]).ToString();
-        equip3Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[2]).ToString();
+        equip1Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[0] && g.throwable).ToString();
+        equip2Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[1] && g.throwable).ToString();
+        equip3Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[2] && g.throwable).ToString();
     }
 
     private void UpdateProtection()

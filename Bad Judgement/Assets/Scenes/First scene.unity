@@ -8092,7 +8092,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 1764455067}
-  m_RootOrder: 85
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &240026232
 BoxCollider:
@@ -8702,6 +8702,11 @@ Prefab:
     - target: {fileID: 4119120279523668, guid: c40d169531cf7e042bfd057676afc1ab, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114837585229881092, guid: c40d169531cf7e042bfd057676afc1ab,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c40d169531cf7e042bfd057676afc1ab, type: 2}
@@ -11560,10 +11565,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 358148370}
   m_Mesh: {fileID: 4300002, guid: 09cd9d4f1c7449e44a3345aedb1361a3, type: 3}
---- !u!4 &358895859 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400000, guid: 85893d167977de2448cf6497ba4a9fa4, type: 3}
-  m_PrefabInternal: {fileID: 1149483512}
 --- !u!1 &359033939
 GameObject:
   m_ObjectHideFlags: 0
@@ -11959,10 +11960,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 366202357}
---- !u!4 &368730405 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400000, guid: 85893d167977de2448cf6497ba4a9fa4, type: 3}
-  m_PrefabInternal: {fileID: 1746933076}
 --- !u!1 &369233889
 GameObject:
   m_ObjectHideFlags: 0
@@ -17763,6 +17760,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 85893d167977de2448cf6497ba4a9fa4, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &564404932 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 564404931}
 --- !u!1 &565929767
 GameObject:
   m_ObjectHideFlags: 0
@@ -20248,7 +20249,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 2061951176}
-  m_RootOrder: 85
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &656730104
 BoxCollider:
@@ -35448,7 +35449,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1053339993}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.027, y: -0.0576, z: 0.0435}
+  m_LocalPosition: {x: 0.027, y: -0.0576, z: 0.657}
   m_LocalScale: {x: 0.8942271, y: 0.8942271, z: 0.8942271}
   m_Children: []
   m_Father: {fileID: 409001277}
@@ -37741,8 +37742,8 @@ Transform:
   - {fileID: 11516050}
   - {fileID: 649381136}
   - {fileID: 1494538833}
-  - {fileID: 1764455067}
-  - {fileID: 358895859}
+  - {fileID: 564404932}
+  - {fileID: 1149483513}
   - {fileID: 1668760422}
   - {fileID: 1992063754}
   - {fileID: 822951449}
@@ -37758,9 +37759,9 @@ Transform:
   - {fileID: 805949294}
   - {fileID: 891314548}
   - {fileID: 1316996495}
-  - {fileID: 368730405}
+  - {fileID: 1746933077}
   - {fileID: 1772170331}
-  - {fileID: 2061951176}
+  - {fileID: 1849203159}
   - {fileID: 713040031}
   - {fileID: 11433351}
   - {fileID: 1645149875}
@@ -38349,6 +38350,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 85893d167977de2448cf6497ba4a9fa4, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &1149483513 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 1149483512}
 --- !u!1 &1151204555
 GameObject:
   m_ObjectHideFlags: 0
@@ -58281,6 +58286,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 85893d167977de2448cf6497ba4a9fa4, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &1746933077 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 1746933076}
 --- !u!1 &1747637786
 GameObject:
   m_ObjectHideFlags: 0
@@ -61323,6 +61332,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 85893d167977de2448cf6497ba4a9fa4, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &1849203159 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 1849203158}
 --- !u!1 &1852143184
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,9 @@ public class SmokeGrenade : Grenade
         this.grenadePrefab = Resources.Load("Grenades/Smoke", typeof(GameObject)) as GameObject;
         this.uiSprite = Resources.Load<Sprite>("Grenades/smokeUI");
         InstanciateGrenades();
+        this.grdRb = realGrenade.GetComponent<Rigidbody>();
+        grdRb.useGravity = false;
+        grdRb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     #region Methods
