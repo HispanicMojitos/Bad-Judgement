@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour
     //private float strafeSpeed; //We'll be able to strafe fast. => WIP (2.88 KMH).
     private float runMultiplier = 1.6F; //If the player wants to run, his forward speed will be multiplicated by 1.6
 
-    private float jumpForce = 4.5F; //Force of the jump that the character will have
+    private float jumpForce = 20F; //Force of the jump that the character will have
     private float groundGravity = 0.1F;
     private float defaultGravity = 12F;
 
@@ -135,25 +135,12 @@ public class Movement : MonoBehaviour
             Leaning();
 
             #endregion
-
-            Gravity();
         }
     }
 
     #endregion
 
     #region Moving Methods
-
-    private void Gravity()
-    {
-        float gravity = 0F;
-
-        if (characterIsGrounded) gravity = groundGravity;
-        else gravity = defaultGravity;
-
-        Vector3 forceToApply = new Vector3(0F, -gravity, 0F);
-        playerRigidbody.AddRelativeForce(forceToApply, ForceMode.Acceleration);
-    }
 
     private void Jump()
     {
