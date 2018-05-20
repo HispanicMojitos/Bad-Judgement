@@ -20,6 +20,7 @@ public class UIScript : MonoBehaviour
 
     [SerializeField] private Transform ourPlayer;
 
+    [SerializeField] private Image[] crosshair;
     [SerializeField] private GameObject pauseMenu;
 
     [SerializeField] private Text healthText;
@@ -88,6 +89,7 @@ public class UIScript : MonoBehaviour
 
             UpdateCurrentEquipment();
             UpdateProtection();
+            UpdateCrosshair();
         }
     }
 
@@ -184,9 +186,9 @@ public class UIScript : MonoBehaviour
             else equip3.color = highAlpha;
         }
         
-        equip1Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[0]).ToString();
-        equip2Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[1]).ToString();
-        equip3Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[2]).ToString();
+        equip1Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[0] && g.throwable).ToString();
+        equip2Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[1] && g.throwable).ToString();
+        equip3Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[2] && g.throwable).ToString();
     }
 
     private void UpdateProtection()
@@ -198,6 +200,21 @@ public class UIScript : MonoBehaviour
         var totalProtectionCoefficient = currentLoadout.ReturnProtectionCoefficient();
         this.protectionCoeffText.text = totalProtectionCoefficient.ToString();
         this.protectionCoeffSlider.value = totalProtectionCoefficient / 100F;
+    }
+
+    private void UpdateCrosshair()
+    {
+        if (GunScript.IsAiming) foreach (var x in crosshair) x.gameObject.SetActive(false);
+        else
+        {
+            StartCoroutine(WaitForCrosshair());
+        }
+    }
+
+    IEnumerator WaitForCrosshair()
+    {
+        yield return new WaitForSeconds(0.25F);
+        foreach (var x in crosshair) x.gameObject.SetActive(true);
     }
 
     #endregion

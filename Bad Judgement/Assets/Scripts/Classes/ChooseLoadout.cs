@@ -79,10 +79,13 @@ public class ChooseLoadout
         Debug.Log(directoryPath);
         if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
         if (!Directory.Exists(loadoutPath)) Directory.CreateDirectory(loadoutPath);
-        if (!File.Exists(primaryWeaponPath)) File.Create(primaryWeaponPath);
-        if (!File.Exists(secondaryWeaponPath)) File.Create(secondaryWeaponPath);
+        if (File.Exists(primaryWeaponPath)) File.Delete(primaryWeaponPath);
+        if (File.Exists(secondaryWeaponPath)) File.Delete(secondaryWeaponPath);
         if (File.Exists(equipmentPath)) File.Delete(equipmentPath);
+
         File.Create(equipmentPath);
+        File.Create(primaryWeaponPath);
+        File.Create(secondaryWeaponPath);
     }
 
     public void NextWeapon()

@@ -12,6 +12,9 @@ public class FragGrenade : Grenade
         this.grenadePrefab = Resources.Load("Grenades/Frag", typeof(GameObject)) as GameObject;
         this.uiSprite = Resources.Load<Sprite>("Grenades/fragUI");
         InstanciateGrenades();
+        this.grdRb = realGrenade.GetComponent<Rigidbody>();
+        grdRb.useGravity = false;
+        grdRb.constraints = RigidbodyConstraints.FreezePosition;
     }
 
     #region Surcharges lancers
@@ -19,7 +22,7 @@ public class FragGrenade : Grenade
     public override void ThrowGrenade()
     {
         base.ThrowGrenade();
-        this.grenadePrefab.AddComponent<GrenadeExplode>();
+        this.realGrenade.AddComponent<GrenadeExplode>();
     }
 
     public static float CalculateDamage(Vector3 grenadePos, Vector3 targetPos)
