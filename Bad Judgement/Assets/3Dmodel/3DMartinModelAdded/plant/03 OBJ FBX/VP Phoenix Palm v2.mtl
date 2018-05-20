@@ -1,0 +1,146 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 11.07.2012 12:26:59
+
+newmtl VP_pot_wood_shavings
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0980 0.0588 0.0353
+	Kd 0.0980 0.0588 0.0353
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_pot_wood_shavings.jpg
+	map_Kd VP_pot_wood_shavings.jpg
+
+newmtl VP_phoenix_stem
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.3490 0.2392 0.1529
+	Kd 0.3490 0.2392 0.1529
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_plant_phoenix_01_stem_diffuse.jpg
+	map_Kd VP_plant_phoenix_01_stem_diffuse.jpg
+	map_bump VP_plant_phoenix_01_stem_bump.jpg
+
+newmtl VP_phoenix_branches
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1412 0.2627 0.0706
+	Kd 0.1412 0.2627 0.0706
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_phoenix_branches_diffuse.jpg
+	map_Kd VP_phoenix_branches_diffuse.jpg
+
+newmtl VP_phoenix_leaves_1
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0902 0.1725 0.0471
+	Kd 0.0902 0.1725 0.0471
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_phoenix_leaf_01_diffuse.jpg
+	map_Kd VP_phoenix_leaf_01_diffuse.jpg
+	map_bump -bm 0.6000 VP_phoenix_leaf_01_bump.jpg
+
+newmtl VP_phoenix_leaves_2
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1098 0.1843 0.0510
+	Kd 0.1098 0.1843 0.0510
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_phoenix_leaf_02_diffuse.jpg
+	map_Kd VP_phoenix_leaf_02_diffuse.jpg
+	map_bump -bm 0.3000 VP_phoenix_leaf_02_bump.jpg
+
+newmtl VP_phoenix_spikes
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5000 0.5000 0.5000
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_phoenix_spikes_diffuse.jpg
+	map_Kd VP_phoenix_spikes_diffuse.jpg
+
+newmtl VP_phoenix_twines
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5000 0.5000 0.5000
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_phoenix_cutoff_01_diffuse.jpg
+	map_Kd VP_phoenix_cutoff_01_diffuse.jpg
+
+newmtl VP_phoenix_cutoff_1
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5000 0.5000 0.5000
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_phoenix_cutoff_03_diffuse.jpg
+	map_Kd VP_phoenix_cutoff_03_diffuse.jpg
+
+newmtl VP_phoenix_cutoff_2
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5000 0.5000 0.5000
+	Kd 0.5000 0.5000 0.5000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_phoenix_cutoff_02_diffuse.jpg
+	map_Kd VP_phoenix_cutoff_02_diffuse.jpg
+
+newmtl VP_pot_clay_orange
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0078 0.0078 0.0078
+	Kd 0.0078 0.0078 0.0078
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka VP_pot_clay_orange_diffuse.jpg
+	map_Kd VP_pot_clay_orange_diffuse.jpg
+	map_bump -bm 0.0800 VP_pot_clay_orange_bump_refl.jpg
