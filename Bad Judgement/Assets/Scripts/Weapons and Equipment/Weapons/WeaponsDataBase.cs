@@ -26,7 +26,6 @@ public class WeaponsDataBase
 					: w is SecondaryWeapon ? "Secondary"
 					: null;
 		if (type == null) throw new Exception("Weapon is not primary nor secondary");
-        Debug.Log(String.Format("Instance name is: {0}",nameOf(() => w)));
 		if (String.IsNullOrEmpty(jsonFile))
 		{
 			weaponsDic[type].Add(w);
@@ -69,12 +68,5 @@ public class WeaponsDataBase
             else throw new Exception("There are no secondary weapons in this database.");
         }
         else throw new Exception("File is empty, please try saving some weapons into the database first.");
-    }
-
-    public static String nameOf<T>(Expression<Func<T>> mEx)
-    {
-        var exBody = mEx.Body as MemberExpression;
-        if (mEx != null) return exBody.Member.Name;
-        else return null;
     }
 }
