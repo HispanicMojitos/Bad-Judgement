@@ -842,6 +842,7 @@ GameObject:
   - component: {fileID: 4418160637199320}
   - component: {fileID: 95907512833397812}
   - component: {fileID: 114959954417343092}
+  - component: {fileID: 114315248525445780}
   m_Layer: 0
   m_Name: SCAR-H
   m_TagString: Untagged
@@ -1967,6 +1968,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114315248525445780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1937064396063870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e2d61b5286faa40ac810965268d153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spread: 8.29
 --- !u!114 &114959954417343092
 MonoBehaviour:
   m_ObjectHideFlags: 1

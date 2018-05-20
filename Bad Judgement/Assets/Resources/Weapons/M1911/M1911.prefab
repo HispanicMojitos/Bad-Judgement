@@ -496,6 +496,7 @@ GameObject:
   - component: {fileID: 4371475096837754}
   - component: {fileID: 95036030737194772}
   - component: {fileID: 114756539500272220}
+  - component: {fileID: 114885004321646818}
   m_Layer: 0
   m_Name: M1911
   m_TagString: Untagged
@@ -2055,6 +2056,18 @@ MonoBehaviour:
   fireRate: 30
   bulletsPerMag: 7
   reloadKey: 114
+--- !u!114 &114885004321646818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1512542113022822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e2d61b5286faa40ac810965268d153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spread: 2.54
 --- !u!137 &137236567722050702
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -558,6 +558,7 @@ GameObject:
   - component: {fileID: 4686954817014008}
   - component: {fileID: 95156698470875768}
   - component: {fileID: 114597172242650628}
+  - component: {fileID: 114423112261295828}
   m_Layer: 0
   m_Name: M4A1
   m_TagString: Untagged
@@ -2039,6 +2040,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114423112261295828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686587659760360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e2d61b5286faa40ac810965268d153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spread: 2.97
 --- !u!114 &114597172242650628
 MonoBehaviour:
   m_ObjectHideFlags: 1
