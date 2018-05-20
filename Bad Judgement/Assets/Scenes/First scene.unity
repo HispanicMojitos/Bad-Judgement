@@ -8791,7 +8791,7 @@ Prefab:
     - target: {fileID: 114837585229881092, guid: c40d169531cf7e042bfd057676afc1ab,
         type: 2}
       propertyPath: bulletsPerMag
-      value: 70
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c40d169531cf7e042bfd057676afc1ab, type: 2}
