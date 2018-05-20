@@ -226,8 +226,8 @@ public class GunScript : MonoBehaviour
             //anim.SetBool("Aiming", isAiming);
 
                 isReloading = true;
-
-                Sounds.AK47reload(AK47);
+            Sounds.GunReload(AK47, this.name);
+                //Sounds.AK47reload(AK47);
 
                 isReloading = false;
                 mag.Reload();
