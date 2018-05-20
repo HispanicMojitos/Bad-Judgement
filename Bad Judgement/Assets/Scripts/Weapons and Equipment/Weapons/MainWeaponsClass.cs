@@ -88,12 +88,12 @@ public class MainWeaponsClass
         public Magazines(int magNum, int bulletsPMag)
         {
             for (int i = 0; i < magNum; i++) _mags.Enqueue(bulletsPMag);
-            if(_mags != null)crtMag = _mags.Dequeue();
+            if (_mags.Count > 0) crtMag = _mags.Dequeue();
         }
 
         public void Reload()
         {
-            if (_mags.Count > 1 && _mags != null)
+            if (_mags.Count > 0 && _mags != null)
             {
                 switch (crtMag)
                 {

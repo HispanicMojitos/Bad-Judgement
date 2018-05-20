@@ -18,6 +18,43 @@
         "currentMag": 30
       },
       "BulletsPerMag": 30
+    },
+    {
+      "Name": "MP7",
+      "Damage": 5.3,
+      "FireRate": 950,
+      "ImpactForce": 30.0,
+      "SpawnPos": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.04
+      },
+      "mag": {
+        "mags": [
+          40,
+          40
+        ],
+        "currentMag": 40
+      },
+      "BulletsPerMag": 40
+    },
+    {
+      "Name": "SCAR-H",
+      "Damage": 27.8,
+      "FireRate": 600,
+      "ImpactForce": 30.0,
+      "SpawnPos": {
+        "x": 0.0104,
+        "y": -0.01,
+        "z": 0.0387
+      },
+      "mag": {
+        "mags": [
+          25
+        ],
+        "currentMag": 25
+      },
+      "BulletsPerMag": 25
     }
   ],
   "Secondary": []
