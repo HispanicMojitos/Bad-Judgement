@@ -93,7 +93,7 @@ public class MainWeaponsClass
 
         public void Reload()
         {
-            if (_mags.Count > 1)
+            if (_mags.Count > 1 && _mags != null)
             {
                 switch (crtMag)
                 {
