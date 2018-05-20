@@ -40,12 +40,6 @@ public class Target : MonoBehaviour
         else health -= amount;
     }
 
-    public void Headshot()
-    {
-        health = 0f;
-        Die();
-    }
-
     /// <summary> Permet de faire regagner de la vie au gameObjec ("HP" etant le nombre de vie que regagnera cet objet lors de ce frame, ne peut pas depasser la vieMax initialisée)</summary>
     public void GainHealth(float HP)
     {

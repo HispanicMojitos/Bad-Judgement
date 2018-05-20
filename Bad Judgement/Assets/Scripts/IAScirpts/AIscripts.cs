@@ -571,8 +571,10 @@ using UnityEngine;
         }
     }
     #endregion start & update
+
     private float tempsDelay = 0f;
     private bool radioSound = false;
+
     #region method
     private void SetAnimation(bool isAimKneel = false  ,bool isKneel = false  ,bool kneeGrenad = false  ,bool isIdle = false  ,bool isAiming = false  ,bool isAttack = false  ,bool isWalking = false  ,bool isRunning = false  ,bool isAttackingCloser = false  ,bool isDead = false) // Utilisation de prametre nomé, a récuperer en argument nommer pour décider quelle animation sera jouée
     {

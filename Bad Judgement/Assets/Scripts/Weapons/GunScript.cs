@@ -192,7 +192,7 @@ public class GunScript : MonoBehaviour
         {
             var dist = hit.collider.bounds.max.y - hit.point.y;
 
-            if (target.tag != "player" && dist < (.16f * hit.collider.bounds.max.y)) target.Headshot();
+            if (target.tag != "player" && dist < (.16f * hit.collider.bounds.max.y)) target.TakeDamage(target.vieMax);
             else target.TakeDamage(damage); // then we give damage, notice that we can do this because we declared our TakeDamage method as public
         }
 
