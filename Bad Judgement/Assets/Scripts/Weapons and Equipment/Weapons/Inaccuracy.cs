@@ -7,6 +7,8 @@ public class Inaccuracy : MonoBehaviour
 
     private Vector3 initialPosition;
     [SerializeField] private float spread;
+    private float initialSpread;
+    private float maxValue;
     private GameObject weapon;
     WeaponHandler handler;
     // Use this for initialization
@@ -15,23 +17,36 @@ public class Inaccuracy : MonoBehaviour
         initialPosition = this.transform.position;
         handler = GetComponentInChildren<WeaponHandler>();
         weapon = GetComponentInChildren<Animator>().gameObject;
+        initialSpread = spread;
+        maxValue = initialSpread * 2;
         //weapon = GetComponentInChildren<WeaponSway>().gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetButton("Fire1"))
         {
+
             if (GunScript.IsAiming)
             {
-                weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-spread / 20f, spread / 20f), Random.Range(-spread / 40f, spread / 40f)) + weapon.transform.position, 100f);
+                spread += Time.deltaTime * 5 * spread;
+                if (spread >= maxValue * 3) spread = maxValue;
+
+                weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-spread / 15f, spread / 15f), Random.Range(-spread / 15f, spread / 15f)) + weapon.transform.position, 200f);
             }
             else
-            weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-spread / 3f, spread / 3f), Random.Range(-spread / 10f, spread / 10f)) + weapon.transform.position, 20f);
+            {
+                spread += Time.deltaTime * spread;
+                if (spread >= maxValue * 1.5) spread = maxValue;
+
+                weapon.transform.position = Vector3.Slerp(weapon.transform.position, new Vector3(Random.Range(-spread / 5f, spread / 5f), Random.Range(-spread / 5f, spread / 5f)) + weapon.transform.position, 300f);
+            }
         }
         else
         {
+            spread = initialSpread;
             weapon.transform.position = Vector3.Lerp(weapon.transform.position, initialPosition, 130f);
         }
 
