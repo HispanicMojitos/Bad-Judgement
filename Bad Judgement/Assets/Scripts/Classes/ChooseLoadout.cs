@@ -44,14 +44,22 @@ public class ChooseLoadout
 
     #endregion
 
-    PrimaryWeapon CZ805 = new PrimaryWeapon(6, 30, 35f, 1f, 600, new Vector3(0.03565392F, -0.40402F, 0.5512002F), "CZ805");
+    PrimaryWeapon M4A1 = new PrimaryWeapon(3, 30, 10.4f, 30f, 700, new Vector3(0, -0.011f, 0.017f), "M4A1");
+    PrimaryWeapon MP7 = new PrimaryWeapon(3, 40, 5.3f, 30f, 950, new Vector3(0, 0, 0.04f), "MP7");
+    PrimaryWeapon SCARH = new PrimaryWeapon(2, 25, 27.8f, 30f, 600, new Vector3(0.0104f, -0.01f, 0.0387f), "SCAR-H");
+    SecondaryWeapon M1911 = new SecondaryWeapon(2, 7, 13.4f, 20f, 30, new Vector3(0, -0.015f, 0.057f), "M1911");
 
     public ChooseLoadout()
     {
         weaponsDb = new WeaponsDataBase();
 
-        weaponsDb.Save(CZ805);
+        weaponsDb.Save(M4A1);
+        weaponsDb.Save(MP7);
+        weaponsDb.Save(SCARH);
+        weaponsDb.Save(M1911);
+
         allPrimaryWeapons = weaponsDb.LoadPrimary();
+        allSecondaryWeapons = weaponsDb.LoadSecondary();
 
         actualPrimaryWeaponSelected = 0;
         actualSecondaryWeaponSelected = 0;

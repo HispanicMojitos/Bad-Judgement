@@ -153,7 +153,7 @@ public class PlayerLoadout : MonoBehaviour
 
             //DeactivatePrimary
             //DeactivateSecondary
-            Debug.Log(indexSelectedGrd);
+
             if (indexSelectedGrd >= 0)
             {
                 grenades[(int)indexSelectedGrd].ActivateGrd();
