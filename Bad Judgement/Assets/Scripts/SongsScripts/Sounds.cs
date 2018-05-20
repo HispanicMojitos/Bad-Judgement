@@ -15,7 +15,7 @@ public static class Sounds
     #region AK47 Cz805
     #region soundForEveryGuns
     /// <summary> FOR YA ANDREWS !!!! :  Permet de jouer le son souhaité, qu'importe sois l'arme !!! Gun est l'audioSource a renseigner, et nomDuGun est le nom du gun a rensigner (a voir dans la classe Sounds dans cette methode si les noms en string corresponden bien avec ceux récupéré</summary>
-    public static void GunnShoot(AudioSource Gun, string nomDuGun, float volume = 1f)
+    public static void GunShoot(AudioSource Gun, string nomDuGun, float volume = 1f)
     {
         Gun.Stop(); // permet de jouer le son de la prochaine balle qui arrivera
         if (Gun.clip != Resources.Load(string.Format("Weapons/{0}/{1}Shoot", nomDuGun, nomDuGun)) as AudioClip) Gun.clip = Resources.Load(string.Format("Weapons/{0}/{1}Shoot", nomDuGun, nomDuGun)) as AudioClip; 

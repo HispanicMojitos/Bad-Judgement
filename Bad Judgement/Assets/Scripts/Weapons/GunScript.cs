@@ -162,7 +162,8 @@ public class GunScript : MonoBehaviour
             RaycastHit hit;
             _isShooting = true;
 			mag.currentMag--;
-			Sounds.Cz805shootPlayer(AK47);
+            Sounds.GunShoot(AK47, this.name);
+			//Sounds.Cz805shootPlayer(AK47);
 			GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
 			Destroy(muzlFlash, 1.3f);
 
