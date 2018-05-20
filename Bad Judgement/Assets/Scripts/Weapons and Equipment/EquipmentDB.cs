@@ -11,11 +11,13 @@ public static class EquipmentDB
 {
     #region File Paths
 
-    public static readonly string directoryPath = "Loadout";
-    public static readonly string primaryWeaponPath = @"Loadout\primaryWp.json";
-    public static readonly string secondaryWeaponPath = @"Loadout\secondaryWp.json";
-    public static readonly string equipmentPath = @"Loadout\equipment.bjg";
-    
+    public static readonly string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    public static readonly string directoryPath = string.Format(@"{0}\BadJudgement", documentsPath);
+    public static readonly string loadoutPath = string.Format(@"{0}\Loadout", directoryPath);
+    public static readonly string primaryWeaponPath = string.Format(@"{0}\primaryWp.json", loadoutPath);
+    public static readonly string secondaryWeaponPath = string.Format(@"{0}\secondaryWp.json", loadoutPath);
+    public static readonly string equipmentPath = string.Format(@"{0}\equipment.bjg", loadoutPath);
+
     public static List<string> equipmentList;
 
     #endregion
