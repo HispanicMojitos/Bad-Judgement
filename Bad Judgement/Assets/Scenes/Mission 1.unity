@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.40939215, g: 0.518405, b: 0.60503376, a: 1}
+  m_IndirectSpecularColor: {r: 0.42315006, g: 0.5354007, b: 0.623476, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -5639,31 +5639,31 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0396
+      value: 0.03891187
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1351
+      value: 0.14341393
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0357
+      value: 0.04828321
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.357484
+      value: -0.31554356
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.4469155
+      value: 0.47906005
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.48072436
+      value: 0.45120734
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.6643613
+      value: -0.68362695
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_RootOrder
@@ -5683,15 +5683,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -69.8
+      value: -70.009
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 286.41
+      value: 293.184
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 2.597
+      value: -0.051000003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
@@ -34839,7 +34839,7 @@ GameObject:
   - component: {fileID: 649857201}
   m_Layer: 0
   m_Name: ProfDeFrancaisDeMartin
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34900,8 +34900,12 @@ MonoBehaviour:
   boucheCanon: {fileID: 226705632}
   cz805: {fileID: 1951942048}
   head: {fileID: 1572350488}
-  enemies: []
-  choixJoueur: {fileID: 0}
+  enemies:
+  - {fileID: 1000857340}
+  - {fileID: 411443051}
+  - {fileID: 74969448}
+  - {fileID: 614758346}
+  choixJoueur: {fileID: 1305477001}
   enemiActuel: {fileID: 0}
   PeutRevivre: 0
   "allyEstR\xE9anim\xE9": 0
@@ -45551,7 +45555,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 830008926}
   m_LocalRotation: {x: -0.73673785, y: -0.061458416, z: -0.012391252, w: -0.67326576}
-  m_LocalPosition: {x: 0.382, y: -0.266, z: 1.024}
+  m_LocalPosition: {x: 0.36, y: -0.266, z: 0.508}
   m_LocalScale: {x: 0.7373904, y: 0.7373902, z: 0.7373901}
   m_Children: []
   m_Father: {fileID: 1561269165}
@@ -57454,7 +57458,7 @@ Prefab:
     - target: {fileID: 114201132958344036, guid: 77152825cf79e0a41884b5406f4218a6,
         type: 2}
       propertyPath: enemies.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4208534112932640, guid: 77152825cf79e0a41884b5406f4218a6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -57549,6 +57553,16 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 222.34799
       objectReference: {fileID: 0}
+    - target: {fileID: 114201132958344036, guid: 77152825cf79e0a41884b5406f4218a6,
+        type: 2}
+      propertyPath: enemies.Array.data[2]
+      value: 
+      objectReference: {fileID: 74969448}
+    - target: {fileID: 114201132958344036, guid: 77152825cf79e0a41884b5406f4218a6,
+        type: 2}
+      propertyPath: enemies.Array.data[3]
+      value: 
+      objectReference: {fileID: 614758346}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 77152825cf79e0a41884b5406f4218a6, type: 2}
   m_IsPrefabParent: 0
@@ -106374,7 +106388,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1987637581}
   m_LocalRotation: {x: -0.117671646, y: -0.9928984, z: -0.005988835, w: 0.016442005}
-  m_LocalPosition: {x: 636.7, y: 493.1, z: 113.9}
+  m_LocalPosition: {x: 636.7, y: 381, z: 114}
   m_LocalScale: {x: 100.000015, y: 100.00004, z: 100.00002}
   m_Children: []
   m_Father: {fileID: 1753028541}
@@ -106521,7 +106535,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1988307721}
   m_LocalRotation: {x: -0.4763995, y: 0.4819259, z: 0.56212074, w: -0.47414273}
-  m_LocalPosition: {x: 0.8345, y: -0.2584, z: 1.2585}
+  m_LocalPosition: {x: 1.117, y: -0.2584, z: 1.095}
   m_LocalScale: {x: 0.73739004, y: 0.73739004, z: 0.73739}
   m_Children: []
   m_Father: {fileID: 1561269165}
