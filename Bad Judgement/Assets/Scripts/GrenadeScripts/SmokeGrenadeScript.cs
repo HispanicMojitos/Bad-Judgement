@@ -10,6 +10,11 @@ public class SmokeGrenadeScript : MonoBehaviour
     [SerializeField] private GameObject smokeGrenade;
     [SerializeField] private SphereCollider espaceFumée;
 
+
+
+    // En gros pour jouer le son
+
+
     private Target vieGrenade;
     private bool emmetFumee = false;
     private bool finFumee = false;
