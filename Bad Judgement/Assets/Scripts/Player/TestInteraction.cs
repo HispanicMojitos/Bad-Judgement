@@ -48,6 +48,8 @@ public class TestInteraction : MonoBehaviour
     private bool DecisionOrdreporte = false;
     private bool DecisionHealAlly = false;
 
+    public bool decisionPorte { get; private set; }
+
     private float temPsAvntHeal = 0;
     private float DelayAvantImageCanShoot = 0;
     bool canPushButtonO = false;
@@ -216,31 +218,37 @@ public class TestInteraction : MonoBehaviour
             interactionImage.enabled = true;
             if (DecisionOrdreporte == true) // Si on regarde une porte ET que l'on appuye sur E
             {
+                decisionPorte = true;
+
                 HingeJoint joint = hit.transform.GetComponent<HingeJoint>(); // Permet de récupérer le Hinge Joint
-                JointSpring jSpring = joint.spring;
-                if (jSpring.targetPosition <= 3 && jSpring.targetPosition >= 0) // Si la porte est fermée, on l'ouvre
+
+                if (joint != null)
                 {
-                    hit.rigidbody.isKinematic = false;
-                    StartCoroutine(Attend(hit));
-                    jSpring.spring = 150;
-                    jSpring.damper = 30;
-                    jSpring.targetPosition = -90; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
-                    joint.spring = jSpring;
-                    joint.useSpring = true;
-                    if (hit.transform.tag.Contains("Verre")) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), Resources.Load("Sounds/Door/OpenGlassDoor") as AudioClip);
-                    else Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
+                    JointSpring jSpring = joint.spring;
+                    if (jSpring.targetPosition <= 3 && jSpring.targetPosition >= 0) // Si la porte est fermée, on l'ouvre
+                    {
+                        hit.rigidbody.isKinematic = false;
+                        StartCoroutine(Attend(hit));
+                        jSpring.spring = 150;
+                        jSpring.damper = 30;
+                        jSpring.targetPosition = -90; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
+                        joint.spring = jSpring;
+                        joint.useSpring = true;
+                        if (hit.transform.tag.Contains("Verre")) Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), Resources.Load("Sounds/Door/OpenGlassDoor") as AudioClip);
+                        else Sounds.PlayDoorSond(hit.transform.GetComponent<AudioSource>(), openDoor);
+                    }
+                    else if (jSpring.targetPosition == -90) // Si la porte est ouverte, on la ferme
+                    {
+                        hit.rigidbody.isKinematic = false;
+                        StartCoroutine(Attend(hit, false));
+                        jSpring.spring = 150;
+                        jSpring.damper = 30;
+                        jSpring.targetPosition = 0; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
+                        joint.spring = jSpring;
+                        joint.useSpring = true;
+                    }
+                    DecisionOrdreporte = false; 
                 }
-                else if (jSpring.targetPosition == -90) // Si la porte est ouverte, on la ferme
-                {
-                    hit.rigidbody.isKinematic = false;
-                    StartCoroutine(Attend(hit, false));
-                    jSpring.spring = 150;
-                    jSpring.damper = 30;
-                    jSpring.targetPosition = 0; // Grace au HingeJoint et son fonctionnement, une force sera appliquée a cause du composant spring récupéré du hinge Joint, pour que la porte tourne autour de ce joint, jusqu'a atteindre une position voulue
-                    joint.spring = jSpring;
-                    joint.useSpring = true;
-                }
-                DecisionOrdreporte = false;
             }
         }
         else if ((Physics.Raycast(transform.position, direction, out hit, raycastLongeurInteractions) && hit.transform.CompareTag("porteFerme") && Vector3.Distance(transform.position, hit.transform.position) < raycastLongeurInteractions))
