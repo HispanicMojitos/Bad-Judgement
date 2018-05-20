@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using System;
 
 public class PlayerLoadout : MonoBehaviour
 {
     [SerializeField] private Transform playerHand;
 
+    public MainWeaponsClass[] weapons { get; private set; }
     public List<Grenade> grenades { get; private set; }
     public List<ProtectionEquipment> protection { get; private set; }
 
@@ -19,6 +21,8 @@ public class PlayerLoadout : MonoBehaviour
     public int nbFlash { get; private set; }
 
     public string[] grdTable { get; private set; }
+
+    public int? indexSelectedGrd { get; private set; }
   
     private void Start()
     {
@@ -38,7 +42,7 @@ public class PlayerLoadout : MonoBehaviour
         if(!UIScript.gameIsPaused)
         {
             EquipmentSelection();
-            if (Input.GetKeyDown(KeyCode.Mouse0)) ; //OnLeftClick();
+            if(Input.GetKeyDown(KeyCode.Mouse0)) OnLeftClick();
         }
     }
 
@@ -108,37 +112,75 @@ public class PlayerLoadout : MonoBehaviour
         {
             if (selectedItem > 0) selectedItem--;
             else selectedItem = maxSelectedItem;
+            ActiveItemHandling();
         }
         else if (mouseScrollInput < 0)
         {
             if (selectedItem < maxSelectedItem) selectedItem++;
             else selectedItem = 0;
-        }     
+            ActiveItemHandling();
+        }
+    }
+
+    private void ActiveItemHandling()
+    {
+        indexSelectedGrd = null;
+
+        if(selectedItem < 2)
+        {
+            if (selectedItem == 0) ; //ActivatePrimary
+            else;//ActivateSecondary
+
+            foreach (var grd in grenades) grd.DeactivateGrd();
+        }
+        else
+        {
+            indexSelectedGrd = GetGrdIndex();
+
+            //DeactivatePrimary
+            //DeactivateSecondary
+
+            if (indexSelectedGrd != null) grenades[(int)indexSelectedGrd].ActivateGrd();
+            foreach (var grd in grenades) if (grd != grenades[(int)indexSelectedGrd]) grd.DeactivateGrd();
+        }
     }
 
     private void OnLeftClick()
     {
-        switch (selectedItem)
-        {
-            case 0:
-                //Primary gun shot
-                break;
-            case 1:
-                //Secondary gun shot
-                break;
-            case 2:
-                //1st equip "shot"
-                break;
-            case 3:
-                //2nd equip "shot"
-                break;
-            case 4: //This is the last possible case
-                //3rd equip "shot"
-                break;
-            default:
-                throw new System.Exception("Impossible to use a non-existent equipment !");
-                break;
-        }
+            switch (selectedItem)
+            {
+                case 0:
+                    Debug.Log("Tir principal");
+                    //Primary gun shot
+                    break;
+                case 1:
+                    Debug.Log("Tir second");
+                    //Secondary gun shot
+                    break;
+                //case 2:
+                //    if (indexSelectedItem != null)
+                //    {
+                //        grenades[(int)indexSelectedItem].ThrowGrenade();
+                //        grenades
+                //    }
+                //    Debug.Log("Throw 1st equip");
+                //    //1st equip "shot"
+                //    break;
+                //case 3:
+                //    if (indexSelectedItem != null) grenades[(int)indexSelectedItem].ThrowGrenade();
+                //    Debug.Log("Throw 2nd equip");
+                //    //2nd equip "shot"
+                //    break;
+                //case 4: //This is the last possible case
+                //    if (indexSelectedItem != null) grenades[(int)indexSelectedItem].ThrowGrenade();
+                //    Debug.Log("Throw 3rd equip");
+                //    //3rd equip "shot"
+                //    break;
+                default:
+                    if (indexSelectedGrd != null) grenades[(int)indexSelectedGrd].ThrowGrenade();
+                    Debug.Log("Throw grd");
+                    break;
+            } 
     }
 
     public int ReturnTotalProtectionDuration()
@@ -160,6 +202,19 @@ public class PlayerLoadout : MonoBehaviour
         if( protection != null) foreach (var prot in protection) totalCoeff += prot.protectionCoefficient;
 
         return Mathf.RoundToInt(totalCoeff);
+    }
+
+    /// <summary>
+    /// Gets the grenade with the good type in the grenade list.
+    /// </summary>
+    /// <returns>Index of the searched grenade type. If it doesn't exist, it returns null</returns>
+    private int? GetGrdIndex()
+    {
+        int equipmentNumber = selectedItem - 2; //The first equipment is the number 2 slot, but we want to use it as indexes (0, 1, 2) for an array of length 3
+
+        var grd = grenades.FindIndex(g => g.name == grdTable[equipmentNumber]);
+
+        return grd;
     }
 
     #endregion
