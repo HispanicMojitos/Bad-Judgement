@@ -1,13 +1,14 @@
 fileFormatVersion: 2
-guid: 1901359f2c47f16498fd4bce73734497
-timeCreated: 18446744011573954816
+guid: 71b7f7326d578f941a66673d5a33f5a6
+timeCreated: 1526829804
+licenseType: Free
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
   defaultSettings:
-    loadType: 1
+    loadType: 0
     sampleRateSetting: 0
-    sampleRateOverride: 0
+    sampleRateOverride: 44100
     compressionFormat: 1
     quality: 1
     conversionMode: 0
