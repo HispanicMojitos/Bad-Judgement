@@ -10,6 +10,9 @@ public class PlayerLoadout : MonoBehaviour
     [SerializeField] private Transform playerHand;
 
     public MainWeaponsClass[] weapons { get; private set; }
+    public bool primaryWeaponIsActive { get { return weapons[0].LoadWeapon().activeInHierarchy; } }
+    public bool secondaryWeaponIsActive { get { return weapons[1].LoadWeapon().activeInHierarchy; } }
+
     public List<Grenade> grenades { get; private set; }
     public List<ProtectionEquipment> protection { get; private set; }
 
