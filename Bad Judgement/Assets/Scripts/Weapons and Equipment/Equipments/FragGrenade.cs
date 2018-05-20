@@ -10,7 +10,7 @@ public class FragGrenade : Grenade
     public FragGrenade(string name, Transform playerPos) : base(name, playerPos)
     {
         this.grenadePrefab = Resources.Load("Grenades/Frag", typeof(GameObject)) as GameObject;
-        this.uiSprite = Resources.LoadAll<Sprite>("Grenades/Orange theme spritesheet 1")[5];
+        this.uiSprite = Resources.Load<Sprite>("Grenades/fragUI");
         InstanciateGrenades();
     }
 

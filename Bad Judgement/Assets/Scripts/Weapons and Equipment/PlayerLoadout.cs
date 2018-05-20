@@ -17,14 +17,36 @@ public class PlayerLoadout : MonoBehaviour
     public int nbSmoke { get; private set; }
     public int nbFrag { get; private set; }
     public int nbFlash { get; private set; }
+
+    public string[] grdTable { get; private set; }
   
     private void Start()
     {
         selectedItem = 0;
-        maxSelectedItem = GetHowMuchGrdTypes();
         
         protection = new List<ProtectionEquipment>();
         grenades = new List<Grenade>();
+
+        grdTable = new string[] { null, null, null };
+
+        CreateLoadout();
+        maxSelectedItem = GetHowMuchGrdTypes() + 1;
+    }
+
+    private void Update()
+    {
+        if(!UIScript.gameIsPaused)
+        {
+            EquipmentSelection();
+            if (Input.GetKeyDown(KeyCode.Mouse0)) ; //OnLeftClick();
+        }
+    }
+
+    #region Equipment
+
+    private void CreateLoadout()
+    {
+        int counterOfSlot = 0;
 
         if (EquipmentDB.HasHelmet()) protection.Add(new ProtectionEquipment("helmet", 25f, 100f));
         if (EquipmentDB.HasVest()) protection.Add(new ProtectionEquipment("vest", 75f, 100f));
@@ -33,28 +55,42 @@ public class PlayerLoadout : MonoBehaviour
         nbFlash = EquipmentDB.GetGrdNumber("flash");
         nbFrag = EquipmentDB.GetGrdNumber("frag");
 
-        for (int i = 0; i < nbSmoke; i++) grenades.Add(new SmokeGrenade("smoke", playerHand));
-        for (int i = 0; i < nbFlash; i++) grenades.Add(new FlashGrenade("flash", playerHand));
-        for (int i = 0; i < nbFrag; i++) grenades.Add(new FragGrenade("frag", playerHand));
-    }
-
-    private void Update()
-    {
-        if(!UIScript.gameIsPaused)
+        for (int i = 0; i < nbSmoke; i++)
         {
-            EquipmentSelection();
-            Debug.Log(selectedItem);
-            if (Input.GetKeyDown(KeyCode.Mouse0)) ; //OnLeftClick();
+            grenades.Add(new SmokeGrenade("smoke", playerHand));
+            if (i == 0) //Pour ne le faire qu'une seule fois s'il y a plusieurs grenades de ce type
+            {
+                grdTable[counterOfSlot] = "smoke";
+                counterOfSlot++;
+            }
+        }
+
+        for (int i = 0; i < nbFlash; i++)
+        {
+            grenades.Add(new FlashGrenade("flash", playerHand));
+            if (i == 0) //Pour ne le faire qu'une seule fois s'il y a plusieurs grenades de ce type
+            {
+                grdTable[counterOfSlot] = "flash";
+                counterOfSlot++;
+            }
+        }
+
+        for (int i = 0; i < nbFrag; i++)
+        {
+            grenades.Add(new FragGrenade("frag", playerHand));
+            if (i == 0) //Pour ne le faire qu'une seule fois s'il y a plusieurs grenades de ce type
+            {
+                grdTable[counterOfSlot] = "frag";
+                counterOfSlot++;
+            }
         }
     }
 
-    #region Equipment
-
     private int GetHowMuchGrdTypes()
     {
-        int counter = 1;
+        int counter = 0;
 
-        if (grenades != null)
+        if (grenades != null && grenades.Count != 0)
         {
             if (grenades.Exists(g => g.GetType() == typeof(FlashGrenade))) counter++;
             if (grenades.Exists(g => g.GetType() == typeof(SmokeGrenade))) counter++;
@@ -109,7 +145,7 @@ public class PlayerLoadout : MonoBehaviour
     {
         int totalDuration = 0;
 
-        if (this.protection.Count != 0)
+        if (protection != null && this.protection.Count != 0)
         {
             foreach (var protectionItem in this.protection) totalDuration += Mathf.RoundToInt(protectionItem.equipmentDuration);
             totalDuration /= this.protection.Count;

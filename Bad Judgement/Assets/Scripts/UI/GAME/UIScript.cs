@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using System.Linq;
 
 public class UIScript : MonoBehaviour
 {
@@ -37,6 +38,10 @@ public class UIScript : MonoBehaviour
     [SerializeField] private Image equip1;
     [SerializeField] private Image equip2;
     [SerializeField] private Image equip3;
+    private Text equip1Number;
+    private Text equip2Number;
+    private Text equip3Number;
+    private Image[] equipmentsImages;
 
     [SerializeField] private Text protectionText;
     [SerializeField] private Slider protectionSlider;
@@ -51,6 +56,11 @@ public class UIScript : MonoBehaviour
 
     private void Start()
     {
+        equip1Number = equip1.GetComponentInChildren<Text>();
+        equip2Number = equip2.GetComponentInChildren<Text>();
+        equip3Number = equip3.GetComponentInChildren<Text>();
+
+        equipmentsImages = new Image[] { equip1, equip2, equip3 };
         gameIsPaused = false;
 
         Cursor.visible = false;
@@ -88,6 +98,20 @@ public class UIScript : MonoBehaviour
     private void InitEquipmentUI()
     {
         if (PlayerLoadout.maxSelectedItem <= 1) equipmentBg.gameObject.SetActive(false);
+        else
+        {
+            for (int i = 0; i < currentLoadout.grdTable.Length; i++)
+            {
+                if (currentLoadout.grdTable[i] == "smoke") equipmentsImages[i].sprite = currentLoadout.grenades.FirstOrDefault(g => g.GetType() == typeof(SmokeGrenade)).uiSprite;
+                else if (currentLoadout.grdTable[i] == "flash") equipmentsImages[i].sprite = currentLoadout.grenades.FirstOrDefault(g => g.GetType() == typeof(FlashGrenade)).uiSprite;
+                else if (currentLoadout.grdTable[i] == "frag") equipmentsImages[i].sprite = currentLoadout.grenades.FirstOrDefault(g => g.GetType() == typeof(FragGrenade)).uiSprite;
+                else equipmentsImages[i].gameObject.SetActive(false); //else it'll be null
+            }
+        }
+
+        equip1 = equipmentsImages[0];
+        equip2 = equipmentsImages[1];
+        equip3 = equipmentsImages[2];
     }
 
     private void UpdateAmmoQty()
@@ -159,6 +183,10 @@ public class UIScript : MonoBehaviour
             else if (selectedEquipment == 3) equip2.color = highAlpha;
             else equip3.color = highAlpha;
         }
+        
+        equip1Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[0]).ToString();
+        equip2Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[1]).ToString();
+        equip3Number.text = currentLoadout.grenades.Count(g => g.name == currentLoadout.grdTable[2]).ToString();
     }
 
     private void UpdateProtection()

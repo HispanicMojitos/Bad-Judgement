@@ -4,12 +4,11 @@ using UnityEngine;
 
 public abstract class Equipment : MonoBehaviour
 {
-    protected new string name { get; private set; }
+    public new string name { get; private set; }
     public Sprite uiSprite { get; set; }
     
     public Equipment(string name)
     {
         this.name = name;
-        this.uiSprite = uiSprite;
     }
 }
