@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Linq.Expressions;
 
 public class WeaponsDataBase
 {
@@ -25,7 +26,8 @@ public class WeaponsDataBase
 					: w is SecondaryWeapon ? "Secondary"
 					: null;
 		if (type == null) throw new Exception("Weapon is not primary nor secondary");
-		if (jsonFile == null || jsonFile == "")
+        Debug.Log(String.Format("Instance name is: {0}",nameOf(() => w)));
+		if (String.IsNullOrEmpty(jsonFile))
 		{
 			weaponsDic[type].Add(w);
 			weaponsDic[type].ForEach(x => Debug.Log(string.Format("Saved type is: {0}", x.GetType())));
@@ -67,5 +69,12 @@ public class WeaponsDataBase
             else throw new Exception("There are no secondary weapons in this database.");
         }
         else throw new Exception("File is empty, please try saving some weapons into the database first.");
+    }
+
+    public static String nameOf<T>(Expression<Func<T>> mEx)
+    {
+        var exBody = mEx.Body as MemberExpression;
+        if (mEx != null) return exBody.Member.Name;
+        else return null;
     }
 }
