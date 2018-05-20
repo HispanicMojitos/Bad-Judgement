@@ -51700,6 +51700,10 @@ MonoBehaviour:
   aPeuDeVie: {fileID: 245042600883205188, guid: 624c214c8e28fe84b81d30cd542209e3,
     type: 2}
   ourPlayer: {fileID: 1530251610}
+  crosshair:
+  - {fileID: 1969407892}
+  - {fileID: 1151204558}
+  - {fileID: 359033942}
   pauseMenu: {fileID: 429857304}
   healthText: {fileID: 1727395000}
   healthSlider: {fileID: 1442791097}

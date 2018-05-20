@@ -20,6 +20,7 @@ public class UIScript : MonoBehaviour
 
     [SerializeField] private Transform ourPlayer;
 
+    [SerializeField] private Image[] crosshair;
     [SerializeField] private GameObject pauseMenu;
 
     [SerializeField] private Text healthText;
@@ -88,6 +89,7 @@ public class UIScript : MonoBehaviour
 
             UpdateCurrentEquipment();
             UpdateProtection();
+            UpdateCrosshair();
         }
     }
 
@@ -198,6 +200,12 @@ public class UIScript : MonoBehaviour
         var totalProtectionCoefficient = currentLoadout.ReturnProtectionCoefficient();
         this.protectionCoeffText.text = totalProtectionCoefficient.ToString();
         this.protectionCoeffSlider.value = totalProtectionCoefficient / 100F;
+    }
+
+    private void UpdateCrosshair()
+    {
+        if (GunScript.IsAiming) foreach (var x in crosshair) x.gameObject.SetActive(false);
+        else foreach (var x in crosshair) x.gameObject.SetActive(true);
     }
 
     #endregion
