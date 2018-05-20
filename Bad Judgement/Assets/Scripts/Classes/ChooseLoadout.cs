@@ -44,7 +44,7 @@ public class ChooseLoadout
 
     #endregion
 
-    PrimaryWeapon CZ805 = new PrimaryWeapon(6, 30, 35f, 1f, 600, 3.45f, new Vector3(0.03565392F, -0.40402F, 0.5512002F), "CZ805");
+    PrimaryWeapon CZ805 = new PrimaryWeapon(6, 30, 35f, 1f, 600, new Vector3(0.03565392F, -0.40402F, 0.5512002F), "CZ805");
 
     public ChooseLoadout()
     {
@@ -79,10 +79,13 @@ public class ChooseLoadout
         Debug.Log(directoryPath);
         if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
         if (!Directory.Exists(loadoutPath)) Directory.CreateDirectory(loadoutPath);
-        if (!File.Exists(primaryWeaponPath)) File.Create(primaryWeaponPath);
-        if (!File.Exists(secondaryWeaponPath)) File.Create(secondaryWeaponPath);
+        if (File.Exists(primaryWeaponPath)) File.Delete(primaryWeaponPath);
+        if (File.Exists(secondaryWeaponPath)) File.Delete(secondaryWeaponPath);
         if (File.Exists(equipmentPath)) File.Delete(equipmentPath);
+
         File.Create(equipmentPath);
+        File.Create(primaryWeaponPath);
+        File.Create(secondaryWeaponPath);
     }
 
     public void NextWeapon()
