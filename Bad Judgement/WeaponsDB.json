@@ -57,5 +57,24 @@
       "BulletsPerMag": 25
     }
   ],
-  "Secondary": []
+  "Secondary": [
+    {
+      "Name": "M1911",
+      "Damage": 13.4,
+      "FireRate": 30,
+      "ImpactForce": 20.0,
+      "SpawnPos": {
+        "x": 0.0,
+        "y": -0.015,
+        "z": 0.057
+      },
+      "mag": {
+        "mags": [
+          7
+        ],
+        "currentMag": 7
+      },
+      "BulletsPerMag": 7
+    }
+  ]
 }

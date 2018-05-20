@@ -37,7 +37,7 @@ public class WeaponsDataBase
 		{
 			weaponsDic = JsonConvert.DeserializeObject<Dictionary<string, List<MainWeaponsClass>>>(jsonFile);
 			//weaponsDic[type].RemoveAll(x => x.Name == w.Name);
-			if (weaponsDic[type].Exists(x => x.Name != w.Name))
+			if (!weaponsDic[type].Exists(x => x.Name == w.Name))
 			{
 				weaponsDic[type].Add(w);
 				var tmpJson = JsonConvert.SerializeObject(weaponsDic, Formatting.Indented);
