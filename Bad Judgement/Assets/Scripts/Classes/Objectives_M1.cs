@@ -19,6 +19,9 @@ public class Objectives_M1 : MonoBehaviour
 
     List<GameObject> mesIa = new List<GameObject>();
 
+    Vector3 direction;
+    RaycastHit hit;
+
     #endregion
 
     #region Objects
@@ -127,15 +130,17 @@ public class Objectives_M1 : MonoBehaviour
 
     void Update ()
     {
-		if ( Money.moneyCount == 1)
-        {   
+        direction = transform.TransformDirection(Vector3.forward) * 100;
+        if (Money.moneyCount == 1)
+        {
             // Une fois le vol commis le SWAT debarque
             Van1.SetActive(true);
             Van2.SetActive(true);
             Van3.SetActive(true);
-
+        }
             foreach (GameObject bar in barrieres) if (bar != null) bar.SetActive(true);
-
+        if (Money.moneyCount == 2)
+        {
             shield1.SetActive(true);
             shield2.SetActive(true);
             shield3.SetActive(true);
@@ -151,7 +156,9 @@ public class Objectives_M1 : MonoBehaviour
             shield13.SetActive(true);
             shield14.SetActive(true);
             shield15.SetActive(true);
-
+        }
+        if (Money.moneyCount == 3)
+        {
             enemy1.SetActive(true);
             enemy2.SetActive(true);
             enemy3.SetActive(true);
@@ -162,13 +169,14 @@ public class Objectives_M1 : MonoBehaviour
             enemy8.SetActive(true);
             enemy9.SetActive(true);
             enemy10.SetActive(true);
-            if (Money.moneyCount == 4)
-            {
-                Showtime.SetActive(false);
-                Escape.SetActive(true);
-                objDone++;
-            }
         }
+        if (Money.moneyCount == 4)
+        {
+          Showtime.SetActive(false);
+          Escape.SetActive(true);
+          objDone++;
+        }
+        
         if (objDone == 2 && Money.moneyCount == 4)   // + condition sorti bank ou premiere IA tuee
         {
              if (mesIa.Exists(x => x != null))
@@ -186,7 +194,10 @@ public class Objectives_M1 : MonoBehaviour
         }
         if (objDone == 3 && canExit == true)
         {
-            Teleport.ToMainMenu();
+            if ((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("EscapeCar")))
+            {
+                Teleport.ToMainMenu();
+            }
         }
 	}
 }
