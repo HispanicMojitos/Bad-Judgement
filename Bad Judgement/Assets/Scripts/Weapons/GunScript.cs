@@ -111,25 +111,25 @@ public class GunScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!UIScript.gameIsPaused)
-        {
-            #region Refresh values
-            currentMag = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag;//mag.currentMag;
-            magQty = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.mags.Count+1;//mag.mags.Count;
-            //LookAtScreen();
-            #endregion
-
-            #region Reload Condition
-            if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag < bulletsPerMag + 1 && magQty != 0 && !Input.GetButton("Fire1"))
+            if (!UIScript.gameIsPaused)
             {
-                //StartCoroutine(Reload());
-                Reload();
-            }
-            #endregion
+                #region Refresh values
+                currentMag = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag;//mag.currentMag;
+                magQty = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.mags.Count + 1;//mag.mags.Count;
+                                                                                                       //LookAtScreen();
+                #endregion
 
-            #region Shooting Condition
-            if (new WeaponsDataBase().LoadPrimary().Exists(x => x.Name == transform.GetComponentInParent<PlayerLoadout>().weapons[0].Name)) isPrimary = true;
-            Debug.Log(isPrimary);
+                #region Reload Condition
+                if (Input.GetKeyDown(reloadKey) && !isReloading && mag.currentMag < bulletsPerMag + 1 && magQty != 0 && !Input.GetButton("Fire1"))
+                {
+                    //StartCoroutine(Reload());
+                    Reload();
+                }
+                #endregion
+
+                #region Shooting Condition
+                if (new WeaponsDataBase().LoadPrimary().Exists(x => x.Name == transform.GetComponentInParent<PlayerLoadout>().weapons[0].Name)) isPrimary = true;
+                Debug.Log(isPrimary);
 
                 if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload") && isPrimary) // If the user presses the fire buttton
                 { // and if the time that has passed is greater than the rate of fire
@@ -141,16 +141,16 @@ public class GunScript : MonoBehaviour
                     nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
                     Shoot();
                 }
-            #endregion
+                #endregion
 
-            #region Aiming condition
-            if (Input.GetButtonDown("Fire2")) // WIP
-            {
-                isAiming = !isAiming;
-                anim.SetBool("Aiming", isAiming);
+                #region Aiming condition
+                if (Input.GetButtonDown("Fire2")) // WIP
+                {
+                    isAiming = !isAiming;
+                    anim.SetBool("Aiming", isAiming);
+                }
+                #endregion
             }
-            #endregion 
-        }
     }
 
     #region Methods

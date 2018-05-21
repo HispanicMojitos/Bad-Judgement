@@ -18321,7 +18321,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 409001276}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: -0.001}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0.345}
   m_LocalScale: {x: 1.1182842, y: 1.1182842, z: 1.1182842}
   m_Children:
   - {fileID: 1369889862}
@@ -25493,7 +25493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &584317519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38981,7 +38981,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -39010,7 +39010,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -52142,7 +52142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1141689171
 Transform:
   m_ObjectHideFlags: 0
@@ -60485,7 +60485,7 @@ MonoBehaviour:
   - {fileID: 684147326}
   - {fileID: 2114604355}
   soundDeath:
-  - {fileID: 8300000, guid: b09b2d8ada89e424baa3517b43ef0643, type: 3}
+  - {fileID: 8300000, guid: e9cc20aef6fdd524ba863037e7b8bfd9, type: 3}
   mouthHead: {fileID: 1691480880}
   M4A8Source: {fileID: 1266726554}
   grenadScream: {fileID: 8300000, guid: 5e07247c421bcde4e8672eabc57db9b9, type: 3}
@@ -65511,7 +65511,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -65540,7 +65540,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -74439,7 +74439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1591350492
 Transform:
   m_ObjectHideFlags: 0
@@ -74501,7 +74501,7 @@ MonoBehaviour:
   - {fileID: 227043499}
   - {fileID: 1849277130}
   soundDeath:
-  - {fileID: 8300000, guid: b09b2d8ada89e424baa3517b43ef0643, type: 3}
+  - {fileID: 8300000, guid: 2eb0de5670708e64594a527643ae1b07, type: 3}
   mouthHead: {fileID: 2085274707}
   M4A8Source: {fileID: 554330621}
   grenadScream: {fileID: 8300000, guid: 5e07247c421bcde4e8672eabc57db9b9, type: 3}
@@ -78062,7 +78062,7 @@ MonoBehaviour:
   - {fileID: 336527544}
   - {fileID: 2087774881}
   soundDeath:
-  - {fileID: 8300000, guid: b09b2d8ada89e424baa3517b43ef0643, type: 3}
+  - {fileID: 8300000, guid: 527fed837e382814a87eafef68a21b2f, type: 3}
   mouthHead: {fileID: 1405529166}
   M4A8Source: {fileID: 1750794236}
   grenadScream: {fileID: 8300000, guid: 5e07247c421bcde4e8672eabc57db9b9, type: 3}
@@ -78296,7 +78296,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -78325,7 +78325,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -81458,7 +81458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1767030470
 Transform:
   m_ObjectHideFlags: 0
@@ -81519,7 +81519,7 @@ MonoBehaviour:
   - {fileID: 1558621679}
   - {fileID: 294022050}
   soundDeath:
-  - {fileID: 8300000, guid: b09b2d8ada89e424baa3517b43ef0643, type: 3}
+  - {fileID: 8300000, guid: f8f598c5d4f657c4b97812bb9f79e7da, type: 3}
   mouthHead: {fileID: 1963320789}
   M4A8Source: {fileID: 2093431322}
   grenadScream: {fileID: 8300000, guid: 5e07247c421bcde4e8672eabc57db9b9, type: 3}
@@ -89504,7 +89504,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -89533,7 +89533,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -94960,7 +94960,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -94989,7 +94989,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
