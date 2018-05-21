@@ -5,12 +5,11 @@ using UnityEngine.SceneManagement;
 
 public static class Teleport
 {
-
     public static void ToVan()
     {
         SceneManager.LoadScene("Van", LoadSceneMode.Single);
-
     }
+
     public static void ToMissionOne()
     {
         SceneManager.LoadScene("Mission 1", LoadSceneMode.Single);
