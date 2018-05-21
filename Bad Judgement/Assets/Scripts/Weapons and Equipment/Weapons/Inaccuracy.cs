@@ -26,6 +26,13 @@ public class Inaccuracy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        initialPosition = this.transform.position;
+        handler = GetComponentInChildren<WeaponHandler>();
+        weapon = this.GetComponentInChildren<GunScript>().gameObject;
+        initialSpread = spread;
+        maxValue = initialSpread * 2;
+        spread = GetComponentInParent<PlayerLoadout>().weapons[0].Spread;
+
         if (weapon != null)
         {
             if (Input.GetButton("Fire1"))
