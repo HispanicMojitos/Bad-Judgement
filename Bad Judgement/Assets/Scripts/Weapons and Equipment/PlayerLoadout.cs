@@ -57,7 +57,7 @@ public class PlayerLoadout : MonoBehaviour
         if(!UIScript.gameIsPaused)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && isInstantiated) OnLeftClick();
-            if(isInstantiated)EquipmentSelection();
+            if(isInstantiated)StartCoroutine(EquipmentSelection());
         }
     }
 
@@ -130,7 +130,7 @@ public class PlayerLoadout : MonoBehaviour
         return counter;
     }
 
-    private void EquipmentSelection()
+    private IEnumerator EquipmentSelection()
     {
         var mouseScrollInput = Input.GetAxis("Mouse ScrollWheell");
 
@@ -147,8 +147,20 @@ public class PlayerLoadout : MonoBehaviour
                 else selectedItem = 0;
             }
 
-            if (selectedItem == 0) primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
-            else DestroyImmediate(primary);
+            if (selectedItem == 0)
+            {
+                GunScript.IsAiming = false;
+                primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+            }
+            else
+            {
+                if (primary != null)
+                {
+                    primary.transform.GetComponent<Animator>().SetTrigger("TakeOut");
+                    yield return new WaitForSeconds(primary.transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+                    DestroyImmediate(primary);
+                }
+            }
         }
 
         ActiveItemHandling();
