@@ -91,7 +91,7 @@ public class GunScript : MonoBehaviour
     public static bool IsAiming
     {
         get { return isAiming; }
-        set { IsAiming = value; }
+        set { isAiming = value; }
     }
     #endregion
 
