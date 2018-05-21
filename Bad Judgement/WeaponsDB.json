@@ -14,6 +14,7 @@
       "mag": {
         "mags": [
           30,
+          30,
           30
         ],
         "currentMag": 30
@@ -34,6 +35,7 @@
       "mag": {
         "mags": [
           40,
+          40,
           40
         ],
         "currentMag": 40
@@ -53,11 +55,12 @@
       },
       "mag": {
         "mags": [
-          25
+          30,
+          30
         ],
-        "currentMag": 25
+        "currentMag": 30
       },
-      "BulletsPerMag": 25
+      "BulletsPerMag": 30
     }
   ],
   "Secondary": [
