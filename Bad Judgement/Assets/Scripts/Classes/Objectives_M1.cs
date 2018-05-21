@@ -115,16 +115,16 @@ public class Objectives_M1 : MonoBehaviour
         Car.SetActive(false);
         #endregion
         Money = player.GetComponentInChildren<TakeMoney>();
-        mesIa[0] = enemy1;
-        mesIa[1] = enemy2;
-        mesIa[2] = enemy3;
-        mesIa[3] = enemy4;
-        mesIa[4] = enemy5;
-        mesIa[5] = enemy6;
-        mesIa[6] = enemy7;
-        mesIa[7] = enemy8;
-        mesIa[8] = enemy9;
-        mesIa[9] = enemy10;
+        mesIa.Add(enemy1);
+        mesIa.Add(enemy2);
+        mesIa.Add(enemy3);
+        mesIa.Add(enemy4);
+        mesIa.Add(enemy5);
+        mesIa.Add(enemy6);
+        mesIa.Add(enemy7);
+        mesIa.Add(enemy8);
+        mesIa.Add(enemy8);
+        mesIa.Add(enemy10); 
     }
 
 
