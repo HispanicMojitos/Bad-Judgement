@@ -26,8 +26,8 @@ public class Movement : MonoBehaviour
     private float onTheKneesCrouchDeltaH = 0.35F; //The height the character will lose while crouching
 
     private bool characterCanJump; //Useful for the jump move
-    private static float leftLeanAngle = 5F;
-    private static float rightLeanAngle = -7F;
+    private static float leftLeanAngle = 13F;
+    private static float rightLeanAngle = -20F;
 
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private CapsuleCollider playerCollider; //Getting thos components via editor
@@ -243,18 +243,18 @@ public class Movement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E) && !Input.GetKey(KeyCode.A))
             {
-                actualRot.z = rightLeanAngle;
+                actualRot.z = Mathf.LerpAngle(actualRot.z,rightLeanAngle, Time.deltaTime * 8f);
                 characterIsLeaning = true;
             }
             else if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.E))
             {
-                actualRot.z = leftLeanAngle;
+                actualRot.z = Mathf.LerpAngle(actualRot.z, leftLeanAngle, Time.deltaTime * 8f);
                 characterIsLeaning = true;
             }
             else
             {
-                actualRot.z = 0F;
-                actualRot.x = 0F;
+                actualRot.z = Mathf.LerpAngle(actualRot.z, 0f, Time.deltaTime * 8f);
+                actualRot.x = Mathf.LerpAngle(actualRot.x, 0f, Time.deltaTime * 8f);
                 characterIsLeaning = false;
             } 
         }
