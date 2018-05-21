@@ -45,6 +45,7 @@ public class ProtectionEquipment : Equipment
         //Calculating damage applied TO THE EQUIPMENT
 
         this.equipmentDuration -= equipDamage; //Applying that damage TO THE EQUIPMENT
+        if (equipmentDuration < 0f) equipmentDuration = 0f;
 
         return CharacterGunDamage(rawDamage, equipDamage); //Returning the damage applied ON THE PLAYER
     }
