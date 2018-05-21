@@ -154,7 +154,7 @@ public class PlayerLoadout : MonoBehaviour
 
         if (selectedItem == 0) 
         {
-            primary.SetActive(true);
+            //weapons[0].LoadWeapon().SetActive(true);
 
             foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();
         }
@@ -162,7 +162,7 @@ public class PlayerLoadout : MonoBehaviour
         {
             indexSelectedGrd = GetGrdIndex();
 
-            primary.SetActive(false);
+            //weapons[0].LoadWeapon().SetActive(false);
 
             if (indexSelectedGrd >= 0)
             {
