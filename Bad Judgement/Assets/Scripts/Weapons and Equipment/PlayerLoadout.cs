@@ -57,8 +57,8 @@ public class PlayerLoadout : MonoBehaviour
     
     private void InstanciateWeapons()
     {
-        Instantiate(weapons[0].LoadWeapon(), weapons[0].SpawnPos, Quaternion.identity, transform.GetComponent<WeaponSway>().transform);
-        Instantiate(weapons[1].LoadWeapon(), weapons[1].SpawnPos, Quaternion.identity, transform.GetComponent<WeaponSway>().transform);
+        Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform);
+        Instantiate(weapons[1].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform);
 
         //Instantiate(weapons[0].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
         //Instantiate(weapons[1].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
