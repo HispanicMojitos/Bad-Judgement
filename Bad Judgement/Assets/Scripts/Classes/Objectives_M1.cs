@@ -2,8 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Objectives_M1 : MonoBehaviour {
+public class Objectives_M1 : MonoBehaviour
+{
+    #region Members 
+    [SerializeField] private GameObject player;
 
+    private TakeMoney Money;
+
+    public GameObject Showtime;
+    public GameObject Escape;
+    public GameObject Car;
+
+    public int objDone;
+
+    #endregion
 
     #region Objects
 
@@ -81,10 +93,65 @@ public class Objectives_M1 : MonoBehaviour {
 
         #endregion
 
+        #region Texts
+        Showtime.SetActive(true);
+        Escape.SetActive(false);
+        Car.SetActive(false);
+        #endregion
+        Money = player.GetComponentInChildren<TakeMoney>();
     }
 
 
-    void Update () {
-		
+    void Update ()
+    {
+		if (objDone == 0 && Money.moneyCount == 4)
+        {
+            Showtime.SetActive(false);
+            Escape.SetActive(true);
+            objDone++;
+            
+            // Une fois le vol commis le SWAT debarque
+            Van1.SetActive(true);
+            Van2.SetActive(true);
+            Van3.SetActive(true);
+
+            shield1.SetActive(true);
+            shield2.SetActive(true);
+            shield3.SetActive(true);
+            shield4.SetActive(true);
+            shield5.SetActive(true);
+            shield6.SetActive(true);
+            shield7.SetActive(true);
+            shield8.SetActive(true);
+            shield9.SetActive(true);
+            shield10.SetActive(true);
+            shield11.SetActive(true);
+            shield12.SetActive(true);
+            shield13.SetActive(true);
+            shield14.SetActive(true);
+            shield15.SetActive(true);
+
+            enemy1.SetActive(true);
+            enemy2.SetActive(true);
+            enemy3.SetActive(true);
+            enemy4.SetActive(true);
+            enemy5.SetActive(true);
+            enemy6.SetActive(true);
+            enemy7.SetActive(true);
+            enemy8.SetActive(true);
+            enemy9.SetActive(true);
+            enemy10.SetActive(true);
+
+        }
+        if (objDone == 1)   // + condition sorti bank ou premiere IA tuee
+        {
+            Escape.SetActive(false);
+            Car.SetActive(true);
+            objDone++;  
+        }
+        if (objDone == 2)
+        {
+            Teleport.ToMainMenu();
+        }
 	}
 }
