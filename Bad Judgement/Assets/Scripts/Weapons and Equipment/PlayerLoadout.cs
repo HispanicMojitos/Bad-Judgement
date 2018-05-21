@@ -134,15 +134,21 @@ public class PlayerLoadout : MonoBehaviour
     {
         var mouseScrollInput = Input.GetAxis("Mouse ScrollWheell");
 
-        if (mouseScrollInput > 0)
+        if (mouseScrollInput != 0)
         {
-            if (selectedItem > 0) selectedItem--;
-            else selectedItem = maxSelectedItem;
-        }
-        else if (mouseScrollInput < 0)
-        {
-            if (selectedItem < maxSelectedItem) selectedItem++;
-            else selectedItem = 0;
+            if (mouseScrollInput > 0)
+            {
+                if (selectedItem > 0) selectedItem--;
+                else selectedItem = maxSelectedItem;
+            }
+            else if (mouseScrollInput < 0)
+            {
+                if (selectedItem < maxSelectedItem) selectedItem++;
+                else selectedItem = 0;
+            }
+
+            if (selectedItem == 0) primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+            else DestroyImmediate(primary);
         }
 
         ActiveItemHandling();
