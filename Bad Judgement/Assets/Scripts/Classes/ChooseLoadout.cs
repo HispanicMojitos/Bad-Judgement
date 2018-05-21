@@ -109,8 +109,8 @@ public class ChooseLoadout
         if (File.Exists(WeaponPath)) File.Delete(WeaponPath);
         if (File.Exists(equipmentPath)) File.Delete(equipmentPath);
 
-        File.Create(equipmentPath);
-        File.Create(WeaponPath);
+        File.Create(equipmentPath).Dispose();
+        File.Create(WeaponPath).Dispose();
     }
 
     public void NextWeapon()
