@@ -17,7 +17,7 @@ public class GrenadeExplode : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
 
-        var effectGO = GetComponentsInChildren<GameObject>().SingleOrDefault(x => x.name.Contains("effect"));
+        var effectGO = GetComponentsInChildren<GameObject>().SingleOrDefault(x => x.name.Contains("Effect"));
         effectGO.SetActive(true);
         effectGO.transform.position = this.transform.position;
         effectGO.transform.rotation = this.transform.rotation;
