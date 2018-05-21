@@ -85,7 +85,7 @@ public class VanUIScript : MonoBehaviour
         {
             creditsText.text = string.Format("Credits : {0} / {1}", loadout.credits, loadout.maxCredits);
 
-            if (loadout.chosenPrimaryWeapon != null /*&& loadout.chosenSecondaryWeapon != null*/) playButton.interactable = true;
+            if (loadout.chosenPrimaryWeapon != null && loadout.chosenSecondaryWeapon != null) playButton.interactable = true;
             else playButton.interactable = false;
         }
     }
