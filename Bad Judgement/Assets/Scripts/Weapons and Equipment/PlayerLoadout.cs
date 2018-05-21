@@ -57,12 +57,16 @@ public class PlayerLoadout : MonoBehaviour
         if(!UIScript.gameIsPaused)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && isInstantiated) OnLeftClick();
-            if(isInstantiated)StartCoroutine(EquipmentSelection());
+            //if(isInstantiated)StartCoroutine(EquipmentSelection());
         }
+    }
+    private void FixedUpdate()
+    {
+        if (isInstantiated) StartCoroutine(EquipmentSelection());
     }
 
     #region Equipment
-    
+
     private void InstanciateWeapons()
     {
         primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
@@ -149,8 +153,11 @@ public class PlayerLoadout : MonoBehaviour
 
             if (selectedItem == 0)
             {
-                GunScript.IsAiming = false;
-                primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+                if (primary == null)
+                {
+                    GunScript.IsAiming = false;
+                    primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+                }
             }
             else
             {
