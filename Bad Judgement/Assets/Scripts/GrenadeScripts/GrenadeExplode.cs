@@ -17,11 +17,6 @@ public class GrenadeExplode : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
 
-        var effectGO = GetComponentsInChildren<GameObject>().SingleOrDefault(x => x.name.Contains("Effect"));
-        effectGO.SetActive(true);
-        effectGO.transform.position = this.transform.position;
-        effectGO.transform.rotation = this.transform.rotation;
-
         var touchedColliders = Physics.OverlapSphere(this.transform.position, explosionRadius);
         //Getting all colliders hit by the grenade
 
@@ -45,6 +40,6 @@ public class GrenadeExplode : MonoBehaviour
             }
         }
 
-        Destroy(effectGO, 4F); //Destroying grenade 
+        Destroy(this.gameObject, 4F); //Destroying grenade 
     }
 }
