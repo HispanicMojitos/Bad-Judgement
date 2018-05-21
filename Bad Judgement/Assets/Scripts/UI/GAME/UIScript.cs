@@ -69,11 +69,14 @@ public class UIScript : MonoBehaviour
 
         currentLoadout = ourPlayer.GetComponent<PlayerLoadout>();
         InitEquipmentUI();
+
+        primaryGun.sprite = Resources.Load<Sprite>(string.Format("Weapons/UISprites/{0}", currentLoadout.weapons[0].Name));
+        secondaryGun.sprite = Resources.Load<Sprite>(string.Format("Weapons/UISprites/{0}", currentLoadout.weapons[1].Name));
     }
 
     void Update()
     {
-        if(this.ourPlayer != null) //If the player object hasn't been destroyed
+        if (this.ourPlayer != null) //If the player object hasn't been destroyed
         {
             selectedEquipment = currentLoadout.selectedItem;
 
