@@ -14,12 +14,19 @@ public class Inaccuracy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        initialPosition = this.transform.position;
-        handler = GetComponentInChildren<WeaponHandler>();
-        weapon = this.GetComponentInChildren<GunScript>().gameObject;
-        initialSpread = spread;
-        maxValue = initialSpread * 2;
-        spread = GetComponentInParent<PlayerLoadout>().weapons[0].Spread;
+        try
+        {
+            initialPosition = this.transform.position;
+            handler = GetComponentInChildren<WeaponHandler>();
+            weapon = this.GetComponentInChildren<GunScript>().gameObject;
+            initialSpread = spread;
+            maxValue = initialSpread * 2;
+            spread = GetComponentInParent<PlayerLoadout>().weapons[0].Spread;
+        }
+        catch
+        {
+            Debug.Log("Mec tg arrete");
+        }
         //weapon = GetComponentInChildren<WeaponSway>().gameObject;
     }
 
