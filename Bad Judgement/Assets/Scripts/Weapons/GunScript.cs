@@ -94,7 +94,7 @@ public class GunScript : MonoBehaviour
     }
     #endregion
 
-    void Start()
+    void Awake()
     {
         initialRotation = transform.localEulerAngles;
         mag = new Magazines(magQty, bulletsPerMag);
@@ -168,7 +168,8 @@ public class GunScript : MonoBehaviour
             RaycastHit hit;
             _isShooting = true;
 			mag.currentMag--;
-            Sounds.GunShoot(AK47, this.name);
+            Sounds.GunShoot(AK47, this.name.Split('(')[0]);
+            Debug.Log(this.name);
 			//Sounds.Cz805shootPlayer(AK47);
 			GameObject muzlFlash = Instantiate(muzzleFlash, gunEnd.transform);
 			Destroy(muzlFlash, 1.3f);
@@ -232,7 +233,7 @@ public class GunScript : MonoBehaviour
             //anim.SetBool("Aiming", isAiming);
 
                 isReloading = true;
-            Sounds.GunReload(AK47, this.name);
+            Sounds.GunReload(AK47, this.name.Split('(')[0]);
                 //Sounds.AK47reload(AK47);
 
                 isReloading = false;

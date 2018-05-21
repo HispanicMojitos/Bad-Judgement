@@ -6,7 +6,7 @@ public class Inaccuracy : MonoBehaviour
 {
 
     private Vector3 initialPosition;
-    [SerializeField] private float spread = 10f;
+    [SerializeField] private float spread = 4f;
     private float initialSpread;
     private float maxValue;
     private GameObject weapon;
