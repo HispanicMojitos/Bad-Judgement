@@ -38,8 +38,8 @@ public class WeaponHandler : MonoBehaviour {
 
     private bool isLoaded = false;
 
-    private int currentMag;
-    private int magQty;
+    //private int currentMag;
+    //private int magQty;
 
     private float nextTimeToFire = 0f;
 
@@ -76,16 +76,16 @@ public class WeaponHandler : MonoBehaviour {
         {
             if (loadout.primaryWeaponIsActive)
             {
-                WeaponHandle(loadout.primary, loadout.weapons[0], loadout.primary.GetComponent<Animator>(), loadout.primary.GetComponentInChildren<AudioSource>(), loadout.primary.transform.Find("GunEnd").gameObject);
+                WeaponHandle(loadout.primary, loadout.weapons[0], loadout.primary.GetComponent<Animator>(), loadout.primary.GetComponentInChildren<AudioSource>(), loadout.primary.transform.Find("GunEnd").gameObject, loadout.weapons[0].mag.currentMag, loadout.weapons[0].mag.mags.Count);
             }
             else if (loadout.secondaryWeaponIsActive)
             {
-                WeaponHandle(loadout.secondary, loadout.weapons[1], loadout.secondary.GetComponent<Animator>(), loadout.secondary.GetComponentInChildren<AudioSource>(), loadout.secondary.transform.Find("GunEnd").gameObject);
+                WeaponHandle(loadout.secondary, loadout.weapons[1], loadout.secondary.GetComponent<Animator>(), loadout.secondary.GetComponentInChildren<AudioSource>(), loadout.secondary.transform.Find("GunEnd").gameObject, loadout.weapons[0].mag.currentMag, loadout.weapons[0].mag.mags.Count);
             }
         }
 	}
 
-    public void WeaponHandle(GameObject currentWeaponGO, MainWeaponsClass currentWeapon, Animator currentAnim, AudioSource currentAS, GameObject currentWeaponGunEnd)
+    public void WeaponHandle(GameObject currentWeaponGO, MainWeaponsClass currentWeapon, Animator currentAnim, AudioSource currentAS, GameObject currentWeaponGunEnd, int currentMag, int magQty)
     {
         Debug.Log("Weapons Instantiated: " + loadout.isInstantiated);
         if (loadout.isInstantiated)
@@ -103,8 +103,8 @@ public class WeaponHandler : MonoBehaviour {
             if (currentWeaponGO != null)
             {
                 Debug.Log("CurrentWeaponGO is not Null!");
-                currentMag = currentWeapon.mag.currentMag;
-                magQty = currentWeapon.mag.mags.Count;
+                //currentMag = currentWeapon.mag.currentMag;
+                //magQty = currentWeapon.mag.mags.Count;
                 canReload = currentMag < currentWeapon.BulletsPerMag + 1 && magQty != 0 && !isShooting && !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload");
                 canShoot = !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload");
 
@@ -117,12 +117,12 @@ public class WeaponHandler : MonoBehaviour {
                     if (isShootButton && Time.time >= nextTimeToFire && canShoot)
                     { // and if the time that has passed is greater than the rate of fire
                         nextTimeToFire = (Time.time * Time.timeScale) + (1f / (currentWeapon.FireRate / 60)); // formula for fire rate
-                        Shoot(currentAS, currentWeapon, currentWeaponGunEnd, currentAnim);
+                        Shoot(currentAS, currentWeapon, currentWeaponGunEnd, currentAnim, currentMag);
                     }
 
                     if (isReloadButton && canReload)
                     {
-                        Reload(currentAnim, currentAS, currentWeapon);
+                        Reload(currentAnim, currentAS, currentWeapon, magQty);
                     }
 
                     if (isAimButton)
@@ -137,7 +137,7 @@ public class WeaponHandler : MonoBehaviour {
     }
 
     #region Shoot Method
-    void Shoot(AudioSource currentAS, MainWeaponsClass currentWeapon, GameObject currentWeaponGunEnd, Animator currentAnim)
+    void Shoot(AudioSource currentAS, MainWeaponsClass currentWeapon, GameObject currentWeaponGunEnd, Animator currentAnim, int currentMag)
     {
         if (currentMag > 0 && !isReloading)
         {
@@ -179,7 +179,7 @@ public class WeaponHandler : MonoBehaviour {
     #endregion
 
     #region Reload Method
-    void Reload(Animator currentAnim, AudioSource currentAS, MainWeaponsClass currentWeapon)
+    void Reload(Animator currentAnim, AudioSource currentAS, MainWeaponsClass currentWeapon, int magQty)
     {
         if (magQty != 0 && !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
         {
