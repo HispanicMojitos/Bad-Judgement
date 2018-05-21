@@ -17,9 +17,11 @@ public class MissionSave
     {
         if (!Directory.Exists(gamePath)) Directory.CreateDirectory(gamePath);
         if (!Directory.Exists(saveFolder)) Directory.CreateDirectory(saveFolder);
-        if (!File.Exists(savePath)) File.Create(savePath).Dispose();
-
-        File.WriteAllText(savePath, missionNames[0]);
+        if (!File.Exists(savePath))
+        {
+            File.Create(savePath).Dispose();
+            File.WriteAllText(savePath, missionNames[0]);
+        }
     }
 
     public static string GetActualMissionName()

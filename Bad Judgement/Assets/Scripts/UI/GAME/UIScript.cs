@@ -49,12 +49,17 @@ public class UIScript : MonoBehaviour
     private PlayerLoadout currentLoadout;
     private int selectedEquipment;
 
+    [SerializeField] private Text dieText;
+    Target playerTarget;
+
     #endregion
 
     #region Start & Update
 
     private void Start()
     {
+        playerTarget = ourPlayer.GetComponent<Target>();
+
         equip1Number = equip1.GetComponentInChildren<Text>();
         equip2Number = equip2.GetComponentInChildren<Text>();
         equip3Number = equip3.GetComponentInChildren<Text>();
@@ -83,19 +88,37 @@ public class UIScript : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape)) //Handling Pause
             {
-                if (gameIsPaused && !OptionsMenu.optionMenuIsActive) Resume(); 
+                if (gameIsPaused && !OptionsMenu.optionMenuIsActive) Resume();
                 else Pause();
             }
 
             UpdateCurrentEquipment();
             UpdateProtection();
             UpdateCrosshair();
+            DieText();
         }
     }
 
     #endregion
 
     #region Méthodes de classe
+
+    public void DieText()
+    {
+        if (playerTarget.vie <= 0F)
+        {
+            Time.timeScale = 0f;
+            dieText.gameObject.SetActive(true);
+            StartCoroutine(MissionFailed());
+        }
+    }
+
+    IEnumerator MissionFailed()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        Cursor.visible = true;
+        Teleport.ToMainMenu();
+    }
 
     private void InitEquipmentUI()
     {
