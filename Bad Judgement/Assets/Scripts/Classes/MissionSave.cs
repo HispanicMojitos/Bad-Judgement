@@ -24,6 +24,16 @@ public class MissionSave
         }
     }
 
+    public static void DeleteAndReCreateSave()
+    {
+        if (File.Exists(savePath))
+        {
+            File.Delete(savePath);
+            File.Create(savePath).Dispose();
+            File.WriteAllText(savePath, missionNames[0]);
+        }
+    }
+
     public static string GetActualMissionName()
     {
         string missionName = File.ReadAllText(savePath);
