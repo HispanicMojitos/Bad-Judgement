@@ -262,7 +262,7 @@ public class MovingTestForward : MonoBehaviour {
         if (collision == 25 && moneyCount.moneyText == true)
         {
             onRight.SetActive(false);
-            if(moneyCount.moneyCount == 3)
+            if(moneyCount.moneyCount == 4)
             {
                 collision++;
             }
