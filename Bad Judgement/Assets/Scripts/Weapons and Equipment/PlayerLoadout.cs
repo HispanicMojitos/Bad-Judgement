@@ -149,8 +149,11 @@ public class PlayerLoadout : MonoBehaviour
 
             if (selectedItem == 0)
             {
-                GunScript.IsAiming = false;
-                primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+                if (primary == null)
+                {
+                    GunScript.IsAiming = false;
+                    primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+                }
             }
             else
             {
