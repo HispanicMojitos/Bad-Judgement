@@ -10,8 +10,9 @@ public class PlayerLoadout : MonoBehaviour
     [SerializeField] private Transform playerHand;
 
     public MainWeaponsClass[] weapons { get; private set; }
-    public bool primaryWeaponIsActive { get { return weapons[0].LoadWeapon().activeInHierarchy; } }
-    public bool secondaryWeaponIsActive { get { return weapons[1].LoadWeapon().activeInHierarchy; } }
+    public bool primaryWeaponIsActive { get { return primary.activeInHierarchy; } }
+    public bool secondaryWeaponIsActive { get { return secondary.activeInHierarchy; } }
+    public bool isInstantiated;
 
     public List<Grenade> grenades { get; private set; }
     public List<ProtectionEquipment> protection { get; private set; }
@@ -28,6 +29,9 @@ public class PlayerLoadout : MonoBehaviour
     public string[] grdTable { get; private set; }
 
     public int? indexSelectedGrd { get; private set; }
+
+    public GameObject primary;
+    public GameObject secondary;
   
     private void Start()
     {
@@ -48,8 +52,8 @@ public class PlayerLoadout : MonoBehaviour
     {
         if(!UIScript.gameIsPaused)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) OnLeftClick();
-            EquipmentSelection();
+            if (Input.GetKeyDown(KeyCode.Mouse0) && isInstantiated) OnLeftClick();
+            if(isInstantiated)EquipmentSelection();
         }
     }
 
@@ -57,8 +61,9 @@ public class PlayerLoadout : MonoBehaviour
     
     private void InstanciateWeapons()
     {
-        Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform);
-        Instantiate(weapons[1].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform);
+        primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+        secondary = Instantiate(weapons[1].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+        isInstantiated = true;
 
         //Instantiate(weapons[0].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
         //Instantiate(weapons[1].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
@@ -151,13 +156,13 @@ public class PlayerLoadout : MonoBehaviour
         {
             if (selectedItem == 0)
             {
-                weapons[0].LoadWeapon().SetActive(true);
-                weapons[1].LoadWeapon().SetActive(false);
+                primary.SetActive(true);
+                secondary.SetActive(false);
             }//ActivatePrimary
             else
             {
-                weapons[0].LoadWeapon().SetActive(false);
-                weapons[1].LoadWeapon().SetActive(true);
+                primary.SetActive(false);
+                secondary.SetActive(true);
             }//ActivateSecondary
 
             foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();

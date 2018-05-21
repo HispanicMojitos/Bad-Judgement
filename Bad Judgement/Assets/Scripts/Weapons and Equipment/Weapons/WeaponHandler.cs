@@ -66,86 +66,100 @@ public class WeaponHandler : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-
+        loadout = transform.GetComponentInParent<PlayerLoadout>();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-
-        if(!isLoaded)
+        loadout = transform.GetComponentInParent<PlayerLoadout>();
+        Debug.Log("Weapons Instantiated: " + loadout.isInstantiated);
+        if (loadout.isInstantiated)
         {
-            LoadCurrentWeaponAssets();
+            Debug.Log("Weapons Instantiated: " + loadout.isInstantiated);
+            if (!isLoaded)
+            {
+                LoadCurrentWeaponAssets();
 
-            loadout = transform.GetComponentInParent<PlayerLoadout>();
+                loadout = transform.GetComponentInParent<PlayerLoadout>();
 
-            primary = loadout.weapons == null ? null : loadout.weapons[0].LoadWeapon();
+                primary = loadout.primary;
+                Debug.Log(primary);
+                secondary = loadout.secondary;
+
+                primaryAnim = primary.GetComponent<Animator>();
+                secondaryAnim = secondary.GetComponent<Animator>();
+
+                primaryAS = primary.GetComponent<AudioSource>();
+                secondaryAS = secondary.GetComponent<AudioSource>();
+
+                primaryGunEnd = primary.transform.Find("GunEnd").gameObject;
+                secondaryGunEnd = secondary.transform.Find("GunEnd").gameObject;
+
+                isLoaded = true;
+            }
+
             Debug.Log(primary);
-            secondary = loadout.weapons[1].LoadWeapon();
 
-            primaryAnim = primary.GetComponent<Animator>();
-            secondaryAnim = secondary.GetComponent<Animator>();
-
-            primaryAS = primary.GetComponent<AudioSource>();
-            secondaryAS = secondary.GetComponent<AudioSource>();
-
-            primaryGunEnd = primary.transform.Find("GunEnd").gameObject;
-            secondaryGunEnd = secondary.transform.Find("GunEnd").gameObject;
-
-            isLoaded = true;
-        }
-
-        Debug.Log(primary);
-
-        currentWeaponGO = primary.activeInHierarchy ? primary
-                        : secondary.activeInHierarchy ? secondary
-                        : null;
-
-        currentWeapon = primary.activeInHierarchy ? loadout.weapons[0]
-                      : loadout.secondaryWeaponIsActive ? loadout.weapons[1]
-                      : null;
-
-        currentAnim = loadout.primaryWeaponIsActive ? primaryAnim
-                    : secondary.activeInHierarchy ? secondaryAnim
-                    : null;
-
-        currentAS = primary.activeInHierarchy ? primaryAS
-                  : secondary.activeInHierarchy ? secondaryAS
-                  : null;
-
-        currentWeaponGunEnd = loadout.primaryWeaponIsActive ? primaryGunEnd
-                            : loadout.secondaryWeaponIsActive ? secondaryGunEnd
+            currentWeaponGO = primary.activeInHierarchy ? primary
+                            : secondary.activeInHierarchy ? secondary
                             : null;
 
+            Debug.Log("CurrentWeaponGO: " + currentWeaponGO);
 
-        if (currentWeaponGO != null)
-        {
-            currentMag = currentWeapon.mag.currentMag;
-            magQty = currentWeapon.mag.mags.Count;
-            canReload = currentMag < currentWeapon.BulletsPerMag + 1 && magQty != 0 && !isShooting && !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload");
-            canShoot = !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload");
+            if (primary != null) Debug.Log("PrimaryGO: " + primary);
+            else Debug.Log("PrimaryGO null");
 
-            if (!UIScript.gameIsPaused)
+            if (secondary != null) Debug.Log("SecondaryGO: " + secondary);
+            else Debug.Log("SecondaryGO null");
+
+            currentWeapon = primary.activeInHierarchy ? loadout.weapons[0]
+                          : loadout.secondaryWeaponIsActive ? loadout.weapons[1]
+                          : null;
+
+            currentAnim = loadout.primaryWeaponIsActive ? primaryAnim
+                        : secondary.activeInHierarchy ? secondaryAnim
+                        : null;
+
+            currentAS = primary.activeInHierarchy ? primaryAS
+                      : secondary.activeInHierarchy ? secondaryAS
+                      : null;
+
+            currentWeaponGunEnd = loadout.primaryWeaponIsActive ? primaryGunEnd
+                                : loadout.secondaryWeaponIsActive ? secondaryGunEnd
+                                : null;
+
+
+            if (currentWeaponGO != null)
             {
-                isShootButton = loadout.primaryWeaponIsActive ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1");
-                isReloadButton = Input.GetKeyDown(reloadKey);
-                isAimButton = Input.GetButtonDown("Fire2");
+                Debug.Log("CurrentWeaponGO is not Null!");
+                currentMag = currentWeapon.mag.currentMag;
+                magQty = currentWeapon.mag.mags.Count;
+                canReload = currentMag < currentWeapon.BulletsPerMag + 1 && magQty != 0 && !isShooting && !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload");
+                canShoot = !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload");
 
-                if (isShootButton && Time.time >= nextTimeToFire && canShoot)
-                { // and if the time that has passed is greater than the rate of fire
-                    nextTimeToFire = (Time.time * Time.timeScale) + (1f / (currentWeapon.FireRate / 60)); // formula for fire rate
-                    Shoot();
-                }
-
-                if (isReloadButton && canReload)
+                if (!UIScript.gameIsPaused)
                 {
-                    Reload();
-                }
+                    isShootButton = loadout.primaryWeaponIsActive ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1");
+                    isReloadButton = Input.GetKeyDown(reloadKey);
+                    isAimButton = Input.GetButtonDown("Fire2");
 
-                if (isAimButton)
-                {
-                    isAiming = !isAiming;
-                    currentAnim.SetBool("Aiming", isAiming);
+                    if (isShootButton && Time.time >= nextTimeToFire && canShoot)
+                    { // and if the time that has passed is greater than the rate of fire
+                        nextTimeToFire = (Time.time * Time.timeScale) + (1f / (currentWeapon.FireRate / 60)); // formula for fire rate
+                        Shoot();
+                    }
+
+                    if (isReloadButton && canReload)
+                    {
+                        Reload();
+                    }
+
+                    if (isAimButton)
+                    {
+                        isAiming = !isAiming;
+                        currentAnim.SetBool("Aiming", isAiming);
+                    }
                 }
             }
         }
