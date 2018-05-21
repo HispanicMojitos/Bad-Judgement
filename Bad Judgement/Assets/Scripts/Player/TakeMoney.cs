@@ -42,5 +42,10 @@ public class TakeMoney : MonoBehaviour {
             }
         }
         else if (moneyText.enabled == true) moneyText.enabled = false;
+
+        if((Physics.Raycast(transform.position, direction, out hit, 3f) && hit.transform.CompareTag("EscapeCar") && Vector3.Distance(transform.position, hit.transform.position) < 5))
+        {
+            Teleport.ToMainMenu();
+        }
     }
 }
