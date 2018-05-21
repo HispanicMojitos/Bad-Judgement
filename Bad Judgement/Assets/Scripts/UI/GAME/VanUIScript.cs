@@ -73,7 +73,7 @@ public class VanUIScript : MonoBehaviour
             previewImage.sprite = loadout.allPrimaryWeaponSprites[loadout.actualPrimaryWeaponDisplayed];
             previewWeaponName.text = loadout.allPrimaryWeapons[loadout.actualPrimaryWeaponDisplayed].Name;
 
-            if (loadout.actualPrimaryWeaponDisplayed == loadout.actualPrimaryWeaponSelected) isThisWeaponSelected.gameObject.SetActive(true);
+            if (loadout.actualPrimaryWeaponDisplayed == loadout.actualWeaponSelected) isThisWeaponSelected.gameObject.SetActive(true);
             else isThisWeaponSelected.gameObject.SetActive(false);
         }
         else if (loadout.isChoosingSecondary)
@@ -81,7 +81,7 @@ public class VanUIScript : MonoBehaviour
             previewImage.sprite = loadout.allSecondaryWeaponSprites[loadout.actualSecondaryWeaponDisplayed];
             previewWeaponName.text = loadout.allSecondaryWeapons[loadout.actualSecondaryWeaponDisplayed].Name;
 
-            if (loadout.actualSecondaryWeaponDisplayed == loadout.actualSecondaryWeaponSelected) isThisWeaponSelected.gameObject.SetActive(true);
+            if (loadout.actualSecondaryWeaponDisplayed == loadout.actualWeaponSelected) isThisWeaponSelected.gameObject.SetActive(true);
             else isThisWeaponSelected.gameObject.SetActive(false);
         }
     }
@@ -92,7 +92,7 @@ public class VanUIScript : MonoBehaviour
         {
             creditsText.text = string.Format("Credits : {0} / {1}", loadout.credits, loadout.maxCredits);
 
-            if (loadout.chosenPrimaryWeapon != null && loadout.chosenSecondaryWeapon != null) playButton.interactable = true;
+            if (loadout.chosenWeapon != null && loadout.chosenWeapon != null) playButton.interactable = true;
             else playButton.interactable = false;
         }
     }

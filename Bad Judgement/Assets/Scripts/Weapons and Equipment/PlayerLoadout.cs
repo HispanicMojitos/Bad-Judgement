@@ -11,7 +11,7 @@ public class PlayerLoadout : MonoBehaviour
 
     public MainWeaponsClass[] weapons { get; private set; }
     public bool primaryWeaponIsActive { get { return primary.activeInHierarchy; } }
-    public bool secondaryWeaponIsActive { get { return secondary.activeInHierarchy; } }
+    //public bool secondaryWeaponIsActive { get { return secondary.activeInHierarchy; } }
     public bool isInstantiated;
 
     public List<Grenade> grenades { get; private set; }
@@ -31,7 +31,9 @@ public class PlayerLoadout : MonoBehaviour
     public int? indexSelectedGrd { get; private set; }
 
     public GameObject primary;
-    public GameObject secondary;
+    //public GameObject secondary;
+
+    //public WeaponHandler handler;
   
     private void Start()
     {
@@ -41,10 +43,12 @@ public class PlayerLoadout : MonoBehaviour
         protection = new List<ProtectionEquipment>();
         grenades = new List<Grenade>();
 
+        //handler = GetComponentInChildren<WeaponHandler>();
+
         grdTable = new string[] { null, null, null };
 
         CreateLoadout();
-        maxSelectedItem = GetHowMuchGrdTypes() + 1;
+        maxSelectedItem = GetHowMuchGrdTypes();
         InstanciateWeapons();
     }
 
@@ -62,19 +66,15 @@ public class PlayerLoadout : MonoBehaviour
     private void InstanciateWeapons()
     {
         primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
-        secondary = Instantiate(weapons[1].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+        //secondary = Instantiate(weapons[1].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
         isInstantiated = true;
-
-        //Instantiate(weapons[0].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
-        //Instantiate(weapons[1].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
     }
 
     private void CreateLoadout()
     {
         int counterOfSlot = 0;
 
-        weapons[0] = EquipmentDB.GetPrimaryWp();
-        weapons[1] = EquipmentDB.GetSecondaryWp();
+        weapons[0] = EquipmentDB.GetWp();
 
         if (EquipmentDB.HasHelmet()) protection.Add(new ProtectionEquipment("helmet", 25f, 100f));
         if (EquipmentDB.HasVest()) protection.Add(new ProtectionEquipment("vest", 75f, 100f));
@@ -152,18 +152,9 @@ public class PlayerLoadout : MonoBehaviour
     {
         indexSelectedGrd = null;
 
-        if(selectedItem < 2)
+        if (selectedItem == 0) 
         {
-            if (selectedItem == 0)
-            {
-                primary.SetActive(true);
-                secondary.SetActive(false);
-            }//ActivatePrimary
-            else
-            {
-                primary.SetActive(false);
-                secondary.SetActive(true);
-            }//ActivateSecondary
+            primary.SetActive(true);
 
             foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();
         }
@@ -171,10 +162,7 @@ public class PlayerLoadout : MonoBehaviour
         {
             indexSelectedGrd = GetGrdIndex();
 
-            //DeactivatePrimary
-            //DeactivateSecondary
             primary.SetActive(false);
-            secondary.SetActive(false);
 
             if (indexSelectedGrd >= 0)
             {
@@ -193,12 +181,8 @@ public class PlayerLoadout : MonoBehaviour
                 Debug.Log("Tir principal");
                 //Primary gun shot
                 break;
-            case 1:
-                Debug.Log("Tir second");
-                //Secondary gun shot
-                break;
             default:
-                if (indexSelectedGrd != null && grenades[(int)indexSelectedGrd].throwable)
+                if (indexSelectedGrd > -1 && grenades[(int)indexSelectedGrd].throwable)
                 {
                     grenades[(int)indexSelectedGrd].ThrowGrenade();
                     grenades[(int)indexSelectedGrd].throwable = false;
@@ -236,7 +220,7 @@ public class PlayerLoadout : MonoBehaviour
     /// <returns>Index of the searched grenade type. If it doesn't exist, it returns null</returns>
     private int? GetGrdIndex()
     {
-        int equipmentNumber = selectedItem - 2; //The first equipment is the number 2 slot, but we want to use it as indexes (0, 1, 2) for an array of length 3
+        int equipmentNumber = selectedItem - 1; //The first equipment is the number 2 slot, but we want to use it as indexes (0, 1, 2) for an array of length 3
 
         var grd = grenades.FindIndex(g => g.name == grdTable[equipmentNumber] && g.throwable);
 
