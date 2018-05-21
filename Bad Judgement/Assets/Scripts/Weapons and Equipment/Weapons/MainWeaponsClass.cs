@@ -58,10 +58,13 @@ public class MainWeaponsClass
 
     public GameObject[] LoadParticles()
     {
+
+        var hitSparks = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;
+        var muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
         GameObject[] particles =
         {
-            Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject,
-            Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject
+            hitSparks , muzzleFlash
+            
         };
 
         return particles;
