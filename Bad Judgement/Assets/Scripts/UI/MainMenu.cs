@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     {
         Time.timeScale = 1F;
         MissionSave.CreateSaveFolder();
+        Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }
 
