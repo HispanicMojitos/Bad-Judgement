@@ -32,6 +32,8 @@ public class PlayerLoadout : MonoBehaviour
 
     public GameObject primary;
     public GameObject secondary;
+
+    public WeaponHandler handler;
   
     private void Start()
     {
@@ -40,6 +42,8 @@ public class PlayerLoadout : MonoBehaviour
         weapons = new MainWeaponsClass[] { null, null };
         protection = new List<ProtectionEquipment>();
         grenades = new List<Grenade>();
+
+        handler = GetComponentInChildren<WeaponHandler>();
 
         grdTable = new string[] { null, null, null };
 
@@ -158,11 +162,13 @@ public class PlayerLoadout : MonoBehaviour
             {
                 primary.SetActive(true);
                 secondary.SetActive(false);
+                
             }//ActivatePrimary
             else
             {
                 primary.SetActive(false);
                 secondary.SetActive(true);
+                
             }//ActivateSecondary
 
             foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();

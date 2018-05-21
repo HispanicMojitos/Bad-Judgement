@@ -9,19 +9,19 @@ using UnityEngine.UI;
 public class WeaponHandler : MonoBehaviour {
 
     #region Variables
-    private GameObject currentWeaponGO;
+    //private GameObject currentWeaponGO;
     private GameObject primary;
     private GameObject secondary;
 
     private GameObject primaryGunEnd;
     private GameObject secondaryGunEnd;
-    private GameObject currentWeaponGunEnd;
+    //private GameObject currentWeaponGunEnd;
 
     private GameObject impactEffect;
     private GameObject muzzleFlash;
     private GameObject[] particles;
 
-    private MainWeaponsClass currentWeapon;
+    //private MainWeaponsClass currentWeapon;
 
     private KeyCode reloadKey = KeyCode.R;
 
@@ -47,11 +47,11 @@ public class WeaponHandler : MonoBehaviour {
 
     private Animator primaryAnim;
     private Animator secondaryAnim;
-    private Animator currentAnim;
+    //private Animator currentAnim;
 
     private AudioSource primaryAS;
     private AudioSource secondaryAS;
-    private AudioSource currentAS;
+    //private AudioSource currentAS;
 
     #endregion
 
@@ -72,7 +72,21 @@ public class WeaponHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        loadout = transform.GetComponentInParent<PlayerLoadout>();
+        if (loadout.isInstantiated)
+        {
+            if (loadout.primaryWeaponIsActive)
+            {
+                WeaponHandle(loadout.primary, loadout.weapons[0], loadout.primary.GetComponent<Animator>(), loadout.primary.GetComponentInChildren<AudioSource>(), loadout.primary.transform.Find("GunEnd").gameObject);
+            }
+            else if (loadout.secondaryWeaponIsActive)
+            {
+                WeaponHandle(loadout.secondary, loadout.weapons[1], loadout.secondary.GetComponent<Animator>(), loadout.secondary.GetComponentInChildren<AudioSource>(), loadout.secondary.transform.Find("GunEnd").gameObject);
+            }
+        }
+	}
+
+    public void WeaponHandle(GameObject currentWeaponGO, MainWeaponsClass currentWeapon, Animator currentAnim, AudioSource currentAS, GameObject currentWeaponGunEnd)
+    {
         Debug.Log("Weapons Instantiated: " + loadout.isInstantiated);
         if (loadout.isInstantiated)
         {
@@ -83,52 +97,8 @@ public class WeaponHandler : MonoBehaviour {
 
                 loadout = transform.GetComponentInParent<PlayerLoadout>();
 
-                primary = this.transform.Find(loadout.weapons[0].Name + "(Clone)").gameObject;
-                Debug.Log(primary);
-                secondary = loadout.secondary;
-
-                primaryAnim = primary.GetComponent<Animator>();
-                secondaryAnim = loadout.secondary.GetComponent<Animator>();
-
-                primaryAS = primary.GetComponentInChildren<AudioSource>();
-                secondaryAS = secondary.GetComponentInChildren<AudioSource>();
-
-                primaryGunEnd = primary.transform.Find("GunEnd").gameObject;
-                secondaryGunEnd = loadout.secondary.transform.Find("GunEnd").gameObject;
-
                 isLoaded = true;
             }
-
-            Debug.Log(primary);
-
-            currentWeaponGO = primary.activeInHierarchy ? primary
-                            : secondary.activeInHierarchy ? secondary
-                            : null;
-
-            Debug.Log("CurrentWeaponGO: " + currentWeaponGO);
-
-            if (primary != null) Debug.Log("PrimaryGO: " + primary);
-            else Debug.Log("PrimaryGO null");
-
-            if (secondary != null) Debug.Log("SecondaryGO: " + secondary);
-            else Debug.Log("SecondaryGO null");
-
-            currentWeapon = primary.activeInHierarchy ? loadout.weapons[0]
-                          : secondary.activeInHierarchy ? loadout.weapons[1]
-                          : null;
-
-            currentAnim = primary.activeInHierarchy ? loadout.primary.GetComponent<Animator>()
-                        : secondary.activeInHierarchy ? loadout.secondary.GetComponent<Animator>()
-                        : null;
-
-            currentAS = primary.activeInHierarchy ? primary.GetComponentInChildren<AudioSource>()
-                      : secondary.activeInHierarchy ? secondary.GetComponentInChildren<AudioSource>()
-                      : null;
-
-            currentWeaponGunEnd = primary.activeInHierarchy ? loadout.primary.transform.Find("GunEnd").gameObject
-                                : secondary.activeInHierarchy ? loadout.secondary.transform.Find("GunEnd").gameObject
-                                : null;
-
 
             if (currentWeaponGO != null)
             {
@@ -147,26 +117,27 @@ public class WeaponHandler : MonoBehaviour {
                     if (isShootButton && Time.time >= nextTimeToFire && canShoot)
                     { // and if the time that has passed is greater than the rate of fire
                         nextTimeToFire = (Time.time * Time.timeScale) + (1f / (currentWeapon.FireRate / 60)); // formula for fire rate
-                        Shoot();
+                        Shoot(currentAS, currentWeapon, currentWeaponGunEnd, currentAnim);
                     }
 
                     if (isReloadButton && canReload)
                     {
-                        Reload();
+                        Reload(currentAnim, currentAS, currentWeapon);
                     }
 
                     if (isAimButton)
                     {
+                        if (currentAnim.GetCurrentAnimatorStateInfo(0).IsName("TakeIn")) currentAnim.SetTrigger("TakeIn");
                         isAiming = !isAiming;
                         currentAnim.SetBool("Aiming", isAiming);
                     }
                 }
             }
         }
-	}
+    }
 
     #region Shoot Method
-    void Shoot()
+    void Shoot(AudioSource currentAS, MainWeaponsClass currentWeapon, GameObject currentWeaponGunEnd, Animator currentAnim)
     {
         if (currentMag > 0 && !isReloading)
         {
@@ -181,13 +152,13 @@ public class WeaponHandler : MonoBehaviour {
             if (Physics.Raycast(currentWeaponGunEnd.transform.position, currentWeaponGunEnd.transform.forward, out hit))
             {
                 Debug.DrawLine(currentWeaponGunEnd.transform.position, currentWeaponGunEnd.transform.forward * 500, Color.red);
-                ProduceRay(currentWeaponGunEnd, hit);
+                ProduceRay(currentWeaponGunEnd, hit, currentWeapon);
             }
 
             currentAnim.CrossFadeInFixedTime("Fire", 0.1f);
         }
     }
-    void ProduceRay(GameObject gunEnd, RaycastHit hit)// shoots the ray
+    void ProduceRay(GameObject gunEnd, RaycastHit hit, MainWeaponsClass currentWeapon)// shoots the ray
     {
 
         Target target = hit.transform.GetComponent<Target>();
@@ -208,7 +179,7 @@ public class WeaponHandler : MonoBehaviour {
     #endregion
 
     #region Reload Method
-    void Reload()
+    void Reload(Animator currentAnim, AudioSource currentAS, MainWeaponsClass currentWeapon)
     {
         if (magQty != 0 && !currentAnim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
         {
@@ -227,11 +198,7 @@ public class WeaponHandler : MonoBehaviour {
 
     public void LoadCurrentWeaponAssets()
     {
-        if (currentWeapon != null)
-        {
-            particles = currentWeapon.LoadParticles();
-            muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
-            impactEffect = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;
-        }
+        muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
+        impactEffect = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;
     }
 }

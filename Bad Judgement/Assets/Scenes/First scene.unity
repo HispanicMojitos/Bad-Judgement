@@ -19880,6 +19880,7 @@ MonoBehaviour:
   isInstantiated: 0
   primary: {fileID: 0}
   secondary: {fileID: 0}
+  handler: {fileID: 0}
 --- !u!114 &662103098
 MonoBehaviour:
   m_ObjectHideFlags: 0
