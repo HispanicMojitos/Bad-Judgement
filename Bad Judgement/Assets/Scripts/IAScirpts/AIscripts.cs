@@ -561,13 +561,9 @@ using UnityEngine;
             estMort = true; // Permet d'éviter de se retrouver dans une boucle inutile
             
         }
-        if(estMort == true && radioSound == false)
+        if(estMort == true )
         {
-            tempsDelay += Time.deltaTime;
-            if(tempsDelay > 1)
-            {
-                radioSound = true;
-            }
+            Destroy(this.gameObject,10);
         }
     }
     #endregion start & update
