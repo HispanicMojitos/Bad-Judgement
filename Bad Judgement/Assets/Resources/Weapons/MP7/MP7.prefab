@@ -418,7 +418,6 @@ GameObject:
   - component: {fileID: 4119120279523668}
   - component: {fileID: 95341179362412752}
   - component: {fileID: 114837585229881092}
-  - component: {fileID: 114168840044188252}
   m_Layer: 0
   m_Name: MP7
   m_TagString: Untagged
@@ -1819,7 +1818,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.1
+  MinDistance: 0.0001
   MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
@@ -1897,18 +1896,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114168840044188252
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1573198129687010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9e2d61b5286faa40ac810965268d153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spread: 4.37
 --- !u!114 &114837585229881092
 MonoBehaviour:
   m_ObjectHideFlags: 1

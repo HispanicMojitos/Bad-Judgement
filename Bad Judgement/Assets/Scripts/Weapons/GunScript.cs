@@ -106,8 +106,6 @@ public class GunScript : MonoBehaviour
         impactEffect = Resources.Load(@"ParticleEffects\HitSparks", typeof(GameObject)) as GameObject;
         muzzleFlash = Resources.Load(@"ParticleEffects\MuzzleFlash", typeof(GameObject)) as GameObject;
         inacc = transform.GetComponentInParent<Inaccuracy>();
-        DestroyImmediate(inacc);
-        Inaccuracy sc = gameObject.AddComponent<Inaccuracy>() as Inaccuracy;
     }
     // Update is called once per frame
     void Update()
