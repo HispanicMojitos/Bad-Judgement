@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Objectives_M1 : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class Objectives_M1 : MonoBehaviour
     public GameObject Car;
 
     public int objDone;
+    public bool canExit = false;
+
+    List<GameObject> mesIa = new List<GameObject>();
 
     #endregion
 
@@ -54,6 +58,8 @@ public class Objectives_M1 : MonoBehaviour
     [SerializeField] private List<GameObject> barrieres;
 
     #endregion
+
+
 
     void Start ()
     {
@@ -106,17 +112,23 @@ public class Objectives_M1 : MonoBehaviour
         Car.SetActive(false);
         #endregion
         Money = player.GetComponentInChildren<TakeMoney>();
+        mesIa[0] = enemy1;
+        mesIa[1] = enemy2;
+        mesIa[2] = enemy3;
+        mesIa[3] = enemy4;
+        mesIa[4] = enemy5;
+        mesIa[5] = enemy6;
+        mesIa[6] = enemy7;
+        mesIa[7] = enemy8;
+        mesIa[8] = enemy9;
+        mesIa[9] = enemy10;
     }
 
 
     void Update ()
     {
-		if ( Money.moneyCount == 4)
-        {
-            Showtime.SetActive(false);
-            Escape.SetActive(true);
-            objDone++;
-            
+		if ( Money.moneyCount == 1)
+        {   
             // Une fois le vol commis le SWAT debarque
             Van1.SetActive(true);
             Van2.SetActive(true);
@@ -150,15 +162,29 @@ public class Objectives_M1 : MonoBehaviour
             enemy8.SetActive(true);
             enemy9.SetActive(true);
             enemy10.SetActive(true);
+            if (Money.moneyCount == 4)
+            {
+                Showtime.SetActive(false);
+                Escape.SetActive(true);
+                objDone++;
+            }
+        }
+        if (objDone == 2 && Money.moneyCount == 4)   // + condition sorti bank ou premiere IA tuee
+        {
+             if (mesIa.Exists(x => x != null))
+            {
+                canExit = false;
+            }
+             else
+            {
+                canExit = true;
+                Escape.SetActive(false);
+                Car.SetActive(true);
+                objDone++;
+            }
 
         }
-        if (objDone == 2)   // + condition sorti bank ou premiere IA tuee
-        {
-            Escape.SetActive(false);
-            Car.SetActive(true);
-            objDone++;  
-        }
-        if (objDone == 2)
+        if (objDone == 3 && canExit == true)
         {
             Teleport.ToMainMenu();
         }
