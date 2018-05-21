@@ -50,10 +50,17 @@ public class Objectives_M1 : MonoBehaviour
     public GameObject enemy9;
     public GameObject enemy10;
 
+
+    [SerializeField] private List<GameObject> barrieres;
+
     #endregion
 
     void Start ()
     {
+        #region barriere
+        foreach (GameObject bar in barrieres) if(bar != null)bar.SetActive(false); // Permet ainsi de prendre toutes les barrieres dans la liste et de toutes les activer
+        #endregion barriere
+
         #region Van
         Van1.SetActive(false);
         Van2.SetActive(false);
@@ -114,6 +121,8 @@ public class Objectives_M1 : MonoBehaviour
             Van1.SetActive(true);
             Van2.SetActive(true);
             Van3.SetActive(true);
+
+            foreach (GameObject bar in barrieres) if (bar != null) bar.SetActive(true);
 
             shield1.SetActive(true);
             shield2.SetActive(true);
