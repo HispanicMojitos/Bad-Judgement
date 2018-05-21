@@ -764,7 +764,7 @@ using UnityEngine;
         switch(Difficulté.difficultyLevelIndex)
         {
             case 0: // BABY
-                paramètreDifficultéIA(true,25, 100, 30,20,3,1,10);
+                paramètreDifficultéIA(true,25, 100, 50,20,3,0.5f,10);
                 break;
 
             case 1: // EASY
@@ -790,7 +790,7 @@ using UnityEngine;
         OptionsMenu.changeDifficultée = false;
     }
 
-    private void paramètreDifficultéIA(bool grenade, int angleVue, int distanceVue, float t_avantReprendreRonde, float t_pause, int precis, int dmg, float delayGenoux)
+    private void paramètreDifficultéIA(bool grenade, int angleVue, int distanceVue, float t_avantReprendreRonde, float t_pause, int precis, float dmg, float delayGenoux)
     {
         distanceDeVueMax = distanceVue;
         degats = dmg;
