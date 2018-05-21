@@ -25,6 +25,7 @@ public class ChooseLoadout
     public static readonly string equipmentPath = string.Format(@"{0}\equipment.bjg", loadoutPath);
 
     public int actualWeaponSelected { get; private set; }
+    public bool weaponSelectedIsPrimary { get; private set; }
 
     public int actualPrimaryWeaponDisplayed { get; private set; }
     public int actualSecondaryWeaponDisplayed { get; private set; }
@@ -48,7 +49,7 @@ public class ChooseLoadout
     PrimaryWeapon M4A1 = new PrimaryWeapon(3, 30, 10.4f, 30f, 700, 2.29f, new Vector3(0, -0.011f, 0.017f), "M4A1");
     PrimaryWeapon MP7 = new PrimaryWeapon(3, 40, 5.3f, 30f, 950, 4.37f, new Vector3(0, 0, 0.04f), "MP7");
     PrimaryWeapon SCARH = new PrimaryWeapon(2, 25, 27.8f, 30f, 600, 8.29f, new Vector3(0.0104f, -0.01f, 0.0387f), "SCAR-H");
-    SecondaryWeapon M1911 = new SecondaryWeapon(2, 7, 13.4f, 20f, 30, 2.54f, new Vector3(0, -0.015f, 0.057f), "M1911");
+    SecondaryWeapon M1911 = new SecondaryWeapon(5, 7, 13.4f, 20f, 30, 2.54f, new Vector3(0, -0.015f, 0.057f), "M1911");
 
     public ChooseLoadout()
     {
@@ -146,7 +147,9 @@ public class ChooseLoadout
             {
                 if (chosenWeapon == null) credits--;
                 chosenWeapon = allPrimaryWeapons[actualPrimaryWeaponDisplayed];
-                actualWeaponSelected = 0;
+                actualWeaponSelected = actualPrimaryWeaponDisplayed;
+
+                weaponSelectedIsPrimary = true;
             }
         }
         else
@@ -156,6 +159,8 @@ public class ChooseLoadout
                 if (chosenWeapon == null) credits--;
                 chosenWeapon = allSecondaryWeapons[actualSecondaryWeaponDisplayed];
                 actualWeaponSelected = actualSecondaryWeaponDisplayed;
+
+                weaponSelectedIsPrimary = false;
             }
         };
     }

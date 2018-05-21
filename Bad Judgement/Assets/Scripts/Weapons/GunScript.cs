@@ -50,6 +50,7 @@ public class GunScript : MonoBehaviour
     private Inaccuracy inacc;
     private Transform[] weapons;
     private Transform weapon;
+    private bool isPrimary;
 
 
     #region Recoil
@@ -113,8 +114,8 @@ public class GunScript : MonoBehaviour
         if (!UIScript.gameIsPaused)
         {
             #region Refresh values
-            currentMag = mag.currentMag;
-            magQty = mag.mags.Count;
+            currentMag = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag;//mag.currentMag;
+            magQty = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.mags.Count+1;//mag.mags.Count;
             //LookAtScreen();
             #endregion
 
@@ -127,16 +128,19 @@ public class GunScript : MonoBehaviour
             #endregion
 
             #region Shooting Condition
-            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload")) // If the user presses the fire buttton
-            { // and if the time that has passed is greater than the rate of fire
-                nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
-                Shoot();
-            }
-            else
-            {
-                _isReloading = false;
-                //cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(0,0), kickForce * Time.deltaTime);
-            }
+            if (new WeaponsDataBase().LoadPrimary().Exists(x => x.Name == transform.GetComponentInParent<PlayerLoadout>().weapons[0].Name)) isPrimary = true;
+            Debug.Log(isPrimary);
+
+                if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload") && isPrimary) // If the user presses the fire buttton
+                { // and if the time that has passed is greater than the rate of fire
+                    nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
+                    Shoot();
+                }
+                if (Input.GetButtonDown("Fire1") /*&& Time.time >= nextTimeToFire */&& !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload") && !isPrimary) // If the user presses the fire buttton
+                { // and if the time that has passed is greater than the rate of fire
+                    nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
+                    Shoot();
+                }
             #endregion
 
             #region Aiming condition
@@ -161,11 +165,12 @@ public class GunScript : MonoBehaviour
         // An invisible ray shot from the camera to the forward direction
         // If the object is hit, we do some damage, if not, then nothing happens
         // First we need to reference the camera
-        if (mag.currentMag > 0 && !isReloading)
+        if (transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag > 0 && !isReloading)
         {
             RaycastHit hit;
             _isShooting = true;
-			mag.currentMag--;
+            transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag--;
+			//mag.currentMag--;
             Sounds.GunShoot(AK47, this.name.Split('(')[0]);
             Debug.Log(this.name);
 			//Sounds.Cz805shootPlayer(AK47);
@@ -225,7 +230,7 @@ public class GunScript : MonoBehaviour
     #region Reload Script
     void Reload()
     {
-        if (magQty != 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
+        if (transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.mags.Count > 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
         {
             //isAiming = false;
             //anim.SetBool("Aiming", isAiming);
@@ -235,7 +240,8 @@ public class GunScript : MonoBehaviour
                 //Sounds.AK47reload(AK47);
 
                 isReloading = false;
-                mag.Reload();
+            transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.Reload();
+            //mag.Reload();
             anim.CrossFade("Reload", 0.1f);
         }
     }

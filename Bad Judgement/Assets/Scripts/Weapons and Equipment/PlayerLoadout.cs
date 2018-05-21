@@ -134,15 +134,21 @@ public class PlayerLoadout : MonoBehaviour
     {
         var mouseScrollInput = Input.GetAxis("Mouse ScrollWheell");
 
-        if (mouseScrollInput > 0)
+        if (mouseScrollInput != 0)
         {
-            if (selectedItem > 0) selectedItem--;
-            else selectedItem = maxSelectedItem;
-        }
-        else if (mouseScrollInput < 0)
-        {
-            if (selectedItem < maxSelectedItem) selectedItem++;
-            else selectedItem = 0;
+            if (mouseScrollInput > 0)
+            {
+                if (selectedItem > 0) selectedItem--;
+                else selectedItem = maxSelectedItem;
+            }
+            else if (mouseScrollInput < 0)
+            {
+                if (selectedItem < maxSelectedItem) selectedItem++;
+                else selectedItem = 0;
+            }
+
+            if (selectedItem == 0) primary = Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform) as GameObject;
+            else DestroyImmediate(primary);
         }
 
         ActiveItemHandling();
@@ -154,7 +160,7 @@ public class PlayerLoadout : MonoBehaviour
 
         if (selectedItem == 0) 
         {
-            primary.SetActive(true);
+            //weapons[0].LoadWeapon().SetActive(true);
 
             foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();
         }
@@ -162,7 +168,7 @@ public class PlayerLoadout : MonoBehaviour
         {
             indexSelectedGrd = GetGrdIndex();
 
-            primary.SetActive(false);
+            //weapons[0].LoadWeapon().SetActive(false);
 
             if (indexSelectedGrd >= 0)
             {
