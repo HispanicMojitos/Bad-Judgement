@@ -150,7 +150,7 @@ public class ChooseLoadout
             if (credits > 0)
             {
                 if (chosenPrimaryWeapon == null) credits--;
-                chosenPrimaryWeapon = allPrimaryWeapons[0];
+                chosenPrimaryWeapon = allPrimaryWeapons[actualPrimaryWeaponDisplayed];
                 actualPrimaryWeaponSelected = 0;
             }
         }
