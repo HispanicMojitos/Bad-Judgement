@@ -149,7 +149,7 @@ public class TestInteraction : MonoBehaviour
                     int nbreDeBalles = Random.Range(4, 12);
                     Destroy(hit.transform.gameObject);
                     reloadImage.enabled = false; // Permet d'enelever l'image 
-                    GunScript.Mag.mags.Enqueue(nbreDeBalles);
+                    if(GameObject.FindWithTag("Player") != null) GameObject.FindWithTag("Player").gameObject.GetComponentInChildren<PlayerLoadout>().weapons[0].mag.mags.Enqueue(nbreDeBalles);
                 }
                 else
                 {
