@@ -19,7 +19,7 @@ public class Inaccuracy : MonoBehaviour
         weapon = this.GetComponentInChildren<GunScript>().gameObject;
         initialSpread = spread;
         maxValue = initialSpread * 2;
-        spread = GetComponentInParent<ChooseLoadout>().chosenWeapon.Spread;
+        spread = GetComponentInParent<PlayerLoadout>().weapons[0].Spread;
         //weapon = GetComponentInChildren<WeaponSway>().gameObject;
     }
 
