@@ -162,12 +162,12 @@ public class WeaponHandler : MonoBehaviour {
     {
 
         Target target = hit.transform.GetComponent<Target>();
-
+        if (target != null)
         {
             var dist = hit.collider.bounds.max.y - hit.point.y;
 
             if (target.tag != "player" && dist < (.16f * hit.collider.bounds.max.y)) target.TakeDamage(target.vieMax);
-            else target.TakeDamage(currentWeapon.Damage);
+             else target.TakeDamage(currentWeapon.Damage);
         }
 
         if (hit.rigidbody != null) hit.rigidbody.AddForce(-hit.normal * currentWeapon.ImpactForce);
