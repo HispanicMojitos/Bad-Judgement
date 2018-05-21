@@ -57,12 +57,9 @@ public class PlayerLoadout : MonoBehaviour
         if(!UIScript.gameIsPaused)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && isInstantiated) OnLeftClick();
+            if (isInstantiated) EquipmentSelection();
             //if(isInstantiated)StartCoroutine(EquipmentSelection());
         }
-    }
-    private void FixedUpdate()
-    {
-        if (isInstantiated) StartCoroutine(EquipmentSelection());
     }
 
     #region Equipment
@@ -134,7 +131,7 @@ public class PlayerLoadout : MonoBehaviour
         return counter;
     }
 
-    private IEnumerator EquipmentSelection()
+    private void EquipmentSelection()
     {
         var mouseScrollInput = Input.GetAxis("Mouse ScrollWheell");
 
@@ -163,8 +160,7 @@ public class PlayerLoadout : MonoBehaviour
             {
                 if (primary != null)
                 {
-                    primary.transform.GetComponent<Animator>().SetTrigger("TakeOut");
-                    yield return new WaitForSeconds(primary.transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+                    GunScript.IsAiming = false;
                     DestroyImmediate(primary);
                 }
             }
