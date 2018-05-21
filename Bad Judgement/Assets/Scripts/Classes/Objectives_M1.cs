@@ -111,7 +111,7 @@ public class Objectives_M1 : MonoBehaviour
 
     void Update ()
     {
-		if (objDone == 0 && Money.moneyCount == 4)
+		if ( Money.moneyCount == 4)
         {
             Showtime.SetActive(false);
             Escape.SetActive(true);
@@ -152,7 +152,7 @@ public class Objectives_M1 : MonoBehaviour
             enemy10.SetActive(true);
 
         }
-        if (objDone == 1)   // + condition sorti bank ou premiere IA tuee
+        if (objDone == 2)   // + condition sorti bank ou premiere IA tuee
         {
             Escape.SetActive(false);
             Car.SetActive(true);
