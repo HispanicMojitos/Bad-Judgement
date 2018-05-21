@@ -173,6 +173,8 @@ public class PlayerLoadout : MonoBehaviour
 
             //DeactivatePrimary
             //DeactivateSecondary
+            primary.SetActive(false);
+            secondary.SetActive(false);
 
             if (indexSelectedGrd >= 0)
             {
