@@ -268,6 +268,7 @@ public class MovingTestForward : MonoBehaviour {
         if (collision == 26)
         {
             moneyCount.moneyCount = 0;
+            MissionSave.NextMission();
             Teleport.ToVan();
         }
     }
