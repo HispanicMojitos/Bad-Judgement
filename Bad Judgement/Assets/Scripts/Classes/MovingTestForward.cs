@@ -235,7 +235,7 @@ public class MovingTestForward : MonoBehaviour {
             collision++;
         }
         
-        if (collision == 21 && scroll < 0 && Input.GetButton("Fire1"))
+        if (collision == 21 )
         {
             Grenada.SetActive(false);
             leanRight.SetActive(true);
