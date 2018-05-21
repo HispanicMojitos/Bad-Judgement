@@ -41,6 +41,7 @@ public class PlayerLoadout : MonoBehaviour
 
         CreateLoadout();
         maxSelectedItem = GetHowMuchGrdTypes() + 1;
+        InstanciateWeapons();
     }
 
     private void Update()
@@ -53,10 +54,22 @@ public class PlayerLoadout : MonoBehaviour
     }
 
     #region Equipment
+    
+    private void InstanciateWeapons()
+    {
+        Instantiate(weapons[0].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform);
+        Instantiate(weapons[1].LoadWeapon(), transform.GetComponentInChildren<WeaponSway>().transform);
+
+        //Instantiate(weapons[0].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
+        //Instantiate(weapons[1].LoadWeapon(), transform.GetComponent<WeaponSway>().transform);
+    }
 
     private void CreateLoadout()
     {
         int counterOfSlot = 0;
+
+        weapons[0] = EquipmentDB.GetPrimaryWp();
+        weapons[1] = EquipmentDB.GetSecondaryWp();
 
         if (EquipmentDB.HasHelmet()) protection.Add(new ProtectionEquipment("helmet", 25f, 100f));
         if (EquipmentDB.HasVest()) protection.Add(new ProtectionEquipment("vest", 75f, 100f));
@@ -138,11 +151,13 @@ public class PlayerLoadout : MonoBehaviour
         {
             if (selectedItem == 0)
             {
-
+                weapons[0].LoadWeapon().SetActive(true);
+                weapons[1].LoadWeapon().SetActive(false);
             }//ActivatePrimary
             else
             {
-
+                weapons[0].LoadWeapon().SetActive(false);
+                weapons[1].LoadWeapon().SetActive(true);
             }//ActivateSecondary
 
             foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();
