@@ -33,6 +33,12 @@ public class TakeMoney : MonoBehaviour {
                 Destroy(hit.transform.gameObject);
                 moneyText.enabled = false;
                 moneyCount++;
+                int NumeroMoneyCount = Random.Range(1,14);
+                AudioSource Joueur = GetComponent<AudioSource>();
+                Joueur.Stop(); // Permet darreter le precedent son 
+                if (Joueur.volume != 1) Joueur.volume = 1; // On initialize a cou sur le son de l'audiosource a 1
+                Joueur.clip = Resources.Load(string.Format("Sounds/Cash/TakeMoney{0}",NumeroMoneyCount)) as AudioClip; // Ici on charge les sons UNIQUEMENT POSSIBLE DEPUIS LE DOSSIER RESSOURCES
+                Joueur.Play(); // Ici on joue le son
             }
         }
         else if (moneyText.enabled == true) moneyText.enabled = false;

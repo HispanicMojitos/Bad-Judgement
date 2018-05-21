@@ -224,8 +224,8 @@ public class AIally : MonoBehaviour
             cetAllié.isStopped = true;
             SetAnimation(isDead: true);
             estHS = true;
-
-            Sounds.Death(Mouth,Resources.Load("Sounds/DeathSongs/Death Screams 1") as AudioClip,false);
+            int numeroDucri = Random.Range(1,13);
+            Sounds.Death(Mouth,Resources.Load(string.Format("Sounds/DeathSongs/DeathScream{0}", numeroDucri)) as AudioClip,false);
         }
         else if (estHS == true && PeutRevivre == true && allyHealthState.vie <= 0) // Ici on active le fait que l'allié Peut Revivre
         {
