@@ -64,8 +64,8 @@ public class ChooseLoadout
         allPrimaryWeapons = weaponsDb.LoadPrimary();
         allSecondaryWeapons = weaponsDb.LoadSecondary();
 
-        actualPrimaryWeaponSelected = 0;
-        actualSecondaryWeaponSelected = 0;
+        actualPrimaryWeaponSelected = -1;
+        actualSecondaryWeaponSelected = -1;
 
         actualPrimaryWeaponDisplayed = 0;
         actualSecondaryWeaponDisplayed = 0;

@@ -25,6 +25,7 @@ public class VanUIScript : MonoBehaviour
 
     [SerializeField] private Image previewImage;
     [SerializeField] private Text previewWeaponName;
+    [SerializeField] private Text isThisWeaponSelected;
 
     #endregion
 
@@ -71,11 +72,17 @@ public class VanUIScript : MonoBehaviour
         {
             previewImage.sprite = loadout.allPrimaryWeaponSprites[loadout.actualPrimaryWeaponDisplayed];
             previewWeaponName.text = loadout.allPrimaryWeapons[loadout.actualPrimaryWeaponDisplayed].Name;
+
+            if (loadout.actualPrimaryWeaponDisplayed == loadout.actualPrimaryWeaponSelected) isThisWeaponSelected.gameObject.SetActive(true);
+            else isThisWeaponSelected.gameObject.SetActive(false);
         }
         else if (loadout.isChoosingSecondary)
         {
             previewImage.sprite = loadout.allSecondaryWeaponSprites[loadout.actualSecondaryWeaponDisplayed];
             previewWeaponName.text = loadout.allSecondaryWeapons[loadout.actualSecondaryWeaponDisplayed].Name;
+
+            if (loadout.actualSecondaryWeaponDisplayed == loadout.actualSecondaryWeaponSelected) isThisWeaponSelected.gameObject.SetActive(true);
+            else isThisWeaponSelected.gameObject.SetActive(false);
         }
     }
 
