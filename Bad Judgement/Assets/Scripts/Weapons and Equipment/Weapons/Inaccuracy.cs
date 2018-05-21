@@ -6,7 +6,7 @@ public class Inaccuracy : MonoBehaviour
 {
 
     private Vector3 initialPosition;
-    [SerializeField] private float spread = 10f;
+    [SerializeField] private float spread;
     private float initialSpread;
     private float maxValue;
     private GameObject weapon;
@@ -19,6 +19,7 @@ public class Inaccuracy : MonoBehaviour
         weapon = this.GetComponentInChildren<GunScript>().gameObject;
         initialSpread = spread;
         maxValue = initialSpread * 2;
+        spread = GetComponentInParent<PlayerLoadout>().weapons[0].Spread;
         //weapon = GetComponentInChildren<WeaponSway>().gameObject;
     }
 

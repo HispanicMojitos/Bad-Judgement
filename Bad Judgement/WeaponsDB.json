@@ -4,6 +4,7 @@
       "Name": "M4A1",
       "Damage": 10.4,
       "FireRate": 700,
+      "Spread": 2.29,
       "ImpactForce": 30.0,
       "SpawnPos": {
         "x": 0.0,
@@ -23,6 +24,7 @@
       "Name": "MP7",
       "Damage": 5.3,
       "FireRate": 950,
+      "Spread": 4.37,
       "ImpactForce": 30.0,
       "SpawnPos": {
         "x": 0.0,
@@ -42,6 +44,7 @@
       "Name": "SCAR-H",
       "Damage": 27.8,
       "FireRate": 600,
+      "Spread": 8.29,
       "ImpactForce": 30.0,
       "SpawnPos": {
         "x": 0.0104,
@@ -62,6 +65,7 @@
       "Name": "M1911",
       "Damage": 13.4,
       "FireRate": 30,
+      "Spread": 2.54,
       "ImpactForce": 20.0,
       "SpawnPos": {
         "x": 0.0,
