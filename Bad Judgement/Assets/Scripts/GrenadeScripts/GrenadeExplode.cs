@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GrenadeExplode : MonoBehaviour
 {
-    private static float explosionRadius = 12F;
+    private static float explosionRadius = 18F;
 
     private void Start()
     {
@@ -15,6 +16,11 @@ public class GrenadeExplode : MonoBehaviour
     IEnumerator ExplodeTime()
     {
         yield return new WaitForSeconds(5);
+
+        var effectGO = GetComponentsInChildren<GameObject>().SingleOrDefault(x => x.name.Contains("effect"));
+        effectGO.SetActive(true);
+        effectGO.transform.position = this.transform.position;
+        effectGO.transform.rotation = this.transform.rotation;
 
         var touchedColliders = Physics.OverlapSphere(this.transform.position, explosionRadius);
         //Getting all colliders hit by the grenade
@@ -39,6 +45,6 @@ public class GrenadeExplode : MonoBehaviour
             }
         }
 
-        Destroy(this, 1.5F); //Destroying grenade 
+        Destroy(effectGO, 4F); //Destroying grenade 
     }
 }
