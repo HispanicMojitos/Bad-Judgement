@@ -50,6 +50,7 @@ public class GunScript : MonoBehaviour
     private Inaccuracy inacc;
     private Transform[] weapons;
     private Transform weapon;
+    private bool isPrimary;
 
 
     #region Recoil
@@ -127,16 +128,19 @@ public class GunScript : MonoBehaviour
             #endregion
 
             #region Shooting Condition
-            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload")) // If the user presses the fire buttton
-            { // and if the time that has passed is greater than the rate of fire
-                nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
-                Shoot();
-            }
-            else
-            {
-                _isReloading = false;
-                //cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(0,0), kickForce * Time.deltaTime);
-            }
+            if (new WeaponsDataBase().LoadPrimary().Exists(x => x.Name == transform.GetComponentInParent<PlayerLoadout>().weapons[0].Name)) isPrimary = true;
+            Debug.Log(isPrimary);
+
+                if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload") && isPrimary) // If the user presses the fire buttton
+                { // and if the time that has passed is greater than the rate of fire
+                    nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
+                    Shoot();
+                }
+                if (Input.GetButtonDown("Fire1") /*&& Time.time >= nextTimeToFire */&& !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload") && !isPrimary) // If the user presses the fire buttton
+                { // and if the time that has passed is greater than the rate of fire
+                    nextTimeToFire = (Time.time * Time.timeScale) + (1f / (fireRate / 60)); // formula for fire rate
+                    Shoot();
+                }
             #endregion
 
             #region Aiming condition
