@@ -5,12 +5,9 @@ using UnityEngine.UI;
 
 public class VanUIScript : MonoBehaviour
 {
-    [SerializeField]private Text KToEquipText;
+    [SerializeField] private Text KToEquipText;
     [SerializeField]private GameObject panelMainPC;
     [SerializeField]private GameObject program;
-
-    private bool isPrimaryPanel;
-    private bool isSecondaryPanel;
 
     #region Program Objects
 
@@ -25,6 +22,9 @@ public class VanUIScript : MonoBehaviour
     [SerializeField] private Text flashGrdText;
     [SerializeField] private Text smokeGrdText;
     [SerializeField] private Text fragGrdText;
+
+    [SerializeField] private Image previewImage;
+    [SerializeField] private Text previewWeaponName;
 
     #endregion
 
@@ -57,12 +57,27 @@ public class VanUIScript : MonoBehaviour
             UpdateCredits();
             UpdateAmountGrenades();
             UpdateProtectionCheckboxes();
+            UpdateWeaponImage();
         }
     }
 
     #endregion
 
     #region EquipmentProgram
+
+    private void UpdateWeaponImage()
+    {
+        if (loadout.isChoosingPrimary)
+        {
+            previewImage.sprite = loadout.allPrimaryWeaponSprites[loadout.actualPrimaryWeaponDisplayed];
+            previewWeaponName.text = loadout.allPrimaryWeapons[loadout.actualPrimaryWeaponDisplayed].Name;
+        }
+        else if (loadout.isChoosingSecondary)
+        {
+            previewImage.sprite = loadout.allSecondaryWeaponSprites[loadout.actualSecondaryWeaponDisplayed];
+            previewWeaponName.text = loadout.allSecondaryWeapons[loadout.actualSecondaryWeaponDisplayed].Name;
+        }
+    }
 
     private void UpdateCredits()
     {
@@ -96,7 +111,21 @@ public class VanUIScript : MonoBehaviour
         program.SetActive(true);
     }
 
-    public void OnWeaponButtonClick()
+    public void OnSecondaryWeaponClick()
+    {
+        WeaponPanelDisplay();
+        loadout.isChoosingSecondary = true;
+        loadout.isChoosingPrimary = false;
+    }
+
+    public void OnPrimaryWeaponClick()
+    {
+        WeaponPanelDisplay();
+        loadout.isChoosingPrimary = true;
+        loadout.isChoosingSecondary = false;
+    }
+
+    private void WeaponPanelDisplay()
     {
         equipmentChoicePanel.SetActive(false);
         weaponsChoicePanel.SetActive(true);

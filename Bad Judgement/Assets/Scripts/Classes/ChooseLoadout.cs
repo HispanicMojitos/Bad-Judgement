@@ -13,6 +13,9 @@ public class ChooseLoadout
     public List<MainWeaponsClass> allPrimaryWeapons { get; private set; }
     public List<MainWeaponsClass> allSecondaryWeapons { get; private set; }
 
+    public List<Sprite> allPrimaryWeaponSprites { get; private set; }
+    public List<Sprite> allSecondaryWeaponSprites { get; private set; }
+
     #region Chosen things
 
     public static readonly string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -78,9 +81,27 @@ public class ChooseLoadout
         amountSmokeGrenade = 0;
         helmetSelected = false;
         vestSelected = false;
+
+        InitSprites();
     }
 
     #region Methods
+
+    private void InitSprites()
+    {
+        allPrimaryWeaponSprites = new List<Sprite>();
+        allSecondaryWeaponSprites = new List<Sprite>();
+
+        for (int i = 0; i < allPrimaryWeapons.Count; i++)
+        {
+            allPrimaryWeaponSprites.Add(Resources.Load<Sprite>(string.Format("Weapons/UISprites/{0}", allPrimaryWeapons[i].Name)));
+        }
+
+        for(int i = 0; i < allSecondaryWeapons.Count; i++)
+        {
+            allSecondaryWeaponSprites.Add(Resources.Load<Sprite>(string.Format("Weapons/UISprites/{0}", allSecondaryWeapons[i].Name)));
+        }
+    }
 
     public void Init()
     {
