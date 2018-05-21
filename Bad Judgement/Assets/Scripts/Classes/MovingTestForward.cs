@@ -156,6 +156,48 @@ public class MovingTestForward : MonoBehaviour {
         if (collision == 9 && Input.GetKey(KeyCode.Space))
         {
             Jump.SetActive(false);
+            fireTest.SetActive(true);
+            collision++;
+        }
+        if (collision == 10 && Input.GetButton("Fire1"))
+        {
+            fireTest.SetActive(false);
+            Aim.SetActive(true);
+            collision++;
+        }
+        if (collision == 11 && Input.GetButton("Fire2"))
+        {
+            Aim.SetActive(false);
+            reloadTest.SetActive(true);
+            collision++;
+        }
+        if (collision == 12 && Input.GetKey(KeyCode.R))
+        {
+            reloadTest.SetActive(false);
+            weaponSelection.SetActive(true);
+            collision++;
+        }
+        if (collision == 13 && scroll < 0)
+        {
+            weaponSelection.SetActive(false);
+            AllyOrder.SetActive(true);
+            collision++;
+        }
+        if (Ally.ordreDeplacement == true && Input.GetKey(KeyCode.T) && collision == 14)
+        {
+            AllyOrder.SetActive(false);
+            ExecAlly.SetActive(true);
+            collision++;
+        }
+        if (Ally.estHS == true && collision == 15)
+        {
+            ExecAlly.SetActive(false);
+            AllyHeal.SetActive(true);
+            collision++;
+        }
+        if (Input.GetKeyUp(KeyCode.H) && collision == 16)
+        {
+            AllyHeal.SetActive(false);
             continueOne.SetActive(true);
             collision++;
         }
@@ -167,72 +209,32 @@ public class MovingTestForward : MonoBehaviour {
     void Indoor()
     {
         scroll = Input.GetAxis("Mouse ScrollWheell");
-        if (playerInteract.isInteractionImageOn == true && collision == 10)
+        if (playerInteract.isInteractionImageOn == true && collision == 17)
         {
             continueOne.SetActive(false);
-            fireTest.SetActive(true);
+            Interaction.SetActive(true);
             collision ++;
         }
-        if (collision == 11 && Input.GetButton("Fire1"))
-        {
-            fireTest.SetActive(false);
-            Aim.SetActive(true);
-            collision++;
-        }
-        if (collision == 12 && Input.GetButton("Fire2"))
-        {
-            Aim.SetActive(false);
-            reloadTest.SetActive(true);
-            collision++;
-        }
-        if (collision == 13 && Input.GetKey(KeyCode.R))
-        {
-            reloadTest.SetActive(false);
-            weaponSelection.SetActive(true);
-            collision++;
-        }
-        if (collision == 14 && scroll < 0)
-        {
-            weaponSelection.SetActive(false);
-            Interaction.SetActive(true);
-            collision++;
-        }
-        if (collision == 15 && Input.GetKey(KeyCode.F) && playerInteract.decisionPorte == true)
+        
+        if (collision == 18 && Input.GetKey(KeyCode.F) && playerInteract.decisionPorte == true)
         {
             Interaction.SetActive(false);
             Kill.SetActive(true);
             collision++;
         }
-        if (enemyKill.vie <=0 && collision == 16)
+        if (enemyKill.vie <=0 && collision == 19)
         {
             Kill.SetActive(false);
             weaponTake.SetActive(true);
             collision++;
         }
-        if (collision == 17 && Input.GetKey(KeyCode.F))
+        if (collision == 20 && Input.GetKey(KeyCode.F))
         {
             weaponTake.SetActive(false);
-            AllyOrder.SetActive(true);
-            collision++;
-        }
-        if (Ally.ordreDeplacement == true && Input.GetKey(KeyCode.T) && collision == 18)
-        {
-            AllyOrder.SetActive(false);
-            ExecAlly.SetActive(true);
-            collision++;
-        }
-        if (Ally.estHS == true && collision == 19)
-        {
-            ExecAlly.SetActive(false);
-            AllyHeal.SetActive(true);
-            collision++;
-        }
-        if (Input.GetKeyUp(KeyCode.H) && collision == 20)
-        {
-            AllyHeal.SetActive(false);
             Grenada.SetActive(true);
             collision++;
         }
+        
         if (collision == 21 && Input.GetKey(KeyCode.G))
         {
             Grenada.SetActive(false);
@@ -271,6 +273,8 @@ public class MovingTestForward : MonoBehaviour {
             MissionSave.NextMission();
             Teleport.ToVan();
         }
+        
+        
     }
     #endregion
 }
