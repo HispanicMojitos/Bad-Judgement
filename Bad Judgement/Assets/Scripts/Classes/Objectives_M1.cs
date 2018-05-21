@@ -110,7 +110,7 @@ public class Objectives_M1 : MonoBehaviour
         #endregion
 
         #region Texts
-        Showtime.SetActive(true);
+        
         Escape.SetActive(false);
         Car.SetActive(false);
         #endregion
