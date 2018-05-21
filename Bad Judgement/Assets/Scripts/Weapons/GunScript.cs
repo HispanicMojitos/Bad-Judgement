@@ -111,8 +111,6 @@ public class GunScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        try
-        {
             if (!UIScript.gameIsPaused)
             {
                 #region Refresh values
@@ -153,11 +151,6 @@ public class GunScript : MonoBehaviour
                 }
                 #endregion
             }
-        }
-        catch
-        {
-
-        }
     }
 
     #region Methods
