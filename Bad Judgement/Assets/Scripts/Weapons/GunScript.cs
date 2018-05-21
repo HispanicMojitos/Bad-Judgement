@@ -114,8 +114,8 @@ public class GunScript : MonoBehaviour
         if (!UIScript.gameIsPaused)
         {
             #region Refresh values
-            currentMag = mag.currentMag;
-            magQty = mag.mags.Count;
+            currentMag = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag;//mag.currentMag;
+            magQty = transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.mags.Count+1;//mag.mags.Count;
             //LookAtScreen();
             #endregion
 
@@ -165,11 +165,12 @@ public class GunScript : MonoBehaviour
         // An invisible ray shot from the camera to the forward direction
         // If the object is hit, we do some damage, if not, then nothing happens
         // First we need to reference the camera
-        if (mag.currentMag > 0 && !isReloading)
+        if (transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag > 0 && !isReloading)
         {
             RaycastHit hit;
             _isShooting = true;
-			mag.currentMag--;
+            transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.currentMag--;
+			//mag.currentMag--;
             Sounds.GunShoot(AK47, this.name.Split('(')[0]);
             Debug.Log(this.name);
 			//Sounds.Cz805shootPlayer(AK47);
@@ -229,7 +230,7 @@ public class GunScript : MonoBehaviour
     #region Reload Script
     void Reload()
     {
-        if (magQty != 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
+        if (transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.mags.Count > 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Reload"))
         {
             //isAiming = false;
             //anim.SetBool("Aiming", isAiming);
@@ -239,7 +240,8 @@ public class GunScript : MonoBehaviour
                 //Sounds.AK47reload(AK47);
 
                 isReloading = false;
-                mag.Reload();
+            transform.GetComponentInParent<PlayerLoadout>().weapons[0].mag.Reload();
+            //mag.Reload();
             anim.CrossFade("Reload", 0.1f);
         }
     }
