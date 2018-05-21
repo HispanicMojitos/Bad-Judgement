@@ -29,6 +29,9 @@ public class VanCamControl : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+
         mainCam = this.GetComponent<Camera>();
         horizontalSensitivity = 5F;
         verticalSensitivity = 5F;
