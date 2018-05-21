@@ -36,6 +36,8 @@ public class WeaponHandler : MonoBehaviour {
     private bool canShoot = false;
     private bool canReload = false;
 
+    private bool isLoaded = false;
+
     private int currentMag;
     private int magQty;
 
@@ -64,40 +66,51 @@ public class WeaponHandler : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        LoadCurrentWeaponAssets();
 
-        loadout = transform.GetComponentInParent<PlayerLoadout>();
-
-        primary = loadout.weapons[0].LoadWeapon();
-        secondary = loadout.weapons[1].LoadWeapon();
-
-        primaryAnim = primary.GetComponent<Animator>();
-        secondaryAnim = secondary.GetComponent<Animator>();
-
-        primaryAS = primary.GetComponent<AudioSource>();
-        secondaryAS = secondaryAS.GetComponent<AudioSource>();
-
-        primaryGunEnd = primary.transform.Find("GunEnd").gameObject;
-        secondaryGunEnd = secondary.transform.Find("GunEnd").gameObject;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        currentWeaponGO = loadout.primaryWeaponIsActive ? primary
-                        : loadout.secondaryWeaponIsActive ? secondary
+
+        if(!isLoaded)
+        {
+            LoadCurrentWeaponAssets();
+
+            loadout = transform.GetComponentInParent<PlayerLoadout>();
+
+            primary = loadout.weapons == null ? null : loadout.weapons[0].LoadWeapon();
+            Debug.Log(primary);
+            secondary = loadout.weapons[1].LoadWeapon();
+
+            primaryAnim = primary.GetComponent<Animator>();
+            secondaryAnim = secondary.GetComponent<Animator>();
+
+            primaryAS = primary.GetComponent<AudioSource>();
+            secondaryAS = secondary.GetComponent<AudioSource>();
+
+            primaryGunEnd = primary.transform.Find("GunEnd").gameObject;
+            secondaryGunEnd = secondary.transform.Find("GunEnd").gameObject;
+
+            isLoaded = true;
+        }
+
+        Debug.Log(primary);
+
+        currentWeaponGO = primary.activeInHierarchy ? primary
+                        : secondary.activeInHierarchy ? secondary
                         : null;
 
-        currentWeapon = loadout.primaryWeaponIsActive ? loadout.weapons[0]
+        currentWeapon = primary.activeInHierarchy ? loadout.weapons[0]
                       : loadout.secondaryWeaponIsActive ? loadout.weapons[1]
                       : null;
 
         currentAnim = loadout.primaryWeaponIsActive ? primaryAnim
-                    : loadout.secondaryWeaponIsActive ? secondaryAnim
+                    : secondary.activeInHierarchy ? secondaryAnim
                     : null;
 
-        currentAS = loadout.primaryWeaponIsActive ? primaryAS
-                  : loadout.secondaryWeaponIsActive ? secondaryAS
+        currentAS = primary.activeInHierarchy ? primaryAS
+                  : secondary.activeInHierarchy ? secondaryAS
                   : null;
 
         currentWeaponGunEnd = loadout.primaryWeaponIsActive ? primaryGunEnd
@@ -200,8 +213,11 @@ public class WeaponHandler : MonoBehaviour {
 
     public void LoadCurrentWeaponAssets()
     {
-        particles = currentWeapon.LoadParticles();
-        impactEffect = particles.Where(x => x.name.ToUpper() == "HITSPARKS").SingleOrDefault();
-        muzzleFlash = particles.Where(x => x.name.ToUpper() == "IMPACTEFFECT").SingleOrDefault();
+        if (currentWeapon != null)
+        {
+            particles = currentWeapon.LoadParticles();
+            impactEffect = particles.Where(x => x.name.ToUpper() == "HITSPARKS").SingleOrDefault();
+            muzzleFlash = particles.Where(x => x.name.ToUpper() == "IMPACTEFFECT").SingleOrDefault();
+        }
     }
 }

@@ -151,11 +151,13 @@ public class PlayerLoadout : MonoBehaviour
         {
             if (selectedItem == 0)
             {
-
+                weapons[0].LoadWeapon().SetActive(true);
+                weapons[1].LoadWeapon().SetActive(false);
             }//ActivatePrimary
             else
             {
-
+                weapons[0].LoadWeapon().SetActive(false);
+                weapons[1].LoadWeapon().SetActive(true);
             }//ActivateSecondary
 
             foreach (var grd in grenades.Where(g => g.throwable)) grd.DeactivateGrd();
