@@ -32,10 +32,8 @@ public class UIScript : MonoBehaviour
     [SerializeField] private Text ammoText;
 
     [SerializeField] private Image primaryGunBg;
-    [SerializeField] private Image secondaryGunBg;
     [SerializeField] private Image equipmentBg;
     [SerializeField] private Image primaryGun;
-    [SerializeField] private Image secondaryGun;
     [SerializeField] private Image equip1;
     [SerializeField] private Image equip2;
     [SerializeField] private Image equip3;
@@ -71,7 +69,6 @@ public class UIScript : MonoBehaviour
         InitEquipmentUI();
 
         primaryGun.sprite = Resources.Load<Sprite>(string.Format("Weapons/UISprites/{0}", currentLoadout.weapons[0].Name));
-        secondaryGun.sprite = Resources.Load<Sprite>(string.Format("Weapons/UISprites/{0}", currentLoadout.weapons[1].Name));
     }
 
     void Update()
@@ -102,7 +99,7 @@ public class UIScript : MonoBehaviour
 
     private void InitEquipmentUI()
     {
-        if (PlayerLoadout.maxSelectedItem <= 1) equipmentBg.gameObject.SetActive(false);
+        if (PlayerLoadout.maxSelectedItem < 1) equipmentBg.gameObject.SetActive(false);
         else
         {
             for (int i = 0; i < currentLoadout.grdTable.Length; i++)
@@ -163,8 +160,6 @@ public class UIScript : MonoBehaviour
 
         primaryGunBg.color = lowAlpha;
         primaryGun.color = lowAlpha;
-        secondaryGunBg.color = lowAlpha;
-        secondaryGun.color = lowAlpha;
         equipmentBg.color = lowAlpha;
         equip1.color = lowAlpha;
         equip2.color = lowAlpha;
@@ -175,17 +170,12 @@ public class UIScript : MonoBehaviour
             primaryGunBg.color = highAlpha;
             primaryGun.color = highAlpha;
         }
-        else if (selectedEquipment == 1)
-        {
-            secondaryGunBg.color = highAlpha;
-            secondaryGun.color = highAlpha;
-        }
         else if(equipmentBg.IsActive())
         {
             equipmentBg.color = highAlpha;
 
-            if (selectedEquipment == 2) equip1.color = highAlpha;
-            else if (selectedEquipment == 3) equip2.color = highAlpha;
+            if (selectedEquipment == 1) equip1.color = highAlpha;
+            else if (selectedEquipment == 2) equip2.color = highAlpha;
             else equip3.color = highAlpha;
         }
         

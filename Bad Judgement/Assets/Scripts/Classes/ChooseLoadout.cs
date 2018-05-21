@@ -21,12 +21,10 @@ public class ChooseLoadout
     public static readonly string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     public static readonly string directoryPath = string.Format(@"{0}\BadJudgement", documentsPath);
     public static readonly string loadoutPath = string.Format(@"{0}\Loadout", directoryPath);
-    public static readonly string primaryWeaponPath = string.Format(@"{0}\primaryWp.json", loadoutPath);
-    public static readonly string secondaryWeaponPath = string.Format(@"{0}\secondaryWp.json", loadoutPath);
+    public static readonly string WeaponPath = string.Format(@"{0}\Weapon.json", loadoutPath);
     public static readonly string equipmentPath = string.Format(@"{0}\equipment.bjg", loadoutPath);
 
-    public int actualPrimaryWeaponSelected { get; private set; }
-    public int actualSecondaryWeaponSelected { get; private set; }
+    public int actualWeaponSelected { get; private set; }
 
     public int actualPrimaryWeaponDisplayed { get; private set; }
     public int actualSecondaryWeaponDisplayed { get; private set; }
@@ -37,8 +35,8 @@ public class ChooseLoadout
     public int maxCredits { get; private set; }
     public int credits { get; private set; }
 
-    public MainWeaponsClass chosenPrimaryWeapon { get; private set; }
-    public MainWeaponsClass chosenSecondaryWeapon { get; private set; }
+    public MainWeaponsClass chosenWeapon { get; private set; }
+
     public int amountFlashGrenade { get; private set; } 
     public int amountSmokeGrenade { get; private set; }
     public int amountFragGrenade { get; private set; }
@@ -64,8 +62,7 @@ public class ChooseLoadout
         allPrimaryWeapons = weaponsDb.LoadPrimary();
         allSecondaryWeapons = weaponsDb.LoadSecondary();
 
-        actualPrimaryWeaponSelected = -1;
-        actualSecondaryWeaponSelected = -1;
+        actualWeaponSelected = -1;
 
         actualPrimaryWeaponDisplayed = 0;
         actualSecondaryWeaponDisplayed = 0;
@@ -108,13 +105,11 @@ public class ChooseLoadout
         Debug.Log(directoryPath);
         if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
         if (!Directory.Exists(loadoutPath)) Directory.CreateDirectory(loadoutPath);
-        if (File.Exists(primaryWeaponPath)) File.Delete(primaryWeaponPath);
-        if (File.Exists(secondaryWeaponPath)) File.Delete(secondaryWeaponPath);
+        if (File.Exists(WeaponPath)) File.Delete(WeaponPath);
         if (File.Exists(equipmentPath)) File.Delete(equipmentPath);
 
         File.Create(equipmentPath);
-        File.Create(primaryWeaponPath);
-        File.Create(secondaryWeaponPath);
+        File.Create(WeaponPath);
     }
 
     public void NextWeapon()
@@ -149,18 +144,18 @@ public class ChooseLoadout
         {
             if (credits > 0)
             {
-                if (chosenPrimaryWeapon == null) credits--;
-                chosenPrimaryWeapon = allPrimaryWeapons[actualPrimaryWeaponDisplayed];
-                actualPrimaryWeaponSelected = 0;
+                if (chosenWeapon == null) credits--;
+                chosenWeapon = allPrimaryWeapons[actualPrimaryWeaponDisplayed];
+                actualWeaponSelected = 0;
             }
         }
         else
         {
             if (credits > 0)
             {
-                if (chosenSecondaryWeapon == null) credits--;
-                chosenSecondaryWeapon = allSecondaryWeapons[actualSecondaryWeaponDisplayed];
-                actualSecondaryWeaponSelected = actualSecondaryWeaponDisplayed;
+                if (chosenWeapon == null) credits--;
+                chosenWeapon = allSecondaryWeapons[actualSecondaryWeaponDisplayed];
+                actualWeaponSelected = actualSecondaryWeaponDisplayed;
             }
         };
     }
@@ -261,12 +256,10 @@ public class ChooseLoadout
 
     public void Save()
     {
-        var tempPrimaryJson = JsonConvert.SerializeObject(chosenPrimaryWeapon, Formatting.Indented);
-        var tempSecondaryJson = JsonConvert.SerializeObject(chosenSecondaryWeapon, Formatting.Indented);
+        var tempJson = JsonConvert.SerializeObject(chosenWeapon, Formatting.Indented);
         var equipmentLines = GetEquipmentTextFileContent();
 
-        File.WriteAllText(primaryWeaponPath, tempPrimaryJson);
-        File.WriteAllText(secondaryWeaponPath, tempSecondaryJson);
+        File.WriteAllText(WeaponPath, tempJson);
         File.WriteAllLines(equipmentPath, equipmentLines.ToArray());
     }
     

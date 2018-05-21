@@ -14,8 +14,8 @@ public static class EquipmentDB
     public static readonly string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     public static readonly string directoryPath = string.Format(@"{0}\BadJudgement", documentsPath);
     public static readonly string loadoutPath = string.Format(@"{0}\Loadout", directoryPath);
-    public static readonly string primaryWeaponPath = string.Format(@"{0}\primaryWp.json", loadoutPath);
-    public static readonly string secondaryWeaponPath = string.Format(@"{0}\secondaryWp.json", loadoutPath);
+    public static readonly string WeaponPath = string.Format(@"{0}\Weapon.json", loadoutPath);
+    //public static readonly string secondaryWeaponPath = string.Format(@"{0}\secondaryWp.json", loadoutPath);
     public static readonly string equipmentPath = string.Format(@"{0}\equipment.bjg", loadoutPath);
 
     public static List<string> equipmentList;
@@ -76,21 +76,21 @@ public static class EquipmentDB
         return hasHelmet;
     }
 
-    public static MainWeaponsClass GetPrimaryWp()
+    public static MainWeaponsClass GetWp()
     {
-        string wpJson = File.ReadAllText(primaryWeaponPath);
-        var primaryWp = JsonConvert.DeserializeObject<MainWeaponsClass>(wpJson);
+        string wpJson = File.ReadAllText(WeaponPath);
+        var wp = JsonConvert.DeserializeObject<MainWeaponsClass>(wpJson);
 
-        return primaryWp;
+        return wp;
     }
 
-    public static MainWeaponsClass GetSecondaryWp()
-    {
-        string wpJson = File.ReadAllText(secondaryWeaponPath);
-        var secondaryWp = JsonConvert.DeserializeObject<MainWeaponsClass>(wpJson);
+    //public static MainWeaponsClass GetSecondaryWp()
+    //{
+    //    string wpJson = File.ReadAllText(secondaryWeaponPath);
+    //    var secondaryWp = JsonConvert.DeserializeObject<MainWeaponsClass>(wpJson);
 
-        return secondaryWp;
-    }
+    //    return secondaryWp;
+    //}
 
     #endregion
 }
