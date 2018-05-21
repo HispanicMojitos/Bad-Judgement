@@ -61,6 +61,24 @@ public class WeaponHandler : MonoBehaviour {
         get { return isAiming; }
         set { IsAiming = value; }
     }
+    public int? magQty
+    {
+        get
+        {
+            if (loadout.primaryWeaponIsActive) return loadout.weapons[0].mag.mags.Count;
+            else if (loadout.secondaryWeaponIsActive) return loadout.weapons[1].mag.mags.Count;
+            else return null;
+        }
+    }
+    public int? currentMag
+    {
+        get
+        {
+            if (loadout.primaryWeaponIsActive) return loadout.weapons[0].mag.currentMag;
+            else if (loadout.secondaryWeaponIsActive) return loadout.weapons[1].mag.currentMag;
+            else return null;
+        }
+    }
     #endregion
 
     // Use this for initialization
