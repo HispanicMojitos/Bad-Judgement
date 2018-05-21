@@ -8,11 +8,12 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1F;
+        MissionSave.CreateSaveFolder();
     }
 
     public void LaunchGame() //Has to be public. Thanks.
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Teleport.ToVan();
         //We launch the next scene in the SceneManager order
     }
 

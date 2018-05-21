@@ -25,9 +25,8 @@ public static class Teleport
         SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
     }
 
-    
-
-   
-	
-	
+    public static void WithName(string name)
+    {
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }	
 }

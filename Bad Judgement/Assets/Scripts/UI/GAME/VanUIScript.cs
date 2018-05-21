@@ -162,8 +162,7 @@ public class VanUIScript : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         loadout.Save();
-        Teleport.ToTuto();
-        //Teleport.toMissionOne();
+        Teleport.WithName(MissionSave.GetActualMissionName());
     }
     
     public void AddSmoke() { loadout.AddGrenade("smoke"); }
